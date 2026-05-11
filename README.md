@@ -1,5 +1,3 @@
-[hahoe_dashboard (1).html](https://github.com/user-attachments/files/27581695/hahoe_dashboard.1.html)
-<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
