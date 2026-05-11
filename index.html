@@ -98,10 +98,10 @@ body {
 }
 .tab {
   flex: 1;
-  padding: 10px 2px;
+  padding: 9px 1px;
   border-radius: 9px;
   text-align: center;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
   color: var(--gray);
   cursor: pointer;
@@ -109,7 +109,7 @@ body {
   background: transparent;
   border: none;
   font-family: inherit;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.04em;
   white-space: nowrap;
 }
 .tab.active {
@@ -123,6 +123,7 @@ body {
   border-radius: 16px;
   padding: 18px;
   margin-bottom: 12px;
+  border: 1.5px solid var(--ink);
 }
 
 .card-soft {
@@ -196,6 +197,7 @@ body {
   background: var(--card);
   border-radius: 14px;
   padding: 14px;
+  border: 1.5px solid var(--ink);
 }
 .kpi-cell .num {
   font-size: 26px;
@@ -324,8 +326,8 @@ body {
   position: relative;
   overflow: hidden;
 }
-.issue.urgent { background: #FFFFFF; color: var(--ink); border: 1px solid var(--line); border-left: 4px solid var(--warn); }
-.issue.chance { background: #FFFFFF; color: var(--ink); border: 1px solid var(--line); border-left: 4px solid var(--success); }
+.issue.urgent { background: #FFFFFF; color: var(--ink); border: 1.5px solid var(--ink); border-left: 4px solid var(--warn); }
+.issue.chance { background: #FFFFFF; color: var(--ink); border: 1.5px solid var(--ink); border-left: 4px solid var(--success); }
 .issue .issue-no {
   font-size: 11px;
   font-weight: 700;
@@ -382,6 +384,7 @@ body {
   border-radius: 14px;
   padding: 16px;
   margin-bottom: 10px;
+  border: 1.5px solid var(--ink);
 }
 .award .award-tag {
   display: inline-block;
@@ -545,7 +548,16 @@ body {
       <span style="font-size:11px; color:var(--accent); font-weight:700; letter-spacing:0.1em; display:block; margin-bottom:2px;">No.1</span>
       하회지점 공지사항
     </h1>
-    <div class="date" id="updateDate">2026.05.11 기준</div>
+    <div style="text-align:right;">
+      <div class="date" id="updateDate">2026.05.11 기준</div>
+      <div style="display:flex; align-items:center; gap:6px; margin-top:6px; justify-content:flex-end;">
+        <span style="font-size:14px;">👁</span>
+        <img src="https://count.getloli.com/@hahoe-dashboard-shimhyunwoo?theme=rule34"
+             alt="방문자수"
+             style="height:22px; width:auto;"
+             onerror="this.style.display='none'; this.previousElementSibling.style.display='none';">
+      </div>
+    </div>
   </div>
 
   <!-- 탭 -->
@@ -554,6 +566,7 @@ body {
     <button class="tab" data-page="branch">지점시상</button>
     <button class="tab" data-page="issue">핵심이슈</button>
     <button class="tab" data-page="income">이번달 소득</button>
+    <button class="tab" data-page="rank">랭킹</button>
     <button class="tab" data-page="data">지점 현황</button>
   </div>
 
@@ -593,10 +606,6 @@ body {
     <!-- 팀별 -->
     <div class="section-title">팀별 현황</div>
     <div class="card" id="teamCard"></div>
-
-    <!-- TOP5 -->
-    <div class="section-title">환산월초 TOP 5</div>
-    <div class="card" id="top5Card"></div>
 
     <!-- 등급 분포 -->
     <div class="section-title">등급 분포</div>
@@ -710,6 +719,28 @@ body {
     <div class="card" id="rankingCard"></div>
   </div>
 
+  <!-- ============ 랭킹 ============ -->
+  <div class="page" id="page-rank">
+
+    <div style="padding: 4px 4px 12px;">
+      <div style="font-size:11px; color:var(--gray); font-weight:600;">환산월초 기준</div>
+      <div style="font-size:22px; font-weight:800; margin-top:2px; letter-spacing:-0.03em;">랭킹</div>
+    </div>
+
+    <!-- 개인 랭킹 TOP 5 -->
+    <div class="section-title">개인 랭킹 · TOP 5</div>
+
+    <!-- 1~3위 메달 카드 -->
+    <div id="rankLeader" style="margin-bottom: 4px;"></div>
+
+    <!-- 4~5위 -->
+    <div class="card" id="rankOthers"></div>
+
+    <!-- 팀 랭킹 -->
+    <div class="section-title">팀 랭킹</div>
+    <div class="card" id="rankTeam"></div>
+  </div>
+
   <!-- ============ 3. 5월 이슈 ============ -->
   <div class="page" id="page-issue">
     <div style="padding: 4px 4px 12px;">
@@ -801,7 +832,7 @@ body {
 const DATA = {
   meta: {
     date: '2026.05.11',
-    updatedAt: '2026.05.11 17:30',
+    updatedAt: '2026.05.11 18:13',
   },
 
   daily: {
@@ -814,17 +845,17 @@ const DATA = {
       { lbl: '무가동', val: 14, pct: 31.1, target: '',    state: 'warn' },
     ],
     teams: [
-      { n: '1팀',    m: 20, env: 598, gar: 727, g: 55.0,  sg: 40.0 },
-      { n: '2팀',    m: 11, env: 538, gar: 560, g: 81.8,  sg: 63.6 },
-      { n: '3팀',    m:  7, env: 245, gar: 305, g:100.0,  sg: 85.7 },
-      { n: '의성팀', m:  7, env: 445, gar: 676, g: 57.1,  sg: 42.9 },
+      { n: '1팀',    m: 20, env: 598, gar: 727, g: 55.0,  sg: 40.0, score24680: 85.0,  detail: { sg: 40.0, do: 20.0, pyo: 20.0, woo: 5.0 } },
+      { n: '2팀',    m: 11, env: 538, gar: 560, g: 81.8,  sg: 63.6, score24680: 136.4, detail: { sg: 63.6, do: 27.3, pyo: 27.3, woo: 18.2 } },
+      { n: '3팀',    m:  7, env: 245, gar: 305, g:100.0,  sg: 85.7, score24680: 100.0, detail: { sg: 85.7, do: 14.3, pyo: 0.0,  woo: 0.0 } },
+      { n: '의성팀', m:  7, env: 445, gar: 676, g: 57.1,  sg: 42.9, score24680: 128.6, detail: { sg: 42.9, do: 28.6, pyo: 28.6, woo: 28.6 } },
     ],
     top5: [
-      { rank: 1, n: '서경숙', team: '의성팀장', val: 250 },
-      { rank: 2, n: '임해경', team: '의성팀',   val: 147 },
-      { rank: 3, n: '김은미', team: '2팀장',    val: 139 },
-      { rank: 4, n: '신은정', team: '2팀',      val: 133 },
-      { rank: 5, n: '이금희', team: '1팀',      val: 130 },
+      { rank: 1, n: '서경숙', team: '의성팀장', val: 250, gar: 382, next: 263, grade: '프로' },
+      { rank: 2, n: '임해경', team: '의성팀',   val: 147, gar: 262, next: 8,   grade: '우수' },
+      { rank: 3, n: '김은미', team: '2팀장',    val: 139, gar: 217, next: 149, grade: '우수' },
+      { rank: 4, n: '신은정', team: '2팀',      val: 133, gar: 104, next: 3,   grade: '우수' },
+      { rank: 5, n: '이금희', team: '1팀',      val: 130, gar: 203, next: 26,  grade: '우수' },
     ],
     grades: [
       { lbl: '프로',   n: 1 },
@@ -1041,15 +1072,155 @@ document.getElementById('teamCard').innerHTML = DATA.daily.teams.map(t => `
   </div>
 `).join('');
 
-// --- TOP 5 ---
-const maxTop = DATA.daily.top5[0].val;
-document.getElementById('top5Card').innerHTML = DATA.daily.top5.map(t => `
-  <div class="rank-row ${t.rank === 1 ? 'top1' : t.rank <= 3 ? 'top3' : ''}">
-    <div class="rank-num">${t.rank}</div>
+// --- 랭킹 페이지: 개인 1~3위 (큰 그라데이션 카드) ---
+const medalCardStyles = {
+  1: { grad: 'linear-gradient(135deg, #FFD86B 0%, #B8862A 100%)', text: '#FFFFFF', shadow: 'rgba(120, 80, 10, 0.4)', medal: '🥇', label: 'RANK NO.1' },
+  2: { grad: 'linear-gradient(135deg, #E8E8EC 0%, #8A8A92 100%)', text: '#FFFFFF', shadow: 'rgba(60, 60, 70, 0.4)', medal: '🥈', label: 'RANK NO.2' },
+  3: { grad: 'linear-gradient(135deg, #E8A87C 0%, #8B4513 100%)', text: '#FFFFFF', shadow: 'rgba(80, 35, 10, 0.4)', medal: '🥉', label: 'RANK NO.3' },
+};
+
+const leader = DATA.daily.top5[0];
+const second = DATA.daily.top5[1];
+const third = DATA.daily.top5[2];
+
+function medalCard(person, rankNum) {
+  const s = medalCardStyles[rankNum];
+  const isLarge = rankNum === 1;
+  return `
+    <div style="position:relative; background: ${s.grad}; border-radius: 16px; padding: ${isLarge ? '24px 20px' : '18px'}; color: ${s.text}; overflow: hidden; margin-bottom: 10px; box-shadow: 0 4px 16px ${s.shadow};">
+      <div style="position:absolute; top:-30px; right:-30px; width:${isLarge ? 140 : 110}px; height:${isLarge ? 140 : 110}px; border-radius:50%; background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);"></div>
+      <div style="position:absolute; ${isLarge ? 'top:14px; right:18px; font-size:56px;' : 'top:14px; right:14px; font-size:40px;'} line-height:1;">${s.medal}</div>
+
+      <div style="font-size:${isLarge ? 10 : 9}px; font-weight:800; letter-spacing:0.15em; color: rgba(255,255,255,0.9); text-shadow: 0 1px 2px ${s.shadow};">${s.label}</div>
+
+      <div style="display:flex; align-items:baseline; gap:8px; margin-top:6px;">
+        <div style="font-size:${isLarge ? 30 : 22}px; font-weight:800; letter-spacing:-0.03em; text-shadow: 0 2px 4px ${s.shadow};">${person.n}</div>
+        <div style="font-size:11px; opacity:0.85; font-weight:600;">${person.team}</div>
+      </div>
+
+      <div style="margin-top:${isLarge ? 16 : 10}px;">
+        <div style="font-size:10px; opacity:0.85; font-weight:600;">환산월초</div>
+        <div style="font-size:${isLarge ? 42 : 30}px; font-weight:800; letter-spacing:-0.04em; line-height:1; margin-top:2px; text-shadow: 0 2px 6px ${s.shadow};">
+          ${person.val}<span style="font-size:${isLarge ? 18 : 14}px; opacity:0.85; margin-left:4px;">만</span>
+        </div>
+      </div>
+
+      <!-- 세부 정보 박스 -->
+      <div style="display:flex; gap:5px; margin-top:14px; position:relative;">
+        <div style="flex:1; background:rgba(255,255,255,0.25); border-radius:5px; padding:6px 4px; text-align:center;">
+          <div style="font-size:9px; font-weight:700; opacity:0.9;">등급</div>
+          <div style="font-size:${isLarge ? 13 : 12}px; font-weight:800; margin-top:1px;">${person.grade}</div>
+        </div>
+        <div style="flex:1; background:rgba(255,255,255,0.25); border-radius:5px; padding:6px 4px; text-align:center;">
+          <div style="font-size:9px; font-weight:700; opacity:0.9;">보장</div>
+          <div style="font-size:${isLarge ? 13 : 12}px; font-weight:800; margin-top:1px;">${person.gar}만</div>
+        </div>
+        <div style="flex:1; background:rgba(255,255,255,0.25); border-radius:5px; padding:6px 4px; text-align:center;">
+          <div style="font-size:9px; font-weight:700; opacity:0.9;">차월</div>
+          <div style="font-size:${isLarge ? 13 : 12}px; font-weight:800; margin-top:1px;">${person.next}</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+document.getElementById('rankLeader').innerHTML = medalCard(leader, 1) + medalCard(second, 2) + medalCard(third, 3);
+
+// --- 랭킹 페이지: 4~5위 ---
+document.getElementById('rankOthers').innerHTML = DATA.daily.top5.slice(3).map(t => `
+  <div class="rank-row">
+    <div style="width:36px; text-align:center;"><span style="font-size:16px; font-weight:800; color:var(--gray);">${t.rank}</span></div>
     <div class="rank-name">${t.n}<span class="rank-team">${t.team}</span></div>
     <div class="rank-val">${t.val}<span class="u">만</span></div>
   </div>
 `).join('');
+
+// --- 랭킹 페이지: 팀 랭킹 (24680 기준) ---
+const teamsRanked = [...DATA.daily.teams].sort((a, b) => b.score24680 - a.score24680);
+const maxScore = 200;  // 목표 200%
+const teamMedalColors = {
+  1: { bar: 'linear-gradient(90deg, #FFD86B, #B8862A)', text: '#B8862A' },
+  2: { bar: 'linear-gradient(90deg, #C8C8D0, #8A8A92)', text: '#6E6E76' },
+  3: { bar: 'linear-gradient(90deg, #E8A87C, #8B4513)', text: '#8B4513' },
+};
+const teamMedals = { 1: '🥇', 2: '🥈', 3: '🥉' };
+
+document.getElementById('rankTeam').innerHTML = `
+  <div style="font-size:11px; color:var(--gray); font-weight:600; margin-bottom: 14px; text-align:center;">
+    24680  =  실가동률 + 도전률 + 표준률 + 우수률  (목표 200%)
+  </div>
+
+  <!-- 1~3위: 메달 그라데이션 카드 -->
+  ${teamsRanked.slice(0, 3).map((t, i) => {
+    const rank = i + 1;
+    const styles = {
+      1: { grad: 'linear-gradient(135deg, #FFD86B 0%, #B8862A 100%)', shadow: 'rgba(120, 80, 10, 0.4)', medal: '🥇', label: 'TEAM NO.1' },
+      2: { grad: 'linear-gradient(135deg, #E8E8EC 0%, #8A8A92 100%)', shadow: 'rgba(60, 60, 70, 0.4)', medal: '🥈', label: 'TEAM NO.2' },
+      3: { grad: 'linear-gradient(135deg, #E8A87C 0%, #8B4513 100%)', shadow: 'rgba(80, 35, 10, 0.4)', medal: '🥉', label: 'TEAM NO.3' },
+    }[rank];
+    const isLarge = rank === 1;
+    return `
+      <div style="position:relative; background: ${styles.grad}; border-radius: 14px; padding: ${isLarge ? '20px' : '16px'}; color: white; overflow: hidden; margin-bottom: 10px; box-shadow: 0 4px 16px ${styles.shadow};">
+        <div style="position:absolute; top:-25px; right:-25px; width:${isLarge ? 120 : 100}px; height:${isLarge ? 120 : 100}px; border-radius:50%; background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);"></div>
+        <div style="position:absolute; ${isLarge ? 'top:14px; right:16px; font-size:42px;' : 'top:14px; right:14px; font-size:32px;'} line-height:1;">${styles.medal}</div>
+
+        <div style="font-size:${isLarge ? 10 : 9}px; font-weight:800; letter-spacing:0.15em; color: rgba(255,255,255,0.9); text-shadow: 0 1px 2px ${styles.shadow};">${styles.label}</div>
+
+        <div style="display:flex; align-items:baseline; gap:8px; margin-top:4px;">
+          <div style="font-size:${isLarge ? 26 : 20}px; font-weight:800; letter-spacing:-0.03em; text-shadow: 0 2px 4px ${styles.shadow};">${t.n}</div>
+          <div style="font-size:11px; opacity:0.9; font-weight:600;">${t.m}명</div>
+        </div>
+
+        <div style="margin-top:${isLarge ? 12 : 8}px;">
+          <div style="font-size:10px; opacity:0.85; font-weight:600;">24680</div>
+          <div style="font-size:${isLarge ? 38 : 28}px; font-weight:800; letter-spacing:-0.04em; line-height:1; margin-top:2px; text-shadow: 0 2px 6px ${styles.shadow};">
+            ${t.score24680.toFixed(1)}<span style="font-size:${isLarge ? 18 : 14}px; opacity:0.85; margin-left:2px;">%</span>
+          </div>
+        </div>
+
+        <!-- 등급별 세부 -->
+        <div style="display:flex; gap:5px; margin-top:14px; position:relative;">
+          <div style="flex:1; background:rgba(255,255,255,0.25); border-radius:5px; padding:6px 4px; text-align:center;">
+            <div style="font-size:9px; font-weight:700; opacity:0.9;">실가동</div>
+            <div style="font-size:${isLarge ? 13 : 12}px; font-weight:800; margin-top:1px;">${t.detail.sg}%</div>
+          </div>
+          <div style="flex:1; background:rgba(255,255,255,0.25); border-radius:5px; padding:6px 4px; text-align:center;">
+            <div style="font-size:9px; font-weight:700; opacity:0.9;">도전</div>
+            <div style="font-size:${isLarge ? 13 : 12}px; font-weight:800; margin-top:1px;">${t.detail.do}%</div>
+          </div>
+          <div style="flex:1; background:rgba(255,255,255,0.25); border-radius:5px; padding:6px 4px; text-align:center;">
+            <div style="font-size:9px; font-weight:700; opacity:0.9;">표준</div>
+            <div style="font-size:${isLarge ? 13 : 12}px; font-weight:800; margin-top:1px;">${t.detail.pyo}%</div>
+          </div>
+          <div style="flex:1; background:rgba(255,255,255,0.25); border-radius:5px; padding:6px 4px; text-align:center;">
+            <div style="font-size:9px; font-weight:700; opacity:0.9;">우수</div>
+            <div style="font-size:${isLarge ? 13 : 12}px; font-weight:800; margin-top:1px;">${t.detail.woo}%</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('')}
+
+  <!-- 4위: 일반 리스트 -->
+  ${teamsRanked.slice(3).map((t, i) => {
+    const rank = i + 4;
+    const pct = Math.min((t.score24680 / 200) * 100, 100);
+    return `
+      <div style="padding: 14px 4px; margin-top: 4px;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="width:24px; text-align:center; font-size:15px; font-weight:800; color:var(--gray);">${rank}</div>
+          <div style="flex:1;">
+            <div style="font-size:14px; font-weight:800;">${t.n}<span style="font-size:11px; color:var(--gray); font-weight:600; margin-left:6px;">${t.m}명</span></div>
+          </div>
+          <div style="font-size:18px; font-weight:800; color:var(--ink); letter-spacing:-0.02em;">${t.score24680.toFixed(1)}<span style="font-size:11px; color:var(--gray); font-weight:600; margin-left:1px;">%</span></div>
+        </div>
+        <div style="margin-top:6px; height:4px; background:var(--line); border-radius:2px; overflow:hidden;">
+          <div style="width:${pct}%; height:100%; background:var(--accent-deep); opacity:0.5; border-radius:2px;"></div>
+        </div>
+      </div>
+    `;
+  }).join('')}
+`;
 
 // --- 등급 분포 ---
 const maxGrade = Math.max(...DATA.daily.grades.map(g => g.n));
