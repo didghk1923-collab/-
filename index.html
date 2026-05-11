@@ -25,23 +25,30 @@
 
 <style>
 :root {
-  --canvas: #F0EFEC;
-  --card: #FFFFFF;
-  --card-soft: #F7F5F1;
-  --ink: #1A1A1A;
-  --ink-soft: #4A4A4A;
-  --gray: #9A9A9A;
-  --gray-soft: #C8C6C2;
-  --line: #E5E3DF;
-  --accent: #F37321;
-  --accent-deep: #C75A14;
-  --accent-soft: #FCE4D0;
-  --success: #1D9E75;
-  --success-soft: #D6F5E8;
-  --warn: #E24B4A;
-  --warn-soft: #FBE0E0;
-  --yellow: #FCD34D;
-  --gold: #FFB800;
+  /* 베이스 - 차분한 따뜻 모노톤 */
+  --canvas: #EFEDE7;           /* 톤다운된 베이지 (조금 더 어둡게) */
+  --card: #FAF8F4;             /* 카드는 약간 따뜻한 흰색 */
+  --card-soft: #E2DFD7;
+  --ink: #2C2925;              /* 따뜻한 차콜 */
+  --ink-soft: #5E594F;
+  --gray: #968F84;             /* 톤다운 그레이 */
+  --gray-soft: #C2BCB1;
+  --line: #D8D3C8;
+
+  /* 액센트 - 매우 차분한 테라코타 (오렌지 톤다운 끝판왕) */
+  --accent: #A85A2C;           /* 깊은 테라코타 */
+  --accent-deep: #6E3A18;      /* 진한 시에나 */
+  --accent-soft: #E8D9CB;      /* 톤다운된 베이지 */
+
+  /* 상태 색 - 모두 거의 무채색 */
+  --success: #5A6F4F;          /* 올리브 그린 */
+  --success-soft: #D8DCD2;
+  --warn: #8B4A3F;             /* 깊은 와인 */
+  --warn-soft: #DCD0CB;
+
+  /* 강조 - 머스타드 골드 */
+  --yellow: #B89043;
+  --gold: #93722F;
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -324,7 +331,7 @@ body {
   overflow: hidden;
 }
 .issue.urgent { background: var(--ink); color: white; }
-.issue.chance { background: var(--success); color: white; }
+.issue.chance { background: #FFFFFF; color: var(--ink); border: 1px solid var(--line); }
 .issue .issue-no {
   font-size: 11px;
   font-weight: 700;
@@ -332,6 +339,7 @@ body {
   opacity: 0.6;
   margin-bottom: 4px;
 }
+.issue.chance .issue-no { color: var(--gray); opacity: 1; }
 .issue .issue-title {
   font-size: 16px;
   font-weight: 800;
@@ -343,6 +351,7 @@ body {
   opacity: 0.8;
   margin-bottom: 8px;
 }
+.issue.chance .issue-detail { color: var(--ink-soft); opacity: 1; }
 .issue .issue-when {
   font-size: 11px;
   font-weight: 600;
@@ -351,6 +360,7 @@ body {
   border-radius: 4px;
   background: rgba(255,255,255,0.15);
 }
+.issue.chance .issue-when { background: var(--card-soft); color: var(--ink); }
 .issue .issue-punch {
   position: absolute;
   right: 16px;
@@ -361,9 +371,9 @@ body {
   text-align: right;
   line-height: 1.1;
   letter-spacing: -0.02em;
-  color: var(--accent);
+  color: var(--yellow);
 }
-.issue.chance .issue-punch { color: var(--yellow); }
+.issue.chance .issue-punch { color: var(--gold); }
 
 /* === 시상 카드 === */
 .award {
@@ -738,7 +748,7 @@ body {
 const DATA = {
   meta: {
     date: '2026.05.11',
-    updatedAt: '2026.05.11 19:00',
+    updatedAt: '2026.05.11 20:30',
   },
 
   daily: {
