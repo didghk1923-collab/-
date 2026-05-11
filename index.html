@@ -57,6 +57,19 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* 다이나믹 아일랜드 영역 캔버스 색으로 덮기 (탭이 가려지는 거 방지) */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: calc(env(safe-area-inset-top, 0) + 8px);
+  background: var(--canvas);
+  z-index: 9;
+  pointer-events: none;
+}
+
 .app {
   max-width: 480px;
   margin: 0 auto;
@@ -85,23 +98,24 @@ body {
 
 /* === 탭 === */
 .tabs {
-  display: flex;
-  gap: 3px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 4px;
   margin: 16px 0 16px;
-  padding: 4px;
+  padding: 6px;
   background: var(--card);
   border-radius: 14px;
   position: sticky;
-  top: 8px;
+  top: calc(env(safe-area-inset-top, 0) + 8px);
   z-index: 10;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  border: 1.5px solid var(--ink);
 }
 .tab {
-  flex: 1;
-  padding: 9px 1px;
+  padding: 11px 4px;
   border-radius: 9px;
   text-align: center;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   color: var(--gray);
   cursor: pointer;
@@ -109,7 +123,7 @@ body {
   background: transparent;
   border: none;
   font-family: inherit;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.03em;
   white-space: nowrap;
 }
 .tab.active {
@@ -564,9 +578,9 @@ body {
   <div class="tabs">
     <button class="tab active" data-page="hq">본사시상</button>
     <button class="tab" data-page="branch">지점시상</button>
-    <button class="tab" data-page="issue">핵심이슈</button>
+    <button class="tab" data-page="issue">5월이슈</button>
     <button class="tab" data-page="income">이번달 소득</button>
-    <button class="tab" data-page="rank">랭킹</button>
+    <button class="tab" data-page="rank">랭킹 TOP5</button>
     <button class="tab" data-page="data">지점 현황</button>
   </div>
 
@@ -832,7 +846,7 @@ body {
 const DATA = {
   meta: {
     date: '2026.05.11',
-    updatedAt: '2026.05.11 18:13',
+    updatedAt: '2026.05.11 18:19',
   },
 
   daily: {
