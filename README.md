@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -506,18 +508,21 @@ body {
 }
 
 </style>
+
 </head>
 <body>
 
 <div class="app">
 
   <!-- 헤더 -->
+
   <div class="app-header">
     <h1>하회지점</h1>
     <div class="date" id="updateDate">2026.05.11 기준</div>
   </div>
 
   <!-- 탭 -->
+
   <div class="tabs">
     <button class="tab active" data-page="award">시상</button>
     <button class="tab" data-page="issue">이슈</button>
@@ -526,149 +531,158 @@ body {
   </div>
 
   <!-- ============ 1. 지점 데이터 ============ -->
+
   <div class="page" id="page-data">
 
-    <!-- 환산월초/보장월초 -->
-    <div class="card">
-      <div class="label">총 환산월초</div>
-      <div class="big-num">
-        <span id="envTotal">1,827</span><span class="unit">만</span>
-        <span style="float:right; font-size:20px; color:var(--warn);" id="envPct">73.9%</span>
-      </div>
-      <div class="bar"><div class="bar-fill warn" id="envBar" style="width:73.9%"></div></div>
-      <div style="text-align:right; font-size:11px; color:var(--gray); margin-top:6px;">본사 진척</div>
+```
+<!-- 환산월초/보장월초 -->
+<div class="card">
+  <div class="label">총 환산월초</div>
+  <div class="big-num">
+    <span id="envTotal">1,827</span><span class="unit">만</span>
+    <span style="float:right; font-size:20px; color:var(--warn);" id="envPct">73.9%</span>
+  </div>
+  <div class="bar"><div class="bar-fill warn" id="envBar" style="width:73.9%"></div></div>
+  <div style="text-align:right; font-size:11px; color:var(--gray); margin-top:6px;">본사 진척</div>
+</div>
+
+<div class="card">
+  <div class="label">보장월초</div>
+  <div class="big-num">
+    <span id="covTotal">2,268</span><span class="unit">만</span>
+    <span style="float:right; font-size:20px; color:var(--accent);" id="covPct">89.6%</span>
+  </div>
+  <div class="bar"><div class="bar-fill accent" id="covBar" style="width:89.6%"></div></div>
+  <div style="text-align:right; font-size:11px; color:var(--gray); margin-top:6px;">본사 진척</div>
+</div>
+
+<!-- 활동 KPI 4개 -->
+<div class="section-title">활동 현황</div>
+<div class="kpi-grid" id="kpiGrid"></div>
+
+<!-- 팀별 -->
+<div class="section-title">팀별 현황</div>
+<div class="card" id="teamCard"></div>
+
+<!-- TOP5 -->
+<div class="section-title">환산월초 TOP 5</div>
+<div class="card" id="top5Card"></div>
+
+<!-- 등급 분포 -->
+<div class="section-title">등급 분포</div>
+<div class="card" id="gradeCard"></div>
+
+<!-- 무가동 -->
+<div class="section-title">무가동</div>
+<div class="card">
+  <div class="big-warn">
+    <div><span class="num" id="inactiveCount">14</span><span class="unit">명</span></div>
+    <div class="sub">전체 45명 중 <span id="inactivePct">31.1%</span></div>
+  </div>
+  <div id="inactiveTeams"></div>
+</div>
+
+<!-- 3.3.3 -->
+<div class="section-title">3.3.3 바른활동</div>
+<div class="card">
+  <div style="display:flex; justify-content:space-around; padding: 8px 0 16px; text-align:center;">
+    <div>
+      <div style="font-size:11px; color:var(--gray); font-weight:600;">달성</div>
+      <div style="font-size:24px; font-weight:800; color:var(--success);" id="ach333">26명</div>
     </div>
-
-    <div class="card">
-      <div class="label">보장월초</div>
-      <div class="big-num">
-        <span id="covTotal">2,268</span><span class="unit">만</span>
-        <span style="float:right; font-size:20px; color:var(--accent);" id="covPct">89.6%</span>
-      </div>
-      <div class="bar"><div class="bar-fill accent" id="covBar" style="width:89.6%"></div></div>
-      <div style="text-align:right; font-size:11px; color:var(--gray); margin-top:6px;">본사 진척</div>
+    <div>
+      <div style="font-size:11px; color:var(--gray); font-weight:600;">미달</div>
+      <div style="font-size:24px; font-weight:800; color:var(--warn);" id="missed333">19명</div>
     </div>
-
-    <!-- 활동 KPI 4개 -->
-    <div class="section-title">활동 현황</div>
-    <div class="kpi-grid" id="kpiGrid"></div>
-
-    <!-- 팀별 -->
-    <div class="section-title">팀별 현황</div>
-    <div class="card" id="teamCard"></div>
-
-    <!-- TOP5 -->
-    <div class="section-title">환산월초 TOP 5</div>
-    <div class="card" id="top5Card"></div>
-
-    <!-- 등급 분포 -->
-    <div class="section-title">등급 분포</div>
-    <div class="card" id="gradeCard"></div>
-
-    <!-- 무가동 -->
-    <div class="section-title">무가동</div>
-    <div class="card">
-      <div class="big-warn">
-        <div><span class="num" id="inactiveCount">14</span><span class="unit">명</span></div>
-        <div class="sub">전체 45명 중 <span id="inactivePct">31.1%</span></div>
-      </div>
-      <div id="inactiveTeams"></div>
+    <div>
+      <div style="font-size:11px; color:var(--gray); font-weight:600;">달성률</div>
+      <div style="font-size:24px; font-weight:800;" id="pct333">57.8%</div>
     </div>
+  </div>
+  <div class="fp-grid" id="fpGrid"></div>
+</div>
+```
 
-    <!-- 3.3.3 -->
-    <div class="section-title">3.3.3 바른활동</div>
-    <div class="card">
-      <div style="display:flex; justify-content:space-around; padding: 8px 0 16px; text-align:center;">
-        <div>
-          <div style="font-size:11px; color:var(--gray); font-weight:600;">달성</div>
-          <div style="font-size:24px; font-weight:800; color:var(--success);" id="ach333">26명</div>
-        </div>
-        <div>
-          <div style="font-size:11px; color:var(--gray); font-weight:600;">미달</div>
-          <div style="font-size:24px; font-weight:800; color:var(--warn);" id="missed333">19명</div>
-        </div>
-        <div>
-          <div style="font-size:11px; color:var(--gray); font-weight:600;">달성률</div>
-          <div style="font-size:24px; font-weight:800;" id="pct333">57.8%</div>
-        </div>
-      </div>
-      <div class="fp-grid" id="fpGrid"></div>
-    </div>
   </div>
 
   <!-- ============ 2. 소득 현황 ============ -->
+
   <div class="page" id="page-income">
 
-    <!-- 지점 총 수수료 -->
-    <div class="card card-accent">
-      <div class="label label-white">이번 주 하회지점이 만든</div>
-      <div style="font-size:13px; font-weight:700; margin-bottom:14px;">총 수수료 (순수급여)</div>
-      <div style="font-size:42px; font-weight:800; line-height:1; letter-spacing:-0.04em;">
-        <span id="totalFee">1억 1,693</span>
-        <span style="font-size:18px; font-weight:600; margin-left:4px; opacity:0.8;">만원</span>
-      </div>
-      <div style="margin-top:12px; font-size:12px; opacity:0.85;">
-        환산월초 <b>1,827만</b>   ×   평균 <b>640%</b>
-      </div>
-      <div style="height:1px; background:rgba(255,255,255,0.15); margin:16px 0 12px;"></div>
-      <div style="font-size:11px; opacity:0.85; margin-bottom:6px;">2026년 최저시급 10,320원으로 환산하면</div>
-      <div style="font-size:30px; font-weight:800; letter-spacing:-0.03em;">
-        <span style="color:var(--yellow);" id="hours">11,330</span>
-        <span style="font-size:14px; opacity:0.85; margin-left:4px;">시간</span>
-      </div>
-      <div style="font-size:12px; opacity:0.85; margin-top:8px;">
-        풀타임 직장인 <b>54개월</b> = <b style="color:var(--yellow);">4년 6개월</b> 일한 가치
+```
+<!-- 지점 총 수수료 -->
+<div class="card card-accent">
+  <div class="label label-white">이번 주 하회지점이 만든</div>
+  <div style="font-size:13px; font-weight:700; margin-bottom:14px;">총 수수료 (순수급여)</div>
+  <div style="font-size:42px; font-weight:800; line-height:1; letter-spacing:-0.04em;">
+    <span id="totalFee">1억 1,693</span>
+    <span style="font-size:18px; font-weight:600; margin-left:4px; opacity:0.8;">만원</span>
+  </div>
+  <div style="margin-top:12px; font-size:12px; opacity:0.85;">
+    환산월초 <b>1,827만</b>   ×   평균 <b>640%</b>
+  </div>
+  <div style="height:1px; background:rgba(255,255,255,0.15); margin:16px 0 12px;"></div>
+  <div style="font-size:11px; opacity:0.85; margin-bottom:6px;">2026년 최저시급 10,320원으로 환산하면</div>
+  <div style="font-size:30px; font-weight:800; letter-spacing:-0.03em;">
+    <span style="color:var(--yellow);" id="hours">11,330</span>
+    <span style="font-size:14px; opacity:0.85; margin-left:4px;">시간</span>
+  </div>
+  <div style="font-size:12px; opacity:0.85; margin-top:8px;">
+    풀타임 직장인 <b>54개월</b> = <b style="color:var(--yellow);">4년 6개월</b> 일한 가치
+  </div>
+</div>
+
+<!-- 수수료 구성 -->
+<div class="section-title">수수료 구성 (24개월 누적)</div>
+<div class="card">
+  <div style="font-size:11px; color:var(--gray); margin-bottom:12px;">환산월초 1만원 받는 돈 (건강 기준)</div>
+  <div id="commCard"></div>
+  <div style="margin-top:12px; padding:14px; background:var(--ink); color:white; border-radius:10px;">
+    <div style="font-size:11px; opacity:0.7;">환산월초 1만원 →</div>
+    <div style="font-size:22px; font-weight:800; color:var(--yellow); margin-top:4px; letter-spacing:-0.03em;">
+      580 ~ 700%
+    </div>
+    <div style="font-size:11px; opacity:0.7; margin-top:2px;">총 수수료 5.8 ~ 7만원</div>
+  </div>
+</div>
+
+<!-- 시간 가치 TOP 5 -->
+<div class="section-title">한 주의 시간 가치  ·  TOP 5</div>
+
+<!-- 1위 (큰 카드) -->
+<div class="card card-dark">
+  <div style="font-size:10px; color:var(--accent); font-weight:700; letter-spacing:0.1em;">THIS WEEK NO.1</div>
+  <div style="font-size:24px; font-weight:800; margin-top:6px;" id="leaderName">서경숙</div>
+  <div style="font-size:11px; opacity:0.6; margin-top:2px;" id="leaderTeam">의성팀</div>
+
+  <div style="display:flex; gap:24px; margin-top:18px;">
+    <div>
+      <div style="font-size:10px; opacity:0.6;">일당</div>
+      <div style="font-size:32px; font-weight:800; letter-spacing:-0.04em;">
+        <span id="leaderFee">1,700</span><span style="font-size:14px; opacity:0.7; margin-left:2px;">만</span>
       </div>
     </div>
-
-    <!-- 수수료 구성 -->
-    <div class="section-title">수수료 구성 (24개월 누적)</div>
-    <div class="card">
-      <div style="font-size:11px; color:var(--gray); margin-bottom:12px;">환산월초 1만원 받는 돈 (건강 기준)</div>
-      <div id="commCard"></div>
-      <div style="margin-top:12px; padding:14px; background:var(--ink); color:white; border-radius:10px;">
-        <div style="font-size:11px; opacity:0.7;">환산월초 1만원 →</div>
-        <div style="font-size:22px; font-weight:800; color:var(--yellow); margin-top:4px; letter-spacing:-0.03em;">
-          580 ~ 700%
-        </div>
-        <div style="font-size:11px; opacity:0.7; margin-top:2px;">총 수수료 5.8 ~ 7만원</div>
+    <div>
+      <div style="font-size:10px; opacity:0.6;">시간</div>
+      <div style="font-size:32px; font-weight:800; color:var(--accent); letter-spacing:-0.04em;">
+        <span id="leaderHours">1,647</span><span style="font-size:14px; opacity:0.7; margin-left:2px;">h</span>
       </div>
     </div>
+  </div>
+</div>
 
-    <!-- 시간 가치 TOP 5 -->
-    <div class="section-title">한 주의 시간 가치  ·  TOP 5</div>
+<!-- 2~5위 -->
+<div class="card" id="topOthersCard"></div>
 
-    <!-- 1위 (큰 카드) -->
-    <div class="card card-dark">
-      <div style="font-size:10px; color:var(--accent); font-weight:700; letter-spacing:0.1em;">THIS WEEK NO.1</div>
-      <div style="font-size:24px; font-weight:800; margin-top:6px;" id="leaderName">서경숙</div>
-      <div style="font-size:11px; opacity:0.6; margin-top:2px;" id="leaderTeam">의성팀</div>
+<!-- 전체 31명 -->
+<div class="section-title">활동 FP 전체 (31명)</div>
+<div class="card" id="rankingCard"></div>
+```
 
-      <div style="display:flex; gap:24px; margin-top:18px;">
-        <div>
-          <div style="font-size:10px; opacity:0.6;">일당</div>
-          <div style="font-size:32px; font-weight:800; letter-spacing:-0.04em;">
-            <span id="leaderFee">1,700</span><span style="font-size:14px; opacity:0.7; margin-left:2px;">만</span>
-          </div>
-        </div>
-        <div>
-          <div style="font-size:10px; opacity:0.6;">시간</div>
-          <div style="font-size:32px; font-weight:800; color:var(--accent); letter-spacing:-0.04em;">
-            <span id="leaderHours">1,647</span><span style="font-size:14px; opacity:0.7; margin-left:2px;">h</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 2~5위 -->
-    <div class="card" id="topOthersCard"></div>
-
-    <!-- 전체 31명 -->
-    <div class="section-title">활동 FP 전체 (31명)</div>
-    <div class="card" id="rankingCard"></div>
   </div>
 
   <!-- ============ 3. 5월 이슈 ============ -->
+
   <div class="page" id="page-issue">
     <div style="padding: 4px 4px 12px;">
       <div style="font-size:11px; color:var(--gray); font-weight:600;">5월 이번 달 꼭 기억할</div>
@@ -678,23 +692,28 @@ body {
   </div>
 
   <!-- ============ 4. 5월 시상 ============ -->
+
   <div class="page active" id="page-award">
     <div style="padding: 4px 4px 12px;">
       <div style="font-size:11px; color:var(--gray); font-weight:600;">받을 수 있는</div>
       <div style="font-size:22px; font-weight:800; margin-top:2px; letter-spacing:-0.03em;">5월 시상</div>
     </div>
 
-    <div class="section-title">본사 시상</div>
-    <div id="hqAwardsContainer"></div>
+```
+<div class="section-title">본사 시상</div>
+<div id="hqAwardsContainer"></div>
 
-    <div class="section-title">지점 시상</div>
-    <div id="branchAwardsContainer"></div>
+<div class="section-title">지점 시상</div>
+<div id="branchAwardsContainer"></div>
+```
+
   </div>
 
   <div class="update-badge" id="updateBadge">마지막 업데이트: 2026.05.11 09:00</div>
 </div>
 
 <!-- ============ 데이터 ============ -->
+
 <script>
 const DATA = {
   meta: {
@@ -1134,5 +1153,6 @@ document.querySelectorAll('.tab').forEach(tab => {
 });
 
 </script>
+
 </body>
 </html>
