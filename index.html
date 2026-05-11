@@ -530,7 +530,10 @@ body {
   <!-- 헤더 -->
   <div class="app-header">
     <h1>하회지점</h1>
-    <div class="date" id="updateDate">2026.05.11 기준</div>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <div class="date" id="updateDate">2026.05.11 기준</div>
+      <button onclick="forceRefresh()" style="background:var(--ink); color:white; border:none; border-radius:8px; padding:6px 10px; font-size:11px; font-weight:700; cursor:pointer; font-family:inherit;">↻ 새로고침</button>
+    </div>
   </div>
 
   <!-- 탭 -->
@@ -1157,21 +1160,41 @@ document.querySelectorAll('.tab').forEach(tab => {
 (function() {
   const currentVersion = DATA.meta.updatedAt;
 
-  // 앱이 포커스를 다시 받을 때 최신 버전 체크 (홈화면에서 다시 열 때)
-  document.addEventListener('visibilitychange', async () => {
-    if (document.visibilityState === 'visible') {
-      try {
-        const response = await fetch(window.location.href + '?t=' + Date.now(), {
-          cache: 'no-store',
-          headers: { 'Cache-Control': 'no-cache, no-store, must-revalidate' }
-        });
-        const text = await response.text();
-        const match = text.match(/updatedAt:\s*['"]([^'"]+)['"]/);
-        if (match && match[1] !== currentVersion) {
-          window.location.reload();
+  async function checkUpdate() {
+    try {
+      // 1. 강력한 캐시 무효화 (URL에 타임스탬프 + no-store)
+      const url = window.location.href.split('?')[0] + '?t=' + Date.now() + '&v=' + Math.random();
+      const response = await fetch(url, {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache'
         }
-      } catch (e) { /* 오프라인 시 무시 */ }
-    }
+      });
+      const text = await response.text();
+      const match = text.match(/updatedAt:\s*['"]([^'"]+)['"]/);
+      if (match && match[1] !== currentVersion) {
+        // 캐시 강제 비우고 새로고침
+        if ('caches' in window) {
+          const keys = await caches.keys();
+          await Promise.all(keys.map(k => caches.delete(k)));
+        }
+        window.location.replace(url);
+      }
+    } catch (e) { /* 오프라인 시 무시 */ }
+  }
+
+  // 1) 앱 켤 때 (페이지 로드)
+  checkUpdate();
+
+  // 2) 앱이 포커스 받을 때 (홈화면에서 다시 열 때)
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') checkUpdate();
+  });
+
+  // 3) iOS PWA용 - pageshow 이벤트 (백그라운드에서 복귀할 때)
+  window.addEventListener('pageshow', (e) => {
+    if (e.persisted) checkUpdate();
   });
 
   // 기존 Service Worker가 캐시하던 거 제거
@@ -1181,6 +1204,26 @@ document.querySelectorAll('.tab').forEach(tab => {
     });
   }
 })();
+
+// ============ 수동 새로고침 버튼 ============
+async function forceRefresh() {
+  // 모든 캐시 비우기
+  if ('caches' in window) {
+    try {
+      const keys = await caches.keys();
+      await Promise.all(keys.map(k => caches.delete(k)));
+    } catch (e) {}
+  }
+  // Service Worker 제거
+  if ('serviceWorker' in navigator) {
+    try {
+      const regs = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(regs.map(r => r.unregister()));
+    } catch (e) {}
+  }
+  // 타임스탬프 붙여서 강제 새로고침
+  window.location.replace(window.location.href.split('?')[0] + '?t=' + Date.now());
+}
 
 </script>
 </body>
