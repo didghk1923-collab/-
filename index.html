@@ -873,9 +873,11 @@ input#bojangGeongang::-webkit-inner-spin-button {
 </div>
 
 <!-- 사이드 패널 오버레이 -->
+
 <div id="sideOverlay" class="side-overlay"></div>
 
 <!-- 사이드 패널 -->
+
 <aside id="sidePanel" class="side-panel">
   <div class="side-header">
     <div class="side-title">메뉴</div>
@@ -885,18 +887,6 @@ input#bojangGeongang::-webkit-inner-spin-button {
     <button class="side-item" data-page="income">
       <span class="side-ico">💰</span>
       <span>급여 계산기</span>
-    </button>
-    <button class="side-item" data-page="issue">
-      <span class="side-ico">📌</span>
-      <span>5월 이슈</span>
-    </button>
-    <button class="side-item" data-page="data">
-      <span class="side-ico">📊</span>
-      <span>지점 현황</span>
-    </button>
-    <button class="side-item" data-page="game">
-      <span class="side-ico">🎮</span>
-      <span>하회지점 FP의 여정</span>
     </button>
   </nav>
 </aside>
@@ -919,7 +909,7 @@ input#bojangGeongang::-webkit-inner-spin-button {
       </button>
     </h1>
     <div style="text-align:right; display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
-      <div class="date" id="updateDate">2026.05.12 기준</div>
+      <div class="date" id="updateDate">2026.05.13 기준</div>
       <button id="hourlyBox" class="hourly-box" onclick="openHourlyBox()" aria-label="3시간 박스">
         <span class="hourly-box-icon">🎁</span>
         <span class="hourly-box-timer" id="hourlyBoxTimer"></span>
@@ -933,6 +923,9 @@ input#bojangGeongang::-webkit-inner-spin-button {
     <button class="tab active" data-page="hq">본사시상</button>
     <button class="tab" data-page="branch">지점시상</button>
     <button class="tab" data-page="rank">랭킹 TOP5</button>
+    <button class="tab" data-page="issue">5월 이슈</button>
+    <button class="tab" data-page="data">지점 현황</button>
+    <button class="tab" data-page="game">여정</button>
   </div>
 
   <!-- ============ 1. 지점 데이터 ============ -->
@@ -940,6 +933,7 @@ input#bojangGeongang::-webkit-inner-spin-button {
   <div class="page" id="page-data">
 
 <!-- 환산월초/보장월초 -->
+
 <div class="card">
   <div class="label">총 환산월초</div>
   <div class="big-num">
@@ -953,26 +947,30 @@ input#bojangGeongang::-webkit-inner-spin-button {
 <div class="card">
   <div class="label">보장월초</div>
   <div class="big-num">
-    <span id="covTotal">2,283</span><span class="unit">만</span>
-    <span style="float:right; font-size:20px; color:var(--accent);" id="covPct">90.2%</span>
+    <span id="covTotal">2,284</span><span class="unit">만</span>
+    <span style="float:right; font-size:20px; color:var(--accent);" id="covPct">90.3%</span>
   </div>
-  <div class="bar"><div class="bar-fill accent" id="covBar" style="width:90.2%"></div></div>
+  <div class="bar"><div class="bar-fill accent" id="covBar" style="width:90.3%"></div></div>
   <div style="text-align:right; font-size:11px; color:var(--gray); margin-top:6px;">본사 진척</div>
 </div>
 
 <!-- 활동 KPI 4개 -->
+
 <div class="section-title">활동 현황</div>
 <div class="kpi-grid" id="kpiGrid"></div>
 
 <!-- 팀별 -->
+
 <div class="section-title">팀별 현황</div>
 <div class="card" id="teamCard"></div>
 
 <!-- 등급 분포 -->
+
 <div class="section-title">등급 분포</div>
 <div class="card" id="gradeCard"></div>
 
 <!-- 무가동 -->
+
 <div class="section-title">무가동</div>
 <div class="card">
   <div class="big-warn">
@@ -983,20 +981,21 @@ input#bojangGeongang::-webkit-inner-spin-button {
 </div>
 
 <!-- 3.3.3 -->
+
 <div class="section-title">3.3.3 바른활동</div>
 <div class="card">
   <div style="display:flex; justify-content:space-around; padding: 8px 0 16px; text-align:center;">
     <div>
       <div style="font-size:11px; color:var(--gray); font-weight:600;">달성</div>
-      <div style="font-size:24px; font-weight:800; color:var(--success);" id="ach333">0명</div>
+      <div style="font-size:24px; font-weight:800; color:var(--success);" id="ach333">3명</div>
     </div>
     <div>
       <div style="font-size:11px; color:var(--gray); font-weight:600;">미달</div>
-      <div style="font-size:24px; font-weight:800; color:var(--warn);" id="missed333">45명</div>
+      <div style="font-size:24px; font-weight:800; color:var(--warn);" id="missed333">42명</div>
     </div>
     <div>
       <div style="font-size:11px; color:var(--gray); font-weight:600;">달성률</div>
-      <div style="font-size:24px; font-weight:800;" id="pct333">0.0%</div>
+      <div style="font-size:24px; font-weight:800;" id="pct333">6.7%</div>
     </div>
   </div>
   <div class="fp-grid" id="fpGrid"></div>
@@ -1009,10 +1008,12 @@ input#bojangGeongang::-webkit-inner-spin-button {
   <div class="page" id="page-income">
 
 <!-- 입력 카드 -->
+
 <div class="card card-accent">
   <div class="label label-white">상품별 환산월초 입력</div>
-  
+
   <!-- 종신 입력 -->
+
   <div style="margin-top:12px;">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
       <div style="font-size:13px; font-weight:700;">종신 환산월초</div>
@@ -1030,11 +1031,13 @@ input#bojangGeongang::-webkit-inner-spin-button {
       <button class="step-btn" data-target="envJongsin" data-action="plus" data-val="100000">+ 10만</button>
     </div>
   </div>
-  
+
   <!-- 구분선 -->
+
   <div style="height:1px; background:rgba(255,255,255,0.18); margin:16px 0;"></div>
-  
+
   <!-- 건강 입력 -->
+
   <div>
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
       <div style="font-size:13px; font-weight:700;">건강 환산월초</div>
@@ -1052,8 +1055,9 @@ input#bojangGeongang::-webkit-inner-spin-button {
       <button class="step-btn" data-target="envGeongang" data-action="plus" data-val="100000">+ 10만</button>
     </div>
   </div>
-  
+
   <!-- 합산 표시 -->
+
   <div style="margin-top:14px; padding:10px 14px; background:rgba(255,255,255,0.15); border-radius:10px; display:flex; justify-content:space-between; align-items:center;">
     <div style="font-size:11px; opacity:0.85; font-weight:600;">합산 환산월초</div>
     <div style="font-size:18px; font-weight:800; letter-spacing:-0.02em;">
@@ -1063,6 +1067,7 @@ input#bojangGeongang::-webkit-inner-spin-button {
 </div>
 
 <!-- 건강보장월초 입력 카드 (초록색, 시상 전용) -->
+
 <div class="card" style="background:linear-gradient(135deg, #0F766E 0%, #14B8A6 100%); color:white; border:none;">
   <div style="font-size:11px; opacity:0.85; font-weight:600; letter-spacing:0.05em;">건강보장월초 입력</div>
   <div style="margin-top:10px;">
@@ -1086,9 +1091,11 @@ input#bojangGeongang::-webkit-inner-spin-button {
 </div>
 
 <!-- 결과 카드 2단 그리드 (예상급여 / 시상) -->
+
 <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-  
+
   <!-- 예상 급여 (주황) -->
+
   <div class="card" style="text-align:center; padding:14px 10px; margin:0; background:linear-gradient(135deg, #C75A14 0%, #F37321 100%); color:white; border:none;">
     <div style="font-size:10px; opacity:0.85; font-weight:600; letter-spacing:0.03em;">예상 급여</div>
     <div style="font-size:11px; opacity:0.65; font-weight:500; margin-top:2px;">24개월 누적</div>
@@ -1100,8 +1107,9 @@ input#bojangGeongang::-webkit-inner-spin-button {
       지급률 <b style="color:#FCD34D;" id="totalRate">0%</b>
     </div>
   </div>
-  
+
   <!-- 건강보장월초 시상 (초록) -->
+
   <div class="card" style="text-align:center; padding:14px 10px; margin:0; background:linear-gradient(135deg, #0F766E 0%, #14B8A6 100%); color:white; border:none;">
     <div style="font-size:10px; opacity:0.85; font-weight:600; letter-spacing:0.03em;">건강보장월초 시상</div>
     <div style="font-size:11px; opacity:0.65; font-weight:500; margin-top:2px;">구간별 지급</div>
@@ -1115,10 +1123,11 @@ input#bojangGeongang::-webkit-inner-spin-button {
       <b style="color:#FCD34D;" id="awardRate">0%</b>
     </div>
   </div>
-  
+
 </div>
 
 <!-- 총 급여 합계 -->
+
 <div class="section-title">총 급여 합계</div>
 <div class="card">
   <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -1137,6 +1146,7 @@ input#bojangGeongang::-webkit-inner-spin-button {
 </div>
 
 <!-- 안내 메모 -->
+
 <div style="padding:14px; margin-top:8px; font-size:11px; color:var(--gray); line-height:1.6;">
   ※ 종신·건강 합산 환산월초 기준 추정치입니다.<br>
   ※ 모집수수료는 즉시, 고객서비스/생산성은 분할·익월·13회 시점에 지급됩니다.<br>
@@ -1150,15 +1160,19 @@ input#bojangGeongang::-webkit-inner-spin-button {
   <div class="page" id="page-rank">
 
 <!-- 개인 랭킹 TOP 5 -->
+
 <div class="section-title">개인 랭킹 · TOP 5</div>
 
 <!-- 1~3위 메달 카드 -->
+
 <div id="rankLeader" style="margin-bottom: 4px;"></div>
 
 <!-- 4~5위 -->
+
 <div class="card" id="rankOthers"></div>
 
 <!-- 팀 랭킹 -->
+
 <div class="section-title">팀 랭킹</div>
 <div class="card" id="rankTeam"></div>
 
@@ -1174,87 +1188,89 @@ input#bojangGeongang::-webkit-inner-spin-button {
 
   <div class="page" id="page-campaign">
 
-    <!-- 캠페인 히어로 -->
-    <div style="background:linear-gradient(135deg, #F37321 0%, #C75A14 100%); border-radius:18px; padding:24px 20px; margin-bottom:16px; color:white; position:relative; overflow:hidden;">
-      <div style="position:absolute; top:-30px; right:-30px; width:140px; height:140px; border-radius:50%; background:radial-gradient(circle, rgba(255,255,255,0.18) 0%, transparent 70%);"></div>
-      <div style="font-size:11px; font-weight:700; opacity:0.85; letter-spacing:0.08em; position:relative;">2026.05 · 본사 캠페인</div>
-      <div style="font-size:24px; font-weight:800; margin-top:6px; line-height:1.3; letter-spacing:-0.03em; position:relative;">
-        5월은 한화생명<br>
-        <span style="color:#FCD34D;">온가족 캠페인</span>
-      </div>
+```
+<!-- 캠페인 히어로 -->
+<div style="background:linear-gradient(135deg, #F37321 0%, #C75A14 100%); border-radius:18px; padding:24px 20px; margin-bottom:16px; color:white; position:relative; overflow:hidden;">
+  <div style="position:absolute; top:-30px; right:-30px; width:140px; height:140px; border-radius:50%; background:radial-gradient(circle, rgba(255,255,255,0.18) 0%, transparent 70%);"></div>
+  <div style="font-size:11px; font-weight:700; opacity:0.85; letter-spacing:0.08em; position:relative;">2026.05 · 본사 캠페인</div>
+  <div style="font-size:24px; font-weight:800; margin-top:6px; line-height:1.3; letter-spacing:-0.03em; position:relative;">
+    5월은 한화생명<br>
+    <span style="color:#FCD34D;">온가족 캠페인</span>
+  </div>
+</div>
+
+<!-- 하는 방법 -->
+<div class="section-title">하는 방법</div>
+<div class="card" style="padding:14px; overflow-x:auto; -webkit-overflow-scrolling:touch;">
+  <div style="display:flex; align-items:center; gap:6px; font-size:12px; font-weight:700; white-space:nowrap; width:max-content;">
+    <span style="background:var(--accent-soft); color:var(--accent-deep); padding:7px 10px; border-radius:7px; flex-shrink:0;">FP월드</span>
+    <span style="color:var(--accent); font-weight:800; flex-shrink:0;">→</span>
+    <span style="background:var(--accent-soft); color:var(--accent-deep); padding:7px 10px; border-radius:7px; flex-shrink:0;">고객관리활동</span>
+    <span style="color:var(--accent); font-weight:800; flex-shrink:0;">→</span>
+    <span style="background:var(--accent-soft); color:var(--accent-deep); padding:7px 10px; border-radius:7px; flex-shrink:0;">타겟고객</span>
+    <span style="color:var(--accent); font-weight:800; flex-shrink:0;">→</span>
+    <span style="background:var(--accent); color:white; padding:7px 10px; border-radius:7px; flex-shrink:0;">캠페인 활동 관리</span>
+  </div>
+</div>
+
+<!-- 대상 -->
+<div class="card" style="background:var(--accent-soft); border:none; padding:14px 18px; margin-top:12px;">
+  <div style="font-size:11px; color:var(--accent-deep); font-weight:700; margin-bottom:4px;">대상</div>
+  <div style="font-size:14px; font-weight:700; color:var(--ink);">해당 고객 전원</div>
+</div>
+
+<!-- 어떻게? -->
+<div class="section-title">어떻게 받나요?</div>
+<div class="card" style="padding:18px;">
+  <div style="font-size:13px; font-weight:600; color:var(--ink-soft); line-height:1.6;">
+    오렌지 터치에 <b style="color:var(--accent);">'오늘의 고객터치 & 추천콘텐츠'</b> 발송 시
+  </div>
+</div>
+
+<!-- 시상 그리드 -->
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px;">
+
+  <!-- 3명 -->
+  <div class="card" style="text-align:center; padding:18px 12px; margin:0; background:linear-gradient(135deg, #1A1A1A 0%, #2A2520 100%); color:white; border:none;">
+    <div style="font-size:11px; opacity:0.75; font-weight:600;">주간 발송</div>
+    <div style="font-size:36px; font-weight:800; line-height:1; margin-top:6px; letter-spacing:-0.04em;">
+      3<span style="font-size:14px; opacity:0.85; margin-left:2px;">명</span>
     </div>
+    <div style="height:1px; background:rgba(255,255,255,0.18); margin:14px 0;"></div>
+    <div style="font-size:11px; opacity:0.75; font-weight:600;">CU 쿠폰</div>
+    <div style="font-size:22px; font-weight:800; color:#FCD34D; margin-top:4px; letter-spacing:-0.03em;">3,000원</div>
+  </div>
 
-    <!-- 하는 방법 -->
-    <div class="section-title">하는 방법</div>
-    <div class="card" style="padding:14px; overflow-x:auto; -webkit-overflow-scrolling:touch;">
-      <div style="display:flex; align-items:center; gap:6px; font-size:12px; font-weight:700; white-space:nowrap; width:max-content;">
-        <span style="background:var(--accent-soft); color:var(--accent-deep); padding:7px 10px; border-radius:7px; flex-shrink:0;">FP월드</span>
-        <span style="color:var(--accent); font-weight:800; flex-shrink:0;">→</span>
-        <span style="background:var(--accent-soft); color:var(--accent-deep); padding:7px 10px; border-radius:7px; flex-shrink:0;">고객관리활동</span>
-        <span style="color:var(--accent); font-weight:800; flex-shrink:0;">→</span>
-        <span style="background:var(--accent-soft); color:var(--accent-deep); padding:7px 10px; border-radius:7px; flex-shrink:0;">타겟고객</span>
-        <span style="color:var(--accent); font-weight:800; flex-shrink:0;">→</span>
-        <span style="background:var(--accent); color:white; padding:7px 10px; border-radius:7px; flex-shrink:0;">캠페인 활동 관리</span>
-      </div>
+  <!-- 5명 -->
+  <div class="card" style="text-align:center; padding:18px 12px; margin:0; background:linear-gradient(135deg, #C75A14 0%, #F37321 100%); color:white; border:none;">
+    <div style="font-size:11px; opacity:0.85; font-weight:600;">주간 발송</div>
+    <div style="font-size:36px; font-weight:800; line-height:1; margin-top:6px; letter-spacing:-0.04em;">
+      5<span style="font-size:14px; opacity:0.85; margin-left:2px;">명</span>
     </div>
+    <div style="height:1px; background:rgba(255,255,255,0.22); margin:14px 0;"></div>
+    <div style="font-size:11px; opacity:0.85; font-weight:600;">CU 쿠폰</div>
+    <div style="font-size:22px; font-weight:800; color:#FCD34D; margin-top:4px; letter-spacing:-0.03em;">5,000원</div>
+  </div>
 
-    <!-- 대상 -->
-    <div class="card" style="background:var(--accent-soft); border:none; padding:14px 18px; margin-top:12px;">
-      <div style="font-size:11px; color:var(--accent-deep); font-weight:700; margin-bottom:4px;">대상</div>
-      <div style="font-size:14px; font-weight:700; color:var(--ink);">해당 고객 전원</div>
-    </div>
+</div>
 
-    <!-- 어떻게? -->
-    <div class="section-title">어떻게 받나요?</div>
-    <div class="card" style="padding:18px;">
-      <div style="font-size:13px; font-weight:600; color:var(--ink-soft); line-height:1.6;">
-        오렌지 터치에 <b style="color:var(--accent);">'오늘의 고객터치 & 추천콘텐츠'</b> 발송 시
-      </div>
-    </div>
-
-    <!-- 시상 그리드 -->
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px;">
-
-      <!-- 3명 -->
-      <div class="card" style="text-align:center; padding:18px 12px; margin:0; background:linear-gradient(135deg, #1A1A1A 0%, #2A2520 100%); color:white; border:none;">
-        <div style="font-size:11px; opacity:0.75; font-weight:600;">주간 발송</div>
-        <div style="font-size:36px; font-weight:800; line-height:1; margin-top:6px; letter-spacing:-0.04em;">
-          3<span style="font-size:14px; opacity:0.85; margin-left:2px;">명</span>
-        </div>
-        <div style="height:1px; background:rgba(255,255,255,0.18); margin:14px 0;"></div>
-        <div style="font-size:11px; opacity:0.75; font-weight:600;">CU 쿠폰</div>
-        <div style="font-size:22px; font-weight:800; color:#FCD34D; margin-top:4px; letter-spacing:-0.03em;">3,000원</div>
-      </div>
-
-      <!-- 5명 -->
-      <div class="card" style="text-align:center; padding:18px 12px; margin:0; background:linear-gradient(135deg, #C75A14 0%, #F37321 100%); color:white; border:none;">
-        <div style="font-size:11px; opacity:0.85; font-weight:600;">주간 발송</div>
-        <div style="font-size:36px; font-weight:800; line-height:1; margin-top:6px; letter-spacing:-0.04em;">
-          5<span style="font-size:14px; opacity:0.85; margin-left:2px;">명</span>
-        </div>
-        <div style="height:1px; background:rgba(255,255,255,0.22); margin:14px 0;"></div>
-        <div style="font-size:11px; opacity:0.85; font-weight:600;">CU 쿠폰</div>
-        <div style="font-size:22px; font-weight:800; color:#FCD34D; margin-top:4px; letter-spacing:-0.03em;">5,000원</div>
-      </div>
-
-    </div>
-
-    <!-- 마무리 한마디 -->
-    <div style="background:var(--ink); color:white; border-radius:14px; padding:18px 20px; margin-top:16px; text-align:center;">
-      <div style="font-size:15px; font-weight:800; line-height:1.5; letter-spacing:-0.02em;">
-        편의점 돈 내고 가지 말고<br>
-        <span style="color:#FCD34D;">캠페인 해서 꽁짜로 씁시다 ~!</span>
-      </div>
-      
-      <!-- 24시간 박스 (캠페인용) -->
-      <div style="margin-top:18px;">
-        <button id="hourlyBoxCampaign" class="hourly-box hourly-box-big" onclick="openHourlyBoxCampaign()" aria-label="24시간 박스">
-          <span class="hourly-box-icon">🎁</span>
-          <span class="hourly-box-timer" id="hourlyBoxCampaignTimer">--:--:--</span>
-        </button>
-        <div style="font-size:10px; color:rgba(255,255,255,0.55); font-weight:600; margin-top:8px;">24시간마다 OPEN 가능</div>
-      </div>
-    </div>
+<!-- 마무리 한마디 -->
+<div style="background:var(--ink); color:white; border-radius:14px; padding:18px 20px; margin-top:16px; text-align:center;">
+  <div style="font-size:15px; font-weight:800; line-height:1.5; letter-spacing:-0.02em;">
+    편의점 돈 내고 가지 말고<br>
+    <span style="color:#FCD34D;">캠페인 해서 꽁짜로 씁시다 ~!</span>
+  </div>
+  
+  <!-- 24시간 박스 (캠페인용) -->
+  <div style="margin-top:18px;">
+    <button id="hourlyBoxCampaign" class="hourly-box hourly-box-big" onclick="openHourlyBoxCampaign()" aria-label="24시간 박스">
+      <span class="hourly-box-icon">🎁</span>
+      <span class="hourly-box-timer" id="hourlyBoxCampaignTimer">--:--:--</span>
+    </button>
+    <div style="font-size:10px; color:rgba(255,255,255,0.55); font-weight:600; margin-top:8px;">24시간마다 OPEN 가능</div>
+  </div>
+</div>
+```
 
   </div>
 
@@ -1745,6 +1761,7 @@ window.addEventListener('beforeunload', save);
 <div id="branchAwardsContainer"></div>
 
 <!-- 24시간 박스 (지점시상용) -->
+
 <div style="background:linear-gradient(135deg, #F37321 0%, #C75A14 100%); border-radius:14px; padding:18px 20px; margin-top:16px; text-align:center; color:white;">
   <div style="font-size:13px; font-weight:800; margin-bottom:10px; letter-spacing:-0.02em;">
     🎁 매일 한 번, 행운의 박스 🎁
@@ -1758,7 +1775,7 @@ window.addEventListener('beforeunload', save);
 
   </div>
 
-  <div class="update-badge" id="updateBadge">마지막 업데이트: 2026.05.11 09:00</div>
+  <div class="update-badge" id="updateBadge">마지막 업데이트: 2026.05.13 07:30</div>
 </div>
 
 <!-- 하단 플로팅 새로고침 버튼 (다이나믹 아일랜드 회피) -->
@@ -1793,24 +1810,24 @@ window._infoGroups = window._infoGroups || [];
 
 const DATA = {
   meta: {
-    date: '2026.05.12',
-    updatedAt: '2026.05.12 07:30',
+    date: '2026.05.13',
+    updatedAt: '2026.05.13 07:30',
   },
 
   daily: {
     env: { value: 1852, pct: 71.1, target: '본사 진척' },
-    cov: { value: 2283, pct: 90.2, target: '본사 진척' },
+    cov: { value: 2284, pct: 90.3, target: '본사 진척' },
     activity: [
       { lbl: '가동',   val: 32, pct: 71.1, target: '/90', state: 'warn' },
       { lbl: '실가동', val: 24, pct: 53.3, target: '/80', state: 'warn' },
-      { lbl: '3.3.3',  val:  0, pct:  0.0, target: '/50', state: 'warn' },
+      { lbl: '3.3.3',  val:  3, pct:  6.7, target: '/50', state: 'warn' },
       { lbl: '무가동', val: 13, pct: 28.9, target: '',    state: 'warn' },
     ],
     teams: [
       { n: '1팀',    m: 20, env: 603, gar: 730, g: 55.0,  sg: 40.0, score24680: 85.0,  detail: { sg: 40.0, do: 20.0, pyo: 20.0, woo: 5.0 } },
       { n: '2팀',    m: 11, env: 538, gar: 560, g: 81.8,  sg: 63.6, score24680: 136.4, detail: { sg: 63.6, do: 27.3, pyo: 27.3, woo: 18.2 } },
       { n: '3팀',    m:  7, env: 245, gar: 305, g:100.0,  sg: 85.7, score24680: 100.0, detail: { sg: 85.7, do: 14.3, pyo: 0.0,  woo: 0.0 } },
-      { n: '의성팀', m:  7, env: 466, gar: 688, g: 71.4,  sg: 42.9, score24680: 128.6, detail: { sg: 42.9, do: 28.6, pyo: 28.6, woo: 28.6 } },
+      { n: '의성팀', m:  7, env: 466, gar: 689, g: 71.4,  sg: 42.9, score24680: 128.6, detail: { sg: 42.9, do: 28.6, pyo: 28.6, woo: 28.6 } },
     ],
     top5: [
       { rank: 1, n: '서경숙', team: '의성팀장', val: 250, gar: 382, next: 263, grade: '프로' },
@@ -1838,13 +1855,13 @@ const DATA = {
       ],
     },
     "333": {
-      ach: 0, missed: 45, pct: 0.0,
+      ach: 3, missed: 42, pct: 6.7,
       list: [
         { n: '강주영', y: 0 }, { n: '이정애', y: 0 }, { n: '이옥화', y: 0 }, { n: '민희정', y: 0 }, { n: '남정림', y: 0 },
-        { n: '전수진', y: 0 }, { n: '최향주', y: 0 }, { n: '이금희', y: 0 }, { n: '박시영', y: 0 }, { n: '배지혜', y: 0 },
+        { n: '전수진', y: 0 }, { n: '최향주', y: 1 }, { n: '이금희', y: 1 }, { n: '박시영', y: 0 }, { n: '배지혜', y: 0 },
         { n: '이지혜', y: 0 }, { n: '김미진', y: 0 }, { n: '손민혜', y: 0 }, { n: '윤양순', y: 0 }, { n: '이정화', y: 0 },
         { n: '권정숙', y: 0 }, { n: '임민지', y: 0 }, { n: '류지연', y: 0 }, { n: '오명신', y: 0 }, { n: '이혜정', y: 0 },
-        { n: '김은미', y: 0 }, { n: '이재교', y: 0 }, { n: '권별하', y: 0 }, { n: '이춘화', y: 0 }, { n: '김희정', y: 0 },
+        { n: '김은미', y: 1 }, { n: '이재교', y: 0 }, { n: '권별하', y: 0 }, { n: '이춘화', y: 0 }, { n: '김희정', y: 0 },
         { n: '박규민', y: 0 }, { n: '김나희', y: 0 }, { n: '이경진', y: 0 }, { n: '신미진', y: 0 }, { n: '신은정', y: 0 },
         { n: '류현숙', y: 0 },
         { n: '장창숙', y: 0 }, { n: '서점순', y: 0 }, { n: '유주이', y: 0 }, { n: '천윤성', y: 0 },
@@ -2738,6 +2755,7 @@ async function forceRefresh() {
 </script>
 
 <!-- 당첨 모달 -->
+
 <div id="prizeModal" class="prize-modal" onclick="if(event.target.id==='prizeModal') closePrize()">
   <div class="prize-content">
     <div class="prize-emoji" id="prizeEmoji">🎉</div>
