@@ -824,6 +824,38 @@ input#bojangGeongang::-webkit-inner-spin-button {
   100% { transform: scale(1); }
 }
 
+/* === 3시간 박스 === */
+.hourly-box {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 10px 5px 8px;
+  border: none; border-radius: 100px;
+  cursor: pointer;
+  font-family: inherit;
+  background: #E5E7EB;
+  transition: transform 0.15s;
+}
+.hourly-box:active { transform: scale(0.95); }
+.hourly-box.ready {
+  background: linear-gradient(135deg, #FCD34D 0%, #F37321 100%);
+  box-shadow: 0 3px 10px rgba(243, 115, 33, 0.4);
+  animation: hourlyPulse 1.5s ease-in-out infinite;
+}
+.hourly-box.cooldown { cursor: not-allowed; opacity: 0.85; }
+@keyframes hourlyPulse {
+  0%, 100% { box-shadow: 0 3px 10px rgba(243, 115, 33, 0.4); }
+  50% { box-shadow: 0 3px 16px rgba(252, 211, 77, 0.7); }
+}
+.hourly-box-icon { font-size: 16px; line-height: 1; display: inline-block; }
+.hourly-box.ready .hourly-box-icon { animation: shake 2.4s ease-in-out infinite; }
+.hourly-box-timer { font-size: 10px; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: 0; }
+.hourly-box.ready .hourly-box-timer { color: #1A1A1A; }
+.hourly-box.cooldown .hourly-box-timer { color: #6B7280; }
+
+/* 큰 사이즈 (캠페인/지점시상 안에 박힐 때) */
+.hourly-box-big { padding: 12px 20px 12px 16px; gap: 10px; }
+.hourly-box-big .hourly-box-icon { font-size: 28px; }
+.hourly-box-big .hourly-box-timer { font-size: 14px; }
+
 </style>
 
 </head>
@@ -841,11 +873,9 @@ input#bojangGeongang::-webkit-inner-spin-button {
 </div>
 
 <!-- 사이드 패널 오버레이 -->
-
 <div id="sideOverlay" class="side-overlay"></div>
 
 <!-- 사이드 패널 -->
-
 <aside id="sidePanel" class="side-panel">
   <div class="side-header">
     <div class="side-title">메뉴</div>
@@ -888,8 +918,12 @@ input#bojangGeongang::-webkit-inner-spin-button {
         🔥 5월 캠페인
       </button>
     </h1>
-    <div style="text-align:right;">
+    <div style="text-align:right; display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
       <div class="date" id="updateDate">2026.05.12 기준</div>
+      <button id="hourlyBox" class="hourly-box" onclick="openHourlyBox()" aria-label="3시간 박스">
+        <span class="hourly-box-icon">🎁</span>
+        <span class="hourly-box-timer" id="hourlyBoxTimer"></span>
+      </button>
     </div>
   </div>
 
@@ -906,7 +940,6 @@ input#bojangGeongang::-webkit-inner-spin-button {
   <div class="page" id="page-data">
 
 <!-- 환산월초/보장월초 -->
-
 <div class="card">
   <div class="label">총 환산월초</div>
   <div class="big-num">
@@ -928,22 +961,18 @@ input#bojangGeongang::-webkit-inner-spin-button {
 </div>
 
 <!-- 활동 KPI 4개 -->
-
 <div class="section-title">활동 현황</div>
 <div class="kpi-grid" id="kpiGrid"></div>
 
 <!-- 팀별 -->
-
 <div class="section-title">팀별 현황</div>
 <div class="card" id="teamCard"></div>
 
 <!-- 등급 분포 -->
-
 <div class="section-title">등급 분포</div>
 <div class="card" id="gradeCard"></div>
 
 <!-- 무가동 -->
-
 <div class="section-title">무가동</div>
 <div class="card">
   <div class="big-warn">
@@ -954,7 +983,6 @@ input#bojangGeongang::-webkit-inner-spin-button {
 </div>
 
 <!-- 3.3.3 -->
-
 <div class="section-title">3.3.3 바른활동</div>
 <div class="card">
   <div style="display:flex; justify-content:space-around; padding: 8px 0 16px; text-align:center;">
@@ -981,12 +1009,10 @@ input#bojangGeongang::-webkit-inner-spin-button {
   <div class="page" id="page-income">
 
 <!-- 입력 카드 -->
-
 <div class="card card-accent">
   <div class="label label-white">상품별 환산월초 입력</div>
-
+  
   <!-- 종신 입력 -->
-
   <div style="margin-top:12px;">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
       <div style="font-size:13px; font-weight:700;">종신 환산월초</div>
@@ -1004,13 +1030,11 @@ input#bojangGeongang::-webkit-inner-spin-button {
       <button class="step-btn" data-target="envJongsin" data-action="plus" data-val="100000">+ 10만</button>
     </div>
   </div>
-
+  
   <!-- 구분선 -->
-
   <div style="height:1px; background:rgba(255,255,255,0.18); margin:16px 0;"></div>
-
+  
   <!-- 건강 입력 -->
-
   <div>
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
       <div style="font-size:13px; font-weight:700;">건강 환산월초</div>
@@ -1028,9 +1052,8 @@ input#bojangGeongang::-webkit-inner-spin-button {
       <button class="step-btn" data-target="envGeongang" data-action="plus" data-val="100000">+ 10만</button>
     </div>
   </div>
-
+  
   <!-- 합산 표시 -->
-
   <div style="margin-top:14px; padding:10px 14px; background:rgba(255,255,255,0.15); border-radius:10px; display:flex; justify-content:space-between; align-items:center;">
     <div style="font-size:11px; opacity:0.85; font-weight:600;">합산 환산월초</div>
     <div style="font-size:18px; font-weight:800; letter-spacing:-0.02em;">
@@ -1040,7 +1063,6 @@ input#bojangGeongang::-webkit-inner-spin-button {
 </div>
 
 <!-- 건강보장월초 입력 카드 (초록색, 시상 전용) -->
-
 <div class="card" style="background:linear-gradient(135deg, #0F766E 0%, #14B8A6 100%); color:white; border:none;">
   <div style="font-size:11px; opacity:0.85; font-weight:600; letter-spacing:0.05em;">건강보장월초 입력</div>
   <div style="margin-top:10px;">
@@ -1064,11 +1086,9 @@ input#bojangGeongang::-webkit-inner-spin-button {
 </div>
 
 <!-- 결과 카드 2단 그리드 (예상급여 / 시상) -->
-
 <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-
+  
   <!-- 예상 급여 (주황) -->
-
   <div class="card" style="text-align:center; padding:14px 10px; margin:0; background:linear-gradient(135deg, #C75A14 0%, #F37321 100%); color:white; border:none;">
     <div style="font-size:10px; opacity:0.85; font-weight:600; letter-spacing:0.03em;">예상 급여</div>
     <div style="font-size:11px; opacity:0.65; font-weight:500; margin-top:2px;">24개월 누적</div>
@@ -1080,9 +1100,8 @@ input#bojangGeongang::-webkit-inner-spin-button {
       지급률 <b style="color:#FCD34D;" id="totalRate">0%</b>
     </div>
   </div>
-
+  
   <!-- 건강보장월초 시상 (초록) -->
-
   <div class="card" style="text-align:center; padding:14px 10px; margin:0; background:linear-gradient(135deg, #0F766E 0%, #14B8A6 100%); color:white; border:none;">
     <div style="font-size:10px; opacity:0.85; font-weight:600; letter-spacing:0.03em;">건강보장월초 시상</div>
     <div style="font-size:11px; opacity:0.65; font-weight:500; margin-top:2px;">구간별 지급</div>
@@ -1096,11 +1115,10 @@ input#bojangGeongang::-webkit-inner-spin-button {
       <b style="color:#FCD34D;" id="awardRate">0%</b>
     </div>
   </div>
-
+  
 </div>
 
 <!-- 총 급여 합계 -->
-
 <div class="section-title">총 급여 합계</div>
 <div class="card">
   <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -1119,7 +1137,6 @@ input#bojangGeongang::-webkit-inner-spin-button {
 </div>
 
 <!-- 안내 메모 -->
-
 <div style="padding:14px; margin-top:8px; font-size:11px; color:var(--gray); line-height:1.6;">
   ※ 종신·건강 합산 환산월초 기준 추정치입니다.<br>
   ※ 모집수수료는 즉시, 고객서비스/생산성은 분할·익월·13회 시점에 지급됩니다.<br>
@@ -1133,29 +1150,17 @@ input#bojangGeongang::-webkit-inner-spin-button {
   <div class="page" id="page-rank">
 
 <!-- 개인 랭킹 TOP 5 -->
-
 <div class="section-title">개인 랭킹 · TOP 5</div>
 
 <!-- 1~3위 메달 카드 -->
-
 <div id="rankLeader" style="margin-bottom: 4px;"></div>
 
 <!-- 4~5위 -->
-
 <div class="card" id="rankOthers"></div>
 
 <!-- 팀 랭킹 -->
-
 <div class="section-title">팀 랭킹</div>
 <div class="card" id="rankTeam"></div>
-
-<!-- 보물상자 (노란색) -->
-
-<div style="text-align:center;">
-  <button class="treasure-box yellow" onclick="openPrize('롤팩 1개')" aria-label="보물상자">
-    <span class="treasure-icon">🎁</span>
-  </button>
-</div>
 
   </div>
 
@@ -1169,85 +1174,87 @@ input#bojangGeongang::-webkit-inner-spin-button {
 
   <div class="page" id="page-campaign">
 
-```
-<!-- 캠페인 히어로 -->
-<div style="background:linear-gradient(135deg, #F37321 0%, #C75A14 100%); border-radius:18px; padding:24px 20px; margin-bottom:16px; color:white; position:relative; overflow:hidden;">
-  <div style="position:absolute; top:-30px; right:-30px; width:140px; height:140px; border-radius:50%; background:radial-gradient(circle, rgba(255,255,255,0.18) 0%, transparent 70%);"></div>
-  <div style="font-size:11px; font-weight:700; opacity:0.85; letter-spacing:0.08em; position:relative;">2026.05 · 본사 캠페인</div>
-  <div style="font-size:24px; font-weight:800; margin-top:6px; line-height:1.3; letter-spacing:-0.03em; position:relative;">
-    5월은 한화생명<br>
-    <span style="color:#FCD34D;">온가족 캠페인</span>
-  </div>
-</div>
-
-<!-- 하는 방법 -->
-<div class="section-title">하는 방법</div>
-<div class="card" style="padding:14px; overflow-x:auto; -webkit-overflow-scrolling:touch;">
-  <div style="display:flex; align-items:center; gap:6px; font-size:12px; font-weight:700; white-space:nowrap; width:max-content;">
-    <span style="background:var(--accent-soft); color:var(--accent-deep); padding:7px 10px; border-radius:7px; flex-shrink:0;">FP월드</span>
-    <span style="color:var(--accent); font-weight:800; flex-shrink:0;">→</span>
-    <span style="background:var(--accent-soft); color:var(--accent-deep); padding:7px 10px; border-radius:7px; flex-shrink:0;">고객관리활동</span>
-    <span style="color:var(--accent); font-weight:800; flex-shrink:0;">→</span>
-    <span style="background:var(--accent-soft); color:var(--accent-deep); padding:7px 10px; border-radius:7px; flex-shrink:0;">타겟고객</span>
-    <span style="color:var(--accent); font-weight:800; flex-shrink:0;">→</span>
-    <span style="background:var(--accent); color:white; padding:7px 10px; border-radius:7px; flex-shrink:0;">캠페인 활동 관리</span>
-  </div>
-</div>
-
-<!-- 대상 -->
-<div class="card" style="background:var(--accent-soft); border:none; padding:14px 18px; margin-top:12px;">
-  <div style="font-size:11px; color:var(--accent-deep); font-weight:700; margin-bottom:4px;">대상</div>
-  <div style="font-size:14px; font-weight:700; color:var(--ink);">해당 고객 전원</div>
-</div>
-
-<!-- 어떻게? -->
-<div class="section-title">어떻게 받나요?</div>
-<div class="card" style="padding:18px;">
-  <div style="font-size:13px; font-weight:600; color:var(--ink-soft); line-height:1.6;">
-    오렌지 터치에 <b style="color:var(--accent);">'오늘의 고객터치 & 추천콘텐츠'</b> 발송 시
-  </div>
-</div>
-
-<!-- 시상 그리드 -->
-<div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px;">
-
-  <!-- 3명 -->
-  <div class="card" style="text-align:center; padding:18px 12px; margin:0; background:linear-gradient(135deg, #1A1A1A 0%, #2A2520 100%); color:white; border:none;">
-    <div style="font-size:11px; opacity:0.75; font-weight:600;">주간 발송</div>
-    <div style="font-size:36px; font-weight:800; line-height:1; margin-top:6px; letter-spacing:-0.04em;">
-      3<span style="font-size:14px; opacity:0.85; margin-left:2px;">명</span>
+    <!-- 캠페인 히어로 -->
+    <div style="background:linear-gradient(135deg, #F37321 0%, #C75A14 100%); border-radius:18px; padding:24px 20px; margin-bottom:16px; color:white; position:relative; overflow:hidden;">
+      <div style="position:absolute; top:-30px; right:-30px; width:140px; height:140px; border-radius:50%; background:radial-gradient(circle, rgba(255,255,255,0.18) 0%, transparent 70%);"></div>
+      <div style="font-size:11px; font-weight:700; opacity:0.85; letter-spacing:0.08em; position:relative;">2026.05 · 본사 캠페인</div>
+      <div style="font-size:24px; font-weight:800; margin-top:6px; line-height:1.3; letter-spacing:-0.03em; position:relative;">
+        5월은 한화생명<br>
+        <span style="color:#FCD34D;">온가족 캠페인</span>
+      </div>
     </div>
-    <div style="height:1px; background:rgba(255,255,255,0.18); margin:14px 0;"></div>
-    <div style="font-size:11px; opacity:0.75; font-weight:600;">CU 쿠폰</div>
-    <div style="font-size:22px; font-weight:800; color:#FCD34D; margin-top:4px; letter-spacing:-0.03em;">3,000원</div>
-  </div>
 
-  <!-- 5명 -->
-  <div class="card" style="text-align:center; padding:18px 12px; margin:0; background:linear-gradient(135deg, #C75A14 0%, #F37321 100%); color:white; border:none;">
-    <div style="font-size:11px; opacity:0.85; font-weight:600;">주간 발송</div>
-    <div style="font-size:36px; font-weight:800; line-height:1; margin-top:6px; letter-spacing:-0.04em;">
-      5<span style="font-size:14px; opacity:0.85; margin-left:2px;">명</span>
+    <!-- 하는 방법 -->
+    <div class="section-title">하는 방법</div>
+    <div class="card" style="padding:14px; overflow-x:auto; -webkit-overflow-scrolling:touch;">
+      <div style="display:flex; align-items:center; gap:6px; font-size:12px; font-weight:700; white-space:nowrap; width:max-content;">
+        <span style="background:var(--accent-soft); color:var(--accent-deep); padding:7px 10px; border-radius:7px; flex-shrink:0;">FP월드</span>
+        <span style="color:var(--accent); font-weight:800; flex-shrink:0;">→</span>
+        <span style="background:var(--accent-soft); color:var(--accent-deep); padding:7px 10px; border-radius:7px; flex-shrink:0;">고객관리활동</span>
+        <span style="color:var(--accent); font-weight:800; flex-shrink:0;">→</span>
+        <span style="background:var(--accent-soft); color:var(--accent-deep); padding:7px 10px; border-radius:7px; flex-shrink:0;">타겟고객</span>
+        <span style="color:var(--accent); font-weight:800; flex-shrink:0;">→</span>
+        <span style="background:var(--accent); color:white; padding:7px 10px; border-radius:7px; flex-shrink:0;">캠페인 활동 관리</span>
+      </div>
     </div>
-    <div style="height:1px; background:rgba(255,255,255,0.22); margin:14px 0;"></div>
-    <div style="font-size:11px; opacity:0.85; font-weight:600;">CU 쿠폰</div>
-    <div style="font-size:22px; font-weight:800; color:#FCD34D; margin-top:4px; letter-spacing:-0.03em;">5,000원</div>
-  </div>
 
-</div>
+    <!-- 대상 -->
+    <div class="card" style="background:var(--accent-soft); border:none; padding:14px 18px; margin-top:12px;">
+      <div style="font-size:11px; color:var(--accent-deep); font-weight:700; margin-bottom:4px;">대상</div>
+      <div style="font-size:14px; font-weight:700; color:var(--ink);">해당 고객 전원</div>
+    </div>
 
-<!-- 마무리 한마디 -->
-<div style="background:var(--ink); color:white; border-radius:14px; padding:18px 20px; margin-top:16px; text-align:center;">
-  <div style="font-size:15px; font-weight:800; line-height:1.5; letter-spacing:-0.02em;">
-    편의점 돈 내고 가지 말고<br>
-    <span style="color:#FCD34D;">캠페인 해서 꽁짜로 씁시다 ~!</span>
-  </div>
-  
-  <!-- 보물상자 (회색) -->
-  <button class="treasure-box gray" onclick="openPrize('롤팩 1개')" aria-label="보물상자" style="margin-top:16px;">
-    <span class="treasure-icon">🎁</span>
-  </button>
-</div>
-```
+    <!-- 어떻게? -->
+    <div class="section-title">어떻게 받나요?</div>
+    <div class="card" style="padding:18px;">
+      <div style="font-size:13px; font-weight:600; color:var(--ink-soft); line-height:1.6;">
+        오렌지 터치에 <b style="color:var(--accent);">'오늘의 고객터치 & 추천콘텐츠'</b> 발송 시
+      </div>
+    </div>
+
+    <!-- 시상 그리드 -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px;">
+
+      <!-- 3명 -->
+      <div class="card" style="text-align:center; padding:18px 12px; margin:0; background:linear-gradient(135deg, #1A1A1A 0%, #2A2520 100%); color:white; border:none;">
+        <div style="font-size:11px; opacity:0.75; font-weight:600;">주간 발송</div>
+        <div style="font-size:36px; font-weight:800; line-height:1; margin-top:6px; letter-spacing:-0.04em;">
+          3<span style="font-size:14px; opacity:0.85; margin-left:2px;">명</span>
+        </div>
+        <div style="height:1px; background:rgba(255,255,255,0.18); margin:14px 0;"></div>
+        <div style="font-size:11px; opacity:0.75; font-weight:600;">CU 쿠폰</div>
+        <div style="font-size:22px; font-weight:800; color:#FCD34D; margin-top:4px; letter-spacing:-0.03em;">3,000원</div>
+      </div>
+
+      <!-- 5명 -->
+      <div class="card" style="text-align:center; padding:18px 12px; margin:0; background:linear-gradient(135deg, #C75A14 0%, #F37321 100%); color:white; border:none;">
+        <div style="font-size:11px; opacity:0.85; font-weight:600;">주간 발송</div>
+        <div style="font-size:36px; font-weight:800; line-height:1; margin-top:6px; letter-spacing:-0.04em;">
+          5<span style="font-size:14px; opacity:0.85; margin-left:2px;">명</span>
+        </div>
+        <div style="height:1px; background:rgba(255,255,255,0.22); margin:14px 0;"></div>
+        <div style="font-size:11px; opacity:0.85; font-weight:600;">CU 쿠폰</div>
+        <div style="font-size:22px; font-weight:800; color:#FCD34D; margin-top:4px; letter-spacing:-0.03em;">5,000원</div>
+      </div>
+
+    </div>
+
+    <!-- 마무리 한마디 -->
+    <div style="background:var(--ink); color:white; border-radius:14px; padding:18px 20px; margin-top:16px; text-align:center;">
+      <div style="font-size:15px; font-weight:800; line-height:1.5; letter-spacing:-0.02em;">
+        편의점 돈 내고 가지 말고<br>
+        <span style="color:#FCD34D;">캠페인 해서 꽁짜로 씁시다 ~!</span>
+      </div>
+      
+      <!-- 24시간 박스 (캠페인용) -->
+      <div style="margin-top:18px;">
+        <button id="hourlyBoxCampaign" class="hourly-box hourly-box-big" onclick="openHourlyBoxCampaign()" aria-label="24시간 박스">
+          <span class="hourly-box-icon">🎁</span>
+          <span class="hourly-box-timer" id="hourlyBoxCampaignTimer">--:--:--</span>
+        </button>
+        <div style="font-size:10px; color:rgba(255,255,255,0.55); font-weight:600; margin-top:8px;">24시간마다 OPEN 가능</div>
+      </div>
+    </div>
 
   </div>
 
@@ -1736,6 +1743,18 @@ window.addEventListener('beforeunload', save);
 <!-- 히어로 카드 제거됨 -->
 
 <div id="branchAwardsContainer"></div>
+
+<!-- 24시간 박스 (지점시상용) -->
+<div style="background:linear-gradient(135deg, #F37321 0%, #C75A14 100%); border-radius:14px; padding:18px 20px; margin-top:16px; text-align:center; color:white;">
+  <div style="font-size:13px; font-weight:800; margin-bottom:10px; letter-spacing:-0.02em;">
+    🎁 매일 한 번, 행운의 박스 🎁
+  </div>
+  <button id="hourlyBoxBranch" class="hourly-box hourly-box-big" onclick="openHourlyBoxBranch()" aria-label="24시간 박스">
+    <span class="hourly-box-icon">🎁</span>
+    <span class="hourly-box-timer" id="hourlyBoxBranchTimer">--:--:--</span>
+  </button>
+  <div style="font-size:10px; color:rgba(255,255,255,0.7); font-weight:600; margin-top:8px;">24시간마다 OPEN 가능</div>
+</div>
 
   </div>
 
@@ -2474,6 +2493,134 @@ document.getElementById('branchAwardsContainer').innerHTML = DATA.awards.branch.
   </div>
 `).join('');
 
+// ============ 24시간 박스 (다중 인스턴스) ============
+const HOURLY_BOX_COOLDOWN = 24 * 60 * 60 * 1000; // 24시간 (ms)
+const HOURLY_BOX_VERSION_KEY = 'hahoeHourlyBoxVersion';
+const HOURLY_BOX_VERSION = 'v25-multi-reset';
+
+// 등록된 박스 인스턴스 (각자 다른 storageKey + DOM id 사용)
+const HOURLY_BOXES = [
+  { key: 'hahoeBox_header',   btnId: 'hourlyBox',          timerId: 'hourlyBoxTimer' },
+  { key: 'hahoeBox_campaign', btnId: 'hourlyBoxCampaign',  timerId: 'hourlyBoxCampaignTimer' },
+  { key: 'hahoeBox_branch',   btnId: 'hourlyBoxBranch',    timerId: 'hourlyBoxBranchTimer' },
+];
+
+// 버전이 다르면 모든 박스 쿨다운 초기화 (새 룰로 진입 시 1회)
+(function() {
+  const v = localStorage.getItem(HOURLY_BOX_VERSION_KEY);
+  if (v !== HOURLY_BOX_VERSION) {
+    HOURLY_BOXES.forEach(b => localStorage.removeItem(b.key));
+    // 구버전 키 정리
+    localStorage.removeItem('hahoeHourlyBoxLast');
+    localStorage.setItem(HOURLY_BOX_VERSION_KEY, HOURLY_BOX_VERSION);
+  }
+})();
+
+function getBoxState(key) {
+  const lastStr = localStorage.getItem(key);
+  const last = lastStr ? parseInt(lastStr) : 0;
+  const now = Date.now();
+  const elapsed = now - last;
+  if (elapsed >= HOURLY_BOX_COOLDOWN) return { ready: true, remaining: 0 };
+  return { ready: false, remaining: HOURLY_BOX_COOLDOWN - elapsed };
+}
+
+function formatHourlyTime(ms) {
+  const total = Math.ceil(ms / 1000);
+  const h = Math.floor(total / 3600);
+  const m = Math.floor((total % 3600) / 60);
+  const s = total % 60;
+  return String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+}
+
+function getNowStamp() {
+  const d = new Date();
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  const hh = String(d.getHours()).padStart(2, '0');
+  const mi = String(d.getMinutes()).padStart(2, '0');
+  const ss = String(d.getSeconds()).padStart(2, '0');
+  return `${yyyy}.${mm}.${dd} ${hh}:${mi}:${ss}`;
+}
+
+function renderAllBoxes() {
+  HOURLY_BOXES.forEach(b => {
+    const btn = document.getElementById(b.btnId);
+    const timer = document.getElementById(b.timerId);
+    if (!btn || !timer) return;
+    const st = getBoxState(b.key);
+    if (st.ready) {
+      btn.classList.add('ready');
+      btn.classList.remove('cooldown');
+      btn.disabled = false;
+      timer.textContent = 'OPEN';
+    } else {
+      btn.classList.remove('ready');
+      btn.classList.add('cooldown');
+      btn.disabled = true;
+      timer.textContent = formatHourlyTime(st.remaining);
+    }
+  });
+}
+
+function openBoxBy(key) {
+  const st = getBoxState(key);
+  if (!st.ready) return;
+  
+  // 쿨다운 시작
+  localStorage.setItem(key, String(Date.now()));
+  renderAllBoxes();
+  
+  // 확률 추첨: 50% 롤팩1개 / 30% 몽글행주1개 / 10% 택배박스1개 / 10% 꽝
+  const roll = Math.random();
+  const stamp = getNowStamp();
+  const stampNote = `<div style="font-size:10px; color:#9CA3AF; font-weight:700; margin-top:10px; font-variant-numeric:tabular-nums;">${stamp}</div>`;
+  
+  if (roll < 0.50) {
+    openPrize('롤팩 1개', {
+      emoji: '🎉',
+      title: '🎉 당첨! 🎉',
+      suffix: '당첨!',
+      color: 'var(--accent)',
+      note: '심지점장에게<br>직접 받으러 오세요 ~' + stampNote,
+    });
+  } else if (roll < 0.80) {
+    openPrize('몽글행주 1개', {
+      emoji: '🧽',
+      title: '🎉 당첨! 🎉',
+      suffix: '당첨!',
+      color: 'var(--accent)',
+      note: '심지점장에게<br>직접 받으러 오세요 ~' + stampNote,
+    });
+  } else if (roll < 0.90) {
+    openPrize('택배박스 1개', {
+      emoji: '📦',
+      title: '🎉 당첨! 🎉',
+      suffix: '당첨!',
+      color: 'var(--accent)',
+      note: '심지점장에게<br>직접 받으러 오세요 ~' + stampNote,
+    });
+  } else {
+    openPrize('꽝', {
+      emoji: '😅',
+      title: '아쉽네요',
+      suffix: '',
+      color: '#9CA3AF',
+      note: '24시간 뒤<br>다시 도전하세요!',
+    });
+  }
+}
+
+// 호환용: 헤더 버튼이 onclick="openHourlyBox()"로 부르고 있으니 별칭 제공
+function openHourlyBox() { openBoxBy('hahoeBox_header'); }
+function openHourlyBoxCampaign() { openBoxBy('hahoeBox_campaign'); }
+function openHourlyBoxBranch() { openBoxBy('hahoeBox_branch'); }
+
+// 1초마다 모든 박스 카운트다운 갱신
+setInterval(renderAllBoxes, 1000);
+renderAllBoxes();
+
 // ============ 페이지 전환 (탭 + 사이드메뉴 공용) ============
 function switchPage(page) {
   // 탭 active 처리 (해당 탭이 있을 때만)
@@ -2599,13 +2746,12 @@ async function forceRefresh() {
 </script>
 
 <!-- 당첨 모달 -->
-
 <div id="prizeModal" class="prize-modal" onclick="if(event.target.id==='prizeModal') closePrize()">
   <div class="prize-content">
-    <div class="prize-emoji">🎉</div>
-    <div class="prize-title">축하합니다!</div>
-    <div class="prize-text"><span class="highlight" id="prizeItem">롤팩 1개</span><br>당첨!</div>
-    <div style="font-size:13px; font-weight:700; color:var(--ink-soft); margin-top:14px; line-height:1.5;">
+    <div class="prize-emoji" id="prizeEmoji">🎉</div>
+    <div class="prize-title" id="prizeTitle">축하합니다!</div>
+    <div class="prize-text"><span class="highlight" id="prizeItem">롤팩 1개</span><br><span id="prizeSuffix">당첨!</span></div>
+    <div id="prizeNote" style="font-size:13px; font-weight:700; color:var(--ink-soft); margin-top:14px; line-height:1.5;">
       심지점장에게<br>직접 받으러 오세요 ~
     </div>
     <button class="prize-close" onclick="closePrize()">확인</button>
@@ -2613,14 +2759,24 @@ async function forceRefresh() {
 </div>
 
 <script>
-function openPrize(item) {
+function openPrize(item, opts) {
+  opts = opts || {};
+  document.getElementById('prizeEmoji').textContent = opts.emoji || '🎉';
+  document.getElementById('prizeTitle').textContent = opts.title || '축하합니다!';
   document.getElementById('prizeItem').textContent = item;
+  document.getElementById('prizeSuffix').textContent = opts.suffix || '당첨!';
+  document.getElementById('prizeNote').innerHTML = opts.note || '심지점장에게<br>직접 받으러 오세요 ~';
+  // 색상도 옵션화
+  const itemEl = document.getElementById('prizeItem');
+  itemEl.style.color = opts.color || '';
   document.getElementById('prizeModal').classList.add('active');
   document.body.style.overflow = 'hidden';
 }
 function closePrize() {
   document.getElementById('prizeModal').classList.remove('active');
   document.body.style.overflow = '';
+  // 닫을 때 원래 상태로 복귀 (다음 호출에서 일반 당첨 형식 기본값 쓰게)
+  document.getElementById('prizeItem').style.color = '';
 }
 </script>
 
