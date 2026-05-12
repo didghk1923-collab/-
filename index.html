@@ -2496,7 +2496,7 @@ document.getElementById('branchAwardsContainer').innerHTML = DATA.awards.branch.
 // ============ 24시간 박스 (다중 인스턴스) ============
 const HOURLY_BOX_COOLDOWN = 24 * 60 * 60 * 1000; // 24시간 (ms)
 const HOURLY_BOX_VERSION_KEY = 'hahoeHourlyBoxVersion';
-const HOURLY_BOX_VERSION = 'v25-multi-reset';
+const HOURLY_BOX_VERSION = 'v29-reset';
 
 // 등록된 박스 인스턴스 (각자 다른 storageKey + DOM id 사용)
 const HOURLY_BOXES = [
@@ -2572,12 +2572,12 @@ function openBoxBy(key) {
   localStorage.setItem(key, String(Date.now()));
   renderAllBoxes();
   
-  // 확률 추첨: 50% 롤팩1개 / 30% 몽글행주1개 / 10% 택배박스1개 / 10% 꽝
+  // 확률 추첨: 40% 롤팩1개 / 20% 몽글행주1개 / 40% 꽝
   const roll = Math.random();
   const stamp = getNowStamp();
   const stampNote = `<div style="font-size:10px; color:#9CA3AF; font-weight:700; margin-top:10px; font-variant-numeric:tabular-nums;">${stamp}</div>`;
   
-  if (roll < 0.50) {
+  if (roll < 0.40) {
     openPrize('롤팩 1개', {
       emoji: '🎉',
       title: '🎉 당첨! 🎉',
@@ -2585,17 +2585,9 @@ function openBoxBy(key) {
       color: 'var(--accent)',
       note: '심지점장에게<br>직접 받으러 오세요 ~' + stampNote,
     });
-  } else if (roll < 0.80) {
+  } else if (roll < 0.60) {
     openPrize('몽글행주 1개', {
       emoji: '🧽',
-      title: '🎉 당첨! 🎉',
-      suffix: '당첨!',
-      color: 'var(--accent)',
-      note: '심지점장에게<br>직접 받으러 오세요 ~' + stampNote,
-    });
-  } else if (roll < 0.90) {
-    openPrize('택배박스 1개', {
-      emoji: '📦',
       title: '🎉 당첨! 🎉',
       suffix: '당첨!',
       color: 'var(--accent)',
