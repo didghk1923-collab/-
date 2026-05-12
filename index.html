@@ -595,6 +595,25 @@ body::before {
   cursor: pointer; font-weight: 700;
   display: flex; align-items: center; justify-content: center;
 }
+.info-nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  background: rgba(255,255,255,0.9); color: var(--ink);
+  border: none; width: 44px; height: 44px;
+  border-radius: 50%; font-size: 28px; font-weight: 700;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  line-height: 1; padding-bottom: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+.info-nav:active { background: white; transform: translateY(-50%) scale(0.95); }
+.info-nav-prev { left: 8px; }
+.info-nav-next { right: 8px; }
+.info-indicator {
+  position: absolute; bottom: -32px; left: 50%; transform: translateX(-50%);
+  background: rgba(255,255,255,0.9); color: var(--ink);
+  padding: 4px 12px; border-radius: 100px;
+  font-size: 12px; font-weight: 700;
+}
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 .quick-btn {
@@ -714,7 +733,7 @@ input#bojangGeongang::-webkit-inner-spin-button {
          display:flex; flex-direction:column; align-items:center; justify-content:center;
          cursor:pointer; padding: 20px; transition: opacity 0.4s;">
   <!-- ▼ 여기에 GitHub 이미지 URL 붙여넣기 ▼ -->
-  <img src="" style="width:100%; max-width:600px; height:auto; border-radius:12px;">
+  <img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/C0842F7D-32F3-46FD-9499-9BE1D36B2ECD.jpeg" style="width:100%; max-width:600px; height:auto; border-radius:12px;">
   <!-- ▲ 예: src="https://raw.githubusercontent.com/USER/REPO/main/images/intro.png" ▲ -->
   <div style="margin-top:28px; padding:12px 28px; background:#1a1a1a; color:white; border-radius:100px; font-size:13px; font-weight:700;">
     탭하여 시작 →
@@ -1087,6 +1106,9 @@ gap: 6px;
 <!-- ============ 데이터 ============ -->
 
 <script>
+// 인포그래픽 그룹 저장소 (렌더링 시 채워짐, 모달이 인덱스로 참조)
+window._infoGroups = window._infoGroups || [];
+
 const DATA = {
   meta: {
     date: '2026.05.12',
@@ -1208,6 +1230,7 @@ const DATA = {
       example: { from: '비급여 암주요치료비 8,000만', to: '약 3,000만 수준' },
       body: '비급여 치료비의 경우 실제 치료비 이상의 치료비용을 보험금으로 받을 수 있기 때문에, 금융감독원이 실제 치료비 수준으로 비급여 보장자산을 낮출 예정.\n\n암 · 뇌 · 심 치료비에 특히 감소폭이 클 것으로 예상.',
       when: '6~7월 시행', level: 'urgent',
+      infographic: 'https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/B58C1092-D694-4F2E-9ADA-72BF71B9E4FB.png',
     },
     {
       no: '02', tag: '하나로H 종신', title: '연금액 축소 이슈',
@@ -1237,7 +1260,10 @@ const DATA = {
       {
         title: '하나로H 종신보험',
         sub: '5월 월간',
-        infographic: '',
+        infographic: [
+          'https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/44CAAD9E-5153-47BC-96DF-786BEBFCB856.png',
+          'https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/6B54D219-BDF2-4CAB-8E4A-08C9447BD863.png',
+        ],
         tiers: [
           { lbl: '합산 30만원 이상', m: '월초 300%', l: '13회 400%' },
           { lbl: '합산 30만원 미만', m: '월초 300%', l: '13회 200%' },
@@ -1246,7 +1272,10 @@ const DATA = {
       {
         title: '영사모 든든건강플러스',
         sub: '5월 2주 (11~17일)',
-        infographic: 'https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/18BEFC18-6FDD-4EB4-A9A2-D5345BD5F415.png',
+        infographic: [
+          'https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/785D5C72-7D03-4075-8F4A-7A13E6D3077A.png',
+          'https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/AD33BCE8-E96B-466B-A4AC-5623EAB60AD0.png',
+        ],
         tiers: [
           { lbl: '기본', m: '월초 200%', l: '13회 200%' },
         ],
@@ -1259,7 +1288,11 @@ const DATA = {
       {
         title: '건강보장시상',
         sub: '5월 월간',
-        infographic: '',
+        infographic: [
+          'https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/18BEFC18-6FDD-4EB4-A9A2-D5345BD5F415.png',
+          'https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/430BFE0E-D352-42B5-9C5C-3BB57D7C4BD0.png',
+          'https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/8B16EBCB-4764-4F8B-8BC5-CA9C6335A136.png',
+        ],
         chart: true,
         targets: ['시그니처H 통합건강', '시그니처H 암보험', 'H 간병보험', 'Need 암보험', '튼튼이 치아보험'],
         base: '익월 월초 × 150%',
@@ -1288,13 +1321,19 @@ const DATA = {
         sub: '5월 2주 (11~17일) + 5월 3주 (18~24일)',
         target: '각 주 가동 달성 FP',
         items: [
-          { text: '5월 2주 가동 → 신라면 1박스 + 짜파게티 1박스 (40봉)', images: ['', ''] },
-          { text: '5월 3주 가동 → 신라면 1박스 + 짜파게티 1박스 (40봉)', images: ['', ''] },
+          { text: '5월 2주 가동 → 신라면 1박스 + 짜파게티 1박스 (40봉)', images: [
+            'https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/IMG_3134.jpeg',
+            'https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/IMG_3133.jpeg',
+          ] },
+          { text: '5월 3주 가동 → 신라면 1박스 + 짜파게티 1박스 (40봉)', images: [
+            'https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/IMG_3134.jpeg',
+            'https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/IMG_3133.jpeg',
+          ] },
         ],
         itemTotal: '총 4박스 (80봉) · 80끼 양식 제공',
         bonuses: [
           { cond: '5/11~12  ·  영사모 든든건강플러스 가동', reward: '카라향 5kg', sub: '10만원 상당', image: '' },
-          { cond: '팀 연속 2주 가동 40% 달성 시',           reward: '해보니 라면인덕션', sub: '12만원 상당', image: '' },
+          { cond: '팀 연속 2주 가동 40% 달성 시',           reward: '해보니 라면인덕션', sub: '12만원 상당', image: 'https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/IMG_3135.jpeg' },
         ],
       },
       {
@@ -1303,7 +1342,7 @@ const DATA = {
         target: '한 단계 위 등급으로 점프한 FP',
         gradeFlow: ['가동', '실가동', '도전', '표준', '우수', '...', '슈퍼'],
         items: [
-          { text: '에브리빙 멀티 화장품 냉장고', images: [''] },
+          { text: '에브리빙 멀티 화장품 냉장고', images: ['https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/IMG_3131.jpeg'] },
         ],
       },
     ],
@@ -1523,7 +1562,19 @@ document.getElementById('fpGrid').innerHTML = DATA.daily['333'].list.map(f =>
 ).join('');
 
 // --- 이슈 ---
-document.getElementById('issuesContainer').innerHTML = DATA.issues.map((i, idx) => `
+document.getElementById('issuesContainer').innerHTML = DATA.issues.map((i, idx) => {
+  // infographic 정규화
+  let iIdx = -1;
+  if (i.infographic) {
+    const imgs = Array.isArray(i.infographic) ? i.infographic : [i.infographic];
+    if (imgs.length > 0 && imgs[0]) {
+      iIdx = window._infoGroups.length;
+      window._infoGroups.push(imgs);
+    }
+  }
+  const iHasInfo = iIdx >= 0;
+  
+  return `
   <div class="issue ${i.level}" style="position:relative; overflow:visible;">
     <div class="issue-no">${i.no}  ·  ${i.tag}</div>
     <div class="issue-title" style="margin-bottom:8px;">${i.title}</div>
@@ -1542,14 +1593,18 @@ document.getElementById('issuesContainer').innerHTML = DATA.issues.map((i, idx) 
 
     <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
       <div class="issue-when">${i.when}</div>
-      <button onclick="toggleIssue(${idx})" id="btn-${idx}" style="background:var(--card-soft); color:var(--ink); border:none; padding:6px 12px; border-radius:6px; font-size:11px; font-weight:700; cursor:pointer; font-family:inherit;">
-        자세히 보기 ↓
-      </button>
+      <div style="display:flex; gap:6px;">
+        ${iHasInfo ? `<button onclick="openInfographic(${iIdx}, '${i.title.replace(/'/g, "\\'")}')" style="background:var(--accent); color:white; border:none; padding:6px 12px; border-radius:6px; font-size:11px; font-weight:700; cursor:pointer; font-family:inherit;">📋 상품 보기</button>` : ''}
+        <button onclick="toggleIssue(${idx})" id="btn-${idx}" style="background:var(--card-soft); color:var(--ink); border:none; padding:6px 12px; border-radius:6px; font-size:11px; font-weight:700; cursor:pointer; font-family:inherit;">
+          자세히 보기 ↓
+        </button>
+      </div>
     </div>
 
     <div id="body-${idx}" style="display:none; margin-top:14px; padding-top:14px; border-top:1px solid var(--line); font-size:13px; line-height:1.7; white-space:pre-wrap; opacity:0.95;">${i.body}</div>
   </div>
-`).join('');
+`;
+}).join('');
 
 // 이슈 토글
 function toggleIssue(idx) {
@@ -1566,12 +1621,24 @@ function toggleIssue(idx) {
 
 // --- 본사 시상 ---
 document.getElementById('hqAwardsContainer').innerHTML = DATA.awards.hq.map(a => {
+  // infographic 정규화
+  let infoIdx = -1;
+  if (a.infographic) {
+    const imgs = Array.isArray(a.infographic) ? a.infographic : [a.infographic];
+    if (imgs.length > 0 && imgs[0]) {
+      infoIdx = window._infoGroups.length;
+      window._infoGroups.push(imgs);
+    }
+  }
+  const hasInfo = infoIdx >= 0;
+  const clickAttr = hasInfo ? `onclick="openInfographic(${infoIdx}, '${a.title.replace(/'/g, "\\'")}')"` : '';
+  
   if (a.chart) {
     // 그래프 형식 (건강보장시상)
     const maxL = Math.max(...a.tiers.map(t => t.l));
     return `
-      <div class="award${a.infographic ? ' clickable' : ''}" ${a.infographic ? `onclick="openInfographic(\'${a.infographic}\', \'${a.title}\')"` : ''}>
-        ${a.infographic ? '<div class="info-badge">📋 상품 보기</div>' : ''}
+      <div class="award${hasInfo ? ' clickable' : ''}" ${clickAttr}>
+        ${hasInfo ? '<div class="info-badge">📋 상품 보기</div>' : ''}
         <div class="award-tag">${a.sub}</div>
         <div class="award-title">${a.title}</div>
 
@@ -1626,8 +1693,8 @@ document.getElementById('hqAwardsContainer').innerHTML = DATA.awards.hq.map(a =>
 
   // 기본 텍스트 형식
   return `
-    <div class="award${a.infographic ? ' clickable' : ''}" ${a.infographic ? `onclick="openInfographic(\'${a.infographic}\', \'${a.title}\')"` : ''}>
-      ${a.infographic ? '<div class="info-badge">📋 상품 보기</div>' : ''}
+    <div class="award${hasInfo ? ' clickable' : ''}" ${clickAttr}>
+      ${hasInfo ? '<div class="info-badge">📋 상품 보기</div>' : ''}
       <div class="award-tag">${a.sub}</div>
       <div class="award-title">${a.title}</div>
       ${a.targets ? `
@@ -1872,24 +1939,76 @@ async function forceRefresh() {
   <div class="info-modal-content" onclick="event.stopPropagation()">
     <button class="info-modal-close" onclick="closeInfographic()">✕</button>
     <img id="infographicImg" src="" alt="">
+    <button id="infoPrev" class="info-nav info-nav-prev" onclick="event.stopPropagation(); navInfographic(-1)" aria-label="이전">‹</button>
+    <button id="infoNext" class="info-nav info-nav-next" onclick="event.stopPropagation(); navInfographic(1)" aria-label="다음">›</button>
+    <div id="infoIndicator" class="info-indicator">1 / 1</div>
   </div>
 </div>
 
 <script>
+window._infoGroups = window._infoGroups || [];  // 카드별 이미지 배열 저장 (이미 초기화됐을 수 있음)
+let _infoImgs = [];
+let _infoIdx = 0;
+let _infoTitle = '';
+
 function openInfographic(src, title) {
-  document.getElementById('infographicImg').src = src;
-  document.getElementById('infographicImg').alt = title;
+  // src가 인덱스(숫자)면 _infoGroups에서 배열 꺼내옴
+  // src가 배열이면 그대로
+  // src가 문자열이면 단일
+  if (typeof src === 'number') {
+    _infoImgs = window._infoGroups[src] || [];
+  } else if (Array.isArray(src)) {
+    _infoImgs = src;
+  } else {
+    _infoImgs = [src];
+  }
+  _infoIdx = 0;
+  _infoTitle = title;
+  _renderInfographic();
   document.getElementById('infographicModal').classList.add('active');
   document.body.style.overflow = 'hidden';
 }
+
+function _renderInfographic() {
+  if (_infoImgs.length === 0) return;
+  document.getElementById('infographicImg').src = _infoImgs[_infoIdx];
+  document.getElementById('infographicImg').alt = _infoTitle;
+  document.getElementById('infoIndicator').textContent = `${_infoIdx + 1} / ${_infoImgs.length}`;
+  // 단일 이미지면 좌우 버튼/인디케이터 숨김
+  const showNav = _infoImgs.length > 1;
+  document.getElementById('infoPrev').style.display = showNav ? '' : 'none';
+  document.getElementById('infoNext').style.display = showNav ? '' : 'none';
+  document.getElementById('infoIndicator').style.display = showNav ? '' : 'none';
+}
+
+function navInfographic(dir) {
+  if (_infoImgs.length === 0) return;
+  _infoIdx = (_infoIdx + dir + _infoImgs.length) % _infoImgs.length;
+  _renderInfographic();
+}
+
 function closeInfographic(e) {
   if (e && e.target.id !== 'infographicModal' && !e.target.classList.contains('info-modal-close')) return;
   document.getElementById('infographicModal').classList.remove('active');
   document.body.style.overflow = '';
 }
 document.addEventListener('keydown', e => {
+  if (!document.getElementById('infographicModal').classList.contains('active')) return;
   if (e.key === 'Escape') closeInfographic({target: {id: 'infographicModal'}});
+  if (e.key === 'ArrowLeft') navInfographic(-1);
+  if (e.key === 'ArrowRight') navInfographic(1);
 });
+
+// 터치 스와이프
+(function() {
+  let startX = 0;
+  const modal = document.getElementById('infographicModal');
+  modal.addEventListener('touchstart', e => { startX = e.touches[0].clientX; });
+  modal.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) > 50) navInfographic(dx < 0 ? 1 : -1);
+  });
+})();
 </script>
 
 <script>
