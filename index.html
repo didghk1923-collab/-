@@ -1238,10 +1238,10 @@ input#bojangGeongang::-webkit-inner-spin-button {
         width: 100%;
         height: auto;
         display: block;
-        pointer-events: none;
         user-select: none;
         -webkit-user-drag: none;
         -webkit-touch-callout: none;
+        cursor: zoom-in;
       }
     </style>
     <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/AD33BCE8-E96B-466B-A4AC-5623EAB60AD0.png" alt="일상교육 1/7"></div>
@@ -3541,7 +3541,7 @@ document.addEventListener('keydown', e => {
   recalc();
 })();
 
-// ============ 모든 이미지에 자동 다운로드 버튼 추가 ============
+// ============ 모든 이미지에 자동 다운로드 버튼 + 라이트박스 ============
 (function() {
   // 다운로드 버튼 자동 생성 함수
   function addDownloadButton(img) {
@@ -3557,24 +3557,35 @@ document.addEventListener('keydown', e => {
     // src 없으면 패스
     if (!img.src || img.src.startsWith('data:')) return;
     
-    // 부모가 button이면 패스 (버튼 안에 들어간 아이콘 이미지)
+    // 부모가 button이면 패스
     if (img.closest('button')) return;
     
-    // img를 감싸는 wrapper 만들기 (이미 position 잡혀있으면 그대로 활용)
+    // 기존 인포그래픽 모달 안의 메인 이미지는 패스 (이미 라이트박스 자체임)
+    if (img.id === 'infographicImg') return;
+    
+    // img를 감싸는 wrapper 만들기
     let wrapper = img.parentElement;
     const wrapperPos = wrapper ? getComputedStyle(wrapper).position : '';
     
     if (wrapperPos === 'static' || !wrapperPos) {
-      // 부모가 position 없으면 inline-wrap 만들기
       const wrap = document.createElement('span');
       wrap.style.cssText = 'position:relative; display:inline-block; line-height:0; max-width:100%;';
-      // img의 width style을 wrapper에도 옮김 (반응형 유지)
       const imgWidthStyle = img.style.width;
       if (imgWidthStyle) wrap.style.width = imgWidthStyle;
       img.parentNode.insertBefore(wrap, img);
       wrap.appendChild(img);
       wrapper = wrap;
     }
+    
+    // 이미지 클릭 시 라이트박스 열기 (img 자체에 이벤트는 안 박고 wrapper에)
+    // pointer-events:none 으로 막혀있을 수 있으니 wrapper 클릭으로 처리
+    img.style.cursor = 'zoom-in';
+    wrapper.style.cursor = 'zoom-in';
+    wrapper.addEventListener('click', function(e) {
+      // 다운 버튼 클릭은 제외
+      if (e.target.closest('button')) return;
+      openLightbox(img.src, img.alt || '');
+    });
     
     // 다운로드 버튼 생성
     const btn = document.createElement('button');
@@ -3590,16 +3601,22 @@ document.addEventListener('keydown', e => {
     wrapper.appendChild(btn);
   }
   
+  // 라이트박스 열기 (기존 infographicModal 재활용)
+  window.openLightbox = function(src, alt) {
+    if (typeof openInfographic === 'function') {
+      openInfographic(src, alt || '');
+    }
+  };
+  
   // 페이지의 모든 이미지 스캔
   function scanAllImages() {
     document.querySelectorAll('img').forEach(addDownloadButton);
   }
   
-  // 첫 스캔 (페이지 로드 후 카드 렌더링도 끝났을 시점)
   setTimeout(scanAllImages, 500);
-  setTimeout(scanAllImages, 1500); // 동적 이미지(인라인 등)까지 확실히 잡으려 한 번 더
+  setTimeout(scanAllImages, 1500);
   
-  // DOM 변화 감지 — 새 이미지 들어오면 자동 처리 (모달 등)
+  // DOM 변화 감지
   const observer = new MutationObserver(function(mutations) {
     let needScan = false;
     mutations.forEach(function(m) {
