@@ -1218,13 +1218,13 @@ input#bojangGeongang::-webkit-inner-spin-button {
             -webkit-user-drag: none;
           }
         </style>
-        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/AD33BCE8-E96B-466B-A4AC-5623EAB60AD0.png" alt="일상교육 1/7" onload="dailyEduResize()"></div>
-        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/DB5E4ED4-87EA-48C2-8D5A-85F7E0E78AD3.png" alt="일상교육 2/7" onload="dailyEduResize()"></div>
-        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/77998A83-F4DC-42ED-BB42-BF58BAA0AF73.png" alt="일상교육 3/7" onload="dailyEduResize()"></div>
-        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/B992FF6B-FD77-4FB0-A958-4956BADCC759.png" alt="일상교육 4/7" onload="dailyEduResize()"></div>
-        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/52E970AA-1038-42F7-BFE2-A97DC2BBA682.png" alt="일상교육 5/7" onload="dailyEduResize()"></div>
-        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/6BFDC496-804A-4D1D-86F4-47FB9FBBB390.png" alt="일상교육 6/7" onload="dailyEduResize()"></div>
-        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/F787A2A9-E986-40C7-BC7B-D33F9D9BEDD3.png" alt="일상교육 7/7" onload="dailyEduResize()"></div>
+        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/AD33BCE8-E96B-466B-A4AC-5623EAB60AD0.png" alt="일상교육 1/7"></div>
+        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/DB5E4ED4-87EA-48C2-8D5A-85F7E0E78AD3.png" alt="일상교육 2/7"></div>
+        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/77998A83-F4DC-42ED-BB42-BF58BAA0AF73.png" alt="일상교육 3/7"></div>
+        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/B992FF6B-FD77-4FB0-A958-4956BADCC759.png" alt="일상교육 4/7"></div>
+        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/52E970AA-1038-42F7-BFE2-A97DC2BBA682.png" alt="일상교육 5/7"></div>
+        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/6BFDC496-804A-4D1D-86F4-47FB9FBBB390.png" alt="일상교육 6/7"></div>
+        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/F787A2A9-E986-40C7-BC7B-D33F9D9BEDD3.png" alt="일상교육 7/7"></div>
       </div>
       <!-- 페이지 인디케이터 -->
       <div id="dailyEduDots" style="position:absolute; bottom:10px; left:50%; transform:translateX(-50%); display:flex; gap:6px; padding:6px 10px; background:rgba(0,0,0,0.5); border-radius:100px; backdrop-filter:blur(8px); z-index:2;">
@@ -2852,7 +2852,11 @@ document.getElementById('branchAwardsContainer').innerHTML = DATA.awards.branch.
 })();
 
 // ============ 오늘의 일상교육 슬라이더 인디케이터 + 높이 ============
+let _dailyEduTouching = false;  // 터치 중인지 플래그
+
 function dailyEduResize() {
+  // 터치 중에는 절대 변경 X
+  if (_dailyEduTouching) return;
   const slider = document.getElementById('dailyEduSlider');
   const wrap = document.getElementById('dailyEduWrap');
   if (!slider || !wrap) return;
@@ -2888,6 +2892,19 @@ function updateDailyEduIndicator() {
   
   let scrollTimer = null;
   
+  // 터치 시작하면 높이 변경 차단
+  slider.addEventListener('touchstart', function() {
+    _dailyEduTouching = true;
+  }, { passive: true });
+  
+  // 터치 끝나면 디바운스 후 높이 갱신 허용
+  slider.addEventListener('touchend', function() {
+    setTimeout(function() {
+      _dailyEduTouching = false;
+      dailyEduResize();
+    }, 350);  // 스냅 애니메이션 완료될 만큼 충분히 대기
+  }, { passive: true });
+  
   slider.addEventListener('scroll', function() {
     updateDailyEduIndicator();
     // 스크롤이 멈추면 가장 가까운 슬라이드로 자동 보정 + 높이 갱신
@@ -2900,15 +2917,23 @@ function updateDailyEduIndicator() {
       if (Math.abs(slider.scrollLeft - target) > 1) {
         slider.scrollTo({ left: target, behavior: 'smooth' });
       }
-      // 멈춘 후에만 카드 높이 갱신
-      dailyEduResize();
-    }, 150);
+      // 멈춘 후에만 카드 높이 갱신 (단, 터치 안 하고 있을 때만)
+      if (!_dailyEduTouching) dailyEduResize();
+    }, 200);
   }, { passive: true });
   
   // 화면 회전이나 리사이즈 대응
   window.addEventListener('resize', dailyEduResize);
-  // 초기 진입 시 첫 사진 높이로 셋
-  setTimeout(dailyEduResize, 100);
+  // 초기 진입 시 첫 사진 로드 완료 후 셋
+  function tryInit() {
+    const firstImg = slider.querySelector('.ded-slide img');
+    if (firstImg && firstImg.naturalWidth) {
+      dailyEduResize();
+    } else if (firstImg) {
+      firstImg.addEventListener('load', dailyEduResize, { once: true });
+    }
+  }
+  setTimeout(tryInit, 100);
 })();
 
 // ============ 24시간 박스 (다중 인스턴스) ============
