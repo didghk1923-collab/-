@@ -56,6 +56,21 @@
 html {
   background: #F0EFEC !important;
 }
+
+/* 게임 풀스크린 모드 */
+.game-wrap.fullscreen {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  margin: 0 !important;
+  z-index: 99999;
+  background: #000;
+}
+.game-wrap.fullscreen #gameFsBtn {
+  top: calc(env(safe-area-inset-top, 0) + 12px) !important;
+  right: 12px !important;
+}
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
@@ -894,9 +909,11 @@ input#bojangGeongang::-webkit-inner-spin-button {
 <body>
 
 <!-- 사이드 패널 오버레이 -->
+
 <div id="sideOverlay" class="side-overlay"></div>
 
 <!-- 사이드 패널 -->
+
 <aside id="sidePanel" class="side-panel">
   <div class="side-header">
     <div class="side-title">메뉴</div>
@@ -910,6 +927,10 @@ input#bojangGeongang::-webkit-inner-spin-button {
     <button class="side-item" data-page="report">
       <span class="side-ico">📈</span>
       <span>성과 리포트</span>
+    </button>
+    <button class="side-item" data-page="promo2048">
+      <span class="side-ico">🎲</span>
+      <span>등급업 게임</span>
     </button>
   </nav>
 </aside>
@@ -960,6 +981,7 @@ input#bojangGeongang::-webkit-inner-spin-button {
   <div class="page" id="page-data">
 
 <!-- 환산월초/보장월초 -->
+
 <div class="card">
   <div class="label">총 환산월초</div>
   <div class="big-num">
@@ -981,18 +1003,22 @@ input#bojangGeongang::-webkit-inner-spin-button {
 </div>
 
 <!-- 활동 KPI 4개 -->
+
 <div class="section-title">활동 현황</div>
 <div class="kpi-grid" id="kpiGrid"></div>
 
 <!-- 팀별 -->
+
 <div class="section-title">팀별 현황</div>
 <div class="card" id="teamCard"></div>
 
 <!-- 등급 분포 -->
+
 <div class="section-title">등급 분포</div>
 <div class="card" id="gradeCard"></div>
 
 <!-- 무가동 -->
+
 <div class="section-title">무가동</div>
 <div class="card">
   <div class="big-warn">
@@ -1003,6 +1029,7 @@ input#bojangGeongang::-webkit-inner-spin-button {
 </div>
 
 <!-- 3.3.3 -->
+
 <div class="section-title">3.3.3 바른활동</div>
 <div class="card">
   <div style="display:flex; justify-content:space-around; padding: 8px 0 16px; text-align:center;">
@@ -1029,10 +1056,12 @@ input#bojangGeongang::-webkit-inner-spin-button {
   <div class="page" id="page-income">
 
 <!-- 입력 카드 -->
+
 <div class="card card-accent">
   <div class="label label-white">상품별 환산월초 입력</div>
-  
+
   <!-- 종신 입력 -->
+
   <div style="margin-top:12px;">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
       <div style="font-size:13px; font-weight:700;">종신 환산월초</div>
@@ -1050,11 +1079,13 @@ input#bojangGeongang::-webkit-inner-spin-button {
       <button class="step-btn" data-target="envJongsin" data-action="plus" data-val="100000">+ 10만</button>
     </div>
   </div>
-  
+
   <!-- 구분선 -->
+
   <div style="height:1px; background:rgba(255,255,255,0.18); margin:16px 0;"></div>
-  
+
   <!-- 건강 입력 -->
+
   <div>
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
       <div style="font-size:13px; font-weight:700;">건강 환산월초</div>
@@ -1072,8 +1103,9 @@ input#bojangGeongang::-webkit-inner-spin-button {
       <button class="step-btn" data-target="envGeongang" data-action="plus" data-val="100000">+ 10만</button>
     </div>
   </div>
-  
+
   <!-- 합산 표시 -->
+
   <div style="margin-top:14px; padding:10px 14px; background:rgba(255,255,255,0.15); border-radius:10px; display:flex; justify-content:space-between; align-items:center;">
     <div style="font-size:11px; opacity:0.85; font-weight:600;">합산 환산월초</div>
     <div style="font-size:18px; font-weight:800; letter-spacing:-0.02em;">
@@ -1083,6 +1115,7 @@ input#bojangGeongang::-webkit-inner-spin-button {
 </div>
 
 <!-- 건강보장월초 입력 카드 (초록색, 시상 전용) -->
+
 <div class="card" style="background:linear-gradient(135deg, #0F766E 0%, #14B8A6 100%); color:white; border:none;">
   <div style="font-size:11px; opacity:0.85; font-weight:600; letter-spacing:0.05em;">건강보장월초 입력</div>
   <div style="margin-top:10px;">
@@ -1106,9 +1139,11 @@ input#bojangGeongang::-webkit-inner-spin-button {
 </div>
 
 <!-- 결과 카드 2단 그리드 (예상급여 / 시상) -->
+
 <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-  
+
   <!-- 예상 급여 (주황) -->
+
   <div class="card" style="text-align:center; padding:14px 10px; margin:0; background:linear-gradient(135deg, #C75A14 0%, #F37321 100%); color:white; border:none;">
     <div style="font-size:10px; opacity:0.85; font-weight:600; letter-spacing:0.03em;">예상 급여</div>
     <div style="font-size:11px; opacity:0.65; font-weight:500; margin-top:2px;">24개월 누적</div>
@@ -1120,8 +1155,9 @@ input#bojangGeongang::-webkit-inner-spin-button {
       지급률 <b style="color:#FCD34D;" id="totalRate">0%</b>
     </div>
   </div>
-  
+
   <!-- 건강보장월초 시상 (초록) -->
+
   <div class="card" style="text-align:center; padding:14px 10px; margin:0; background:linear-gradient(135deg, #0F766E 0%, #14B8A6 100%); color:white; border:none;">
     <div style="font-size:10px; opacity:0.85; font-weight:600; letter-spacing:0.03em;">건강보장월초 시상</div>
     <div style="font-size:11px; opacity:0.65; font-weight:500; margin-top:2px;">구간별 지급</div>
@@ -1135,10 +1171,11 @@ input#bojangGeongang::-webkit-inner-spin-button {
       <b style="color:#FCD34D;" id="awardRate">0%</b>
     </div>
   </div>
-  
+
 </div>
 
 <!-- 총 급여 합계 -->
+
 <div class="section-title">총 급여 합계</div>
 <div class="card">
   <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -1157,6 +1194,7 @@ input#bojangGeongang::-webkit-inner-spin-button {
 </div>
 
 <!-- 안내 메모 -->
+
 <div style="padding:14px; margin-top:8px; font-size:11px; color:var(--gray); line-height:1.6;">
   ※ 종신·건강 합산 환산월초 기준 추정치입니다.<br>
   ※ 모집수수료는 즉시, 고객서비스/생산성은 분할·익월·13회 시점에 지급됩니다.<br>
@@ -1170,15 +1208,19 @@ input#bojangGeongang::-webkit-inner-spin-button {
   <div class="page" id="page-rank">
 
 <!-- 개인 랭킹 TOP 5 -->
+
 <div class="section-title">개인 랭킹 · TOP 5</div>
 
 <!-- 1~3위 메달 카드 -->
+
 <div id="rankLeader" style="margin-bottom: 4px;"></div>
 
 <!-- 4~5위 -->
+
 <div class="card" id="rankOthers"></div>
 
 <!-- 팀 랭킹 -->
+
 <div class="section-title">팀 랭킹</div>
 <div class="card" id="rankTeam"></div>
 
@@ -1194,92 +1236,94 @@ input#bojangGeongang::-webkit-inner-spin-button {
 
   <div class="page" id="page-dailyedu">
 
-    <!-- 일상교육 히어로 -->
-    <div style="background:linear-gradient(135deg, #1A1A1A 0%, #3A3A3A 100%); border-radius:18px; padding:24px 20px; margin-bottom:16px; color:white; position:relative; overflow:hidden;">
-      <div style="position:absolute; top:-30px; right:-30px; width:140px; height:140px; border-radius:50%; background:radial-gradient(circle, rgba(252,211,77,0.18) 0%, transparent 70%);"></div>
-      <div style="font-size:11px; font-weight:700; opacity:0.85; letter-spacing:0.08em; position:relative;" id="dailyEduDate">2026.05.13 (화) · 조회시간</div>
-      <div style="font-size:22px; font-weight:800; margin-top:6px; line-height:1.3; letter-spacing:-0.03em; position:relative;">
-        📖 오늘의<br>
-        <span style="color:#FCD34D;">일상교육</span>
-      </div>
-    </div>
+```
+<!-- 일상교육 히어로 -->
+<div style="background:linear-gradient(135deg, #1A1A1A 0%, #3A3A3A 100%); border-radius:18px; padding:24px 20px; margin-bottom:16px; color:white; position:relative; overflow:hidden;">
+  <div style="position:absolute; top:-30px; right:-30px; width:140px; height:140px; border-radius:50%; background:radial-gradient(circle, rgba(252,211,77,0.18) 0%, transparent 70%);"></div>
+  <div style="font-size:11px; font-weight:700; opacity:0.85; letter-spacing:0.08em; position:relative;" id="dailyEduDate">2026.05.13 (화) · 조회시간</div>
+  <div style="font-size:22px; font-weight:800; margin-top:6px; line-height:1.3; letter-spacing:-0.03em; position:relative;">
+    📖 오늘의<br>
+    <span style="color:#FCD34D;">일상교육</span>
+  </div>
+</div>
 
-    <!-- 교육 콘텐츠 자리 -->
-    <div class="section-title">오늘의 주제</div>
-    <div id="dailyEduWrap" class="card" style="padding:0; overflow:hidden; position:relative; background:#FFFFFF; transition:height 0.35s ease; min-height:300px;">
-      <div id="dailyEduSlider" style="display:flex; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scrollbar-width:none; height:100%; width:100%; scroll-snap-stop:always; touch-action:pan-y; overscroll-behavior:none;">
-        <style>
-          #dailyEduSlider::-webkit-scrollbar { display:none; }
-          .ded-slide {
-            flex: 0 0 100%;
-            width: 100%;
-            scroll-snap-align: center;
-            scroll-snap-stop: always;
-            display: block;
-            box-sizing: border-box;
-            position: relative;
-            overflow: hidden;
-          }
-          .ded-slide img {
-            width: 100%;
-            height: auto;
-            display: block;
-            user-select: none;
-            -webkit-user-drag: none;
-            -webkit-touch-callout: none;
-            cursor: zoom-in;
-          }
-        </style>
-        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/AD33BCE8-E96B-466B-A4AC-5623EAB60AD0.png" alt="일상교육 1/7"></div>
-        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/DB5E4ED4-87EA-48C2-8D5A-85F7E0E78AD3.png" alt="일상교육 2/7"></div>
-        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/77998A83-F4DC-42ED-BB42-BF58BAA0AF73.png" alt="일상교육 3/7"></div>
-        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/B992FF6B-FD77-4FB0-A958-4956BADCC759.png" alt="일상교육 4/7"></div>
-        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/52E970AA-1038-42F7-BFE2-A97DC2BBA682.png" alt="일상교육 5/7"></div>
-        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/6BFDC496-804A-4D1D-86F4-47FB9FBBB390.png" alt="일상교육 6/7"></div>
-        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/F787A2A9-E986-40C7-BC7B-D33F9D9BEDD3.png" alt="일상교육 7/7"></div>
-      </div>
-      <!-- 좌우 넘김 버튼 -->
-      <button onclick="dailyEduGo(-1)" aria-label="이전 사진"
-        style="position:absolute; top:50%; left:8px; transform:translateY(-50%); z-index:3; background:rgba(0,0,0,0.5); color:white; border:none; width:36px; height:36px; border-radius:50%; font-size:20px; cursor:pointer; font-family:inherit; font-weight:700; backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center; padding:0;">‹</button>
-      <button onclick="dailyEduGo(1)" aria-label="다음 사진"
-        style="position:absolute; top:50%; right:8px; transform:translateY(-50%); z-index:3; background:rgba(0,0,0,0.5); color:white; border:none; width:36px; height:36px; border-radius:50%; font-size:20px; cursor:pointer; font-family:inherit; font-weight:700; backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center; padding:0;">›</button>
-      <!-- 페이지 인디케이터 (클릭 가능) -->
-      <div id="dailyEduDots" style="position:absolute; bottom:10px; left:50%; transform:translateX(-50%); display:flex; gap:6px; padding:6px 10px; background:rgba(0,0,0,0.5); border-radius:100px; backdrop-filter:blur(8px); z-index:2;">
-        <span class="ded-dot active" data-idx="0" style="width:9px; height:9px; border-radius:50%; background:white; transition:opacity 0.2s; cursor:pointer;"></span>
-        <span class="ded-dot" data-idx="1" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
-        <span class="ded-dot" data-idx="2" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
-        <span class="ded-dot" data-idx="3" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
-        <span class="ded-dot" data-idx="4" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
-        <span class="ded-dot" data-idx="5" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
-        <span class="ded-dot" data-idx="6" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
-      </div>
-    </div>
-    <div style="text-align:center; font-size:11px; color:var(--gray); font-weight:600; margin-top:8px;">← 좌우로 스와이프해서 넘겨보세요 →</div>
+<!-- 교육 콘텐츠 자리 -->
+<div class="section-title">오늘의 주제</div>
+<div id="dailyEduWrap" class="card" style="padding:0; overflow:hidden; position:relative; background:#FFFFFF; transition:height 0.35s ease; min-height:300px;">
+  <div id="dailyEduSlider" style="display:flex; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scrollbar-width:none; height:100%; width:100%; scroll-snap-stop:always; touch-action:pan-y; overscroll-behavior:none;">
+    <style>
+      #dailyEduSlider::-webkit-scrollbar { display:none; }
+      .ded-slide {
+        flex: 0 0 100%;
+        width: 100%;
+        scroll-snap-align: center;
+        scroll-snap-stop: always;
+        display: block;
+        box-sizing: border-box;
+        position: relative;
+        overflow: hidden;
+      }
+      .ded-slide img {
+        width: 100%;
+        height: auto;
+        display: block;
+        user-select: none;
+        -webkit-user-drag: none;
+        -webkit-touch-callout: none;
+        cursor: zoom-in;
+      }
+    </style>
+    <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/AD33BCE8-E96B-466B-A4AC-5623EAB60AD0.png" alt="일상교육 1/7"></div>
+    <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/DB5E4ED4-87EA-48C2-8D5A-85F7E0E78AD3.png" alt="일상교육 2/7"></div>
+    <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/77998A83-F4DC-42ED-BB42-BF58BAA0AF73.png" alt="일상교육 3/7"></div>
+    <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/B992FF6B-FD77-4FB0-A958-4956BADCC759.png" alt="일상교육 4/7"></div>
+    <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/52E970AA-1038-42F7-BFE2-A97DC2BBA682.png" alt="일상교육 5/7"></div>
+    <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/6BFDC496-804A-4D1D-86F4-47FB9FBBB390.png" alt="일상교육 6/7"></div>
+    <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/F787A2A9-E986-40C7-BC7B-D33F9D9BEDD3.png" alt="일상교육 7/7"></div>
+  </div>
+  <!-- 좌우 넘김 버튼 -->
+  <button onclick="dailyEduGo(-1)" aria-label="이전 사진"
+    style="position:absolute; top:50%; left:8px; transform:translateY(-50%); z-index:3; background:rgba(0,0,0,0.5); color:white; border:none; width:36px; height:36px; border-radius:50%; font-size:20px; cursor:pointer; font-family:inherit; font-weight:700; backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center; padding:0;">‹</button>
+  <button onclick="dailyEduGo(1)" aria-label="다음 사진"
+    style="position:absolute; top:50%; right:8px; transform:translateY(-50%); z-index:3; background:rgba(0,0,0,0.5); color:white; border:none; width:36px; height:36px; border-radius:50%; font-size:20px; cursor:pointer; font-family:inherit; font-weight:700; backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center; padding:0;">›</button>
+  <!-- 페이지 인디케이터 (클릭 가능) -->
+  <div id="dailyEduDots" style="position:absolute; bottom:10px; left:50%; transform:translateX(-50%); display:flex; gap:6px; padding:6px 10px; background:rgba(0,0,0,0.5); border-radius:100px; backdrop-filter:blur(8px); z-index:2;">
+    <span class="ded-dot active" data-idx="0" style="width:9px; height:9px; border-radius:50%; background:white; transition:opacity 0.2s; cursor:pointer;"></span>
+    <span class="ded-dot" data-idx="1" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
+    <span class="ded-dot" data-idx="2" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
+    <span class="ded-dot" data-idx="3" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
+    <span class="ded-dot" data-idx="4" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
+    <span class="ded-dot" data-idx="5" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
+    <span class="ded-dot" data-idx="6" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
+  </div>
+</div>
+<div style="text-align:center; font-size:11px; color:var(--gray); font-weight:600; margin-top:8px;">← 좌우로 스와이프해서 넘겨보세요 →</div>
 
-    <!-- 오늘 꼭 해야할 것 (수동 입력 영역) -->
-    <div class="section-title" style="margin-top:18px;">오늘 꼭 해야할 것</div>
-    <div class="card" style="padding:18px 20px;">
-      <div style="display:flex; gap:10px; margin-bottom:12px; align-items:flex-start;">
-        <span style="background:var(--accent); color:white; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0; margin-top:1px;">1</span>
-        <span style="font-size:13px; font-weight:700; color:var(--ink); line-height:1.5;">오늘의 <b style="color:var(--accent);">PICK</b> 접속하기</span>
-      </div>
-      <div style="display:flex; gap:10px; margin-bottom:12px; align-items:flex-start;">
-        <span style="background:var(--accent); color:white; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0; margin-top:1px;">2</span>
-        <span style="font-size:13px; font-weight:700; color:var(--ink); line-height:1.5;"><b style="color:var(--accent);">캠페인 꼭 활용</b>해서 3명한테 콘텐츠 발송</span>
-      </div>
-      <div style="display:flex; gap:10px; align-items:flex-start;">
-        <span style="background:var(--accent); color:white; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0; margin-top:1px;">3</span>
-        <span style="font-size:13px; font-weight:700; color:var(--ink); line-height:1.5;">바른활동 <b style="color:var(--accent);">3.3.3</b> 꼭 하기</span>
-      </div>
-    </div>
+<!-- 오늘 꼭 해야할 것 (수동 입력 영역) -->
+<div class="section-title" style="margin-top:18px;">오늘 꼭 해야할 것</div>
+<div class="card" style="padding:18px 20px;">
+  <div style="display:flex; gap:10px; margin-bottom:12px; align-items:flex-start;">
+    <span style="background:var(--accent); color:white; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0; margin-top:1px;">1</span>
+    <span style="font-size:13px; font-weight:700; color:var(--ink); line-height:1.5;">오늘의 <b style="color:var(--accent);">PICK</b> 접속하기</span>
+  </div>
+  <div style="display:flex; gap:10px; margin-bottom:12px; align-items:flex-start;">
+    <span style="background:var(--accent); color:white; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0; margin-top:1px;">2</span>
+    <span style="font-size:13px; font-weight:700; color:var(--ink); line-height:1.5;"><b style="color:var(--accent);">캠페인 꼭 활용</b>해서 3명한테 콘텐츠 발송</span>
+  </div>
+  <div style="display:flex; gap:10px; align-items:flex-start;">
+    <span style="background:var(--accent); color:white; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0; margin-top:1px;">3</span>
+    <span style="font-size:13px; font-weight:700; color:var(--ink); line-height:1.5;">바른활동 <b style="color:var(--accent);">3.3.3</b> 꼭 하기</span>
+  </div>
+</div>
 
-    <!-- 마무리 멘트 -->
-    <div style="background:var(--ink); color:white; border-radius:14px; padding:18px 20px; margin-top:16px; text-align:center;">
-      <div style="font-size:14px; font-weight:800; line-height:1.6; letter-spacing:-0.02em;">
-        하회지점 전 FP님들의 영업현장<br>
-        <span style="color:#FCD34D;">제가 열심히 서포트 하겠습니다 ♥</span>
-      </div>
-    </div>
+<!-- 마무리 멘트 -->
+<div style="background:var(--ink); color:white; border-radius:14px; padding:18px 20px; margin-top:16px; text-align:center;">
+  <div style="font-size:14px; font-weight:800; line-height:1.6; letter-spacing:-0.02em;">
+    하회지점 전 FP님들의 영업현장<br>
+    <span style="color:#FCD34D;">제가 열심히 서포트 하겠습니다 ♥</span>
+  </div>
+</div>
+```
 
   </div>
 
@@ -1287,87 +1331,89 @@ input#bojangGeongang::-webkit-inner-spin-button {
 
   <div class="page" id="page-campaign">
 
-    <!-- 캠페인 히어로 -->
-    <div style="background:linear-gradient(135deg, #F37321 0%, #C75A14 100%); border-radius:18px; padding:24px 20px; margin-bottom:16px; color:white; position:relative; overflow:hidden;">
-      <div style="position:absolute; top:-30px; right:-30px; width:140px; height:140px; border-radius:50%; background:radial-gradient(circle, rgba(255,255,255,0.18) 0%, transparent 70%);"></div>
-      <div style="font-size:11px; font-weight:700; opacity:0.85; letter-spacing:0.08em; position:relative;">2026.05 · 본사 캠페인</div>
-      <div style="font-size:24px; font-weight:800; margin-top:6px; line-height:1.3; letter-spacing:-0.03em; position:relative;">
-        5월은 한화생명<br>
-        <span style="color:#FCD34D;">온가족 캠페인</span>
-      </div>
+```
+<!-- 캠페인 히어로 -->
+<div style="background:linear-gradient(135deg, #F37321 0%, #C75A14 100%); border-radius:18px; padding:24px 20px; margin-bottom:16px; color:white; position:relative; overflow:hidden;">
+  <div style="position:absolute; top:-30px; right:-30px; width:140px; height:140px; border-radius:50%; background:radial-gradient(circle, rgba(255,255,255,0.18) 0%, transparent 70%);"></div>
+  <div style="font-size:11px; font-weight:700; opacity:0.85; letter-spacing:0.08em; position:relative;">2026.05 · 본사 캠페인</div>
+  <div style="font-size:24px; font-weight:800; margin-top:6px; line-height:1.3; letter-spacing:-0.03em; position:relative;">
+    5월은 한화생명<br>
+    <span style="color:#FCD34D;">온가족 캠페인</span>
+  </div>
+</div>
+
+<!-- 하는 방법 -->
+<div class="section-title">하는 방법</div>
+<div class="card" style="padding:14px; overflow-x:auto; -webkit-overflow-scrolling:touch;">
+  <div style="display:flex; align-items:center; gap:6px; font-size:12px; font-weight:700; white-space:nowrap; width:max-content;">
+    <span style="background:var(--accent-soft); color:var(--accent-deep); padding:7px 10px; border-radius:7px; flex-shrink:0;">FP월드</span>
+    <span style="color:var(--accent); font-weight:800; flex-shrink:0;">→</span>
+    <span style="background:var(--accent-soft); color:var(--accent-deep); padding:7px 10px; border-radius:7px; flex-shrink:0;">고객관리활동</span>
+    <span style="color:var(--accent); font-weight:800; flex-shrink:0;">→</span>
+    <span style="background:var(--accent-soft); color:var(--accent-deep); padding:7px 10px; border-radius:7px; flex-shrink:0;">타겟고객</span>
+    <span style="color:var(--accent); font-weight:800; flex-shrink:0;">→</span>
+    <span style="background:var(--accent); color:white; padding:7px 10px; border-radius:7px; flex-shrink:0;">캠페인 활동 관리</span>
+  </div>
+</div>
+
+<!-- 대상 -->
+<div class="card" style="background:var(--accent-soft); border:none; padding:14px 18px; margin-top:12px;">
+  <div style="font-size:11px; color:var(--accent-deep); font-weight:700; margin-bottom:4px;">대상</div>
+  <div style="font-size:14px; font-weight:700; color:var(--ink);">해당 고객 전원</div>
+</div>
+
+<!-- 어떻게? -->
+<div class="section-title">어떻게 받나요?</div>
+<div class="card" style="padding:18px;">
+  <div style="font-size:13px; font-weight:600; color:var(--ink-soft); line-height:1.6;">
+    오렌지 터치에 <b style="color:var(--accent);">'오늘의 고객터치 & 추천콘텐츠'</b> 발송 시
+  </div>
+</div>
+
+<!-- 시상 그리드 -->
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px;">
+
+  <!-- 3명 -->
+  <div class="card" style="text-align:center; padding:18px 12px; margin:0; background:linear-gradient(135deg, #1A1A1A 0%, #2A2520 100%); color:white; border:none;">
+    <div style="font-size:11px; opacity:0.75; font-weight:600;">주간 발송</div>
+    <div style="font-size:36px; font-weight:800; line-height:1; margin-top:6px; letter-spacing:-0.04em;">
+      3<span style="font-size:14px; opacity:0.85; margin-left:2px;">명</span>
     </div>
+    <div style="height:1px; background:rgba(255,255,255,0.18); margin:14px 0;"></div>
+    <div style="font-size:11px; opacity:0.75; font-weight:600;">CU 쿠폰</div>
+    <div style="font-size:22px; font-weight:800; color:#FCD34D; margin-top:4px; letter-spacing:-0.03em;">3,000원</div>
+  </div>
 
-    <!-- 하는 방법 -->
-    <div class="section-title">하는 방법</div>
-    <div class="card" style="padding:14px; overflow-x:auto; -webkit-overflow-scrolling:touch;">
-      <div style="display:flex; align-items:center; gap:6px; font-size:12px; font-weight:700; white-space:nowrap; width:max-content;">
-        <span style="background:var(--accent-soft); color:var(--accent-deep); padding:7px 10px; border-radius:7px; flex-shrink:0;">FP월드</span>
-        <span style="color:var(--accent); font-weight:800; flex-shrink:0;">→</span>
-        <span style="background:var(--accent-soft); color:var(--accent-deep); padding:7px 10px; border-radius:7px; flex-shrink:0;">고객관리활동</span>
-        <span style="color:var(--accent); font-weight:800; flex-shrink:0;">→</span>
-        <span style="background:var(--accent-soft); color:var(--accent-deep); padding:7px 10px; border-radius:7px; flex-shrink:0;">타겟고객</span>
-        <span style="color:var(--accent); font-weight:800; flex-shrink:0;">→</span>
-        <span style="background:var(--accent); color:white; padding:7px 10px; border-radius:7px; flex-shrink:0;">캠페인 활동 관리</span>
-      </div>
+  <!-- 5명 -->
+  <div class="card" style="text-align:center; padding:18px 12px; margin:0; background:linear-gradient(135deg, #C75A14 0%, #F37321 100%); color:white; border:none;">
+    <div style="font-size:11px; opacity:0.85; font-weight:600;">주간 발송</div>
+    <div style="font-size:36px; font-weight:800; line-height:1; margin-top:6px; letter-spacing:-0.04em;">
+      5<span style="font-size:14px; opacity:0.85; margin-left:2px;">명</span>
     </div>
+    <div style="height:1px; background:rgba(255,255,255,0.22); margin:14px 0;"></div>
+    <div style="font-size:11px; opacity:0.85; font-weight:600;">CU 쿠폰</div>
+    <div style="font-size:22px; font-weight:800; color:#FCD34D; margin-top:4px; letter-spacing:-0.03em;">5,000원</div>
+  </div>
 
-    <!-- 대상 -->
-    <div class="card" style="background:var(--accent-soft); border:none; padding:14px 18px; margin-top:12px;">
-      <div style="font-size:11px; color:var(--accent-deep); font-weight:700; margin-bottom:4px;">대상</div>
-      <div style="font-size:14px; font-weight:700; color:var(--ink);">해당 고객 전원</div>
-    </div>
+</div>
 
-    <!-- 어떻게? -->
-    <div class="section-title">어떻게 받나요?</div>
-    <div class="card" style="padding:18px;">
-      <div style="font-size:13px; font-weight:600; color:var(--ink-soft); line-height:1.6;">
-        오렌지 터치에 <b style="color:var(--accent);">'오늘의 고객터치 & 추천콘텐츠'</b> 발송 시
-      </div>
-    </div>
-
-    <!-- 시상 그리드 -->
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px;">
-
-      <!-- 3명 -->
-      <div class="card" style="text-align:center; padding:18px 12px; margin:0; background:linear-gradient(135deg, #1A1A1A 0%, #2A2520 100%); color:white; border:none;">
-        <div style="font-size:11px; opacity:0.75; font-weight:600;">주간 발송</div>
-        <div style="font-size:36px; font-weight:800; line-height:1; margin-top:6px; letter-spacing:-0.04em;">
-          3<span style="font-size:14px; opacity:0.85; margin-left:2px;">명</span>
-        </div>
-        <div style="height:1px; background:rgba(255,255,255,0.18); margin:14px 0;"></div>
-        <div style="font-size:11px; opacity:0.75; font-weight:600;">CU 쿠폰</div>
-        <div style="font-size:22px; font-weight:800; color:#FCD34D; margin-top:4px; letter-spacing:-0.03em;">3,000원</div>
-      </div>
-
-      <!-- 5명 -->
-      <div class="card" style="text-align:center; padding:18px 12px; margin:0; background:linear-gradient(135deg, #C75A14 0%, #F37321 100%); color:white; border:none;">
-        <div style="font-size:11px; opacity:0.85; font-weight:600;">주간 발송</div>
-        <div style="font-size:36px; font-weight:800; line-height:1; margin-top:6px; letter-spacing:-0.04em;">
-          5<span style="font-size:14px; opacity:0.85; margin-left:2px;">명</span>
-        </div>
-        <div style="height:1px; background:rgba(255,255,255,0.22); margin:14px 0;"></div>
-        <div style="font-size:11px; opacity:0.85; font-weight:600;">CU 쿠폰</div>
-        <div style="font-size:22px; font-weight:800; color:#FCD34D; margin-top:4px; letter-spacing:-0.03em;">5,000원</div>
-      </div>
-
-    </div>
-
-    <!-- 마무리 한마디 -->
-    <div style="background:var(--ink); color:white; border-radius:14px; padding:18px 20px; margin-top:16px; text-align:center;">
-      <div style="font-size:15px; font-weight:800; line-height:1.5; letter-spacing:-0.02em;">
-        편의점 돈 내고 가지 말고<br>
-        <span style="color:#FCD34D;">캠페인 해서 꽁짜로 씁시다 ~!</span>
-      </div>
-      
-      <!-- 24시간 박스 (캠페인용) -->
-      <div style="margin-top:18px;">
-        <button id="hourlyBoxCampaign" class="hourly-box hourly-box-big" onclick="openHourlyBoxCampaign()" aria-label="24시간 박스">
-          <span class="hourly-box-icon">🎁</span>
-          <span class="hourly-box-timer" id="hourlyBoxCampaignTimer">--:--:--</span>
-        </button>
-        <div style="font-size:10px; color:rgba(255,255,255,0.55); font-weight:600; margin-top:8px;">24시간마다 OPEN 가능</div>
-      </div>
-    </div>
+<!-- 마무리 한마디 -->
+<div style="background:var(--ink); color:white; border-radius:14px; padding:18px 20px; margin-top:16px; text-align:center;">
+  <div style="font-size:15px; font-weight:800; line-height:1.5; letter-spacing:-0.02em;">
+    편의점 돈 내고 가지 말고<br>
+    <span style="color:#FCD34D;">캠페인 해서 꽁짜로 씁시다 ~!</span>
+  </div>
+  
+  <!-- 24시간 박스 (캠페인용) -->
+  <div style="margin-top:18px;">
+    <button id="hourlyBoxCampaign" class="hourly-box hourly-box-big" onclick="openHourlyBoxCampaign()" aria-label="24시간 박스">
+      <span class="hourly-box-icon">🎁</span>
+      <span class="hourly-box-timer" id="hourlyBoxCampaignTimer">--:--:--</span>
+    </button>
+    <div style="font-size:10px; color:rgba(255,255,255,0.55); font-weight:600; margin-top:8px;">24시간마다 OPEN 가능</div>
+  </div>
+</div>
+```
 
   </div>
 
@@ -1384,7 +1430,11 @@ input#bojangGeongang::-webkit-inner-spin-button {
   <!-- ============ 게임: 하회지점 FP의 여정 ============ -->
 
   <div class="page" id="page-game" style="padding:0; margin:0;">
-    <div id="gameFrameWrap" style="width:100%; height:calc(100vh - 130px); margin:0 -16px; width:calc(100% + 32px);">
+    <div id="gameFrameWrap" class="game-wrap" style="width:100%; height:calc(100vh - 130px); margin:0 -16px; width:calc(100% + 32px); position:relative;">
+      <button id="gameFsBtn" onclick="toggleGameFullscreen()" aria-label="전체화면"
+        style="position:absolute; top:10px; right:10px; z-index:5; background:rgba(0,0,0,0.7); color:white; border:none; border-radius:100px; padding:8px 14px; font-size:12px; font-weight:800; cursor:pointer; font-family:inherit; backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); box-shadow:0 2px 8px rgba(0,0,0,0.4); letter-spacing:-0.02em; line-height:1;">
+        ⛶ 전체화면
+      </button>
       <iframe id="gameFrame" srcdoc="<!DOCTYPE html>
 <html lang=&quot;ko&quot;>
 <head>
@@ -1943,65 +1993,32 @@ const badgeMap = {up:'b-up',down:'b-down',mid:'b-mid'};
 function fmt(n){ return Number(n).toLocaleString('ko-KR'); }
 
 function buildPage(d, idx){
-  const hdrCls = d.is_mgr ? 'gold' : 'blue';
-  const maxAct = Math.max(...d.act_list.map(a=>a.val), 1);
-  const fills = ['fill-blue','fill-green','fill-amber'];
+const hdrCls = d.is_mgr ? ‘gold’ : ‘blue’;
+const maxAct = Math.max(…d.act_list.map(a=>a.val), 1);
+const fills = [‘fill-blue’,‘fill-green’,‘fill-amber’];
 
-  const actRows = d.act_list.map((a,i)=>`
-    <div class=&quot;act-row&quot;>
-      <span class=&quot;act-name&quot;>${a.name}</span>
-      <div class=&quot;act-track&quot;><div class=&quot;act-fill ${fills[i]}&quot; style=&quot;width:${Math.round(a.val/maxAct*100)}%&quot;></div></div>
-      <span class=&quot;act-val&quot;>${a.val}건</span>
-      <span class=&quot;act-vs tag-${a.vc}&quot;>${a.vs.split(' ')[0]}</span>
-    </div>`).join('');
+const actRows = d.act_list.map((a,i)=>` <div class=&quot;act-row&quot;> <span class=&quot;act-name&quot;>${a.name}</span> <div class=&quot;act-track&quot;><div class=&quot;act-fill ${fills[i]}&quot; style=&quot;width:${Math.round(a.val/maxAct*100)}%&quot;></div></div> <span class=&quot;act-val&quot;>${a.val}건</span> <span class=&quot;act-vs tag-${a.vc}&quot;>${a.vs.split(' ')[0]}</span> </div>`).join(’’);
 
-  const prodRows = d.act_list.map(a=>`
-    <div class=&quot;prod-row&quot;>
-      <span class=&quot;prod-name&quot;>${a.name} 1건</span>
-      <div class=&quot;prod-right&quot;>
-        <span class=&quot;prod-amt&quot;>${fmt(a.pv)}원</span>
-        <span class=&quot;badge ${badgeMap[a.pvc]}&quot;>${a.pvs.split(' ')[0]}</span>
-      </div>
-    </div>`).join('');
+const prodRows = d.act_list.map(a=>` <div class=&quot;prod-row&quot;> <span class=&quot;prod-name&quot;>${a.name} 1건</span> <div class=&quot;prod-right&quot;> <span class=&quot;prod-amt&quot;>${fmt(a.pv)}원</span> <span class=&quot;badge ${badgeMap[a.pvc]}&quot;>${a.pvs.split(' ')[0]}</span> </div> </div>`).join(’’);
 
-  const insRows = d.ins_list.map(ins=>{
-    const insClass = ins.cls === '종신' ? 'ins-jongsin' : 'ins-health';
-    return ins.건수>0 ? `
-      <div class=&quot;ins-row&quot;>
-        <span class=&quot;ins-tag ${insClass}&quot;>${ins.cls}</span>
-        <div class=&quot;ins-mid&quot;>${fmt(ins.건수)}건 &amp;nbsp;|&amp;nbsp; 합계 ${fmt(ins.합계)}만원 &amp;nbsp;|&amp;nbsp; 건당 ${fmt(ins.건당)}원</div>
-        <div class=&quot;ins-right&quot;>
-          <div class=&quot;ins-val&quot;>${fmt(ins.건당)}원/건</div>
-          <div class=&quot;ins-diff tag-${ins.u_cls}&quot;>평균 대비 ${ins.u_txt}</div>
-        </div>
-      </div>` : `
-      <div class=&quot;ins-row&quot;>
-        <span class=&quot;ins-tag ${insClass}&quot;>${ins.cls}</span>
-        <div class=&quot;ins-mid&quot; style=&quot;color:#ccc;&quot;>계약 없음</div>
-      </div>`;
-  }).join('');
+const insRows = d.ins_list.map(ins=>{
+const insClass = ins.cls === ‘종신’ ? ‘ins-jongsin’ : ‘ins-health’;
+return ins.건수>0 ? ` <div class=&quot;ins-row&quot;> <span class=&quot;ins-tag ${insClass}&quot;>${ins.cls}</span> <div class=&quot;ins-mid&quot;>${fmt(ins.건수)}건 &amp;nbsp;|&amp;nbsp; 합계 ${fmt(ins.합계)}만원 &amp;nbsp;|&amp;nbsp; 건당 ${fmt(ins.건당)}원</div> <div class=&quot;ins-right&quot;> <div class=&quot;ins-val&quot;>${fmt(ins.건당)}원/건</div> <div class=&quot;ins-diff tag-${ins.u_cls}&quot;>평균 대비 ${ins.u_txt}</div> </div> </div>` : ` <div class=&quot;ins-row&quot;> <span class=&quot;ins-tag ${insClass}&quot;>${ins.cls}</span> <div class=&quot;ins-mid&quot; style=&quot;color:#ccc;&quot;>계약 없음</div> </div>`;
+}).join(’’);
 
-  const monthRows = d.monthly.map(m=>`
-    <tr>
-      <td><strong>${m.월}</strong></td>
-      <td style=&quot;font-weight:700;color:#1A4F8A;&quot;>${fmt(m.환산)}만</td>
-      <td>${m.가입}</td><td>${m.보장}</td><td>${m.정보}</td>
-    </tr>`).join('');
+const monthRows = d.monthly.map(m=>` <tr> <td><strong>${m.월}</strong></td> <td style=&quot;font-weight:700;color:#1A4F8A;&quot;>${fmt(m.환산)}만</td> <td>${m.가입}</td><td>${m.보장}</td><td>${m.정보}</td> </tr>`).join(’’);
 
-  const aiItems = d.ai.map((msg,i)=>`
-    <div class=&quot;ai-item&quot;>
-      <div class=&quot;ai-num&quot;>${i+1}</div>
-      <div class=&quot;ai-text&quot;>${msg}</div>
-    </div>`).join('');
+const aiItems = d.ai.map((msg,i)=>` <div class=&quot;ai-item&quot;> <div class=&quot;ai-num&quot;>${i+1}</div> <div class=&quot;ai-text&quot;>${msg}</div> </div>`).join(’’);
 
-  const envParts = d.환산_t.split(' ');
-  const envFront = envParts.slice(0,-1).join(' ');
-  const envBack = envParts.slice(-1)[0];
-  const cntParts = d.건수_t.split(' ');
-  const cntFront = cntParts.slice(0,-1).join(' ');
-  const cntBack = cntParts.slice(-1)[0];
+const envParts = d.환산_t.split(’ ‘);
+const envFront = envParts.slice(0,-1).join(’ ‘);
+const envBack = envParts.slice(-1)[0];
+const cntParts = d.건수_t.split(’ ‘);
+const cntFront = cntParts.slice(0,-1).join(’ ’);
+const cntBack = cntParts.slice(-1)[0];
 
-  return `
+return `
+
   <div class=&quot;page${idx===0?' active':''}&quot; id=&quot;page-${idx}&quot;>
     <div class=&quot;dash-header ${hdrCls}&quot;>
       <div class=&quot;header-left&quot;>
@@ -2011,88 +2028,734 @@ function buildPage(d, idx){
       <span class=&quot;header-badge&quot;>성과 리포트</span>
     </div>
 
-    <div class=&quot;metrics&quot;>
-      <div class=&quot;metric&quot;>
-        <div class=&quot;metric-label&quot;>월평균 총환산월초</div>
-        <div class=&quot;metric-value&quot;>${fmt(Math.round(d.현재환산/10000))}만원</div>
-        <div class=&quot;metric-sub tag-${d.환산vc}&quot;>${d.환산vs}</div>
-      </div>
-      <div class=&quot;metric&quot;>
-        <div class=&quot;metric-label&quot;>월평균 신계약</div>
-        <div class=&quot;metric-value&quot;>${d.신계약}건</div>
-        <div class=&quot;metric-sub tag-${d.건수vc}&quot;>${d.건수vs}</div>
-      </div>
-      <div class=&quot;metric&quot;>
-        <div class=&quot;metric-label&quot;>환산 추세</div>
-        <div class=&quot;metric-value&quot; style=&quot;font-size:16px;padding-top:4px;&quot;>${envFront} ${envBack}</div>
-      </div>
-      <div class=&quot;metric&quot;>
-        <div class=&quot;metric-label&quot;>건수 추세</div>
-        <div class=&quot;metric-value&quot; style=&quot;font-size:16px;padding-top:4px;&quot;>${cntFront} ${cntBack}</div>
-      </div>
-    </div>
+```
+<div class=&quot;metrics&quot;>
+  <div class=&quot;metric&quot;>
+    <div class=&quot;metric-label&quot;>월평균 총환산월초</div>
+    <div class=&quot;metric-value&quot;>${fmt(Math.round(d.현재환산/10000))}만원</div>
+    <div class=&quot;metric-sub tag-${d.환산vc}&quot;>${d.환산vs}</div>
+  </div>
+  <div class=&quot;metric&quot;>
+    <div class=&quot;metric-label&quot;>월평균 신계약</div>
+    <div class=&quot;metric-value&quot;>${d.신계약}건</div>
+    <div class=&quot;metric-sub tag-${d.건수vc}&quot;>${d.건수vs}</div>
+  </div>
+  <div class=&quot;metric&quot;>
+    <div class=&quot;metric-label&quot;>환산 추세</div>
+    <div class=&quot;metric-value&quot; style=&quot;font-size:16px;padding-top:4px;&quot;>${envFront} ${envBack}</div>
+  </div>
+  <div class=&quot;metric&quot;>
+    <div class=&quot;metric-label&quot;>건수 추세</div>
+    <div class=&quot;metric-value&quot; style=&quot;font-size:16px;padding-top:4px;&quot;>${cntFront} ${cntBack}</div>
+  </div>
+</div>
 
-    <div class=&quot;target-bar&quot;>
-      <span class=&quot;target-left&quot;>🎯 목표 총환산</span>
-      <span class=&quot;target-right&quot;>현재 ${fmt(Math.round(d.현재환산/10000))}만원 → 목표 ${fmt(Math.round(d.목표환산/10000))}만원 &amp;nbsp;(+10%)</span>
-    </div>
+<div class=&quot;target-bar&quot;>
+  <span class=&quot;target-left&quot;>🎯 목표 총환산</span>
+  <span class=&quot;target-right&quot;>현재 ${fmt(Math.round(d.현재환산/10000))}만원 → 목표 ${fmt(Math.round(d.목표환산/10000))}만원 &amp;nbsp;(+10%)</span>
+</div>
 
-    <div class=&quot;two-col&quot;>
-      <div class=&quot;card&quot;>
-        <div class=&quot;card-title&quot;>📋 월평균 활동량</div>
-        ${actRows}
-      </div>
-      <div class=&quot;card&quot;>
-        <div class=&quot;card-title&quot;>⚡ 활동 생산성 (1건당 소득)</div>
-        ${prodRows}
-        <div class=&quot;prod-row prod-sum&quot;>
-          <span class=&quot;prod-name&quot; style=&quot;font-weight:700;color:#333;&quot;>3가지 합계</span>
-          <div class=&quot;prod-right&quot;>
-            <span class=&quot;prod-amt&quot; style=&quot;font-size:15px;&quot;>${fmt(d.total)}원</span>
-            <span class=&quot;badge b-mid&quot;>평균 ${fmt(d.avg_one_sum)}원</span>
-          </div>
-        </div>
+<div class=&quot;two-col&quot;>
+  <div class=&quot;card&quot;>
+    <div class=&quot;card-title&quot;>📋 월평균 활동량</div>
+    ${actRows}
+  </div>
+  <div class=&quot;card&quot;>
+    <div class=&quot;card-title&quot;>⚡ 활동 생산성 (1건당 소득)</div>
+    ${prodRows}
+    <div class=&quot;prod-row prod-sum&quot;>
+      <span class=&quot;prod-name&quot; style=&quot;font-weight:700;color:#333;&quot;>3가지 합계</span>
+      <div class=&quot;prod-right&quot;>
+        <span class=&quot;prod-amt&quot; style=&quot;font-size:15px;&quot;>${fmt(d.total)}원</span>
+        <span class=&quot;badge b-mid&quot;>평균 ${fmt(d.avg_one_sum)}원</span>
       </div>
     </div>
+  </div>
+</div>
 
-    <div class=&quot;two-col&quot;>
-      <div class=&quot;card&quot;>
-        <div class=&quot;card-title&quot;>🏅 보험 특화 분석 (지점 평균 대비)</div>
-        ${insRows}
-      </div>
-      <div class=&quot;card&quot;>
-        <div class=&quot;card-title&quot;>📅 월별 실적 현황</div>
-        <table class=&quot;month-table&quot;>
-          <thead><tr><th>월</th><th>총환산(만)</th><th>가입설계</th><th>보장분석</th><th>정보동의</th></tr></thead>
-          <tbody>${monthRows}</tbody>
-        </table>
-      </div>
-    </div>
+<div class=&quot;two-col&quot;>
+  <div class=&quot;card&quot;>
+    <div class=&quot;card-title&quot;>🏅 보험 특화 분석 (지점 평균 대비)</div>
+    ${insRows}
+  </div>
+  <div class=&quot;card&quot;>
+    <div class=&quot;card-title&quot;>📅 월별 실적 현황</div>
+    <table class=&quot;month-table&quot;>
+      <thead><tr><th>월</th><th>총환산(만)</th><th>가입설계</th><th>보장분석</th><th>정보동의</th></tr></thead>
+      <tbody>${monthRows}</tbody>
+    </table>
+  </div>
+</div>
 
-    <div class=&quot;ai-box&quot;>
-      <div class=&quot;ai-title&quot;>🤖 AI 한마디</div>
-      ${aiItems}
-    </div>
+<div class=&quot;ai-box&quot;>
+  <div class=&quot;ai-title&quot;>🤖 AI 한마디</div>
+  ${aiItems}
+</div>
+```
+
   </div>`;
 }
 
-const navEl = document.getElementById('navInner');
-const pagesEl = document.getElementById('pages');
+const navEl = document.getElementById(‘navInner’);
+const pagesEl = document.getElementById(‘pages’);
 DATA.forEach((d,i)=>{
-  const btn = document.createElement('button');
-  btn.className = 'nav-btn'+(d.is_mgr?' mgr':'')+(i===0?' active':'');
-  btn.textContent = d.성명;
-  btn.onclick = ()=>{
-    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById('page-'+i).classList.add('active');
-    window.scrollTo(0,0);
-  };
-  navEl.appendChild(btn);
-  pagesEl.insertAdjacentHTML('beforeend', buildPage(d,i));
+const btn = document.createElement(‘button’);
+btn.className = ‘nav-btn’+(d.is_mgr?’ mgr’:’’)+(i===0?’ active’:’’);
+btn.textContent = d.성명;
+btn.onclick = ()=>{
+document.querySelectorAll(’.nav-btn’).forEach(b=>b.classList.remove(‘active’));
+document.querySelectorAll(’.page’).forEach(p=>p.classList.remove(‘active’));
+btn.classList.add(‘active’);
+document.getElementById(‘page-’+i).classList.add(‘active’);
+window.scrollTo(0,0);
+};
+navEl.appendChild(btn);
+pagesEl.insertAdjacentHTML(‘beforeend’, buildPage(d,i));
 });
 </script>
+
+</body>
+</html>
+" style="width:100%; height:100%; border:none; display:block;"></iframe>
+    </div>
+  </div>
+
+  <!-- ============ 승진 2048 ============ -->
+
+  <div class="page" id="page-promo2048" style="padding:0; margin:0;">
+    <div id="promo2048Wrap" class="game-wrap" style="width:100%; height:calc(100vh - 130px); margin:0 -16px; width:calc(100% + 32px); position:relative;">
+      <button id="promo2048FsBtn" onclick="togglePromoFullscreen()" aria-label="전체화면"
+        style="position:absolute; top:10px; right:10px; z-index:5; background:rgba(0,0,0,0.7); color:white; border:none; border-radius:100px; padding:8px 14px; font-size:12px; font-weight:800; cursor:pointer; font-family:inherit; backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); box-shadow:0 2px 8px rgba(0,0,0,0.4); letter-spacing:-0.02em; line-height:1;">
+        ⛶ 전체화면
+      </button>
+      <iframe id="promo2048Frame" srcdoc="<!DOCTYPE html>
+<html lang=&quot;ko&quot;>
+<head>
+<meta charset=&quot;UTF-8&quot;>
+<meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot;>
+<title>등급업 게임</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; user-select:none; -webkit-user-select:none; }
+html, body { height:100%; overflow:hidden; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; }
+body {
+  background: linear-gradient(180deg, #F0EFEC 0%, #E8E5DD 100%);
+  color: #1A1A1A;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: flex-start;
+  padding: 16px;
+  touch-action: none;
+}
+.game-container {
+  width: 100%; max-width: 480px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.header {
+  display: flex; justify-content: space-between; align-items: center;
+}
+.title {
+  font-size: 22px; font-weight: 800; color: #1A1A1A;
+  letter-spacing: -0.03em;
+}
+.title b { color: #F37321; }
+.scores {
+  display: flex; gap: 8px;
+}
+.score-box {
+  background: #1A1A1A; color: white;
+  padding: 8px 12px; border-radius: 10px;
+  text-align: center; min-width: 70px;
+}
+.score-label {
+  font-size: 9px; opacity: 0.7; font-weight: 700;
+  letter-spacing: 0.05em; margin-bottom: 2px;
+}
+.score-value {
+  font-size: 16px; font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.controls {
+  display: flex; gap: 8px; justify-content: space-between; align-items: center;
+}
+.btn {
+  flex: 1; padding: 10px;
+  background: #F37321; color: white;
+  border: none; border-radius: 10px;
+  font-size: 12px; font-weight: 800;
+  font-family: inherit; cursor: pointer;
+  letter-spacing: -0.02em;
+}
+.btn:active { opacity: 0.85; }
+.btn.outline {
+  background: transparent; color: #1A1A1A;
+  border: 1.5px solid #1A1A1A;
+}
+.hint {
+  font-size: 11px; color: #6B7280; font-weight: 600;
+  text-align: center;
+}
+.grid-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  background: #BBB5AB;
+  border-radius: 12px;
+  padding: 8px;
+}
+.grid-bg {
+  position: absolute; inset: 8px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 8px;
+}
+.cell-bg {
+  background: rgba(255,255,255,0.4);
+  border-radius: 8px;
+}
+.tiles {
+  position: absolute; inset: 8px;
+  pointer-events: none;
+}
+.tile {
+  position: absolute;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 8px;
+  font-weight: 800;
+  text-align: center;
+  line-height: 1.1;
+  transition: top 0.13s ease, left 0.13s ease;
+  letter-spacing: -0.04em;
+  padding: 4px;
+  word-break: keep-all;
+}
+.tile.appear { animation: appear 0.18s ease; }
+.tile.merge { animation: merge 0.18s ease; }
+@keyframes appear {
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+@keyframes merge {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+/* 단계별 색상 */
+.t-2    { background: #EDE4D2; color: #5C4D2E; font-size: 14px; }
+.t-4    { background: #EDDFC5; color: #5C4D2E; font-size: 14px; }
+.t-8    { background: #F2B179; color: white; font-size: 13px; }
+.t-16   { background: #F59563; color: white; font-size: 13px; }
+.t-32   { background: #F77E5F; color: white; font-size: 12px; }
+.t-64   { background: #F65E3B; color: white; font-size: 12px; }
+.t-128  { background: #EDCF72; color: white; font-size: 11px; box-shadow: 0 0 12px rgba(243,207,114,0.5); }
+.t-256  { background: #EDCC61; color: white; font-size: 11px; box-shadow: 0 0 14px rgba(237,204,97,0.6); }
+.t-512  { background: #EDC850; color: white; font-size: 11px; box-shadow: 0 0 16px rgba(237,200,80,0.7); }
+.t-1024 { background: #EDC53F; color: white; font-size: 10px; box-shadow: 0 0 18px rgba(237,197,63,0.8); }
+.t-2048 { background: linear-gradient(135deg, #FCD34D, #F37321); color: white; font-size: 10px; box-shadow: 0 0 22px rgba(243,115,33,0.9); }
+.t-4096 { background: linear-gradient(135deg, #C75A14, #F37321, #FCD34D); color: white; font-size: 10px; box-shadow: 0 0 26px rgba(252,211,77,1); }
+
+/* 모달 */
+.modal-bg {
+display: none; position: fixed; inset: 0;
+background: rgba(0,0,0,0.7);
+align-items: center; justify-content: center;
+z-index: 100; padding: 20px;
+}
+.modal-bg.show { display: flex; animation: fadeIn 0.2s; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.modal {
+background: white; border-radius: 18px;
+padding: 28px 24px; text-align: center;
+max-width: 320px; width: 100%;
+animation: popIn 0.3s ease-out;
+}
+@keyframes popIn {
+from { transform: scale(0.5); opacity: 0; }
+to { transform: scale(1); opacity: 1; }
+}
+.modal-emoji { font-size: 64px; margin-bottom: 8px; }
+.modal-title {
+font-size: 11px; font-weight: 700; color: #6B7280;
+letter-spacing: 0.1em; margin-bottom: 6px;
+}
+.modal-msg {
+font-size: 22px; font-weight: 800; color: #1A1A1A;
+letter-spacing: -0.03em; margin-bottom: 8px;
+}
+.modal-sub {
+font-size: 13px; font-weight: 600; color: #6B7280;
+margin-bottom: 20px; line-height: 1.5;
+}
+.modal-btn {
+background: #F37321; color: white;
+border: none; border-radius: 100px;
+padding: 12px 32px;
+font-size: 14px; font-weight: 800;
+font-family: inherit; cursor: pointer;
+letter-spacing: -0.02em;
+}
+</style>
+
+</head>
+<body>
+<div class=&quot;game-container&quot;>
+  <div class=&quot;header&quot;>
+    <div class=&quot;title&quot;>등급업 <b>게임</b></div>
+    <div class=&quot;scores&quot;>
+      <div class=&quot;score-box&quot;>
+        <div class=&quot;score-label&quot;>점수</div>
+        <div class=&quot;score-value&quot; id=&quot;score&quot;>0</div>
+      </div>
+      <div class=&quot;score-box&quot;>
+        <div class=&quot;score-label&quot;>BEST</div>
+        <div class=&quot;score-value&quot; id=&quot;best&quot;>0</div>
+      </div>
+    </div>
+  </div>
+
+  <div class=&quot;hint&quot;>⬆⬇⬅➡ 스와이프 / 같은 등급 합쳐서 <b style=&quot;color:#F37321&quot;>슈퍼</b>까지!</div>
+
+  <div class=&quot;grid-wrap&quot; id=&quot;gridWrap&quot;>
+    <div class=&quot;grid-bg&quot;>
+      <div class=&quot;cell-bg&quot;></div><div class=&quot;cell-bg&quot;></div><div class=&quot;cell-bg&quot;></div><div class=&quot;cell-bg&quot;></div>
+      <div class=&quot;cell-bg&quot;></div><div class=&quot;cell-bg&quot;></div><div class=&quot;cell-bg&quot;></div><div class=&quot;cell-bg&quot;></div>
+      <div class=&quot;cell-bg&quot;></div><div class=&quot;cell-bg&quot;></div><div class=&quot;cell-bg&quot;></div><div class=&quot;cell-bg&quot;></div>
+      <div class=&quot;cell-bg&quot;></div><div class=&quot;cell-bg&quot;></div><div class=&quot;cell-bg&quot;></div><div class=&quot;cell-bg&quot;></div>
+    </div>
+    <div class=&quot;tiles&quot; id=&quot;tiles&quot;></div>
+  </div>
+
+  <div class=&quot;controls&quot;>
+    <button class=&quot;btn outline&quot; onclick=&quot;undo()&quot;>↩ 한 수 무르기</button>
+    <button class=&quot;btn&quot; onclick=&quot;newGame()&quot;>🔄 새 게임</button>
+  </div>
+</div>
+
+<!-- 게임 종료 모달 -->
+
+<div class=&quot;modal-bg&quot; id=&quot;modal&quot;>
+  <div class=&quot;modal&quot;>
+    <div class=&quot;modal-emoji&quot; id=&quot;modalEmoji&quot;>😢</div>
+    <div class=&quot;modal-title&quot; id=&quot;modalTitle&quot;>GAME OVER</div>
+    <div class=&quot;modal-msg&quot; id=&quot;modalMsg&quot;>아쉽네요</div>
+    <div class=&quot;modal-sub&quot; id=&quot;modalSub&quot;>최고 직급: <b>신인</b><br>점수: 0</div>
+    <button class=&quot;modal-btn&quot; onclick=&quot;newGame()&quot;>다시 도전!</button>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+// 직급 라벨 (2^n → 라벨)
+const LABELS = {
+  2: '무가동',
+  4: '가동',
+  8: '실가동',
+  16: '도전',
+  32: '표준',
+  64: '실버',
+  128: '우수',
+  256: '골드',
+  512: '프로',
+  1024: '탑',
+  2048: '슈퍼',
+  4096: '神',
+};
+
+const SIZE = 4;
+let grid = [];        // 2D 배열, 0 또는 숫자
+let prevGrid = null;  // 무르기용
+let prevScore = 0;
+let score = 0;
+let best = parseInt(localStorage.getItem('promo2048_best') || '0');
+let gameOver = false;
+let tileIdSeq = 0;
+let tileMap = new Map(); // id → element
+
+function newGame() {
+  grid = Array(SIZE).fill(0).map(() => Array(SIZE).fill(0));
+  prevGrid = null;
+  score = 0;
+  gameOver = false;
+  // 기존 타일 제거
+  document.getElementById('tiles').innerHTML = '';
+  tileMap.clear();
+  tileIdSeq = 0;
+  // grid에 id 배열도 같이 관리
+  gridIds = Array(SIZE).fill(0).map(() => Array(SIZE).fill(0));
+  
+  addRandomTile();
+  addRandomTile();
+  render();
+  updateScore();
+  document.getElementById('modal').classList.remove('show');
+}
+
+let gridIds = []; // 각 셀의 타일 ID
+
+function addRandomTile() {
+  const empty = [];
+  for (let r = 0; r < SIZE; r++) {
+    for (let c = 0; c < SIZE; c++) {
+      if (grid[r][c] === 0) empty.push([r, c]);
+    }
+  }
+  if (empty.length === 0) return false;
+  const [r, c] = empty[Math.floor(Math.random() * empty.length)];
+  grid[r][c] = Math.random() < 0.9 ? 2 : 4;
+  
+  // 새 타일 DOM 생성
+  const id = ++tileIdSeq;
+  gridIds[r][c] = id;
+  createTileEl(id, grid[r][c], r, c, true);
+  return true;
+}
+
+function getCellPosPercent(r, c) {
+  // grid-bg는 4x4 + gap 8px. padding은 0(inset 기준)
+  // 각 셀: (100% - 3*gap) / 4
+  // 실제 위치 계산은 px 기준이 더 정확. clientWidth 사용
+  const wrap = document.getElementById('tiles');
+  const rect = wrap.getBoundingClientRect();
+  const gap = 8;
+  const cellSize = (rect.width - gap * (SIZE - 1)) / SIZE;
+  const left = c * (cellSize + gap);
+  const top = r * (cellSize + gap);
+  return { left, top, size: cellSize };
+}
+
+function createTileEl(id, value, r, c, isNew) {
+  const tiles = document.getElementById('tiles');
+  const el = document.createElement('div');
+  el.className = 'tile t-' + value + (isNew ? ' appear' : '');
+  el.dataset.id = id;
+  el.textContent = LABELS[value] || value;
+  
+  const pos = getCellPosPercent(r, c);
+  el.style.width = pos.size + 'px';
+  el.style.height = pos.size + 'px';
+  el.style.left = pos.left + 'px';
+  el.style.top = pos.top + 'px';
+  
+  tiles.appendChild(el);
+  tileMap.set(id, el);
+}
+
+function moveTileEl(id, r, c, mergedTo) {
+  const el = tileMap.get(id);
+  if (!el) return;
+  const pos = getCellPosPercent(r, c);
+  el.style.left = pos.left + 'px';
+  el.style.top = pos.top + 'px';
+  if (mergedTo) {
+    // 합쳐진 타일은 이동 후 제거 + 새 타일이 merge 애니메이션
+    setTimeout(() => {
+      el.remove();
+      tileMap.delete(id);
+    }, 130);
+  }
+}
+
+function updateTileEl(id, value) {
+  const el = tileMap.get(id);
+  if (!el) return;
+  el.className = 'tile t-' + value + ' merge';
+  el.textContent = LABELS[value] || value;
+  setTimeout(() => el.classList.remove('merge'), 200);
+}
+
+function render() {
+  // 전체 재렌더 (리사이즈 대응용)
+  // 일반 이동은 moveTileEl로 처리
+  for (let r = 0; r < SIZE; r++) {
+    for (let c = 0; c < SIZE; c++) {
+      const id = gridIds[r][c];
+      if (id &amp;&amp; tileMap.has(id)) {
+        const pos = getCellPosPercent(r, c);
+        const el = tileMap.get(id);
+        el.style.width = pos.size + 'px';
+        el.style.height = pos.size + 'px';
+      }
+    }
+  }
+}
+
+function updateScore() {
+  document.getElementById('score').textContent = score;
+  if (score > best) {
+    best = score;
+    localStorage.setItem('promo2048_best', String(best));
+  }
+  document.getElementById('best').textContent = best;
+}
+
+// 깊은 복사
+function cloneGrid(g) {
+  return g.map(row => row.slice());
+}
+
+// 한 방향으로 이동/합치기
+function move(dir) {
+  if (gameOver) return;
+  
+  // 무르기용 저장
+  const beforeGrid = cloneGrid(grid);
+  const beforeIds = cloneGrid(gridIds);
+  const beforeScore = score;
+  
+  let moved = false;
+  
+  // dir: 0=up, 1=right, 2=down, 3=left
+  // 각 방향에 따라 줄을 추출해서 슬라이드 + 합치기
+  
+  // 줄 단위로 처리하는 함수
+  function processLine(cells) {
+    // cells: [{r, c, val, id}] 순서대로 (이동 방향의 반대쪽이 인덱스 0)
+    // 0이 아닌 값만 모으기
+    const nonZero = cells.filter(x => x.val !== 0);
+    const result = [];
+    let i = 0;
+    while (i < nonZero.length) {
+      if (i + 1 < nonZero.length &amp;&amp; nonZero[i].val === nonZero[i+1].val) {
+        // 합치기
+        const newVal = nonZero[i].val * 2;
+        result.push({ val: newVal, id: nonZero[i].id, mergedId: nonZero[i+1].id });
+        score += newVal;
+        i += 2;
+      } else {
+        result.push({ val: nonZero[i].val, id: nonZero[i].id });
+        i++;
+      }
+    }
+    // 빈 칸 채우기
+    while (result.length < cells.length) {
+      result.push({ val: 0, id: 0 });
+    }
+    // cells의 위치(r, c)에 result 매핑
+    const changes = [];
+    for (let k = 0; k < cells.length; k++) {
+      const oldCell = cells[k];
+      const newItem = result[k];
+      if (oldCell.val !== newItem.val || oldCell.id !== newItem.id) moved = true;
+      changes.push({
+        r: oldCell.r,
+        c: oldCell.c,
+        val: newItem.val,
+        id: newItem.id,
+        mergedId: newItem.mergedId || null,
+      });
+    }
+    return changes;
+  }
+  
+  // 방향별로 줄 추출
+  const lineGroups = [];
+  if (dir === 3) { // left
+    for (let r = 0; r < SIZE; r++) {
+      const line = [];
+      for (let c = 0; c < SIZE; c++) line.push({ r, c, val: grid[r][c], id: gridIds[r][c] });
+      lineGroups.push(line);
+    }
+  } else if (dir === 1) { // right
+    for (let r = 0; r < SIZE; r++) {
+      const line = [];
+      for (let c = SIZE - 1; c >= 0; c--) line.push({ r, c, val: grid[r][c], id: gridIds[r][c] });
+      lineGroups.push(line);
+    }
+  } else if (dir === 0) { // up
+    for (let c = 0; c < SIZE; c++) {
+      const line = [];
+      for (let r = 0; r < SIZE; r++) line.push({ r, c, val: grid[r][c], id: gridIds[r][c] });
+      lineGroups.push(line);
+    }
+  } else { // down
+    for (let c = 0; c < SIZE; c++) {
+      const line = [];
+      for (let r = SIZE - 1; r >= 0; r--) line.push({ r, c, val: grid[r][c], id: gridIds[r][c] });
+      lineGroups.push(line);
+    }
+  }
+  
+  // 처리
+  const allChanges = [];
+  lineGroups.forEach(line => {
+    const changes = processLine(line);
+    allChanges.push(...changes);
+  });
+  
+  if (!moved) {
+    return;
+  }
+  
+  // 저장
+  prevGrid = beforeGrid;
+  prevGridIds = beforeIds;
+  prevScore = beforeScore;
+  
+  // grid 업데이트
+  for (let r = 0; r < SIZE; r++) {
+    for (let c = 0; c < SIZE; c++) {
+      grid[r][c] = 0;
+      gridIds[r][c] = 0;
+    }
+  }
+  
+  // 타일 이동/병합 처리
+  const mergedTiles = []; // 병합 결과 타일들
+  
+  allChanges.forEach(ch => {
+    if (ch.val === 0) return;
+    grid[ch.r][ch.c] = ch.val;
+    gridIds[ch.r][ch.c] = ch.id;
+    
+    // 타일 DOM 이동
+    moveTileEl(ch.id, ch.r, ch.c, false);
+    
+    if (ch.mergedId) {
+      // 합쳐진 타일 - mergedId 타일을 같은 위치로 이동 후 제거
+      moveTileEl(ch.mergedId, ch.r, ch.c, true);
+      mergedTiles.push({ id: ch.id, val: ch.val });
+    }
+  });
+  
+  // 병합 후 값 업데이트 (애니메이션)
+  setTimeout(() => {
+    mergedTiles.forEach(m => updateTileEl(m.id, m.val));
+    // 새 타일 추가
+    addRandomTile();
+    updateScore();
+    
+    // 게임 종료 체크
+    if (!canMove()) {
+      gameOver = true;
+      showModal();
+    } else if (mergedTiles.some(m => m.val === 2048)) {
+      // 2048 도달!
+      showWin();
+    }
+  }, 140);
+}
+
+let prevGridIds = null;
+
+function canMove() {
+  for (let r = 0; r < SIZE; r++) {
+    for (let c = 0; c < SIZE; c++) {
+      if (grid[r][c] === 0) return true;
+      if (c < SIZE - 1 &amp;&amp; grid[r][c] === grid[r][c+1]) return true;
+      if (r < SIZE - 1 &amp;&amp; grid[r][c] === grid[r+1][c]) return true;
+    }
+  }
+  return false;
+}
+
+function undo() {
+  if (!prevGrid) return;
+  grid = cloneGrid(prevGrid);
+  gridIds = cloneGrid(prevGridIds);
+  score = prevScore;
+  prevGrid = null;
+  gameOver = false;
+  
+  // 전체 다시 그리기
+  document.getElementById('tiles').innerHTML = '';
+  tileMap.clear();
+  for (let r = 0; r < SIZE; r++) {
+    for (let c = 0; c < SIZE; c++) {
+      if (grid[r][c] !== 0) {
+        const id = gridIds[r][c];
+        createTileEl(id, grid[r][c], r, c, false);
+      }
+    }
+  }
+  updateScore();
+  document.getElementById('modal').classList.remove('show');
+}
+
+function getHighestTile() {
+  let max = 0;
+  for (let r = 0; r < SIZE; r++) {
+    for (let c = 0; c < SIZE; c++) {
+      if (grid[r][c] > max) max = grid[r][c];
+    }
+  }
+  return max;
+}
+
+function showModal() {
+  const highest = getHighestTile();
+  const label = LABELS[highest] || highest;
+  const emojiMap = { 2:'😅', 4:'😅', 8:'😐', 16:'🙂', 32:'😊', 64:'😎', 128:'🔥', 256:'⭐', 512:'🏆', 1024:'👑', 2048:'🔱' };
+  const msgMap = { 2:'시작이 반!', 4:'슬슬 가동 시작!', 8:'실가동 진입!', 16:'도전 등급 달성!', 32:'표준 안착!', 64:'실버 등극!', 128:'우수 달성!', 256:'🥇 골드!', 512:'프로 등급!', 1024:'TOP 등극!', 2048:'슈퍼 달성!' };
+  
+  document.getElementById('modalEmoji').textContent = emojiMap[highest] || '😢';
+  document.getElementById('modalTitle').textContent = 'GAME OVER';
+  document.getElementById('modalMsg').textContent = msgMap[highest] || '아쉽네요';
+  document.getElementById('modalSub').innerHTML = `최고 직급: <b style=&quot;color:#F37321&quot;>${label}</b><br>점수: <b>${score}</b>`;
+  document.getElementById('modal').classList.add('show');
+}
+
+let _wonOnce = false;
+function showWin() {
+  if (_wonOnce) return;
+  _wonOnce = true;
+  document.getElementById('modalEmoji').textContent = '🔱';
+  document.getElementById('modalTitle').textContent = '🎉 슈퍼 달성!';
+  document.getElementById('modalMsg').textContent = '한화의 전설!';
+  document.getElementById('modalSub').innerHTML = `점수: <b>${score}</b><br>계속 도전해서 <b style=&quot;color:#F37321&quot;>神</b>의 경지에 도달해보세요!`;
+  document.getElementById('modal').classList.add('show');
+}
+
+// ===== 입력 처리 =====
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowUp') { e.preventDefault(); move(0); }
+  else if (e.key === 'ArrowRight') { e.preventDefault(); move(1); }
+  else if (e.key === 'ArrowDown') { e.preventDefault(); move(2); }
+  else if (e.key === 'ArrowLeft') { e.preventDefault(); move(3); }
+});
+
+// 터치 스와이프
+let touchStartX = 0, touchStartY = 0;
+const gridWrap = document.getElementById('gridWrap');
+gridWrap.addEventListener('touchstart', e => {
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+}, { passive: true });
+gridWrap.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  const dy = e.changedTouches[0].clientY - touchStartY;
+  const threshold = 24;
+  if (Math.abs(dx) < threshold &amp;&amp; Math.abs(dy) < threshold) return;
+  if (Math.abs(dx) > Math.abs(dy)) {
+    move(dx > 0 ? 1 : 3);
+  } else {
+    move(dy > 0 ? 2 : 0);
+  }
+}, { passive: true });
+gridWrap.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+
+// 화면 리사이즈 대응
+window.addEventListener('resize', () => {
+  // 타일 위치 재계산
+  for (let r = 0; r < SIZE; r++) {
+    for (let c = 0; c < SIZE; c++) {
+      const id = gridIds[r][c];
+      if (id &amp;&amp; tileMap.has(id)) {
+        const pos = getCellPosPercent(r, c);
+        const el = tileMap.get(id);
+        el.style.width = pos.size + 'px';
+        el.style.height = pos.size + 'px';
+        el.style.left = pos.left + 'px';
+        el.style.top = pos.top + 'px';
+      }
+    }
+  }
+});
+
+// 시작
+newGame();
+</script>
+
 </body>
 </html>
 " style="width:100%; height:100%; border:none; display:block;"></iframe>
@@ -2108,6 +2771,7 @@ DATA.forEach((d,i)=>{
 <div id="branchAwardsContainer"></div>
 
 <!-- 24시간 박스 (지점시상용) -->
+
 <div style="background:linear-gradient(135deg, #F37321 0%, #C75A14 100%); border-radius:14px; padding:18px 20px; margin-top:16px; text-align:center; color:white;">
   <div style="font-size:13px; font-weight:800; margin-bottom:10px; letter-spacing:-0.02em;">
     🎁 매일 한 번, 행운의 박스 🎁
@@ -3124,6 +3788,34 @@ function switchPage(page) {
   }
 }
 
+// 게임 풀스크린 토글
+function toggleGameFullscreen() {
+  const wrap = document.getElementById('gameFrameWrap');
+  const btn = document.getElementById('gameFsBtn');
+  if (!wrap || !btn) return;
+  if (wrap.classList.contains('fullscreen')) {
+    wrap.classList.remove('fullscreen');
+    btn.innerHTML = '⛶ 전체화면';
+  } else {
+    wrap.classList.add('fullscreen');
+    btn.innerHTML = '✕ 닫기';
+  }
+}
+
+// 승진 2048 풀스크린 토글
+function togglePromoFullscreen() {
+  const wrap = document.getElementById('promo2048Wrap');
+  const btn = document.getElementById('promo2048FsBtn');
+  if (!wrap || !btn) return;
+  if (wrap.classList.contains('fullscreen')) {
+    wrap.classList.remove('fullscreen');
+    btn.innerHTML = '⛶ 전체화면';
+  } else {
+    wrap.classList.add('fullscreen');
+    btn.innerHTML = '✕ 닫기';
+  }
+}
+
 document.querySelectorAll('.tab').forEach(tab => {
   tab.addEventListener('click', () => switchPage(tab.dataset.page));
 });
@@ -3231,6 +3923,7 @@ async function forceRefresh() {
 </script>
 
 <!-- 당첨 모달 -->
+
 <div id="prizeModal" class="prize-modal" onclick="if(event.target.id==='prizeModal') closePrize()">
   <div class="prize-content">
     <div class="prize-emoji" id="prizeEmoji">🎉</div>
