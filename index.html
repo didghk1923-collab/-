@@ -884,9 +884,11 @@ input#bojangGeongang::-webkit-inner-spin-button {
 <body>
 
 <!-- 사이드 패널 오버레이 -->
+
 <div id="sideOverlay" class="side-overlay"></div>
 
 <!-- 사이드 패널 -->
+
 <aside id="sidePanel" class="side-panel">
   <div class="side-header">
     <div class="side-title">메뉴</div>
@@ -950,6 +952,7 @@ input#bojangGeongang::-webkit-inner-spin-button {
   <div class="page" id="page-data">
 
 <!-- 환산월초/보장월초 -->
+
 <div class="card">
   <div class="label">총 환산월초</div>
   <div class="big-num">
@@ -971,18 +974,22 @@ input#bojangGeongang::-webkit-inner-spin-button {
 </div>
 
 <!-- 활동 KPI 4개 -->
+
 <div class="section-title">활동 현황</div>
 <div class="kpi-grid" id="kpiGrid"></div>
 
 <!-- 팀별 -->
+
 <div class="section-title">팀별 현황</div>
 <div class="card" id="teamCard"></div>
 
 <!-- 등급 분포 -->
+
 <div class="section-title">등급 분포</div>
 <div class="card" id="gradeCard"></div>
 
 <!-- 무가동 -->
+
 <div class="section-title">무가동</div>
 <div class="card">
   <div class="big-warn">
@@ -993,6 +1000,7 @@ input#bojangGeongang::-webkit-inner-spin-button {
 </div>
 
 <!-- 3.3.3 -->
+
 <div class="section-title">3.3.3 바른활동</div>
 <div class="card">
   <div style="display:flex; justify-content:space-around; padding: 8px 0 16px; text-align:center;">
@@ -1019,10 +1027,12 @@ input#bojangGeongang::-webkit-inner-spin-button {
   <div class="page" id="page-income">
 
 <!-- 입력 카드 -->
+
 <div class="card card-accent">
   <div class="label label-white">상품별 환산월초 입력</div>
-  
+
   <!-- 종신 입력 -->
+
   <div style="margin-top:12px;">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
       <div style="font-size:13px; font-weight:700;">종신 환산월초</div>
@@ -1040,11 +1050,13 @@ input#bojangGeongang::-webkit-inner-spin-button {
       <button class="step-btn" data-target="envJongsin" data-action="plus" data-val="100000">+ 10만</button>
     </div>
   </div>
-  
+
   <!-- 구분선 -->
+
   <div style="height:1px; background:rgba(255,255,255,0.18); margin:16px 0;"></div>
-  
+
   <!-- 건강 입력 -->
+
   <div>
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
       <div style="font-size:13px; font-weight:700;">건강 환산월초</div>
@@ -1062,8 +1074,9 @@ input#bojangGeongang::-webkit-inner-spin-button {
       <button class="step-btn" data-target="envGeongang" data-action="plus" data-val="100000">+ 10만</button>
     </div>
   </div>
-  
+
   <!-- 합산 표시 -->
+
   <div style="margin-top:14px; padding:10px 14px; background:rgba(255,255,255,0.15); border-radius:10px; display:flex; justify-content:space-between; align-items:center;">
     <div style="font-size:11px; opacity:0.85; font-weight:600;">합산 환산월초</div>
     <div style="font-size:18px; font-weight:800; letter-spacing:-0.02em;">
@@ -1073,6 +1086,7 @@ input#bojangGeongang::-webkit-inner-spin-button {
 </div>
 
 <!-- 건강보장월초 입력 카드 (초록색, 시상 전용) -->
+
 <div class="card" style="background:linear-gradient(135deg, #0F766E 0%, #14B8A6 100%); color:white; border:none;">
   <div style="font-size:11px; opacity:0.85; font-weight:600; letter-spacing:0.05em;">건강보장월초 입력</div>
   <div style="margin-top:10px;">
@@ -1096,9 +1110,11 @@ input#bojangGeongang::-webkit-inner-spin-button {
 </div>
 
 <!-- 결과 카드 2단 그리드 (예상급여 / 시상) -->
+
 <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-  
+
   <!-- 예상 급여 (주황) -->
+
   <div class="card" style="text-align:center; padding:14px 10px; margin:0; background:linear-gradient(135deg, #C75A14 0%, #F37321 100%); color:white; border:none;">
     <div style="font-size:10px; opacity:0.85; font-weight:600; letter-spacing:0.03em;">예상 급여</div>
     <div style="font-size:11px; opacity:0.65; font-weight:500; margin-top:2px;">24개월 누적</div>
@@ -1110,8 +1126,9 @@ input#bojangGeongang::-webkit-inner-spin-button {
       지급률 <b style="color:#FCD34D;" id="totalRate">0%</b>
     </div>
   </div>
-  
+
   <!-- 건강보장월초 시상 (초록) -->
+
   <div class="card" style="text-align:center; padding:14px 10px; margin:0; background:linear-gradient(135deg, #0F766E 0%, #14B8A6 100%); color:white; border:none;">
     <div style="font-size:10px; opacity:0.85; font-weight:600; letter-spacing:0.03em;">건강보장월초 시상</div>
     <div style="font-size:11px; opacity:0.65; font-weight:500; margin-top:2px;">구간별 지급</div>
@@ -1125,10 +1142,11 @@ input#bojangGeongang::-webkit-inner-spin-button {
       <b style="color:#FCD34D;" id="awardRate">0%</b>
     </div>
   </div>
-  
+
 </div>
 
 <!-- 총 급여 합계 -->
+
 <div class="section-title">총 급여 합계</div>
 <div class="card">
   <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -1147,6 +1165,7 @@ input#bojangGeongang::-webkit-inner-spin-button {
 </div>
 
 <!-- 안내 메모 -->
+
 <div style="padding:14px; margin-top:8px; font-size:11px; color:var(--gray); line-height:1.6;">
   ※ 종신·건강 합산 환산월초 기준 추정치입니다.<br>
   ※ 모집수수료는 즉시, 고객서비스/생산성은 분할·익월·13회 시점에 지급됩니다.<br>
@@ -1160,15 +1179,19 @@ input#bojangGeongang::-webkit-inner-spin-button {
   <div class="page" id="page-rank">
 
 <!-- 개인 랭킹 TOP 5 -->
+
 <div class="section-title">개인 랭킹 · TOP 5</div>
 
 <!-- 1~3위 메달 카드 -->
+
 <div id="rankLeader" style="margin-bottom: 4px;"></div>
 
 <!-- 4~5위 -->
+
 <div class="card" id="rankOthers"></div>
 
 <!-- 팀 랭킹 -->
+
 <div class="section-title">팀 랭킹</div>
 <div class="card" id="rankTeam"></div>
 
@@ -1184,87 +1207,89 @@ input#bojangGeongang::-webkit-inner-spin-button {
 
   <div class="page" id="page-dailyedu">
 
-    <!-- 일상교육 히어로 -->
-    <div style="background:linear-gradient(135deg, #1A1A1A 0%, #3A3A3A 100%); border-radius:18px; padding:24px 20px; margin-bottom:16px; color:white; position:relative; overflow:hidden;">
-      <div style="position:absolute; top:-30px; right:-30px; width:140px; height:140px; border-radius:50%; background:radial-gradient(circle, rgba(252,211,77,0.18) 0%, transparent 70%);"></div>
-      <div style="font-size:11px; font-weight:700; opacity:0.85; letter-spacing:0.08em; position:relative;" id="dailyEduDate">2026.05.13 (화) · 조회시간</div>
-      <div style="font-size:22px; font-weight:800; margin-top:6px; line-height:1.3; letter-spacing:-0.03em; position:relative;">
-        📖 오늘의<br>
-        <span style="color:#FCD34D;">일상교육</span>
-      </div>
-    </div>
+```
+<!-- 일상교육 히어로 -->
+<div style="background:linear-gradient(135deg, #1A1A1A 0%, #3A3A3A 100%); border-radius:18px; padding:24px 20px; margin-bottom:16px; color:white; position:relative; overflow:hidden;">
+  <div style="position:absolute; top:-30px; right:-30px; width:140px; height:140px; border-radius:50%; background:radial-gradient(circle, rgba(252,211,77,0.18) 0%, transparent 70%);"></div>
+  <div style="font-size:11px; font-weight:700; opacity:0.85; letter-spacing:0.08em; position:relative;" id="dailyEduDate">2026.05.13 (화) · 조회시간</div>
+  <div style="font-size:22px; font-weight:800; margin-top:6px; line-height:1.3; letter-spacing:-0.03em; position:relative;">
+    📖 오늘의<br>
+    <span style="color:#FCD34D;">일상교육</span>
+  </div>
+</div>
 
-    <!-- 교육 콘텐츠 자리 -->
-    <div class="section-title">오늘의 주제</div>
-    <div id="dailyEduWrap" class="card" style="padding:0; overflow:hidden; position:relative; background:#FFFFFF; transition:height 0.35s ease;">
-      <div id="dailyEduSlider" style="display:flex; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scrollbar-width:none; height:100%; width:100%; scroll-snap-stop:always; touch-action:pan-x; overscroll-behavior:none;">
-        <style>
-          #dailyEduSlider::-webkit-scrollbar { display:none; }
-          .ded-slide {
-            flex: 0 0 100%;
-            width: 100%;
-            scroll-snap-align: center;
-            scroll-snap-stop: always;
-            display: block;
-            box-sizing: border-box;
-            position: relative;
-            overflow: hidden;
-          }
-          .ded-slide img {
-            width: 100%;
-            height: auto;
-            display: block;
-            pointer-events: none;
-            user-select: none;
-            -webkit-user-drag: none;
-            -webkit-touch-callout: none;
-          }
-        </style>
-        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/AD33BCE8-E96B-466B-A4AC-5623EAB60AD0.png" alt="일상교육 1/7"></div>
-        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/DB5E4ED4-87EA-48C2-8D5A-85F7E0E78AD3.png" alt="일상교육 2/7"></div>
-        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/77998A83-F4DC-42ED-BB42-BF58BAA0AF73.png" alt="일상교육 3/7"></div>
-        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/B992FF6B-FD77-4FB0-A958-4956BADCC759.png" alt="일상교육 4/7"></div>
-        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/52E970AA-1038-42F7-BFE2-A97DC2BBA682.png" alt="일상교육 5/7"></div>
-        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/6BFDC496-804A-4D1D-86F4-47FB9FBBB390.png" alt="일상교육 6/7"></div>
-        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/F787A2A9-E986-40C7-BC7B-D33F9D9BEDD3.png" alt="일상교육 7/7"></div>
-      </div>
-      <!-- 페이지 인디케이터 -->
-      <div id="dailyEduDots" style="position:absolute; bottom:10px; left:50%; transform:translateX(-50%); display:flex; gap:6px; padding:6px 10px; background:rgba(0,0,0,0.5); border-radius:100px; backdrop-filter:blur(8px); z-index:2;">
-        <span class="ded-dot active" style="width:7px; height:7px; border-radius:50%; background:white; transition:opacity 0.2s;"></span>
-        <span class="ded-dot" style="width:7px; height:7px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s;"></span>
-        <span class="ded-dot" style="width:7px; height:7px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s;"></span>
-        <span class="ded-dot" style="width:7px; height:7px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s;"></span>
-        <span class="ded-dot" style="width:7px; height:7px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s;"></span>
-        <span class="ded-dot" style="width:7px; height:7px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s;"></span>
-        <span class="ded-dot" style="width:7px; height:7px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s;"></span>
-      </div>
-    </div>
-    <div style="text-align:center; font-size:11px; color:var(--gray); font-weight:600; margin-top:8px;">← 좌우로 스와이프해서 넘겨보세요 →</div>
+<!-- 교육 콘텐츠 자리 -->
+<div class="section-title">오늘의 주제</div>
+<div id="dailyEduWrap" class="card" style="padding:0; overflow:hidden; position:relative; background:#FFFFFF; transition:height 0.35s ease; min-height:300px;">
+  <div id="dailyEduSlider" style="display:flex; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scrollbar-width:none; height:100%; width:100%; scroll-snap-stop:always; touch-action:pan-x; overscroll-behavior:none;">
+    <style>
+      #dailyEduSlider::-webkit-scrollbar { display:none; }
+      .ded-slide {
+        flex: 0 0 100%;
+        width: 100%;
+        scroll-snap-align: center;
+        scroll-snap-stop: always;
+        display: block;
+        box-sizing: border-box;
+        position: relative;
+        overflow: hidden;
+      }
+      .ded-slide img {
+        width: 100%;
+        height: auto;
+        display: block;
+        pointer-events: none;
+        user-select: none;
+        -webkit-user-drag: none;
+        -webkit-touch-callout: none;
+      }
+    </style>
+    <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/AD33BCE8-E96B-466B-A4AC-5623EAB60AD0.png" alt="일상교육 1/7"></div>
+    <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/DB5E4ED4-87EA-48C2-8D5A-85F7E0E78AD3.png" alt="일상교육 2/7"></div>
+    <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/77998A83-F4DC-42ED-BB42-BF58BAA0AF73.png" alt="일상교육 3/7"></div>
+    <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/B992FF6B-FD77-4FB0-A958-4956BADCC759.png" alt="일상교육 4/7"></div>
+    <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/52E970AA-1038-42F7-BFE2-A97DC2BBA682.png" alt="일상교육 5/7"></div>
+    <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/6BFDC496-804A-4D1D-86F4-47FB9FBBB390.png" alt="일상교육 6/7"></div>
+    <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/F787A2A9-E986-40C7-BC7B-D33F9D9BEDD3.png" alt="일상교육 7/7"></div>
+  </div>
+  <!-- 페이지 인디케이터 -->
+  <div id="dailyEduDots" style="position:absolute; bottom:10px; left:50%; transform:translateX(-50%); display:flex; gap:6px; padding:6px 10px; background:rgba(0,0,0,0.5); border-radius:100px; backdrop-filter:blur(8px); z-index:2;">
+    <span class="ded-dot active" style="width:7px; height:7px; border-radius:50%; background:white; transition:opacity 0.2s;"></span>
+    <span class="ded-dot" style="width:7px; height:7px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s;"></span>
+    <span class="ded-dot" style="width:7px; height:7px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s;"></span>
+    <span class="ded-dot" style="width:7px; height:7px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s;"></span>
+    <span class="ded-dot" style="width:7px; height:7px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s;"></span>
+    <span class="ded-dot" style="width:7px; height:7px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s;"></span>
+    <span class="ded-dot" style="width:7px; height:7px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s;"></span>
+  </div>
+</div>
+<div style="text-align:center; font-size:11px; color:var(--gray); font-weight:600; margin-top:8px;">← 좌우로 스와이프해서 넘겨보세요 →</div>
 
-    <!-- 오늘 꼭 해야할 것 (수동 입력 영역) -->
-    <div class="section-title" style="margin-top:18px;">오늘 꼭 해야할 것</div>
-    <div class="card" style="padding:18px 20px;">
-      <div style="display:flex; gap:10px; margin-bottom:12px; align-items:flex-start;">
-        <span style="background:var(--accent); color:white; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0; margin-top:1px;">1</span>
-        <span style="font-size:13px; font-weight:700; color:var(--ink); line-height:1.5;">오늘의 <b style="color:var(--accent);">PICK</b> 접속하기</span>
-      </div>
-      <div style="display:flex; gap:10px; margin-bottom:12px; align-items:flex-start;">
-        <span style="background:var(--accent); color:white; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0; margin-top:1px;">2</span>
-        <span style="font-size:13px; font-weight:700; color:var(--ink); line-height:1.5;"><b style="color:var(--accent);">캠페인 꼭 활용</b>해서 3명한테 콘텐츠 발송</span>
-      </div>
-      <div style="display:flex; gap:10px; align-items:flex-start;">
-        <span style="background:var(--accent); color:white; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0; margin-top:1px;">3</span>
-        <span style="font-size:13px; font-weight:700; color:var(--ink); line-height:1.5;">바른활동 <b style="color:var(--accent);">3.3.3</b> 꼭 하기</span>
-      </div>
-    </div>
+<!-- 오늘 꼭 해야할 것 (수동 입력 영역) -->
+<div class="section-title" style="margin-top:18px;">오늘 꼭 해야할 것</div>
+<div class="card" style="padding:18px 20px;">
+  <div style="display:flex; gap:10px; margin-bottom:12px; align-items:flex-start;">
+    <span style="background:var(--accent); color:white; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0; margin-top:1px;">1</span>
+    <span style="font-size:13px; font-weight:700; color:var(--ink); line-height:1.5;">오늘의 <b style="color:var(--accent);">PICK</b> 접속하기</span>
+  </div>
+  <div style="display:flex; gap:10px; margin-bottom:12px; align-items:flex-start;">
+    <span style="background:var(--accent); color:white; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0; margin-top:1px;">2</span>
+    <span style="font-size:13px; font-weight:700; color:var(--ink); line-height:1.5;"><b style="color:var(--accent);">캠페인 꼭 활용</b>해서 3명한테 콘텐츠 발송</span>
+  </div>
+  <div style="display:flex; gap:10px; align-items:flex-start;">
+    <span style="background:var(--accent); color:white; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0; margin-top:1px;">3</span>
+    <span style="font-size:13px; font-weight:700; color:var(--ink); line-height:1.5;">바른활동 <b style="color:var(--accent);">3.3.3</b> 꼭 하기</span>
+  </div>
+</div>
 
-    <!-- 마무리 멘트 -->
-    <div style="background:var(--ink); color:white; border-radius:14px; padding:18px 20px; margin-top:16px; text-align:center;">
-      <div style="font-size:14px; font-weight:800; line-height:1.6; letter-spacing:-0.02em;">
-        하회지점 전 FP님들의 영업현장<br>
-        <span style="color:#FCD34D;">제가 열심히 서포트 하겠습니다 ♥</span>
-      </div>
-    </div>
+<!-- 마무리 멘트 -->
+<div style="background:var(--ink); color:white; border-radius:14px; padding:18px 20px; margin-top:16px; text-align:center;">
+  <div style="font-size:14px; font-weight:800; line-height:1.6; letter-spacing:-0.02em;">
+    하회지점 전 FP님들의 영업현장<br>
+    <span style="color:#FCD34D;">제가 열심히 서포트 하겠습니다 ♥</span>
+  </div>
+</div>
+```
 
   </div>
 
@@ -1272,87 +1297,89 @@ input#bojangGeongang::-webkit-inner-spin-button {
 
   <div class="page" id="page-campaign">
 
-    <!-- 캠페인 히어로 -->
-    <div style="background:linear-gradient(135deg, #F37321 0%, #C75A14 100%); border-radius:18px; padding:24px 20px; margin-bottom:16px; color:white; position:relative; overflow:hidden;">
-      <div style="position:absolute; top:-30px; right:-30px; width:140px; height:140px; border-radius:50%; background:radial-gradient(circle, rgba(255,255,255,0.18) 0%, transparent 70%);"></div>
-      <div style="font-size:11px; font-weight:700; opacity:0.85; letter-spacing:0.08em; position:relative;">2026.05 · 본사 캠페인</div>
-      <div style="font-size:24px; font-weight:800; margin-top:6px; line-height:1.3; letter-spacing:-0.03em; position:relative;">
-        5월은 한화생명<br>
-        <span style="color:#FCD34D;">온가족 캠페인</span>
-      </div>
+```
+<!-- 캠페인 히어로 -->
+<div style="background:linear-gradient(135deg, #F37321 0%, #C75A14 100%); border-radius:18px; padding:24px 20px; margin-bottom:16px; color:white; position:relative; overflow:hidden;">
+  <div style="position:absolute; top:-30px; right:-30px; width:140px; height:140px; border-radius:50%; background:radial-gradient(circle, rgba(255,255,255,0.18) 0%, transparent 70%);"></div>
+  <div style="font-size:11px; font-weight:700; opacity:0.85; letter-spacing:0.08em; position:relative;">2026.05 · 본사 캠페인</div>
+  <div style="font-size:24px; font-weight:800; margin-top:6px; line-height:1.3; letter-spacing:-0.03em; position:relative;">
+    5월은 한화생명<br>
+    <span style="color:#FCD34D;">온가족 캠페인</span>
+  </div>
+</div>
+
+<!-- 하는 방법 -->
+<div class="section-title">하는 방법</div>
+<div class="card" style="padding:14px; overflow-x:auto; -webkit-overflow-scrolling:touch;">
+  <div style="display:flex; align-items:center; gap:6px; font-size:12px; font-weight:700; white-space:nowrap; width:max-content;">
+    <span style="background:var(--accent-soft); color:var(--accent-deep); padding:7px 10px; border-radius:7px; flex-shrink:0;">FP월드</span>
+    <span style="color:var(--accent); font-weight:800; flex-shrink:0;">→</span>
+    <span style="background:var(--accent-soft); color:var(--accent-deep); padding:7px 10px; border-radius:7px; flex-shrink:0;">고객관리활동</span>
+    <span style="color:var(--accent); font-weight:800; flex-shrink:0;">→</span>
+    <span style="background:var(--accent-soft); color:var(--accent-deep); padding:7px 10px; border-radius:7px; flex-shrink:0;">타겟고객</span>
+    <span style="color:var(--accent); font-weight:800; flex-shrink:0;">→</span>
+    <span style="background:var(--accent); color:white; padding:7px 10px; border-radius:7px; flex-shrink:0;">캠페인 활동 관리</span>
+  </div>
+</div>
+
+<!-- 대상 -->
+<div class="card" style="background:var(--accent-soft); border:none; padding:14px 18px; margin-top:12px;">
+  <div style="font-size:11px; color:var(--accent-deep); font-weight:700; margin-bottom:4px;">대상</div>
+  <div style="font-size:14px; font-weight:700; color:var(--ink);">해당 고객 전원</div>
+</div>
+
+<!-- 어떻게? -->
+<div class="section-title">어떻게 받나요?</div>
+<div class="card" style="padding:18px;">
+  <div style="font-size:13px; font-weight:600; color:var(--ink-soft); line-height:1.6;">
+    오렌지 터치에 <b style="color:var(--accent);">'오늘의 고객터치 & 추천콘텐츠'</b> 발송 시
+  </div>
+</div>
+
+<!-- 시상 그리드 -->
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px;">
+
+  <!-- 3명 -->
+  <div class="card" style="text-align:center; padding:18px 12px; margin:0; background:linear-gradient(135deg, #1A1A1A 0%, #2A2520 100%); color:white; border:none;">
+    <div style="font-size:11px; opacity:0.75; font-weight:600;">주간 발송</div>
+    <div style="font-size:36px; font-weight:800; line-height:1; margin-top:6px; letter-spacing:-0.04em;">
+      3<span style="font-size:14px; opacity:0.85; margin-left:2px;">명</span>
     </div>
+    <div style="height:1px; background:rgba(255,255,255,0.18); margin:14px 0;"></div>
+    <div style="font-size:11px; opacity:0.75; font-weight:600;">CU 쿠폰</div>
+    <div style="font-size:22px; font-weight:800; color:#FCD34D; margin-top:4px; letter-spacing:-0.03em;">3,000원</div>
+  </div>
 
-    <!-- 하는 방법 -->
-    <div class="section-title">하는 방법</div>
-    <div class="card" style="padding:14px; overflow-x:auto; -webkit-overflow-scrolling:touch;">
-      <div style="display:flex; align-items:center; gap:6px; font-size:12px; font-weight:700; white-space:nowrap; width:max-content;">
-        <span style="background:var(--accent-soft); color:var(--accent-deep); padding:7px 10px; border-radius:7px; flex-shrink:0;">FP월드</span>
-        <span style="color:var(--accent); font-weight:800; flex-shrink:0;">→</span>
-        <span style="background:var(--accent-soft); color:var(--accent-deep); padding:7px 10px; border-radius:7px; flex-shrink:0;">고객관리활동</span>
-        <span style="color:var(--accent); font-weight:800; flex-shrink:0;">→</span>
-        <span style="background:var(--accent-soft); color:var(--accent-deep); padding:7px 10px; border-radius:7px; flex-shrink:0;">타겟고객</span>
-        <span style="color:var(--accent); font-weight:800; flex-shrink:0;">→</span>
-        <span style="background:var(--accent); color:white; padding:7px 10px; border-radius:7px; flex-shrink:0;">캠페인 활동 관리</span>
-      </div>
+  <!-- 5명 -->
+  <div class="card" style="text-align:center; padding:18px 12px; margin:0; background:linear-gradient(135deg, #C75A14 0%, #F37321 100%); color:white; border:none;">
+    <div style="font-size:11px; opacity:0.85; font-weight:600;">주간 발송</div>
+    <div style="font-size:36px; font-weight:800; line-height:1; margin-top:6px; letter-spacing:-0.04em;">
+      5<span style="font-size:14px; opacity:0.85; margin-left:2px;">명</span>
     </div>
+    <div style="height:1px; background:rgba(255,255,255,0.22); margin:14px 0;"></div>
+    <div style="font-size:11px; opacity:0.85; font-weight:600;">CU 쿠폰</div>
+    <div style="font-size:22px; font-weight:800; color:#FCD34D; margin-top:4px; letter-spacing:-0.03em;">5,000원</div>
+  </div>
 
-    <!-- 대상 -->
-    <div class="card" style="background:var(--accent-soft); border:none; padding:14px 18px; margin-top:12px;">
-      <div style="font-size:11px; color:var(--accent-deep); font-weight:700; margin-bottom:4px;">대상</div>
-      <div style="font-size:14px; font-weight:700; color:var(--ink);">해당 고객 전원</div>
-    </div>
+</div>
 
-    <!-- 어떻게? -->
-    <div class="section-title">어떻게 받나요?</div>
-    <div class="card" style="padding:18px;">
-      <div style="font-size:13px; font-weight:600; color:var(--ink-soft); line-height:1.6;">
-        오렌지 터치에 <b style="color:var(--accent);">'오늘의 고객터치 & 추천콘텐츠'</b> 발송 시
-      </div>
-    </div>
-
-    <!-- 시상 그리드 -->
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px;">
-
-      <!-- 3명 -->
-      <div class="card" style="text-align:center; padding:18px 12px; margin:0; background:linear-gradient(135deg, #1A1A1A 0%, #2A2520 100%); color:white; border:none;">
-        <div style="font-size:11px; opacity:0.75; font-weight:600;">주간 발송</div>
-        <div style="font-size:36px; font-weight:800; line-height:1; margin-top:6px; letter-spacing:-0.04em;">
-          3<span style="font-size:14px; opacity:0.85; margin-left:2px;">명</span>
-        </div>
-        <div style="height:1px; background:rgba(255,255,255,0.18); margin:14px 0;"></div>
-        <div style="font-size:11px; opacity:0.75; font-weight:600;">CU 쿠폰</div>
-        <div style="font-size:22px; font-weight:800; color:#FCD34D; margin-top:4px; letter-spacing:-0.03em;">3,000원</div>
-      </div>
-
-      <!-- 5명 -->
-      <div class="card" style="text-align:center; padding:18px 12px; margin:0; background:linear-gradient(135deg, #C75A14 0%, #F37321 100%); color:white; border:none;">
-        <div style="font-size:11px; opacity:0.85; font-weight:600;">주간 발송</div>
-        <div style="font-size:36px; font-weight:800; line-height:1; margin-top:6px; letter-spacing:-0.04em;">
-          5<span style="font-size:14px; opacity:0.85; margin-left:2px;">명</span>
-        </div>
-        <div style="height:1px; background:rgba(255,255,255,0.22); margin:14px 0;"></div>
-        <div style="font-size:11px; opacity:0.85; font-weight:600;">CU 쿠폰</div>
-        <div style="font-size:22px; font-weight:800; color:#FCD34D; margin-top:4px; letter-spacing:-0.03em;">5,000원</div>
-      </div>
-
-    </div>
-
-    <!-- 마무리 한마디 -->
-    <div style="background:var(--ink); color:white; border-radius:14px; padding:18px 20px; margin-top:16px; text-align:center;">
-      <div style="font-size:15px; font-weight:800; line-height:1.5; letter-spacing:-0.02em;">
-        편의점 돈 내고 가지 말고<br>
-        <span style="color:#FCD34D;">캠페인 해서 꽁짜로 씁시다 ~!</span>
-      </div>
-      
-      <!-- 24시간 박스 (캠페인용) -->
-      <div style="margin-top:18px;">
-        <button id="hourlyBoxCampaign" class="hourly-box hourly-box-big" onclick="openHourlyBoxCampaign()" aria-label="24시간 박스">
-          <span class="hourly-box-icon">🎁</span>
-          <span class="hourly-box-timer" id="hourlyBoxCampaignTimer">--:--:--</span>
-        </button>
-        <div style="font-size:10px; color:rgba(255,255,255,0.55); font-weight:600; margin-top:8px;">24시간마다 OPEN 가능</div>
-      </div>
-    </div>
+<!-- 마무리 한마디 -->
+<div style="background:var(--ink); color:white; border-radius:14px; padding:18px 20px; margin-top:16px; text-align:center;">
+  <div style="font-size:15px; font-weight:800; line-height:1.5; letter-spacing:-0.02em;">
+    편의점 돈 내고 가지 말고<br>
+    <span style="color:#FCD34D;">캠페인 해서 꽁짜로 씁시다 ~!</span>
+  </div>
+  
+  <!-- 24시간 박스 (캠페인용) -->
+  <div style="margin-top:18px;">
+    <button id="hourlyBoxCampaign" class="hourly-box hourly-box-big" onclick="openHourlyBoxCampaign()" aria-label="24시간 박스">
+      <span class="hourly-box-icon">🎁</span>
+      <span class="hourly-box-timer" id="hourlyBoxCampaignTimer">--:--:--</span>
+    </button>
+    <div style="font-size:10px; color:rgba(255,255,255,0.55); font-weight:600; margin-top:8px;">24시간마다 OPEN 가능</div>
+  </div>
+</div>
+```
 
   </div>
 
@@ -1928,65 +1955,32 @@ const badgeMap = {up:'b-up',down:'b-down',mid:'b-mid'};
 function fmt(n){ return Number(n).toLocaleString('ko-KR'); }
 
 function buildPage(d, idx){
-  const hdrCls = d.is_mgr ? 'gold' : 'blue';
-  const maxAct = Math.max(...d.act_list.map(a=>a.val), 1);
-  const fills = ['fill-blue','fill-green','fill-amber'];
+const hdrCls = d.is_mgr ? ‘gold’ : ‘blue’;
+const maxAct = Math.max(…d.act_list.map(a=>a.val), 1);
+const fills = [‘fill-blue’,‘fill-green’,‘fill-amber’];
 
-  const actRows = d.act_list.map((a,i)=>`
-    <div class=&quot;act-row&quot;>
-      <span class=&quot;act-name&quot;>${a.name}</span>
-      <div class=&quot;act-track&quot;><div class=&quot;act-fill ${fills[i]}&quot; style=&quot;width:${Math.round(a.val/maxAct*100)}%&quot;></div></div>
-      <span class=&quot;act-val&quot;>${a.val}건</span>
-      <span class=&quot;act-vs tag-${a.vc}&quot;>${a.vs.split(' ')[0]}</span>
-    </div>`).join('');
+const actRows = d.act_list.map((a,i)=>` <div class=&quot;act-row&quot;> <span class=&quot;act-name&quot;>${a.name}</span> <div class=&quot;act-track&quot;><div class=&quot;act-fill ${fills[i]}&quot; style=&quot;width:${Math.round(a.val/maxAct*100)}%&quot;></div></div> <span class=&quot;act-val&quot;>${a.val}건</span> <span class=&quot;act-vs tag-${a.vc}&quot;>${a.vs.split(' ')[0]}</span> </div>`).join(’’);
 
-  const prodRows = d.act_list.map(a=>`
-    <div class=&quot;prod-row&quot;>
-      <span class=&quot;prod-name&quot;>${a.name} 1건</span>
-      <div class=&quot;prod-right&quot;>
-        <span class=&quot;prod-amt&quot;>${fmt(a.pv)}원</span>
-        <span class=&quot;badge ${badgeMap[a.pvc]}&quot;>${a.pvs.split(' ')[0]}</span>
-      </div>
-    </div>`).join('');
+const prodRows = d.act_list.map(a=>` <div class=&quot;prod-row&quot;> <span class=&quot;prod-name&quot;>${a.name} 1건</span> <div class=&quot;prod-right&quot;> <span class=&quot;prod-amt&quot;>${fmt(a.pv)}원</span> <span class=&quot;badge ${badgeMap[a.pvc]}&quot;>${a.pvs.split(' ')[0]}</span> </div> </div>`).join(’’);
 
-  const insRows = d.ins_list.map(ins=>{
-    const insClass = ins.cls === '종신' ? 'ins-jongsin' : 'ins-health';
-    return ins.건수>0 ? `
-      <div class=&quot;ins-row&quot;>
-        <span class=&quot;ins-tag ${insClass}&quot;>${ins.cls}</span>
-        <div class=&quot;ins-mid&quot;>${fmt(ins.건수)}건 &amp;nbsp;|&amp;nbsp; 합계 ${fmt(ins.합계)}만원 &amp;nbsp;|&amp;nbsp; 건당 ${fmt(ins.건당)}원</div>
-        <div class=&quot;ins-right&quot;>
-          <div class=&quot;ins-val&quot;>${fmt(ins.건당)}원/건</div>
-          <div class=&quot;ins-diff tag-${ins.u_cls}&quot;>평균 대비 ${ins.u_txt}</div>
-        </div>
-      </div>` : `
-      <div class=&quot;ins-row&quot;>
-        <span class=&quot;ins-tag ${insClass}&quot;>${ins.cls}</span>
-        <div class=&quot;ins-mid&quot; style=&quot;color:#ccc;&quot;>계약 없음</div>
-      </div>`;
-  }).join('');
+const insRows = d.ins_list.map(ins=>{
+const insClass = ins.cls === ‘종신’ ? ‘ins-jongsin’ : ‘ins-health’;
+return ins.건수>0 ? ` <div class=&quot;ins-row&quot;> <span class=&quot;ins-tag ${insClass}&quot;>${ins.cls}</span> <div class=&quot;ins-mid&quot;>${fmt(ins.건수)}건 &amp;nbsp;|&amp;nbsp; 합계 ${fmt(ins.합계)}만원 &amp;nbsp;|&amp;nbsp; 건당 ${fmt(ins.건당)}원</div> <div class=&quot;ins-right&quot;> <div class=&quot;ins-val&quot;>${fmt(ins.건당)}원/건</div> <div class=&quot;ins-diff tag-${ins.u_cls}&quot;>평균 대비 ${ins.u_txt}</div> </div> </div>` : ` <div class=&quot;ins-row&quot;> <span class=&quot;ins-tag ${insClass}&quot;>${ins.cls}</span> <div class=&quot;ins-mid&quot; style=&quot;color:#ccc;&quot;>계약 없음</div> </div>`;
+}).join(’’);
 
-  const monthRows = d.monthly.map(m=>`
-    <tr>
-      <td><strong>${m.월}</strong></td>
-      <td style=&quot;font-weight:700;color:#1A4F8A;&quot;>${fmt(m.환산)}만</td>
-      <td>${m.가입}</td><td>${m.보장}</td><td>${m.정보}</td>
-    </tr>`).join('');
+const monthRows = d.monthly.map(m=>` <tr> <td><strong>${m.월}</strong></td> <td style=&quot;font-weight:700;color:#1A4F8A;&quot;>${fmt(m.환산)}만</td> <td>${m.가입}</td><td>${m.보장}</td><td>${m.정보}</td> </tr>`).join(’’);
 
-  const aiItems = d.ai.map((msg,i)=>`
-    <div class=&quot;ai-item&quot;>
-      <div class=&quot;ai-num&quot;>${i+1}</div>
-      <div class=&quot;ai-text&quot;>${msg}</div>
-    </div>`).join('');
+const aiItems = d.ai.map((msg,i)=>` <div class=&quot;ai-item&quot;> <div class=&quot;ai-num&quot;>${i+1}</div> <div class=&quot;ai-text&quot;>${msg}</div> </div>`).join(’’);
 
-  const envParts = d.환산_t.split(' ');
-  const envFront = envParts.slice(0,-1).join(' ');
-  const envBack = envParts.slice(-1)[0];
-  const cntParts = d.건수_t.split(' ');
-  const cntFront = cntParts.slice(0,-1).join(' ');
-  const cntBack = cntParts.slice(-1)[0];
+const envParts = d.환산_t.split(’ ‘);
+const envFront = envParts.slice(0,-1).join(’ ‘);
+const envBack = envParts.slice(-1)[0];
+const cntParts = d.건수_t.split(’ ‘);
+const cntFront = cntParts.slice(0,-1).join(’ ’);
+const cntBack = cntParts.slice(-1)[0];
 
-  return `
+return `
+
   <div class=&quot;page${idx===0?' active':''}&quot; id=&quot;page-${idx}&quot;>
     <div class=&quot;dash-header ${hdrCls}&quot;>
       <div class=&quot;header-left&quot;>
@@ -1996,88 +1990,92 @@ function buildPage(d, idx){
       <span class=&quot;header-badge&quot;>성과 리포트</span>
     </div>
 
-    <div class=&quot;metrics&quot;>
-      <div class=&quot;metric&quot;>
-        <div class=&quot;metric-label&quot;>월평균 총환산월초</div>
-        <div class=&quot;metric-value&quot;>${fmt(Math.round(d.현재환산/10000))}만원</div>
-        <div class=&quot;metric-sub tag-${d.환산vc}&quot;>${d.환산vs}</div>
-      </div>
-      <div class=&quot;metric&quot;>
-        <div class=&quot;metric-label&quot;>월평균 신계약</div>
-        <div class=&quot;metric-value&quot;>${d.신계약}건</div>
-        <div class=&quot;metric-sub tag-${d.건수vc}&quot;>${d.건수vs}</div>
-      </div>
-      <div class=&quot;metric&quot;>
-        <div class=&quot;metric-label&quot;>환산 추세</div>
-        <div class=&quot;metric-value&quot; style=&quot;font-size:16px;padding-top:4px;&quot;>${envFront} ${envBack}</div>
-      </div>
-      <div class=&quot;metric&quot;>
-        <div class=&quot;metric-label&quot;>건수 추세</div>
-        <div class=&quot;metric-value&quot; style=&quot;font-size:16px;padding-top:4px;&quot;>${cntFront} ${cntBack}</div>
-      </div>
-    </div>
+```
+<div class=&quot;metrics&quot;>
+  <div class=&quot;metric&quot;>
+    <div class=&quot;metric-label&quot;>월평균 총환산월초</div>
+    <div class=&quot;metric-value&quot;>${fmt(Math.round(d.현재환산/10000))}만원</div>
+    <div class=&quot;metric-sub tag-${d.환산vc}&quot;>${d.환산vs}</div>
+  </div>
+  <div class=&quot;metric&quot;>
+    <div class=&quot;metric-label&quot;>월평균 신계약</div>
+    <div class=&quot;metric-value&quot;>${d.신계약}건</div>
+    <div class=&quot;metric-sub tag-${d.건수vc}&quot;>${d.건수vs}</div>
+  </div>
+  <div class=&quot;metric&quot;>
+    <div class=&quot;metric-label&quot;>환산 추세</div>
+    <div class=&quot;metric-value&quot; style=&quot;font-size:16px;padding-top:4px;&quot;>${envFront} ${envBack}</div>
+  </div>
+  <div class=&quot;metric&quot;>
+    <div class=&quot;metric-label&quot;>건수 추세</div>
+    <div class=&quot;metric-value&quot; style=&quot;font-size:16px;padding-top:4px;&quot;>${cntFront} ${cntBack}</div>
+  </div>
+</div>
 
-    <div class=&quot;target-bar&quot;>
-      <span class=&quot;target-left&quot;>🎯 목표 총환산</span>
-      <span class=&quot;target-right&quot;>현재 ${fmt(Math.round(d.현재환산/10000))}만원 → 목표 ${fmt(Math.round(d.목표환산/10000))}만원 &amp;nbsp;(+10%)</span>
-    </div>
+<div class=&quot;target-bar&quot;>
+  <span class=&quot;target-left&quot;>🎯 목표 총환산</span>
+  <span class=&quot;target-right&quot;>현재 ${fmt(Math.round(d.현재환산/10000))}만원 → 목표 ${fmt(Math.round(d.목표환산/10000))}만원 &amp;nbsp;(+10%)</span>
+</div>
 
-    <div class=&quot;two-col&quot;>
-      <div class=&quot;card&quot;>
-        <div class=&quot;card-title&quot;>📋 월평균 활동량</div>
-        ${actRows}
-      </div>
-      <div class=&quot;card&quot;>
-        <div class=&quot;card-title&quot;>⚡ 활동 생산성 (1건당 소득)</div>
-        ${prodRows}
-        <div class=&quot;prod-row prod-sum&quot;>
-          <span class=&quot;prod-name&quot; style=&quot;font-weight:700;color:#333;&quot;>3가지 합계</span>
-          <div class=&quot;prod-right&quot;>
-            <span class=&quot;prod-amt&quot; style=&quot;font-size:15px;&quot;>${fmt(d.total)}원</span>
-            <span class=&quot;badge b-mid&quot;>평균 ${fmt(d.avg_one_sum)}원</span>
-          </div>
-        </div>
+<div class=&quot;two-col&quot;>
+  <div class=&quot;card&quot;>
+    <div class=&quot;card-title&quot;>📋 월평균 활동량</div>
+    ${actRows}
+  </div>
+  <div class=&quot;card&quot;>
+    <div class=&quot;card-title&quot;>⚡ 활동 생산성 (1건당 소득)</div>
+    ${prodRows}
+    <div class=&quot;prod-row prod-sum&quot;>
+      <span class=&quot;prod-name&quot; style=&quot;font-weight:700;color:#333;&quot;>3가지 합계</span>
+      <div class=&quot;prod-right&quot;>
+        <span class=&quot;prod-amt&quot; style=&quot;font-size:15px;&quot;>${fmt(d.total)}원</span>
+        <span class=&quot;badge b-mid&quot;>평균 ${fmt(d.avg_one_sum)}원</span>
       </div>
     </div>
+  </div>
+</div>
 
-    <div class=&quot;two-col&quot;>
-      <div class=&quot;card&quot;>
-        <div class=&quot;card-title&quot;>🏅 보험 특화 분석 (지점 평균 대비)</div>
-        ${insRows}
-      </div>
-      <div class=&quot;card&quot;>
-        <div class=&quot;card-title&quot;>📅 월별 실적 현황</div>
-        <table class=&quot;month-table&quot;>
-          <thead><tr><th>월</th><th>총환산(만)</th><th>가입설계</th><th>보장분석</th><th>정보동의</th></tr></thead>
-          <tbody>${monthRows}</tbody>
-        </table>
-      </div>
-    </div>
+<div class=&quot;two-col&quot;>
+  <div class=&quot;card&quot;>
+    <div class=&quot;card-title&quot;>🏅 보험 특화 분석 (지점 평균 대비)</div>
+    ${insRows}
+  </div>
+  <div class=&quot;card&quot;>
+    <div class=&quot;card-title&quot;>📅 월별 실적 현황</div>
+    <table class=&quot;month-table&quot;>
+      <thead><tr><th>월</th><th>총환산(만)</th><th>가입설계</th><th>보장분석</th><th>정보동의</th></tr></thead>
+      <tbody>${monthRows}</tbody>
+    </table>
+  </div>
+</div>
 
-    <div class=&quot;ai-box&quot;>
-      <div class=&quot;ai-title&quot;>🤖 AI 한마디</div>
-      ${aiItems}
-    </div>
+<div class=&quot;ai-box&quot;>
+  <div class=&quot;ai-title&quot;>🤖 AI 한마디</div>
+  ${aiItems}
+</div>
+```
+
   </div>`;
 }
 
-const navEl = document.getElementById('navInner');
-const pagesEl = document.getElementById('pages');
+const navEl = document.getElementById(‘navInner’);
+const pagesEl = document.getElementById(‘pages’);
 DATA.forEach((d,i)=>{
-  const btn = document.createElement('button');
-  btn.className = 'nav-btn'+(d.is_mgr?' mgr':'')+(i===0?' active':'');
-  btn.textContent = d.성명;
-  btn.onclick = ()=>{
-    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById('page-'+i).classList.add('active');
-    window.scrollTo(0,0);
-  };
-  navEl.appendChild(btn);
-  pagesEl.insertAdjacentHTML('beforeend', buildPage(d,i));
+const btn = document.createElement(‘button’);
+btn.className = ‘nav-btn’+(d.is_mgr?’ mgr’:’’)+(i===0?’ active’:’’);
+btn.textContent = d.성명;
+btn.onclick = ()=>{
+document.querySelectorAll(’.nav-btn’).forEach(b=>b.classList.remove(‘active’));
+document.querySelectorAll(’.page’).forEach(p=>p.classList.remove(‘active’));
+btn.classList.add(‘active’);
+document.getElementById(‘page-’+i).classList.add(‘active’);
+window.scrollTo(0,0);
+};
+navEl.appendChild(btn);
+pagesEl.insertAdjacentHTML(‘beforeend’, buildPage(d,i));
 });
 </script>
+
 </body>
 </html>
 " style="width:100%; height:100%; border:none; display:block;"></iframe>
@@ -2093,6 +2091,7 @@ DATA.forEach((d,i)=>{
 <div id="branchAwardsContainer"></div>
 
 <!-- 24시간 박스 (지점시상용) -->
+
 <div style="background:linear-gradient(135deg, #F37321 0%, #C75A14 100%); border-radius:14px; padding:18px 20px; margin-top:16px; text-align:center; color:white;">
   <div style="font-size:13px; font-weight:800; margin-bottom:10px; letter-spacing:-0.02em;">
     🎁 매일 한 번, 행운의 박스 🎁
@@ -2926,7 +2925,7 @@ function updateDailyEduIndicator() {
   
   // 화면 회전이나 리사이즈 대응
   window.addEventListener('resize', dailyEduResize);
-  // 초기 진입 시 첫 사진 로드 완료 후 셋
+  // 초기 진입 시 첫 사진 로드 완료 후 셋 + 안전장치 다중 호출
   function tryInit() {
     const firstImg = slider.querySelector('.ded-slide img');
     if (firstImg && firstImg.naturalWidth) {
@@ -2935,7 +2934,16 @@ function updateDailyEduIndicator() {
       firstImg.addEventListener('load', dailyEduResize, { once: true });
     }
   }
+  tryInit();
   setTimeout(tryInit, 100);
+  setTimeout(tryInit, 500);
+  setTimeout(tryInit, 1500);
+  // 페이지 완전 로드 후에도 한 번 더
+  if (document.readyState === 'complete') {
+    setTimeout(dailyEduResize, 100);
+  } else {
+    window.addEventListener('load', function() { setTimeout(dailyEduResize, 100); });
+  }
 })();
 
 // ============ 24시간 박스 (다중 인스턴스) ============
@@ -3074,6 +3082,12 @@ function switchPage(page) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + page).classList.add('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
+  
+  // 일상교육 페이지 진입 시 카드 높이 강제 재계산
+  if (page === 'dailyedu' && typeof dailyEduResize === 'function') {
+    setTimeout(dailyEduResize, 50);
+    setTimeout(dailyEduResize, 300);
+  }
 }
 
 document.querySelectorAll('.tab').forEach(tab => {
@@ -3183,6 +3197,7 @@ async function forceRefresh() {
 </script>
 
 <!-- 당첨 모달 -->
+
 <div id="prizeModal" class="prize-modal" onclick="if(event.target.id==='prizeModal') closePrize()">
   <div class="prize-content">
     <div class="prize-emoji" id="prizeEmoji">🎉</div>
