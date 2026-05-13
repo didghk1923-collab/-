@@ -585,19 +585,25 @@ body::before {
   position: fixed; inset: 0;
   background: rgba(0,0,0,0.85);
   z-index: 9999;
-  align-items: center; justify-content: center;
+  align-items: flex-start; justify-content: center;
   padding: 20px;
   animation: fadeIn 0.2s;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 .info-modal.active { display: flex; }
 .info-modal-content {
   position: relative;
-  max-width: 100%; max-height: 100%;
+  max-width: 100%;
   display: flex; flex-direction: column;
   align-items: center;
+  margin: auto 0;
+  min-height: 100%;
+  justify-content: center;
 }
 .info-modal img {
-  max-width: 100%; max-height: 90vh;
+  max-width: 100%;
+  height: auto;
   border-radius: 8px;
   box-shadow: 0 10px 40px rgba(0,0,0,0.5);
 }
@@ -1196,8 +1202,8 @@ input#bojangGeongang::-webkit-inner-spin-button {
 
     <!-- 교육 콘텐츠 자리 -->
     <div class="section-title">오늘의 주제</div>
-    <div id="dailyEduWrap" class="card" style="padding:0; overflow:hidden; position:relative; background:#FFFFFF; transition:height 0.35s ease;">
-      <div id="dailyEduSlider" style="display:flex; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scrollbar-width:none; height:100%; width:100%; scroll-snap-stop:always; touch-action:pan-x; overscroll-behavior:none;">
+    <div id="dailyEduWrap" class="card" style="padding:0; overflow:hidden; position:relative; background:#FFFFFF; transition:height 0.35s ease; min-height:300px;">
+      <div id="dailyEduSlider" style="display:flex; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scrollbar-width:none; height:100%; width:100%; scroll-snap-stop:always; touch-action:pan-y; overscroll-behavior:none;">
         <style>
           #dailyEduSlider::-webkit-scrollbar { display:none; }
           .ded-slide {
@@ -1214,10 +1220,10 @@ input#bojangGeongang::-webkit-inner-spin-button {
             width: 100%;
             height: auto;
             display: block;
-            pointer-events: none;
             user-select: none;
             -webkit-user-drag: none;
             -webkit-touch-callout: none;
+            cursor: zoom-in;
           }
         </style>
         <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/AD33BCE8-E96B-466B-A4AC-5623EAB60AD0.png" alt="일상교육 1/7"></div>
@@ -1228,15 +1234,20 @@ input#bojangGeongang::-webkit-inner-spin-button {
         <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/6BFDC496-804A-4D1D-86F4-47FB9FBBB390.png" alt="일상교육 6/7"></div>
         <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/F787A2A9-E986-40C7-BC7B-D33F9D9BEDD3.png" alt="일상교육 7/7"></div>
       </div>
-      <!-- 페이지 인디케이터 -->
+      <!-- 좌우 넘김 버튼 -->
+      <button onclick="dailyEduGo(-1)" aria-label="이전 사진"
+        style="position:absolute; top:50%; left:8px; transform:translateY(-50%); z-index:3; background:rgba(0,0,0,0.5); color:white; border:none; width:36px; height:36px; border-radius:50%; font-size:20px; cursor:pointer; font-family:inherit; font-weight:700; backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center; padding:0;">‹</button>
+      <button onclick="dailyEduGo(1)" aria-label="다음 사진"
+        style="position:absolute; top:50%; right:8px; transform:translateY(-50%); z-index:3; background:rgba(0,0,0,0.5); color:white; border:none; width:36px; height:36px; border-radius:50%; font-size:20px; cursor:pointer; font-family:inherit; font-weight:700; backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center; padding:0;">›</button>
+      <!-- 페이지 인디케이터 (클릭 가능) -->
       <div id="dailyEduDots" style="position:absolute; bottom:10px; left:50%; transform:translateX(-50%); display:flex; gap:6px; padding:6px 10px; background:rgba(0,0,0,0.5); border-radius:100px; backdrop-filter:blur(8px); z-index:2;">
-        <span class="ded-dot active" style="width:7px; height:7px; border-radius:50%; background:white; transition:opacity 0.2s;"></span>
-        <span class="ded-dot" style="width:7px; height:7px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s;"></span>
-        <span class="ded-dot" style="width:7px; height:7px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s;"></span>
-        <span class="ded-dot" style="width:7px; height:7px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s;"></span>
-        <span class="ded-dot" style="width:7px; height:7px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s;"></span>
-        <span class="ded-dot" style="width:7px; height:7px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s;"></span>
-        <span class="ded-dot" style="width:7px; height:7px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s;"></span>
+        <span class="ded-dot active" data-idx="0" style="width:9px; height:9px; border-radius:50%; background:white; transition:opacity 0.2s; cursor:pointer;"></span>
+        <span class="ded-dot" data-idx="1" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
+        <span class="ded-dot" data-idx="2" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
+        <span class="ded-dot" data-idx="3" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
+        <span class="ded-dot" data-idx="4" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
+        <span class="ded-dot" data-idx="5" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
+        <span class="ded-dot" data-idx="6" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
       </div>
     </div>
     <div style="text-align:center; font-size:11px; color:var(--gray); font-weight:600; margin-top:8px;">← 좌우로 스와이프해서 넘겨보세요 →</div>
@@ -2892,6 +2903,24 @@ function updateDailyEduIndicator() {
   const slider = document.getElementById('dailyEduSlider');
   if (!slider) return;
   
+  // 동그라미 클릭으로 사진 이동
+  document.querySelectorAll('.ded-dot').forEach(function(dot) {
+    dot.addEventListener('click', function() {
+      const idx = parseInt(dot.dataset.idx || '0');
+      const w = slider.clientWidth;
+      slider.scrollTo({ left: idx * w, behavior: 'smooth' });
+    });
+  });
+  
+  // 좌우 버튼으로 사진 이동 (전역 함수)
+  window.dailyEduGo = function(dir) {
+    const w = slider.clientWidth;
+    const curIdx = Math.round(slider.scrollLeft / w);
+    const slides = slider.querySelectorAll('.ded-slide');
+    const newIdx = Math.max(0, Math.min(slides.length - 1, curIdx + dir));
+    slider.scrollTo({ left: newIdx * w, behavior: 'smooth' });
+  };
+  
   let scrollTimer = null;
   
   // 터치 시작하면 높이 변경 차단
@@ -2926,7 +2955,7 @@ function updateDailyEduIndicator() {
   
   // 화면 회전이나 리사이즈 대응
   window.addEventListener('resize', dailyEduResize);
-  // 초기 진입 시 첫 사진 로드 완료 후 셋
+  // 초기 진입 시 첫 사진 로드 완료 후 셋 + 안전장치 다중 호출
   function tryInit() {
     const firstImg = slider.querySelector('.ded-slide img');
     if (firstImg && firstImg.naturalWidth) {
@@ -2935,7 +2964,16 @@ function updateDailyEduIndicator() {
       firstImg.addEventListener('load', dailyEduResize, { once: true });
     }
   }
+  tryInit();
   setTimeout(tryInit, 100);
+  setTimeout(tryInit, 500);
+  setTimeout(tryInit, 1500);
+  // 페이지 완전 로드 후에도 한 번 더
+  if (document.readyState === 'complete') {
+    setTimeout(dailyEduResize, 100);
+  } else {
+    window.addEventListener('load', function() { setTimeout(dailyEduResize, 100); });
+  }
 })();
 
 // ============ 24시간 박스 (다중 인스턴스) ============
@@ -3074,6 +3112,12 @@ function switchPage(page) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + page).classList.add('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
+  
+  // 일상교육 페이지 진입 시 카드 높이 강제 재계산
+  if (page === 'dailyedu' && typeof dailyEduResize === 'function') {
+    setTimeout(dailyEduResize, 50);
+    setTimeout(dailyEduResize, 300);
+  }
 }
 
 document.querySelectorAll('.tab').forEach(tab => {
@@ -3272,9 +3316,21 @@ function navInfographic(dir) {
 }
 
 function closeInfographic(e) {
-  if (e && e.target.id !== 'infographicModal' && !e.target.classList.contains('info-modal-close')) return;
+  // 어떤 이벤트든 닫기 허용 - 닫기 버튼/배경/✕ 등
+  if (e && e.target) {
+    const t = e.target;
+    const isModal = t.id === 'infographicModal';
+    const isClose = t.classList && t.classList.contains('info-modal-close');
+    const isNav = t.classList && (t.classList.contains('info-nav') || t.closest('.info-nav'));
+    const isContent = t.id === 'infographicImg' || t.closest('.info-modal-content');
+    // 이미지/내비 클릭은 닫지 않음
+    if ((isContent && !isModal) || isNav) return;
+    // 배경 또는 ✕ 클릭이면 닫기
+    if (!isModal && !isClose) return;
+  }
   document.getElementById('infographicModal').classList.remove('active');
   document.body.style.overflow = '';
+  document.body.style.position = '';
 }
 
 // 현재 모달 이미지 다운로드 (iOS/안드로이드/PC 모두 동작)
@@ -3526,7 +3582,7 @@ document.addEventListener('keydown', e => {
   recalc();
 })();
 
-// ============ 모든 이미지에 자동 다운로드 버튼 추가 ============
+// ============ 모든 이미지에 자동 다운로드 버튼 + 라이트박스 ============
 (function() {
   // 다운로드 버튼 자동 생성 함수
   function addDownloadButton(img) {
@@ -3542,24 +3598,35 @@ document.addEventListener('keydown', e => {
     // src 없으면 패스
     if (!img.src || img.src.startsWith('data:')) return;
     
-    // 부모가 button이면 패스 (버튼 안에 들어간 아이콘 이미지)
+    // 부모가 button이면 패스
     if (img.closest('button')) return;
     
-    // img를 감싸는 wrapper 만들기 (이미 position 잡혀있으면 그대로 활용)
+    // 기존 인포그래픽 모달 안의 메인 이미지는 패스 (이미 라이트박스 자체임)
+    if (img.id === 'infographicImg') return;
+    
+    // img를 감싸는 wrapper 만들기
     let wrapper = img.parentElement;
     const wrapperPos = wrapper ? getComputedStyle(wrapper).position : '';
     
     if (wrapperPos === 'static' || !wrapperPos) {
-      // 부모가 position 없으면 inline-wrap 만들기
       const wrap = document.createElement('span');
       wrap.style.cssText = 'position:relative; display:inline-block; line-height:0; max-width:100%;';
-      // img의 width style을 wrapper에도 옮김 (반응형 유지)
       const imgWidthStyle = img.style.width;
       if (imgWidthStyle) wrap.style.width = imgWidthStyle;
       img.parentNode.insertBefore(wrap, img);
       wrap.appendChild(img);
       wrapper = wrap;
     }
+    
+    // 이미지 클릭 시 라이트박스 열기 (img 자체에 이벤트는 안 박고 wrapper에)
+    // pointer-events:none 으로 막혀있을 수 있으니 wrapper 클릭으로 처리
+    img.style.cursor = 'zoom-in';
+    wrapper.style.cursor = 'zoom-in';
+    wrapper.addEventListener('click', function(e) {
+      // 다운 버튼 클릭은 제외
+      if (e.target.closest('button')) return;
+      openLightbox(img.src, img.alt || '');
+    });
     
     // 다운로드 버튼 생성
     const btn = document.createElement('button');
@@ -3575,16 +3642,22 @@ document.addEventListener('keydown', e => {
     wrapper.appendChild(btn);
   }
   
+  // 라이트박스 열기 (기존 infographicModal 재활용)
+  window.openLightbox = function(src, alt) {
+    if (typeof openInfographic === 'function') {
+      openInfographic(src, alt || '');
+    }
+  };
+  
   // 페이지의 모든 이미지 스캔
   function scanAllImages() {
     document.querySelectorAll('img').forEach(addDownloadButton);
   }
   
-  // 첫 스캔 (페이지 로드 후 카드 렌더링도 끝났을 시점)
   setTimeout(scanAllImages, 500);
-  setTimeout(scanAllImages, 1500); // 동적 이미지(인라인 등)까지 확실히 잡으려 한 번 더
+  setTimeout(scanAllImages, 1500);
   
-  // DOM 변화 감지 — 새 이미지 들어오면 자동 처리 (모달 등)
+  // DOM 변화 감지
   const observer = new MutationObserver(function(mutations) {
     let needScan = false;
     mutations.forEach(function(m) {
