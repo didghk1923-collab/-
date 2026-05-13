@@ -3268,9 +3268,9 @@ function closePrize() {
 <!-- 인포그래픽 모달 -->
 
 <div id="infographicModal" class="info-modal" onclick="closeInfographic(event)">
-  <div class="info-modal-content" onclick="event.stopPropagation()">
+  <div class="info-modal-content">
     <button class="info-modal-close" onclick="closeInfographic()">✕</button>
-    <img id="infographicImg" src="" alt="">
+    <img id="infographicImg" src="" alt="" onclick="infographicTapNav(event)">
     <button id="infoPrev" class="info-nav info-nav-prev" onclick="event.stopPropagation(); navInfographic(-1)" aria-label="이전">‹</button>
     <button id="infoNext" class="info-nav info-nav-next" onclick="event.stopPropagation(); navInfographic(1)" aria-label="다음">›</button>
     <div id="infoIndicator" class="info-indicator">1 / 1</div>
@@ -3319,18 +3319,29 @@ function navInfographic(dir) {
   _renderInfographic();
 }
 
+// 이미지 좌우 탭으로 사진 넘기기 (가운데 30%는 닫힘으로)
+function infographicTapNav(e) {
+  const rect = e.currentTarget.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const ratio = x / rect.width;
+  if (ratio < 0.4) {
+    navInfographic(-1);  // 왼쪽 40% = 이전
+  } else if (ratio > 0.6) {
+    navInfographic(1);   // 오른쪽 40% = 다음
+  } else {
+    // 가운데 20% = 닫기
+    closeInfographic({ target: document.getElementById('infographicModal') });
+  }
+}
+
 function closeInfographic(e) {
-  // 어떤 이벤트든 닫기 허용 - 닫기 버튼/배경/✕ 등
+  // 이미지 본체, 좌우 넘김 버튼, 다운 버튼만 안 닫힘. 나머지는 다 닫기.
   if (e && e.target) {
     const t = e.target;
-    const isModal = t.id === 'infographicModal';
-    const isClose = t.classList && t.classList.contains('info-modal-close');
-    const isNav = t.classList && (t.classList.contains('info-nav') || t.closest('.info-nav'));
-    const isContent = t.id === 'infographicImg' || t.closest('.info-modal-content');
-    // 이미지/내비 클릭은 닫지 않음
-    if ((isContent && !isModal) || isNav) return;
-    // 배경 또는 ✕ 클릭이면 닫기
-    if (!isModal && !isClose) return;
+    // 이미지 자체 또는 좌우 넘김 버튼이면 닫지 않음
+    if (t.id === 'infographicImg') return;
+    if (t.closest && t.closest('.info-nav')) return;
+    if (t.tagName === 'BUTTON' && t.textContent && t.textContent.includes('저장')) return;
   }
   document.getElementById('infographicModal').classList.remove('active');
   document.body.style.overflow = '';
