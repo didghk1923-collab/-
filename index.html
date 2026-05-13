@@ -608,12 +608,16 @@ body::before {
   box-shadow: 0 10px 40px rgba(0,0,0,0.5);
 }
 .info-modal-close {
-  position: absolute; top: -40px; right: 0;
+  position: fixed;
+  top: calc(env(safe-area-inset-top, 0) + 16px);
+  right: 16px;
   background: white; color: var(--ink);
-  border: none; width: 36px; height: 36px;
-  border-radius: 50%; font-size: 20px;
+  border: none; width: 44px; height: 44px;
+  border-radius: 50%; font-size: 22px;
   cursor: pointer; font-weight: 700;
   display: flex; align-items: center; justify-content: center;
+  z-index: 10001;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
 }
 .info-nav {
   position: absolute; top: 50%; transform: translateY(-50%);
