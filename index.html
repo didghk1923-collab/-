@@ -628,6 +628,21 @@ body::before {
   padding: 4px 12px; border-radius: 100px;
   font-size: 12px; font-weight: 700;
 }
+.info-download {
+  position: absolute;
+  top: -40px;
+  right: 50px;
+  background: var(--accent); color: white;
+  border: none; border-radius: 100px;
+  padding: 8px 16px;
+  font-size: 12px; font-weight: 800;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 2px 12px rgba(243, 115, 33, 0.5);
+  letter-spacing: -0.02em;
+  z-index: 10;
+}
+.info-download:active { opacity: 0.85; transform: scale(0.97); }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 .quick-btn {
@@ -3232,6 +3247,37 @@ function closeInfographic(e) {
   document.getElementById('infographicModal').classList.remove('active');
   document.body.style.overflow = '';
 }
+
+// 현재 모달 이미지 다운로드 (iOS/안드로이드/PC 모두 동작)
+async function downloadCurrentImg() {
+  const url = _infoImgs[_infoIdx];
+  if (!url) return;
+  await downloadImgFromUrl(url);
+}
+
+// URL 직접 받아서 다운로드 (인라인 이미지에서도 사용)
+async function downloadImgFromUrl(url) {
+  if (!url) return;
+  const filename = (url.split('/').pop() || 'image.png').split('?')[0];
+  try {
+    const res = await fetch(url, { mode: 'cors' });
+    const blob = await res.blob();
+    const blobUrl = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = blobUrl;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(blobUrl);
+    }, 100);
+  } catch (err) {
+    // CORS 차단되거나 fetch 실패시 폴백: 새 탭에서 열기
+    // iOS 사파리는 이미지 위에서 길게 누르면 "사진에 추가" 메뉴 뜸
+    window.open(url, '_blank');
+  }
+}
 document.addEventListener('keydown', e => {
   if (!document.getElementById('infographicModal').classList.contains('active')) return;
   if (e.key === 'Escape') closeInfographic({target: {id: 'infographicModal'}});
@@ -3449,6 +3495,80 @@ document.addEventListener('keydown', e => {
   
   // 초기 렌더
   recalc();
+})();
+
+// ============ 모든 이미지에 자동 다운로드 버튼 추가 ============
+(function() {
+  // 다운로드 버튼 자동 생성 함수
+  function addDownloadButton(img) {
+    // 이미 처리된 이미지면 패스
+    if (img.dataset.dlReady === '1') return;
+    img.dataset.dlReady = '1';
+    
+    // 너무 작은 이미지는 제외 (아이콘, 인디케이터 등)
+    const w = img.naturalWidth || img.width || 0;
+    const h = img.naturalHeight || img.height || 0;
+    if (w > 0 && h > 0 && (w < 100 || h < 100)) return;
+    
+    // src 없으면 패스
+    if (!img.src || img.src.startsWith('data:')) return;
+    
+    // 부모가 button이면 패스 (버튼 안에 들어간 아이콘 이미지)
+    if (img.closest('button')) return;
+    
+    // img를 감싸는 wrapper 만들기 (이미 position 잡혀있으면 그대로 활용)
+    let wrapper = img.parentElement;
+    const wrapperPos = wrapper ? getComputedStyle(wrapper).position : '';
+    
+    if (wrapperPos === 'static' || !wrapperPos) {
+      // 부모가 position 없으면 inline-wrap 만들기
+      const wrap = document.createElement('span');
+      wrap.style.cssText = 'position:relative; display:inline-block; line-height:0; max-width:100%;';
+      // img의 width style을 wrapper에도 옮김 (반응형 유지)
+      const imgWidthStyle = img.style.width;
+      if (imgWidthStyle) wrap.style.width = imgWidthStyle;
+      img.parentNode.insertBefore(wrap, img);
+      wrap.appendChild(img);
+      wrapper = wrap;
+    }
+    
+    // 다운로드 버튼 생성
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.innerHTML = '⬇ 저장';
+    btn.setAttribute('aria-label', '이미지 저장');
+    btn.style.cssText = 'position:absolute; bottom:8px; right:8px; background:rgba(0,0,0,0.75); color:white; border:none; border-radius:100px; padding:6px 12px; font-size:11px; font-weight:800; cursor:pointer; font-family:inherit; backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); z-index:5; line-height:1; letter-spacing:-0.02em; box-shadow:0 2px 8px rgba(0,0,0,0.3);';
+    btn.onclick = function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      downloadImgFromUrl(img.src);
+    };
+    wrapper.appendChild(btn);
+  }
+  
+  // 페이지의 모든 이미지 스캔
+  function scanAllImages() {
+    document.querySelectorAll('img').forEach(addDownloadButton);
+  }
+  
+  // 첫 스캔 (페이지 로드 후 카드 렌더링도 끝났을 시점)
+  setTimeout(scanAllImages, 500);
+  setTimeout(scanAllImages, 1500); // 동적 이미지(인라인 등)까지 확실히 잡으려 한 번 더
+  
+  // DOM 변화 감지 — 새 이미지 들어오면 자동 처리 (모달 등)
+  const observer = new MutationObserver(function(mutations) {
+    let needScan = false;
+    mutations.forEach(function(m) {
+      m.addedNodes.forEach(function(node) {
+        if (node.nodeType === 1) {
+          if (node.tagName === 'IMG') needScan = true;
+          else if (node.querySelector && node.querySelector('img')) needScan = true;
+        }
+      });
+    });
+    if (needScan) scanAllImages();
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
 })();
 </script>
 
