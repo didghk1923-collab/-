@@ -1207,6 +1207,7 @@ input#bojangGeongang::-webkit-inner-spin-button {
             scroll-snap-stop: always;
             display: block;
             box-sizing: border-box;
+            position: relative;
           }
           .ded-slide img {
             width: 100%;
@@ -2878,8 +2879,7 @@ function updateDailyEduIndicator() {
   dots.forEach((d, i) => {
     d.style.opacity = (i === idx) ? '1' : '0.4';
   });
-  // 카드 높이도 함께 갱신
-  dailyEduResize();
+  // 카드 높이 갱신은 스크롤 멈춘 후에만 (아래 디바운스에서 처리)
 }
 
 (function() {
@@ -2890,7 +2890,7 @@ function updateDailyEduIndicator() {
   
   slider.addEventListener('scroll', function() {
     updateDailyEduIndicator();
-    // 스크롤이 멈추면 가장 가까운 슬라이드로 자동 보정
+    // 스크롤이 멈추면 가장 가까운 슬라이드로 자동 보정 + 높이 갱신
     clearTimeout(scrollTimer);
     scrollTimer = setTimeout(function() {
       const w = slider.clientWidth;
@@ -2900,6 +2900,8 @@ function updateDailyEduIndicator() {
       if (Math.abs(slider.scrollLeft - target) > 1) {
         slider.scrollTo({ left: target, behavior: 'smooth' });
       }
+      // 멈춘 후에만 카드 높이 갱신
+      dailyEduResize();
     }, 150);
   }, { passive: true });
   
