@@ -1197,7 +1197,7 @@ input#bojangGeongang::-webkit-inner-spin-button {
     <!-- 교육 콘텐츠 자리 -->
     <div class="section-title">오늘의 주제</div>
     <div id="dailyEduWrap" class="card" style="padding:0; overflow:hidden; position:relative; background:#FFFFFF; transition:height 0.35s ease;">
-      <div id="dailyEduSlider" style="display:flex; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none; height:100%; scroll-snap-stop:always;">
+      <div id="dailyEduSlider" style="display:flex; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scrollbar-width:none; height:100%; width:100%; scroll-snap-stop:always; touch-action:pan-x; overscroll-behavior:none;">
         <style>
           #dailyEduSlider::-webkit-scrollbar { display:none; }
           .ded-slide {
@@ -1208,6 +1208,7 @@ input#bojangGeongang::-webkit-inner-spin-button {
             display: block;
             box-sizing: border-box;
             position: relative;
+            overflow: hidden;
           }
           .ded-slide img {
             width: 100%;
@@ -1216,6 +1217,7 @@ input#bojangGeongang::-webkit-inner-spin-button {
             pointer-events: none;
             user-select: none;
             -webkit-user-drag: none;
+            -webkit-touch-callout: none;
           }
         </style>
         <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/AD33BCE8-E96B-466B-A4AC-5623EAB60AD0.png" alt="일상교육 1/7"></div>
