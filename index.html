@@ -909,11 +909,9 @@ input#bojangGeongang::-webkit-inner-spin-button {
 <body>
 
 <!-- 사이드 패널 오버레이 -->
-
 <div id="sideOverlay" class="side-overlay"></div>
 
 <!-- 사이드 패널 -->
-
 <aside id="sidePanel" class="side-panel">
   <div class="side-header">
     <div class="side-title">메뉴</div>
@@ -1001,7 +999,6 @@ input#bojangGeongang::-webkit-inner-spin-button {
   <div class="page" id="page-data">
 
 <!-- 환산월초/보장월초 -->
-
 <div class="card">
   <div class="label">총 환산월초</div>
   <div class="big-num">
@@ -1023,22 +1020,18 @@ input#bojangGeongang::-webkit-inner-spin-button {
 </div>
 
 <!-- 활동 KPI 4개 -->
-
 <div class="section-title">활동 현황</div>
 <div class="kpi-grid" id="kpiGrid"></div>
 
 <!-- 팀별 -->
-
 <div class="section-title">팀별 현황</div>
 <div class="card" id="teamCard"></div>
 
 <!-- 등급 분포 -->
-
 <div class="section-title">등급 분포</div>
 <div class="card" id="gradeCard"></div>
 
 <!-- 무가동 -->
-
 <div class="section-title">무가동</div>
 <div class="card">
   <div class="big-warn">
@@ -1049,7 +1042,6 @@ input#bojangGeongang::-webkit-inner-spin-button {
 </div>
 
 <!-- 3.3.3 -->
-
 <div class="section-title">3.3.3 바른활동</div>
 <div class="card">
   <div style="display:flex; justify-content:space-around; padding: 8px 0 16px; text-align:center;">
@@ -1076,12 +1068,10 @@ input#bojangGeongang::-webkit-inner-spin-button {
   <div class="page" id="page-income">
 
 <!-- 입력 카드 -->
-
 <div class="card card-accent">
   <div class="label label-white">상품별 환산월초 입력</div>
-
+  
   <!-- 종신 입력 -->
-
   <div style="margin-top:12px;">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
       <div style="font-size:13px; font-weight:700;">종신 환산월초</div>
@@ -1099,13 +1089,11 @@ input#bojangGeongang::-webkit-inner-spin-button {
       <button class="step-btn" data-target="envJongsin" data-action="plus" data-val="100000">+ 10만</button>
     </div>
   </div>
-
+  
   <!-- 구분선 -->
-
   <div style="height:1px; background:rgba(255,255,255,0.18); margin:16px 0;"></div>
-
+  
   <!-- 건강 입력 -->
-
   <div>
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
       <div style="font-size:13px; font-weight:700;">건강 환산월초</div>
@@ -1123,9 +1111,8 @@ input#bojangGeongang::-webkit-inner-spin-button {
       <button class="step-btn" data-target="envGeongang" data-action="plus" data-val="100000">+ 10만</button>
     </div>
   </div>
-
+  
   <!-- 합산 표시 -->
-
   <div style="margin-top:14px; padding:10px 14px; background:rgba(255,255,255,0.15); border-radius:10px; display:flex; justify-content:space-between; align-items:center;">
     <div style="font-size:11px; opacity:0.85; font-weight:600;">합산 환산월초</div>
     <div style="font-size:18px; font-weight:800; letter-spacing:-0.02em;">
@@ -1135,7 +1122,6 @@ input#bojangGeongang::-webkit-inner-spin-button {
 </div>
 
 <!-- 건강보장월초 입력 카드 (초록색, 시상 전용) -->
-
 <div class="card" style="background:linear-gradient(135deg, #0F766E 0%, #14B8A6 100%); color:white; border:none;">
   <div style="font-size:11px; opacity:0.85; font-weight:600; letter-spacing:0.05em;">건강보장월초 입력</div>
   <div style="margin-top:10px;">
@@ -1159,11 +1145,9 @@ input#bojangGeongang::-webkit-inner-spin-button {
 </div>
 
 <!-- 결과 카드 2단 그리드 (예상급여 / 시상) -->
-
 <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-
+  
   <!-- 예상 급여 (주황) -->
-
   <div class="card" style="text-align:center; padding:14px 10px; margin:0; background:linear-gradient(135deg, #C75A14 0%, #F37321 100%); color:white; border:none;">
     <div style="font-size:10px; opacity:0.85; font-weight:600; letter-spacing:0.03em;">예상 급여</div>
     <div style="font-size:11px; opacity:0.65; font-weight:500; margin-top:2px;">24개월 누적</div>
@@ -1175,9 +1159,8 @@ input#bojangGeongang::-webkit-inner-spin-button {
       지급률 <b style="color:#FCD34D;" id="totalRate">0%</b>
     </div>
   </div>
-
+  
   <!-- 건강보장월초 시상 (초록) -->
-
   <div class="card" style="text-align:center; padding:14px 10px; margin:0; background:linear-gradient(135deg, #0F766E 0%, #14B8A6 100%); color:white; border:none;">
     <div style="font-size:10px; opacity:0.85; font-weight:600; letter-spacing:0.03em;">건강보장월초 시상</div>
     <div style="font-size:11px; opacity:0.65; font-weight:500; margin-top:2px;">구간별 지급</div>
@@ -1191,11 +1174,10 @@ input#bojangGeongang::-webkit-inner-spin-button {
       <b style="color:#FCD34D;" id="awardRate">0%</b>
     </div>
   </div>
-
+  
 </div>
 
 <!-- 총 급여 합계 -->
-
 <div class="section-title">총 급여 합계</div>
 <div class="card">
   <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -1214,7 +1196,6 @@ input#bojangGeongang::-webkit-inner-spin-button {
 </div>
 
 <!-- 안내 메모 -->
-
 <div style="padding:14px; margin-top:8px; font-size:11px; color:var(--gray); line-height:1.6;">
   ※ 종신·건강 합산 환산월초 기준 추정치입니다.<br>
   ※ 모집수수료는 즉시, 고객서비스/생산성은 분할·익월·13회 시점에 지급됩니다.<br>
@@ -1228,19 +1209,15 @@ input#bojangGeongang::-webkit-inner-spin-button {
   <div class="page" id="page-rank">
 
 <!-- 개인 랭킹 TOP 5 -->
-
 <div class="section-title">개인 랭킹 · TOP 5</div>
 
 <!-- 1~3위 메달 카드 -->
-
 <div id="rankLeader" style="margin-bottom: 4px;"></div>
 
 <!-- 4~5위 -->
-
 <div class="card" id="rankOthers"></div>
 
 <!-- 팀 랭킹 -->
-
 <div class="section-title">팀 랭킹</div>
 <div class="card" id="rankTeam"></div>
 
@@ -1256,94 +1233,92 @@ input#bojangGeongang::-webkit-inner-spin-button {
 
   <div class="page" id="page-dailyedu">
 
-```
-<!-- 일상교육 히어로 -->
-<div style="background:linear-gradient(135deg, #1A1A1A 0%, #3A3A3A 100%); border-radius:18px; padding:24px 20px; margin-bottom:16px; color:white; position:relative; overflow:hidden;">
-  <div style="position:absolute; top:-30px; right:-30px; width:140px; height:140px; border-radius:50%; background:radial-gradient(circle, rgba(252,211,77,0.18) 0%, transparent 70%);"></div>
-  <div style="font-size:11px; font-weight:700; opacity:0.85; letter-spacing:0.08em; position:relative;" id="dailyEduDate">2026.05.13 (화) · 조회시간</div>
-  <div style="font-size:22px; font-weight:800; margin-top:6px; line-height:1.3; letter-spacing:-0.03em; position:relative;">
-    📖 오늘의<br>
-    <span style="color:#FCD34D;">일상교육</span>
-  </div>
-</div>
+    <!-- 일상교육 히어로 -->
+    <div style="background:linear-gradient(135deg, #1A1A1A 0%, #3A3A3A 100%); border-radius:18px; padding:24px 20px; margin-bottom:16px; color:white; position:relative; overflow:hidden;">
+      <div style="position:absolute; top:-30px; right:-30px; width:140px; height:140px; border-radius:50%; background:radial-gradient(circle, rgba(252,211,77,0.18) 0%, transparent 70%);"></div>
+      <div style="font-size:11px; font-weight:700; opacity:0.85; letter-spacing:0.08em; position:relative;" id="dailyEduDate">2026.05.13 (화) · 조회시간</div>
+      <div style="font-size:22px; font-weight:800; margin-top:6px; line-height:1.3; letter-spacing:-0.03em; position:relative;">
+        📖 오늘의<br>
+        <span style="color:#FCD34D;">일상교육</span>
+      </div>
+    </div>
 
-<!-- 교육 콘텐츠 자리 -->
-<div class="section-title">오늘의 주제</div>
-<div id="dailyEduWrap" class="card" style="padding:0; overflow:hidden; position:relative; background:#FFFFFF; transition:height 0.35s ease; min-height:300px;">
-  <div id="dailyEduSlider" style="display:flex; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scrollbar-width:none; height:100%; width:100%; scroll-snap-stop:always; touch-action:pan-y; overscroll-behavior:none;">
-    <style>
-      #dailyEduSlider::-webkit-scrollbar { display:none; }
-      .ded-slide {
-        flex: 0 0 100%;
-        width: 100%;
-        scroll-snap-align: center;
-        scroll-snap-stop: always;
-        display: block;
-        box-sizing: border-box;
-        position: relative;
-        overflow: hidden;
-      }
-      .ded-slide img {
-        width: 100%;
-        height: auto;
-        display: block;
-        user-select: none;
-        -webkit-user-drag: none;
-        -webkit-touch-callout: none;
-        cursor: zoom-in;
-      }
-    </style>
-    <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/AD33BCE8-E96B-466B-A4AC-5623EAB60AD0.png" alt="일상교육 1/7"></div>
-    <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/DB5E4ED4-87EA-48C2-8D5A-85F7E0E78AD3.png" alt="일상교육 2/7"></div>
-    <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/77998A83-F4DC-42ED-BB42-BF58BAA0AF73.png" alt="일상교육 3/7"></div>
-    <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/B992FF6B-FD77-4FB0-A958-4956BADCC759.png" alt="일상교육 4/7"></div>
-    <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/52E970AA-1038-42F7-BFE2-A97DC2BBA682.png" alt="일상교육 5/7"></div>
-    <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/6BFDC496-804A-4D1D-86F4-47FB9FBBB390.png" alt="일상교육 6/7"></div>
-    <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/F787A2A9-E986-40C7-BC7B-D33F9D9BEDD3.png" alt="일상교육 7/7"></div>
-  </div>
-  <!-- 좌우 넘김 버튼 -->
-  <button onclick="dailyEduGo(-1)" aria-label="이전 사진"
-    style="position:absolute; top:50%; left:8px; transform:translateY(-50%); z-index:3; background:rgba(0,0,0,0.5); color:white; border:none; width:36px; height:36px; border-radius:50%; font-size:20px; cursor:pointer; font-family:inherit; font-weight:700; backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center; padding:0;">‹</button>
-  <button onclick="dailyEduGo(1)" aria-label="다음 사진"
-    style="position:absolute; top:50%; right:8px; transform:translateY(-50%); z-index:3; background:rgba(0,0,0,0.5); color:white; border:none; width:36px; height:36px; border-radius:50%; font-size:20px; cursor:pointer; font-family:inherit; font-weight:700; backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center; padding:0;">›</button>
-  <!-- 페이지 인디케이터 (클릭 가능) -->
-  <div id="dailyEduDots" style="position:absolute; bottom:10px; left:50%; transform:translateX(-50%); display:flex; gap:6px; padding:6px 10px; background:rgba(0,0,0,0.5); border-radius:100px; backdrop-filter:blur(8px); z-index:2;">
-    <span class="ded-dot active" data-idx="0" style="width:9px; height:9px; border-radius:50%; background:white; transition:opacity 0.2s; cursor:pointer;"></span>
-    <span class="ded-dot" data-idx="1" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
-    <span class="ded-dot" data-idx="2" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
-    <span class="ded-dot" data-idx="3" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
-    <span class="ded-dot" data-idx="4" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
-    <span class="ded-dot" data-idx="5" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
-    <span class="ded-dot" data-idx="6" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
-  </div>
-</div>
-<div style="text-align:center; font-size:11px; color:var(--gray); font-weight:600; margin-top:8px;">← 좌우로 스와이프해서 넘겨보세요 →</div>
+    <!-- 교육 콘텐츠 자리 -->
+    <div class="section-title">오늘의 주제</div>
+    <div id="dailyEduWrap" class="card" style="padding:0; overflow:hidden; position:relative; background:#FFFFFF; transition:height 0.35s ease; min-height:300px;">
+      <div id="dailyEduSlider" style="display:flex; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scrollbar-width:none; height:100%; width:100%; scroll-snap-stop:always; touch-action:pan-y; overscroll-behavior:none;">
+        <style>
+          #dailyEduSlider::-webkit-scrollbar { display:none; }
+          .ded-slide {
+            flex: 0 0 100%;
+            width: 100%;
+            scroll-snap-align: center;
+            scroll-snap-stop: always;
+            display: block;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+          }
+          .ded-slide img {
+            width: 100%;
+            height: auto;
+            display: block;
+            user-select: none;
+            -webkit-user-drag: none;
+            -webkit-touch-callout: none;
+            cursor: zoom-in;
+          }
+        </style>
+        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/AD33BCE8-E96B-466B-A4AC-5623EAB60AD0.png" alt="일상교육 1/7"></div>
+        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/DB5E4ED4-87EA-48C2-8D5A-85F7E0E78AD3.png" alt="일상교육 2/7"></div>
+        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/77998A83-F4DC-42ED-BB42-BF58BAA0AF73.png" alt="일상교육 3/7"></div>
+        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/B992FF6B-FD77-4FB0-A958-4956BADCC759.png" alt="일상교육 4/7"></div>
+        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/52E970AA-1038-42F7-BFE2-A97DC2BBA682.png" alt="일상교육 5/7"></div>
+        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/6BFDC496-804A-4D1D-86F4-47FB9FBBB390.png" alt="일상교육 6/7"></div>
+        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/F787A2A9-E986-40C7-BC7B-D33F9D9BEDD3.png" alt="일상교육 7/7"></div>
+      </div>
+      <!-- 좌우 넘김 버튼 -->
+      <button onclick="dailyEduGo(-1)" aria-label="이전 사진"
+        style="position:absolute; top:50%; left:8px; transform:translateY(-50%); z-index:3; background:rgba(0,0,0,0.5); color:white; border:none; width:36px; height:36px; border-radius:50%; font-size:20px; cursor:pointer; font-family:inherit; font-weight:700; backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center; padding:0;">‹</button>
+      <button onclick="dailyEduGo(1)" aria-label="다음 사진"
+        style="position:absolute; top:50%; right:8px; transform:translateY(-50%); z-index:3; background:rgba(0,0,0,0.5); color:white; border:none; width:36px; height:36px; border-radius:50%; font-size:20px; cursor:pointer; font-family:inherit; font-weight:700; backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center; padding:0;">›</button>
+      <!-- 페이지 인디케이터 (클릭 가능) -->
+      <div id="dailyEduDots" style="position:absolute; bottom:10px; left:50%; transform:translateX(-50%); display:flex; gap:6px; padding:6px 10px; background:rgba(0,0,0,0.5); border-radius:100px; backdrop-filter:blur(8px); z-index:2;">
+        <span class="ded-dot active" data-idx="0" style="width:9px; height:9px; border-radius:50%; background:white; transition:opacity 0.2s; cursor:pointer;"></span>
+        <span class="ded-dot" data-idx="1" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
+        <span class="ded-dot" data-idx="2" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
+        <span class="ded-dot" data-idx="3" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
+        <span class="ded-dot" data-idx="4" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
+        <span class="ded-dot" data-idx="5" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
+        <span class="ded-dot" data-idx="6" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
+      </div>
+    </div>
+    <div style="text-align:center; font-size:11px; color:var(--gray); font-weight:600; margin-top:8px;">← 좌우로 스와이프해서 넘겨보세요 →</div>
 
-<!-- 오늘 꼭 해야할 것 (수동 입력 영역) -->
-<div class="section-title" style="margin-top:18px;">오늘 꼭 해야할 것</div>
-<div class="card" style="padding:18px 20px;">
-  <div style="display:flex; gap:10px; margin-bottom:12px; align-items:flex-start;">
-    <span style="background:var(--accent); color:white; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0; margin-top:1px;">1</span>
-    <span style="font-size:13px; font-weight:700; color:var(--ink); line-height:1.5;">오늘의 <b style="color:var(--accent);">PICK</b> 접속하기</span>
-  </div>
-  <div style="display:flex; gap:10px; margin-bottom:12px; align-items:flex-start;">
-    <span style="background:var(--accent); color:white; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0; margin-top:1px;">2</span>
-    <span style="font-size:13px; font-weight:700; color:var(--ink); line-height:1.5;"><b style="color:var(--accent);">캠페인 꼭 활용</b>해서 3명한테 콘텐츠 발송</span>
-  </div>
-  <div style="display:flex; gap:10px; align-items:flex-start;">
-    <span style="background:var(--accent); color:white; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0; margin-top:1px;">3</span>
-    <span style="font-size:13px; font-weight:700; color:var(--ink); line-height:1.5;">바른활동 <b style="color:var(--accent);">3.3.3</b> 꼭 하기</span>
-  </div>
-</div>
+    <!-- 오늘 꼭 해야할 것 (수동 입력 영역) -->
+    <div class="section-title" style="margin-top:18px;">오늘 꼭 해야할 것</div>
+    <div class="card" style="padding:18px 20px;">
+      <div style="display:flex; gap:10px; margin-bottom:12px; align-items:flex-start;">
+        <span style="background:var(--accent); color:white; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0; margin-top:1px;">1</span>
+        <span style="font-size:13px; font-weight:700; color:var(--ink); line-height:1.5;">오늘의 <b style="color:var(--accent);">PICK</b> 접속하기</span>
+      </div>
+      <div style="display:flex; gap:10px; margin-bottom:12px; align-items:flex-start;">
+        <span style="background:var(--accent); color:white; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0; margin-top:1px;">2</span>
+        <span style="font-size:13px; font-weight:700; color:var(--ink); line-height:1.5;"><b style="color:var(--accent);">캠페인 꼭 활용</b>해서 3명한테 콘텐츠 발송</span>
+      </div>
+      <div style="display:flex; gap:10px; align-items:flex-start;">
+        <span style="background:var(--accent); color:white; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0; margin-top:1px;">3</span>
+        <span style="font-size:13px; font-weight:700; color:var(--ink); line-height:1.5;">바른활동 <b style="color:var(--accent);">3.3.3</b> 꼭 하기</span>
+      </div>
+    </div>
 
-<!-- 마무리 멘트 -->
-<div style="background:var(--ink); color:white; border-radius:14px; padding:18px 20px; margin-top:16px; text-align:center;">
-  <div style="font-size:14px; font-weight:800; line-height:1.6; letter-spacing:-0.02em;">
-    하회지점 전 FP님들의 영업현장<br>
-    <span style="color:#FCD34D;">제가 열심히 서포트 하겠습니다 ♥</span>
-  </div>
-</div>
-```
+    <!-- 마무리 멘트 -->
+    <div style="background:var(--ink); color:white; border-radius:14px; padding:18px 20px; margin-top:16px; text-align:center;">
+      <div style="font-size:14px; font-weight:800; line-height:1.6; letter-spacing:-0.02em;">
+        하회지점 전 FP님들의 영업현장<br>
+        <span style="color:#FCD34D;">제가 열심히 서포트 하겠습니다 ♥</span>
+      </div>
+    </div>
 
   </div>
 
@@ -1351,89 +1326,87 @@ input#bojangGeongang::-webkit-inner-spin-button {
 
   <div class="page" id="page-campaign">
 
-```
-<!-- 캠페인 히어로 -->
-<div style="background:linear-gradient(135deg, #F37321 0%, #C75A14 100%); border-radius:18px; padding:24px 20px; margin-bottom:16px; color:white; position:relative; overflow:hidden;">
-  <div style="position:absolute; top:-30px; right:-30px; width:140px; height:140px; border-radius:50%; background:radial-gradient(circle, rgba(255,255,255,0.18) 0%, transparent 70%);"></div>
-  <div style="font-size:11px; font-weight:700; opacity:0.85; letter-spacing:0.08em; position:relative;">2026.05 · 본사 캠페인</div>
-  <div style="font-size:24px; font-weight:800; margin-top:6px; line-height:1.3; letter-spacing:-0.03em; position:relative;">
-    5월은 한화생명<br>
-    <span style="color:#FCD34D;">온가족 캠페인</span>
-  </div>
-</div>
-
-<!-- 하는 방법 -->
-<div class="section-title">하는 방법</div>
-<div class="card" style="padding:14px; overflow-x:auto; -webkit-overflow-scrolling:touch;">
-  <div style="display:flex; align-items:center; gap:6px; font-size:12px; font-weight:700; white-space:nowrap; width:max-content;">
-    <span style="background:var(--accent-soft); color:var(--accent-deep); padding:7px 10px; border-radius:7px; flex-shrink:0;">FP월드</span>
-    <span style="color:var(--accent); font-weight:800; flex-shrink:0;">→</span>
-    <span style="background:var(--accent-soft); color:var(--accent-deep); padding:7px 10px; border-radius:7px; flex-shrink:0;">고객관리활동</span>
-    <span style="color:var(--accent); font-weight:800; flex-shrink:0;">→</span>
-    <span style="background:var(--accent-soft); color:var(--accent-deep); padding:7px 10px; border-radius:7px; flex-shrink:0;">타겟고객</span>
-    <span style="color:var(--accent); font-weight:800; flex-shrink:0;">→</span>
-    <span style="background:var(--accent); color:white; padding:7px 10px; border-radius:7px; flex-shrink:0;">캠페인 활동 관리</span>
-  </div>
-</div>
-
-<!-- 대상 -->
-<div class="card" style="background:var(--accent-soft); border:none; padding:14px 18px; margin-top:12px;">
-  <div style="font-size:11px; color:var(--accent-deep); font-weight:700; margin-bottom:4px;">대상</div>
-  <div style="font-size:14px; font-weight:700; color:var(--ink);">해당 고객 전원</div>
-</div>
-
-<!-- 어떻게? -->
-<div class="section-title">어떻게 받나요?</div>
-<div class="card" style="padding:18px;">
-  <div style="font-size:13px; font-weight:600; color:var(--ink-soft); line-height:1.6;">
-    오렌지 터치에 <b style="color:var(--accent);">'오늘의 고객터치 & 추천콘텐츠'</b> 발송 시
-  </div>
-</div>
-
-<!-- 시상 그리드 -->
-<div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px;">
-
-  <!-- 3명 -->
-  <div class="card" style="text-align:center; padding:18px 12px; margin:0; background:linear-gradient(135deg, #1A1A1A 0%, #2A2520 100%); color:white; border:none;">
-    <div style="font-size:11px; opacity:0.75; font-weight:600;">주간 발송</div>
-    <div style="font-size:36px; font-weight:800; line-height:1; margin-top:6px; letter-spacing:-0.04em;">
-      3<span style="font-size:14px; opacity:0.85; margin-left:2px;">명</span>
+    <!-- 캠페인 히어로 -->
+    <div style="background:linear-gradient(135deg, #F37321 0%, #C75A14 100%); border-radius:18px; padding:24px 20px; margin-bottom:16px; color:white; position:relative; overflow:hidden;">
+      <div style="position:absolute; top:-30px; right:-30px; width:140px; height:140px; border-radius:50%; background:radial-gradient(circle, rgba(255,255,255,0.18) 0%, transparent 70%);"></div>
+      <div style="font-size:11px; font-weight:700; opacity:0.85; letter-spacing:0.08em; position:relative;">2026.05 · 본사 캠페인</div>
+      <div style="font-size:24px; font-weight:800; margin-top:6px; line-height:1.3; letter-spacing:-0.03em; position:relative;">
+        5월은 한화생명<br>
+        <span style="color:#FCD34D;">온가족 캠페인</span>
+      </div>
     </div>
-    <div style="height:1px; background:rgba(255,255,255,0.18); margin:14px 0;"></div>
-    <div style="font-size:11px; opacity:0.75; font-weight:600;">CU 쿠폰</div>
-    <div style="font-size:22px; font-weight:800; color:#FCD34D; margin-top:4px; letter-spacing:-0.03em;">3,000원</div>
-  </div>
 
-  <!-- 5명 -->
-  <div class="card" style="text-align:center; padding:18px 12px; margin:0; background:linear-gradient(135deg, #C75A14 0%, #F37321 100%); color:white; border:none;">
-    <div style="font-size:11px; opacity:0.85; font-weight:600;">주간 발송</div>
-    <div style="font-size:36px; font-weight:800; line-height:1; margin-top:6px; letter-spacing:-0.04em;">
-      5<span style="font-size:14px; opacity:0.85; margin-left:2px;">명</span>
+    <!-- 하는 방법 -->
+    <div class="section-title">하는 방법</div>
+    <div class="card" style="padding:14px; overflow-x:auto; -webkit-overflow-scrolling:touch;">
+      <div style="display:flex; align-items:center; gap:6px; font-size:12px; font-weight:700; white-space:nowrap; width:max-content;">
+        <span style="background:var(--accent-soft); color:var(--accent-deep); padding:7px 10px; border-radius:7px; flex-shrink:0;">FP월드</span>
+        <span style="color:var(--accent); font-weight:800; flex-shrink:0;">→</span>
+        <span style="background:var(--accent-soft); color:var(--accent-deep); padding:7px 10px; border-radius:7px; flex-shrink:0;">고객관리활동</span>
+        <span style="color:var(--accent); font-weight:800; flex-shrink:0;">→</span>
+        <span style="background:var(--accent-soft); color:var(--accent-deep); padding:7px 10px; border-radius:7px; flex-shrink:0;">타겟고객</span>
+        <span style="color:var(--accent); font-weight:800; flex-shrink:0;">→</span>
+        <span style="background:var(--accent); color:white; padding:7px 10px; border-radius:7px; flex-shrink:0;">캠페인 활동 관리</span>
+      </div>
     </div>
-    <div style="height:1px; background:rgba(255,255,255,0.22); margin:14px 0;"></div>
-    <div style="font-size:11px; opacity:0.85; font-weight:600;">CU 쿠폰</div>
-    <div style="font-size:22px; font-weight:800; color:#FCD34D; margin-top:4px; letter-spacing:-0.03em;">5,000원</div>
-  </div>
 
-</div>
+    <!-- 대상 -->
+    <div class="card" style="background:var(--accent-soft); border:none; padding:14px 18px; margin-top:12px;">
+      <div style="font-size:11px; color:var(--accent-deep); font-weight:700; margin-bottom:4px;">대상</div>
+      <div style="font-size:14px; font-weight:700; color:var(--ink);">해당 고객 전원</div>
+    </div>
 
-<!-- 마무리 한마디 -->
-<div style="background:var(--ink); color:white; border-radius:14px; padding:18px 20px; margin-top:16px; text-align:center;">
-  <div style="font-size:15px; font-weight:800; line-height:1.5; letter-spacing:-0.02em;">
-    편의점 돈 내고 가지 말고<br>
-    <span style="color:#FCD34D;">캠페인 해서 꽁짜로 씁시다 ~!</span>
-  </div>
-  
-  <!-- 24시간 박스 (캠페인용) -->
-  <div style="margin-top:18px;">
-    <button id="hourlyBoxCampaign" class="hourly-box hourly-box-big" onclick="openHourlyBoxCampaign()" aria-label="24시간 박스">
-      <span class="hourly-box-icon">🎁</span>
-      <span class="hourly-box-timer" id="hourlyBoxCampaignTimer">--:--:--</span>
-    </button>
-    <div style="font-size:10px; color:rgba(255,255,255,0.55); font-weight:600; margin-top:8px;">24시간마다 OPEN 가능</div>
-  </div>
-</div>
-```
+    <!-- 어떻게? -->
+    <div class="section-title">어떻게 받나요?</div>
+    <div class="card" style="padding:18px;">
+      <div style="font-size:13px; font-weight:600; color:var(--ink-soft); line-height:1.6;">
+        오렌지 터치에 <b style="color:var(--accent);">'오늘의 고객터치 & 추천콘텐츠'</b> 발송 시
+      </div>
+    </div>
+
+    <!-- 시상 그리드 -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px;">
+
+      <!-- 3명 -->
+      <div class="card" style="text-align:center; padding:18px 12px; margin:0; background:linear-gradient(135deg, #1A1A1A 0%, #2A2520 100%); color:white; border:none;">
+        <div style="font-size:11px; opacity:0.75; font-weight:600;">주간 발송</div>
+        <div style="font-size:36px; font-weight:800; line-height:1; margin-top:6px; letter-spacing:-0.04em;">
+          3<span style="font-size:14px; opacity:0.85; margin-left:2px;">명</span>
+        </div>
+        <div style="height:1px; background:rgba(255,255,255,0.18); margin:14px 0;"></div>
+        <div style="font-size:11px; opacity:0.75; font-weight:600;">CU 쿠폰</div>
+        <div style="font-size:22px; font-weight:800; color:#FCD34D; margin-top:4px; letter-spacing:-0.03em;">3,000원</div>
+      </div>
+
+      <!-- 5명 -->
+      <div class="card" style="text-align:center; padding:18px 12px; margin:0; background:linear-gradient(135deg, #C75A14 0%, #F37321 100%); color:white; border:none;">
+        <div style="font-size:11px; opacity:0.85; font-weight:600;">주간 발송</div>
+        <div style="font-size:36px; font-weight:800; line-height:1; margin-top:6px; letter-spacing:-0.04em;">
+          5<span style="font-size:14px; opacity:0.85; margin-left:2px;">명</span>
+        </div>
+        <div style="height:1px; background:rgba(255,255,255,0.22); margin:14px 0;"></div>
+        <div style="font-size:11px; opacity:0.85; font-weight:600;">CU 쿠폰</div>
+        <div style="font-size:22px; font-weight:800; color:#FCD34D; margin-top:4px; letter-spacing:-0.03em;">5,000원</div>
+      </div>
+
+    </div>
+
+    <!-- 마무리 한마디 -->
+    <div style="background:var(--ink); color:white; border-radius:14px; padding:18px 20px; margin-top:16px; text-align:center;">
+      <div style="font-size:15px; font-weight:800; line-height:1.5; letter-spacing:-0.02em;">
+        편의점 돈 내고 가지 말고<br>
+        <span style="color:#FCD34D;">캠페인 해서 꽁짜로 씁시다 ~!</span>
+      </div>
+      
+      <!-- 24시간 박스 (캠페인용) -->
+      <div style="margin-top:18px;">
+        <button id="hourlyBoxCampaign" class="hourly-box hourly-box-big" onclick="openHourlyBoxCampaign()" aria-label="24시간 박스">
+          <span class="hourly-box-icon">🎁</span>
+          <span class="hourly-box-timer" id="hourlyBoxCampaignTimer">--:--:--</span>
+        </button>
+        <div style="font-size:10px; color:rgba(255,255,255,0.55); font-weight:600; margin-top:8px;">24시간마다 OPEN 가능</div>
+      </div>
+    </div>
 
   </div>
 
@@ -2013,32 +1986,65 @@ const badgeMap = {up:'b-up',down:'b-down',mid:'b-mid'};
 function fmt(n){ return Number(n).toLocaleString('ko-KR'); }
 
 function buildPage(d, idx){
-const hdrCls = d.is_mgr ? ‘gold’ : ‘blue’;
-const maxAct = Math.max(…d.act_list.map(a=>a.val), 1);
-const fills = [‘fill-blue’,‘fill-green’,‘fill-amber’];
+  const hdrCls = d.is_mgr ? 'gold' : 'blue';
+  const maxAct = Math.max(...d.act_list.map(a=>a.val), 1);
+  const fills = ['fill-blue','fill-green','fill-amber'];
 
-const actRows = d.act_list.map((a,i)=>` <div class=&quot;act-row&quot;> <span class=&quot;act-name&quot;>${a.name}</span> <div class=&quot;act-track&quot;><div class=&quot;act-fill ${fills[i]}&quot; style=&quot;width:${Math.round(a.val/maxAct*100)}%&quot;></div></div> <span class=&quot;act-val&quot;>${a.val}건</span> <span class=&quot;act-vs tag-${a.vc}&quot;>${a.vs.split(' ')[0]}</span> </div>`).join(’’);
+  const actRows = d.act_list.map((a,i)=>`
+    <div class=&quot;act-row&quot;>
+      <span class=&quot;act-name&quot;>${a.name}</span>
+      <div class=&quot;act-track&quot;><div class=&quot;act-fill ${fills[i]}&quot; style=&quot;width:${Math.round(a.val/maxAct*100)}%&quot;></div></div>
+      <span class=&quot;act-val&quot;>${a.val}건</span>
+      <span class=&quot;act-vs tag-${a.vc}&quot;>${a.vs.split(' ')[0]}</span>
+    </div>`).join('');
 
-const prodRows = d.act_list.map(a=>` <div class=&quot;prod-row&quot;> <span class=&quot;prod-name&quot;>${a.name} 1건</span> <div class=&quot;prod-right&quot;> <span class=&quot;prod-amt&quot;>${fmt(a.pv)}원</span> <span class=&quot;badge ${badgeMap[a.pvc]}&quot;>${a.pvs.split(' ')[0]}</span> </div> </div>`).join(’’);
+  const prodRows = d.act_list.map(a=>`
+    <div class=&quot;prod-row&quot;>
+      <span class=&quot;prod-name&quot;>${a.name} 1건</span>
+      <div class=&quot;prod-right&quot;>
+        <span class=&quot;prod-amt&quot;>${fmt(a.pv)}원</span>
+        <span class=&quot;badge ${badgeMap[a.pvc]}&quot;>${a.pvs.split(' ')[0]}</span>
+      </div>
+    </div>`).join('');
 
-const insRows = d.ins_list.map(ins=>{
-const insClass = ins.cls === ‘종신’ ? ‘ins-jongsin’ : ‘ins-health’;
-return ins.건수>0 ? ` <div class=&quot;ins-row&quot;> <span class=&quot;ins-tag ${insClass}&quot;>${ins.cls}</span> <div class=&quot;ins-mid&quot;>${fmt(ins.건수)}건 &amp;nbsp;|&amp;nbsp; 합계 ${fmt(ins.합계)}만원 &amp;nbsp;|&amp;nbsp; 건당 ${fmt(ins.건당)}원</div> <div class=&quot;ins-right&quot;> <div class=&quot;ins-val&quot;>${fmt(ins.건당)}원/건</div> <div class=&quot;ins-diff tag-${ins.u_cls}&quot;>평균 대비 ${ins.u_txt}</div> </div> </div>` : ` <div class=&quot;ins-row&quot;> <span class=&quot;ins-tag ${insClass}&quot;>${ins.cls}</span> <div class=&quot;ins-mid&quot; style=&quot;color:#ccc;&quot;>계약 없음</div> </div>`;
-}).join(’’);
+  const insRows = d.ins_list.map(ins=>{
+    const insClass = ins.cls === '종신' ? 'ins-jongsin' : 'ins-health';
+    return ins.건수>0 ? `
+      <div class=&quot;ins-row&quot;>
+        <span class=&quot;ins-tag ${insClass}&quot;>${ins.cls}</span>
+        <div class=&quot;ins-mid&quot;>${fmt(ins.건수)}건 &amp;nbsp;|&amp;nbsp; 합계 ${fmt(ins.합계)}만원 &amp;nbsp;|&amp;nbsp; 건당 ${fmt(ins.건당)}원</div>
+        <div class=&quot;ins-right&quot;>
+          <div class=&quot;ins-val&quot;>${fmt(ins.건당)}원/건</div>
+          <div class=&quot;ins-diff tag-${ins.u_cls}&quot;>평균 대비 ${ins.u_txt}</div>
+        </div>
+      </div>` : `
+      <div class=&quot;ins-row&quot;>
+        <span class=&quot;ins-tag ${insClass}&quot;>${ins.cls}</span>
+        <div class=&quot;ins-mid&quot; style=&quot;color:#ccc;&quot;>계약 없음</div>
+      </div>`;
+  }).join('');
 
-const monthRows = d.monthly.map(m=>` <tr> <td><strong>${m.월}</strong></td> <td style=&quot;font-weight:700;color:#1A4F8A;&quot;>${fmt(m.환산)}만</td> <td>${m.가입}</td><td>${m.보장}</td><td>${m.정보}</td> </tr>`).join(’’);
+  const monthRows = d.monthly.map(m=>`
+    <tr>
+      <td><strong>${m.월}</strong></td>
+      <td style=&quot;font-weight:700;color:#1A4F8A;&quot;>${fmt(m.환산)}만</td>
+      <td>${m.가입}</td><td>${m.보장}</td><td>${m.정보}</td>
+    </tr>`).join('');
 
-const aiItems = d.ai.map((msg,i)=>` <div class=&quot;ai-item&quot;> <div class=&quot;ai-num&quot;>${i+1}</div> <div class=&quot;ai-text&quot;>${msg}</div> </div>`).join(’’);
+  const aiItems = d.ai.map((msg,i)=>`
+    <div class=&quot;ai-item&quot;>
+      <div class=&quot;ai-num&quot;>${i+1}</div>
+      <div class=&quot;ai-text&quot;>${msg}</div>
+    </div>`).join('');
 
-const envParts = d.환산_t.split(’ ‘);
-const envFront = envParts.slice(0,-1).join(’ ‘);
-const envBack = envParts.slice(-1)[0];
-const cntParts = d.건수_t.split(’ ‘);
-const cntFront = cntParts.slice(0,-1).join(’ ’);
-const cntBack = cntParts.slice(-1)[0];
+  const envParts = d.환산_t.split(' ');
+  const envFront = envParts.slice(0,-1).join(' ');
+  const envBack = envParts.slice(-1)[0];
+  const cntParts = d.건수_t.split(' ');
+  const cntFront = cntParts.slice(0,-1).join(' ');
+  const cntBack = cntParts.slice(-1)[0];
 
-return `
-
+  return `
   <div class=&quot;page${idx===0?' active':''}&quot; id=&quot;page-${idx}&quot;>
     <div class=&quot;dash-header ${hdrCls}&quot;>
       <div class=&quot;header-left&quot;>
@@ -2048,92 +2054,88 @@ return `
       <span class=&quot;header-badge&quot;>성과 리포트</span>
     </div>
 
-```
-<div class=&quot;metrics&quot;>
-  <div class=&quot;metric&quot;>
-    <div class=&quot;metric-label&quot;>월평균 총환산월초</div>
-    <div class=&quot;metric-value&quot;>${fmt(Math.round(d.현재환산/10000))}만원</div>
-    <div class=&quot;metric-sub tag-${d.환산vc}&quot;>${d.환산vs}</div>
-  </div>
-  <div class=&quot;metric&quot;>
-    <div class=&quot;metric-label&quot;>월평균 신계약</div>
-    <div class=&quot;metric-value&quot;>${d.신계약}건</div>
-    <div class=&quot;metric-sub tag-${d.건수vc}&quot;>${d.건수vs}</div>
-  </div>
-  <div class=&quot;metric&quot;>
-    <div class=&quot;metric-label&quot;>환산 추세</div>
-    <div class=&quot;metric-value&quot; style=&quot;font-size:16px;padding-top:4px;&quot;>${envFront} ${envBack}</div>
-  </div>
-  <div class=&quot;metric&quot;>
-    <div class=&quot;metric-label&quot;>건수 추세</div>
-    <div class=&quot;metric-value&quot; style=&quot;font-size:16px;padding-top:4px;&quot;>${cntFront} ${cntBack}</div>
-  </div>
-</div>
-
-<div class=&quot;target-bar&quot;>
-  <span class=&quot;target-left&quot;>🎯 목표 총환산</span>
-  <span class=&quot;target-right&quot;>현재 ${fmt(Math.round(d.현재환산/10000))}만원 → 목표 ${fmt(Math.round(d.목표환산/10000))}만원 &amp;nbsp;(+10%)</span>
-</div>
-
-<div class=&quot;two-col&quot;>
-  <div class=&quot;card&quot;>
-    <div class=&quot;card-title&quot;>📋 월평균 활동량</div>
-    ${actRows}
-  </div>
-  <div class=&quot;card&quot;>
-    <div class=&quot;card-title&quot;>⚡ 활동 생산성 (1건당 소득)</div>
-    ${prodRows}
-    <div class=&quot;prod-row prod-sum&quot;>
-      <span class=&quot;prod-name&quot; style=&quot;font-weight:700;color:#333;&quot;>3가지 합계</span>
-      <div class=&quot;prod-right&quot;>
-        <span class=&quot;prod-amt&quot; style=&quot;font-size:15px;&quot;>${fmt(d.total)}원</span>
-        <span class=&quot;badge b-mid&quot;>평균 ${fmt(d.avg_one_sum)}원</span>
+    <div class=&quot;metrics&quot;>
+      <div class=&quot;metric&quot;>
+        <div class=&quot;metric-label&quot;>월평균 총환산월초</div>
+        <div class=&quot;metric-value&quot;>${fmt(Math.round(d.현재환산/10000))}만원</div>
+        <div class=&quot;metric-sub tag-${d.환산vc}&quot;>${d.환산vs}</div>
+      </div>
+      <div class=&quot;metric&quot;>
+        <div class=&quot;metric-label&quot;>월평균 신계약</div>
+        <div class=&quot;metric-value&quot;>${d.신계약}건</div>
+        <div class=&quot;metric-sub tag-${d.건수vc}&quot;>${d.건수vs}</div>
+      </div>
+      <div class=&quot;metric&quot;>
+        <div class=&quot;metric-label&quot;>환산 추세</div>
+        <div class=&quot;metric-value&quot; style=&quot;font-size:16px;padding-top:4px;&quot;>${envFront} ${envBack}</div>
+      </div>
+      <div class=&quot;metric&quot;>
+        <div class=&quot;metric-label&quot;>건수 추세</div>
+        <div class=&quot;metric-value&quot; style=&quot;font-size:16px;padding-top:4px;&quot;>${cntFront} ${cntBack}</div>
       </div>
     </div>
-  </div>
-</div>
 
-<div class=&quot;two-col&quot;>
-  <div class=&quot;card&quot;>
-    <div class=&quot;card-title&quot;>🏅 보험 특화 분석 (지점 평균 대비)</div>
-    ${insRows}
-  </div>
-  <div class=&quot;card&quot;>
-    <div class=&quot;card-title&quot;>📅 월별 실적 현황</div>
-    <table class=&quot;month-table&quot;>
-      <thead><tr><th>월</th><th>총환산(만)</th><th>가입설계</th><th>보장분석</th><th>정보동의</th></tr></thead>
-      <tbody>${monthRows}</tbody>
-    </table>
-  </div>
-</div>
+    <div class=&quot;target-bar&quot;>
+      <span class=&quot;target-left&quot;>🎯 목표 총환산</span>
+      <span class=&quot;target-right&quot;>현재 ${fmt(Math.round(d.현재환산/10000))}만원 → 목표 ${fmt(Math.round(d.목표환산/10000))}만원 &amp;nbsp;(+10%)</span>
+    </div>
 
-<div class=&quot;ai-box&quot;>
-  <div class=&quot;ai-title&quot;>🤖 AI 한마디</div>
-  ${aiItems}
-</div>
-```
+    <div class=&quot;two-col&quot;>
+      <div class=&quot;card&quot;>
+        <div class=&quot;card-title&quot;>📋 월평균 활동량</div>
+        ${actRows}
+      </div>
+      <div class=&quot;card&quot;>
+        <div class=&quot;card-title&quot;>⚡ 활동 생산성 (1건당 소득)</div>
+        ${prodRows}
+        <div class=&quot;prod-row prod-sum&quot;>
+          <span class=&quot;prod-name&quot; style=&quot;font-weight:700;color:#333;&quot;>3가지 합계</span>
+          <div class=&quot;prod-right&quot;>
+            <span class=&quot;prod-amt&quot; style=&quot;font-size:15px;&quot;>${fmt(d.total)}원</span>
+            <span class=&quot;badge b-mid&quot;>평균 ${fmt(d.avg_one_sum)}원</span>
+          </div>
+        </div>
+      </div>
+    </div>
 
+    <div class=&quot;two-col&quot;>
+      <div class=&quot;card&quot;>
+        <div class=&quot;card-title&quot;>🏅 보험 특화 분석 (지점 평균 대비)</div>
+        ${insRows}
+      </div>
+      <div class=&quot;card&quot;>
+        <div class=&quot;card-title&quot;>📅 월별 실적 현황</div>
+        <table class=&quot;month-table&quot;>
+          <thead><tr><th>월</th><th>총환산(만)</th><th>가입설계</th><th>보장분석</th><th>정보동의</th></tr></thead>
+          <tbody>${monthRows}</tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class=&quot;ai-box&quot;>
+      <div class=&quot;ai-title&quot;>🤖 AI 한마디</div>
+      ${aiItems}
+    </div>
   </div>`;
 }
 
-const navEl = document.getElementById(‘navInner’);
-const pagesEl = document.getElementById(‘pages’);
+const navEl = document.getElementById('navInner');
+const pagesEl = document.getElementById('pages');
 DATA.forEach((d,i)=>{
-const btn = document.createElement(‘button’);
-btn.className = ‘nav-btn’+(d.is_mgr?’ mgr’:’’)+(i===0?’ active’:’’);
-btn.textContent = d.성명;
-btn.onclick = ()=>{
-document.querySelectorAll(’.nav-btn’).forEach(b=>b.classList.remove(‘active’));
-document.querySelectorAll(’.page’).forEach(p=>p.classList.remove(‘active’));
-btn.classList.add(‘active’);
-document.getElementById(‘page-’+i).classList.add(‘active’);
-window.scrollTo(0,0);
-};
-navEl.appendChild(btn);
-pagesEl.insertAdjacentHTML(‘beforeend’, buildPage(d,i));
+  const btn = document.createElement('button');
+  btn.className = 'nav-btn'+(d.is_mgr?' mgr':'')+(i===0?' active':'');
+  btn.textContent = d.성명;
+  btn.onclick = ()=>{
+    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('page-'+i).classList.add('active');
+    window.scrollTo(0,0);
+  };
+  navEl.appendChild(btn);
+  pagesEl.insertAdjacentHTML('beforeend', buildPage(d,i));
 });
 </script>
-
 </body>
 </html>
 " style="width:100%; height:100%; border:none; display:block;"></iframe>
@@ -2279,161 +2281,160 @@ body {
 
 /* 모달 */
 .modal-bg {
-display: none; position: fixed; inset: 0;
-background: rgba(0,0,0,0.7);
-align-items: center; justify-content: center;
-z-index: 100; padding: 20px;
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.7);
+  align-items: center; justify-content: center;
+  z-index: 100; padding: 20px;
 }
 .modal-bg.show { display: flex; animation: fadeIn 0.2s; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 .modal {
-background: white; border-radius: 18px;
-padding: 28px 24px; text-align: center;
-max-width: 320px; width: 100%;
-animation: popIn 0.3s ease-out;
+  background: white; border-radius: 18px;
+  padding: 28px 24px; text-align: center;
+  max-width: 320px; width: 100%;
+  animation: popIn 0.3s ease-out;
 }
 @keyframes popIn {
-from { transform: scale(0.5); opacity: 0; }
-to { transform: scale(1); opacity: 1; }
+  from { transform: scale(0.5); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 .modal-emoji { font-size: 64px; margin-bottom: 8px; }
 .modal-title {
-font-size: 11px; font-weight: 700; color: #6B7280;
-letter-spacing: 0.1em; margin-bottom: 6px;
+  font-size: 11px; font-weight: 700; color: #6B7280;
+  letter-spacing: 0.1em; margin-bottom: 6px;
 }
 .modal-msg {
-font-size: 22px; font-weight: 800; color: #1A1A1A;
-letter-spacing: -0.03em; margin-bottom: 8px;
+  font-size: 22px; font-weight: 800; color: #1A1A1A;
+  letter-spacing: -0.03em; margin-bottom: 8px;
 }
 .modal-sub {
-font-size: 13px; font-weight: 600; color: #6B7280;
-margin-bottom: 20px; line-height: 1.5;
+  font-size: 13px; font-weight: 600; color: #6B7280;
+  margin-bottom: 20px; line-height: 1.5;
 }
 .modal-btn {
-background: #F37321; color: white;
-border: none; border-radius: 100px;
-padding: 12px 32px;
-font-size: 14px; font-weight: 800;
-font-family: inherit; cursor: pointer;
-letter-spacing: -0.02em;
+  background: #F37321; color: white;
+  border: none; border-radius: 100px;
+  padding: 12px 32px;
+  font-size: 14px; font-weight: 800;
+  font-family: inherit; cursor: pointer;
+  letter-spacing: -0.02em;
 }
 
 /* ============ 명예의 전당 ============ */
 .hof-panel {
-margin-top: 14px;
-background: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%);
-border-radius: 12px;
-padding: 14px;
-color: white;
-border: 1px solid rgba(252, 211, 77, 0.2);
-box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  margin-top: 14px;
+  background: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%);
+  border-radius: 12px;
+  padding: 14px;
+  color: white;
+  border: 1px solid rgba(252, 211, 77, 0.2);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
 .hof-header {
-display: flex;
-align-items: center;
-gap: 8px;
-margin-bottom: 10px;
-padding-bottom: 10px;
-border-bottom: 1px solid rgba(252, 211, 77, 0.15);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(252, 211, 77, 0.15);
 }
 .hof-icon {
-font-size: 18px;
+  font-size: 18px;
 }
 .hof-title-label {
-font-size: 12px;
-font-weight: 800;
-letter-spacing: 0.1em;
-color: #FCD34D;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #FCD34D;
 }
 
 .hof-card {
-background: linear-gradient(135deg, #F37321, #C2410C);
-border-radius: 10px;
-padding: 10px 14px;
-margin-bottom: 10px;
-display: flex;
-align-items: center;
-justify-content: space-between;
-box-shadow: 0 2px 8px rgba(243, 115, 33, 0.3);
+  background: linear-gradient(135deg, #F37321, #C2410C);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(243, 115, 33, 0.3);
 }
 .hof-title-row {
-display: flex;
-align-items: center;
-justify-content: space-between;
-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
 .hof-title-text {
-font-size: 10px;
-font-weight: 700;
-opacity: 0.85;
-letter-spacing: 0.05em;
+  font-size: 10px;
+  font-weight: 700;
+  opacity: 0.85;
+  letter-spacing: 0.05em;
 }
 .hof-title-main {
-font-size: 16px;
-font-weight: 800;
-letter-spacing: -0.03em;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
 }
 
 .hof-stats {
-display: grid;
-grid-template-columns: 1fr 1fr 1fr;
-gap: 6px;
-margin-bottom: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 12px;
 }
 .hof-stat {
-background: rgba(255, 255, 255, 0.05);
-border-radius: 8px;
-padding: 8px 6px;
-text-align: center;
-border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 8px 6px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 .hof-stat-label {
-font-size: 9px;
-font-weight: 700;
-opacity: 0.6;
-letter-spacing: 0.03em;
-margin-bottom: 3px;
+  font-size: 9px;
+  font-weight: 700;
+  opacity: 0.6;
+  letter-spacing: 0.03em;
+  margin-bottom: 3px;
 }
 .hof-stat-value {
-font-size: 14px;
-font-weight: 800;
-font-variant-numeric: tabular-nums;
-letter-spacing: -0.02em;
+  font-size: 14px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
 }
 .hof-stat-value.gold { color: #FCD34D; }
 .hof-stat-value.orange { color: #F37321; }
 
 .hof-progress-label {
-font-size: 9px;
-font-weight: 700;
-opacity: 0.5;
-letter-spacing: 0.08em;
-margin-bottom: 6px;
+  font-size: 9px;
+  font-weight: 700;
+  opacity: 0.5;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
 }
 .hof-track {
-display: flex;
-flex-wrap: wrap;
-gap: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
 }
 .hof-tier-pill {
-padding: 3px 8px;
-border-radius: 100px;
-font-size: 10px;
-font-weight: 700;
-background: rgba(255, 255, 255, 0.06);
-color: rgba(255, 255, 255, 0.35);
-letter-spacing: -0.02em;
-border: 1px solid rgba(255, 255, 255, 0.05);
-transition: all 0.2s;
+  padding: 3px 8px;
+  border-radius: 100px;
+  font-size: 10px;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: -0.02em;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.2s;
 }
 .hof-tier-pill.reached {
-background: linear-gradient(135deg, #FCD34D, #F37321);
-color: white;
-border-color: rgba(252, 211, 77, 0.5);
-box-shadow: 0 2px 6px rgba(252, 211, 77, 0.3);
+  background: linear-gradient(135deg, #FCD34D, #F37321);
+  color: white;
+  border-color: rgba(252, 211, 77, 0.5);
+  box-shadow: 0 2px 6px rgba(252, 211, 77, 0.3);
 }
 </style>
-
 </head>
 <body>
 <div class=&quot;game-container&quot;>
@@ -2450,9 +2451,9 @@ box-shadow: 0 2px 6px rgba(252, 211, 77, 0.3);
       </div>
     </div>
   </div>
-
+  
   <div class=&quot;hint&quot;>⬆⬇⬅➡ 스와이프 / 같은 등급 합쳐서 <b style=&quot;color:#F37321&quot;>슈퍼</b>까지!</div>
-
+  
   <div class=&quot;grid-wrap&quot; id=&quot;gridWrap&quot;>
     <div class=&quot;grid-bg&quot;>
       <div class=&quot;cell-bg&quot;></div><div class=&quot;cell-bg&quot;></div><div class=&quot;cell-bg&quot;></div><div class=&quot;cell-bg&quot;></div>
@@ -2462,53 +2463,48 @@ box-shadow: 0 2px 6px rgba(252, 211, 77, 0.3);
     </div>
     <div class=&quot;tiles&quot; id=&quot;tiles&quot;></div>
   </div>
-
+  
   <div class=&quot;controls&quot;>
     <button class=&quot;btn outline&quot; onclick=&quot;undo()&quot;>↩ 한 수 무르기</button>
     <button class=&quot;btn&quot; onclick=&quot;newGame()&quot;>🔄 새 게임</button>
   </div>
 
   <!-- 명예의 전당 -->
-
   <div class=&quot;hof-panel&quot; id=&quot;hofPanel&quot;>
     <div class=&quot;hof-header&quot;>
       <span class=&quot;hof-icon&quot;>🏆</span>
       <span class=&quot;hof-title-label&quot;>명예의 전당</span>
     </div>
-
-```
-<div class=&quot;hof-card&quot;>
-  <div class=&quot;hof-title-row&quot;>
-    <div class=&quot;hof-title-text&quot;>현재 등급</div>
-    <div class=&quot;hof-title-main&quot; id=&quot;hofTitle&quot;>도전자</div>
-  </div>
-</div>
-
-<div class=&quot;hof-stats&quot;>
-  <div class=&quot;hof-stat&quot;>
-    <div class=&quot;hof-stat-label&quot;>최고 점수</div>
-    <div class=&quot;hof-stat-value gold&quot; id=&quot;hofBest&quot;>0</div>
-  </div>
-  <div class=&quot;hof-stat&quot;>
-    <div class=&quot;hof-stat-label&quot;>최고 등급</div>
-    <div class=&quot;hof-stat-value orange&quot; id=&quot;hofTier&quot;>-</div>
-  </div>
-  <div class=&quot;hof-stat&quot;>
-    <div class=&quot;hof-stat-label&quot;>플레이 횟수</div>
-    <div class=&quot;hof-stat-value&quot; id=&quot;hofPlays&quot;>0</div>
-  </div>
-</div>
-
-<div class=&quot;hof-progress-label&quot;>등급 도달 현황</div>
-<div class=&quot;hof-track&quot; id=&quot;hofTrack&quot;></div>
-```
-
+    
+    <div class=&quot;hof-card&quot;>
+      <div class=&quot;hof-title-row&quot;>
+        <div class=&quot;hof-title-text&quot;>현재 등급</div>
+        <div class=&quot;hof-title-main&quot; id=&quot;hofTitle&quot;>도전자</div>
+      </div>
+    </div>
+    
+    <div class=&quot;hof-stats&quot;>
+      <div class=&quot;hof-stat&quot;>
+        <div class=&quot;hof-stat-label&quot;>최고 점수</div>
+        <div class=&quot;hof-stat-value gold&quot; id=&quot;hofBest&quot;>0</div>
+      </div>
+      <div class=&quot;hof-stat&quot;>
+        <div class=&quot;hof-stat-label&quot;>최고 등급</div>
+        <div class=&quot;hof-stat-value orange&quot; id=&quot;hofTier&quot;>-</div>
+      </div>
+      <div class=&quot;hof-stat&quot;>
+        <div class=&quot;hof-stat-label&quot;>플레이 횟수</div>
+        <div class=&quot;hof-stat-value&quot; id=&quot;hofPlays&quot;>0</div>
+      </div>
+    </div>
+    
+    <div class=&quot;hof-progress-label&quot;>등급 도달 현황</div>
+    <div class=&quot;hof-track&quot; id=&quot;hofTrack&quot;></div>
   </div>
 
 </div>
 
 <!-- 게임 종료 모달 -->
-
 <div class=&quot;modal-bg&quot; id=&quot;modal&quot;>
   <div class=&quot;modal&quot;>
     <div class=&quot;modal-emoji&quot; id=&quot;modalEmoji&quot;>😢</div>
@@ -2981,7 +2977,6 @@ window.addEventListener('resize', () => {
 // 시작
 newGame();
 </script>
-
 </body>
 </html>
 " style="width:100%; height:100%; border:none; display:block;"></iframe>
@@ -3014,124 +3009,124 @@ body {
 }
 
 .hud {
-width: 100%; max-width: 480px;
-display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px;
-margin-bottom: 8px;
+  width: 100%; max-width: 480px;
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px;
+  margin-bottom: 8px;
 }
 .hud-box {
-background: white;
-border-radius: 10px;
-padding: 6px 8px;
-text-align: center;
-box-shadow: 0 2px 6px rgba(243, 115, 33, 0.15);
-border: 1px solid rgba(243, 115, 33, 0.1);
+  background: white;
+  border-radius: 10px;
+  padding: 6px 8px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(243, 115, 33, 0.15);
+  border: 1px solid rgba(243, 115, 33, 0.1);
 }
 .hud-label {
-font-size: 9px; color: #999; font-weight: 700;
-letter-spacing: 0.05em; margin-bottom: 2px;
+  font-size: 9px; color: #999; font-weight: 700;
+  letter-spacing: 0.05em; margin-bottom: 2px;
 }
 .hud-value {
-font-size: 15px; font-weight: 800;
-font-variant-numeric: tabular-nums;
-color: #1a1a1a;
+  font-size: 15px; font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: #1a1a1a;
 }
 .hud-value.score { color: #F37321; }
 .hud-value.best { color: #FCD34D; }
 
 .next-preview {
-width: 100%; max-width: 480px;
-background: white;
-border-radius: 10px;
-padding: 8px 12px;
-margin-bottom: 8px;
-display: flex; align-items: center; gap: 10px;
-border: 1px solid rgba(243, 115, 33, 0.1);
-box-shadow: 0 2px 6px rgba(243, 115, 33, 0.1);
+  width: 100%; max-width: 480px;
+  background: white;
+  border-radius: 10px;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  display: flex; align-items: center; gap: 10px;
+  border: 1px solid rgba(243, 115, 33, 0.1);
+  box-shadow: 0 2px 6px rgba(243, 115, 33, 0.1);
 }
 .next-label {
-font-size: 10px; font-weight: 800; color: #999;
-letter-spacing: 0.05em;
+  font-size: 10px; font-weight: 800; color: #999;
+  letter-spacing: 0.05em;
 }
 .next-ball {
-display: inline-flex; align-items: center; justify-content: center;
-border-radius: 50%;
-font-weight: 800; font-size: 10px;
-color: white;
-text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  font-weight: 800; font-size: 10px;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
 
 .game-area {
-position: relative;
-width: 100%; max-width: 480px;
-aspect-ratio: 3 / 4;
-background: linear-gradient(180deg, #FFF7ED 0%, #FFEDD5 50%, #FED7AA 100%);
-border-radius: 16px;
-border: 4px solid #C2410C;
-overflow: hidden;
-box-shadow: 0 8px 24px rgba(194, 65, 12, 0.3);
+  position: relative;
+  width: 100%; max-width: 480px;
+  aspect-ratio: 3 / 4;
+  background: linear-gradient(180deg, #FFF7ED 0%, #FFEDD5 50%, #FED7AA 100%);
+  border-radius: 16px;
+  border: 4px solid #C2410C;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(194, 65, 12, 0.3);
 }
 
 .danger-line {
-position: absolute;
-top: 15%;
-left: 0; right: 0;
-height: 2px;
-background: linear-gradient(90deg, transparent, #EF4444, transparent);
-pointer-events: none;
-z-index: 2;
-opacity: 0.4;
+  position: absolute;
+  top: 15%;
+  left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #EF4444, transparent);
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.4;
 }
 .danger-line::before {
-content: ‘⚠ DANGER’;
-position: absolute;
-top: -16px;
-right: 8px;
-font-size: 10px;
-color: #EF4444;
-font-weight: 800;
-letter-spacing: 0.05em;
-opacity: 0.7;
+  content: '⚠ DANGER';
+  position: absolute;
+  top: -16px;
+  right: 8px;
+  font-size: 10px;
+  color: #EF4444;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  opacity: 0.7;
 }
 
 .aim-line {
-position: absolute;
-top: 0;
-width: 2px;
-background: rgba(243, 115, 33, 0.4);
-pointer-events: none;
-z-index: 1;
+  position: absolute;
+  top: 0;
+  width: 2px;
+  background: rgba(243, 115, 33, 0.4);
+  pointer-events: none;
+  z-index: 1;
 }
 .aim-ball {
-position: absolute;
-top: 12px;
-border-radius: 50%;
-display: flex; align-items: center; justify-content: center;
-font-weight: 800; color: white;
-pointer-events: none;
-text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-z-index: 1;
-transition: left 0.1s;
+  position: absolute;
+  top: 12px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; color: white;
+  pointer-events: none;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  z-index: 1;
+  transition: left 0.1s;
 }
 
 .ball {
-position: absolute;
-display: flex; align-items: center; justify-content: center;
-border-radius: 50%;
-font-weight: 800;
-color: white;
-text-shadow: 0 1px 2px rgba(0,0,0,0.4);
-box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-text-align: center;
-line-height: 1;
-z-index: 5;
+  position: absolute;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  font-weight: 800;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  text-align: center;
+  line-height: 1;
+  z-index: 5;
 }
 .ball.merging {
-animation: ballMerge 0.25s ease-out;
+  animation: ballMerge 0.25s ease-out;
 }
 @keyframes ballMerge {
-0% { transform: scale(1); }
-40% { transform: scale(1.3); }
-100% { transform: scale(1); }
+  0% { transform: scale(1); }
+  40% { transform: scale(1.3); }
+  100% { transform: scale(1); }
 }
 
 /* 12종 보험 (작은 → 큰) */
@@ -3148,87 +3143,87 @@ animation: ballMerge 0.25s ease-out;
 .b-11 { background: radial-gradient(circle at 30% 30%, #FCD34D, #F37321); font-size: 13px; box-shadow: 0 0 16px rgba(252, 211, 77, 0.8); }
 .b-12 { background: radial-gradient(circle at 30% 30%, #ffffff, #FCD34D, #F37321, #DC2626); font-size: 13px; box-shadow: 0 0 24px rgba(252, 211, 77, 1); animation: legendPulse 1.5s infinite; }
 @keyframes legendPulse {
-0%, 100% { box-shadow: 0 0 22px rgba(252, 211, 77, 0.8); }
-50% { box-shadow: 0 0 36px rgba(252, 211, 77, 1); }
+  0%, 100% { box-shadow: 0 0 22px rgba(252, 211, 77, 0.8); }
+  50% { box-shadow: 0 0 36px rgba(252, 211, 77, 1); }
 }
 
 .score-popup {
-position: absolute;
-font-size: 14px; font-weight: 800;
-color: #F37321;
-text-shadow: 0 1px 2px rgba(255,255,255,0.8);
-pointer-events: none;
-z-index: 50;
-animation: scorePop 0.7s ease-out forwards;
+  position: absolute;
+  font-size: 14px; font-weight: 800;
+  color: #F37321;
+  text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+  pointer-events: none;
+  z-index: 50;
+  animation: scorePop 0.7s ease-out forwards;
 }
 @keyframes scorePop {
-0% { opacity: 1; transform: translateY(0) scale(0.8); }
-20% { opacity: 1; transform: translateY(-8px) scale(1.1); }
-100% { opacity: 0; transform: translateY(-32px) scale(1); }
+  0% { opacity: 1; transform: translateY(0) scale(0.8); }
+  20% { opacity: 1; transform: translateY(-8px) scale(1.1); }
+  100% { opacity: 0; transform: translateY(-32px) scale(1); }
 }
 
 .tier-guide {
-width: 100%; max-width: 480px;
-background: white;
-border-radius: 10px;
-padding: 8px 10px;
-margin-top: 8px;
-display: flex; flex-wrap: wrap; gap: 4px;
-justify-content: center;
-font-size: 9px;
-border: 1px solid rgba(243, 115, 33, 0.1);
-box-shadow: 0 2px 6px rgba(243, 115, 33, 0.08);
+  width: 100%; max-width: 480px;
+  background: white;
+  border-radius: 10px;
+  padding: 8px 10px;
+  margin-top: 8px;
+  display: flex; flex-wrap: wrap; gap: 4px;
+  justify-content: center;
+  font-size: 9px;
+  border: 1px solid rgba(243, 115, 33, 0.1);
+  box-shadow: 0 2px 6px rgba(243, 115, 33, 0.08);
 }
 .tier-pill {
-padding: 2px 8px;
-border-radius: 100px;
-font-weight: 800;
-letter-spacing: -0.02em;
-color: white;
-font-size: 9px;
+  padding: 2px 8px;
+  border-radius: 100px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: white;
+  font-size: 9px;
 }
 
 .help-text {
-font-size: 11px; color: #666; text-align: center;
-margin-top: 6px; font-weight: 600;
+  font-size: 11px; color: #666; text-align: center;
+  margin-top: 6px; font-weight: 600;
 }
 
 .controls {
-width: 100%; max-width: 480px;
-display: grid; grid-template-columns: 1fr; gap: 6px;
-margin-top: 8px;
+  width: 100%; max-width: 480px;
+  display: grid; grid-template-columns: 1fr; gap: 6px;
+  margin-top: 8px;
 }
 .btn {
-padding: 10px;
-background: #F37321; color: white;
-border: none; border-radius: 10px;
-font-size: 12px; font-weight: 800;
-font-family: inherit; cursor: pointer;
-letter-spacing: -0.02em;
+  padding: 10px;
+  background: #F37321; color: white;
+  border: none; border-radius: 10px;
+  font-size: 12px; font-weight: 800;
+  font-family: inherit; cursor: pointer;
+  letter-spacing: -0.02em;
 }
 .btn:active { opacity: 0.85; transform: scale(0.98); }
 .btn.outline {
-background: transparent; color: #F37321;
-border: 1.5px solid #F37321;
+  background: transparent; color: #F37321;
+  border: 1.5px solid #F37321;
 }
 
 .modal-bg {
-display: none; position: fixed; inset: 0;
-background: rgba(0,0,0,0.7);
-align-items: center; justify-content: center;
-z-index: 1000; padding: 20px;
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.7);
+  align-items: center; justify-content: center;
+  z-index: 1000; padding: 20px;
 }
 .modal-bg.show { display: flex; animation: fadeIn 0.2s; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 .modal {
-background: white; border-radius: 18px;
-padding: 28px 24px; text-align: center;
-max-width: 320px; width: 100%;
-animation: popIn 0.3s;
+  background: white; border-radius: 18px;
+  padding: 28px 24px; text-align: center;
+  max-width: 320px; width: 100%;
+  animation: popIn 0.3s;
 }
 @keyframes popIn {
-from { transform: scale(0.7); opacity: 0; }
-to { transform: scale(1); opacity: 1; }
+  from { transform: scale(0.7); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 .modal-emoji { font-size: 56px; margin-bottom: 6px; }
 .modal-title { font-size: 11px; font-weight: 700; color: #6B7280; letter-spacing: 0.1em; margin-bottom: 6px; }
@@ -3267,7 +3262,6 @@ to { transform: scale(1); opacity: 1; }
 <div class=&quot;tier-guide&quot; id=&quot;tierGuide&quot;></div>
 
 <!-- 모달 -->
-
 <div class=&quot;modal-bg&quot; id=&quot;modal&quot;>
   <div class=&quot;modal&quot;>
     <div class=&quot;modal-emoji&quot; id=&quot;mEmoji&quot;>😢</div>
@@ -3679,7 +3673,6 @@ setTimeout(() => {
 }, 50);
 
 </script>
-
 </body>
 </html>
 " style="width:100%; height:100%; border:none; display:block;"></iframe>
@@ -3715,160 +3708,160 @@ body {
 }
 
 .title-section {
-text-align: center;
-margin-bottom: 20px;
+  text-align: center;
+  margin-bottom: 20px;
 }
 .title-emoji {
-font-size: 48px;
-margin-bottom: 4px;
-animation: bounce 2s infinite;
+  font-size: 48px;
+  margin-bottom: 4px;
+  animation: bounce 2s infinite;
 }
 @keyframes bounce {
-0%, 100% { transform: translateY(0); }
-50% { transform: translateY(-6px); }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
 }
 .title {
-font-size: 22px; font-weight: 800;
-background: linear-gradient(135deg, #FCD34D, #F37321);
--webkit-background-clip: text;
-background-clip: text;
--webkit-text-fill-color: transparent;
-letter-spacing: -0.03em;
+  font-size: 22px; font-weight: 800;
+  background: linear-gradient(135deg, #FCD34D, #F37321);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.03em;
 }
 .subtitle {
-font-size: 11px;
-color: #94A3B8;
-font-weight: 600;
-margin-top: 4px;
-letter-spacing: 0.05em;
+  font-size: 11px;
+  color: #94A3B8;
+  font-weight: 600;
+  margin-top: 4px;
+  letter-spacing: 0.05em;
 }
 
 .stats-bar {
-width: 100%; max-width: 360px;
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 8px;
-margin-bottom: 20px;
+  width: 100%; max-width: 360px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 20px;
 }
 .stat-box {
-background: rgba(255, 255, 255, 0.06);
-border: 1px solid rgba(252, 211, 77, 0.2);
-border-radius: 10px;
-padding: 8px;
-text-align: center;
-backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(252, 211, 77, 0.2);
+  border-radius: 10px;
+  padding: 8px;
+  text-align: center;
+  backdrop-filter: blur(10px);
 }
 .stat-label {
-font-size: 9px;
-color: rgba(255, 255, 255, 0.5);
-font-weight: 700;
-letter-spacing: 0.05em;
-margin-bottom: 2px;
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
 }
 .stat-value {
-font-size: 14px;
-font-weight: 800;
-color: #FCD34D;
-font-variant-numeric: tabular-nums;
+  font-size: 14px;
+  font-weight: 800;
+  color: #FCD34D;
+  font-variant-numeric: tabular-nums;
 }
 
 /* 박스 */
 .box-area {
-position: relative;
-width: 260px;
-height: 260px;
-margin-bottom: 20px;
-perspective: 600px;
+  position: relative;
+  width: 260px;
+  height: 260px;
+  margin-bottom: 20px;
+  perspective: 600px;
 }
 
 .box-3d {
-position: relative;
-width: 100%; height: 100%;
-transform-style: preserve-3d;
-transition: transform 0.6s ease;
+  position: relative;
+  width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease;
 }
 
 .box-shadow-floor {
-position: absolute;
-bottom: -10px;
-left: 50%;
-transform: translateX(-50%);
-width: 80%;
-height: 16px;
-background: radial-gradient(ellipse, rgba(0,0,0,0.5), transparent);
-filter: blur(4px);
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 16px;
+  background: radial-gradient(ellipse, rgba(0,0,0,0.5), transparent);
+  filter: blur(4px);
 }
 
 .box-img {
-position: absolute;
-inset: 0;
-display: flex;
-align-items: center;
-justify-content: center;
-font-size: 120px;
-filter: drop-shadow(0 0 30px rgba(252, 211, 77, 0.5));
-transition: transform 0.3s;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 120px;
+  filter: drop-shadow(0 0 30px rgba(252, 211, 77, 0.5));
+  transition: transform 0.3s;
 }
 
 .box-area.shaking .box-img {
-animation: shake 0.1s infinite;
+  animation: shake 0.1s infinite;
 }
 @keyframes shake {
-0%, 100% { transform: translate(0, 0) rotate(0); }
-25% { transform: translate(-4px, -2px) rotate(-3deg); }
-50% { transform: translate(4px, 2px) rotate(3deg); }
-75% { transform: translate(-2px, 4px) rotate(-2deg); }
+  0%, 100% { transform: translate(0, 0) rotate(0); }
+  25% { transform: translate(-4px, -2px) rotate(-3deg); }
+  50% { transform: translate(4px, 2px) rotate(3deg); }
+  75% { transform: translate(-2px, 4px) rotate(-2deg); }
 }
 
 .box-area.opening .box-img {
-animation: openBox 0.6s ease-out forwards;
+  animation: openBox 0.6s ease-out forwards;
 }
 @keyframes openBox {
-0% { transform: scale(1) rotate(0); }
-30% { transform: scale(1.3) rotate(10deg); }
-100% { transform: scale(0) rotate(720deg); opacity: 0; }
+  0% { transform: scale(1) rotate(0); }
+  30% { transform: scale(1.3) rotate(10deg); }
+  100% { transform: scale(0) rotate(720deg); opacity: 0; }
 }
 
 /* 결과 카드 */
 .result-card {
-position: absolute;
-inset: 0;
-display: flex; flex-direction: column;
-align-items: center; justify-content: center;
-opacity: 0;
-pointer-events: none;
-text-align: center;
+  position: absolute;
+  inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  text-align: center;
 }
 .result-card.show {
-animation: resultIn 0.6s ease-out forwards;
+  animation: resultIn 0.6s ease-out forwards;
 }
 @keyframes resultIn {
-0% { opacity: 0; transform: scale(0.3); }
-60% { opacity: 1; transform: scale(1.15); }
-100% { opacity: 1; transform: scale(1); }
+  0% { opacity: 0; transform: scale(0.3); }
+  60% { opacity: 1; transform: scale(1.15); }
+  100% { opacity: 1; transform: scale(1); }
 }
 
 .result-emoji {
-font-size: 96px;
-margin-bottom: 8px;
-filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.4));
+  font-size: 96px;
+  margin-bottom: 8px;
+  filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.4));
 }
 .result-rank {
-font-size: 12px;
-font-weight: 800;
-letter-spacing: 0.15em;
-margin-bottom: 4px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  margin-bottom: 4px;
 }
 .result-name {
-font-size: 22px;
-font-weight: 800;
-letter-spacing: -0.03em;
-margin-bottom: 4px;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 4px;
 }
 .result-points {
-font-size: 12px;
-font-weight: 700;
-opacity: 0.7;
+  font-size: 12px;
+  font-weight: 700;
+  opacity: 0.7;
 }
 
 /* 등급별 색상 */
@@ -3876,53 +3869,53 @@ opacity: 0.7;
 .rank-uncommon .result-rank, .rank-uncommon .result-name { color: #60A5FA; }
 .rank-rare .result-rank, .rank-rare .result-name { color: #A78BFA; }
 .rank-epic .result-rank, .rank-epic .result-name { color: #F472B6; }
-.rank-legendary .result-rank, .rank-legendary .result-name {
-background: linear-gradient(135deg, #FCD34D, #F37321);
--webkit-background-clip: text;
-background-clip: text;
--webkit-text-fill-color: transparent;
+.rank-legendary .result-rank, .rank-legendary .result-name { 
+  background: linear-gradient(135deg, #FCD34D, #F37321);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
-.rank-jackpot .result-rank, .rank-jackpot .result-name {
-background: linear-gradient(135deg, #ffffff, #FCD34D, #F37321, #EF4444);
-background-size: 200% 200%;
-animation: rainbowText 2s linear infinite;
--webkit-background-clip: text;
-background-clip: text;
--webkit-text-fill-color: transparent;
+.rank-jackpot .result-rank, .rank-jackpot .result-name { 
+  background: linear-gradient(135deg, #ffffff, #FCD34D, #F37321, #EF4444);
+  background-size: 200% 200%;
+  animation: rainbowText 2s linear infinite;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 @keyframes rainbowText {
-0% { background-position: 0% 50%; }
-100% { background-position: 200% 50%; }
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
 }
 
 /* 폭죽 (잭팟 시) */
 .confetti {
-position: absolute;
-width: 8px;
-height: 8px;
-pointer-events: none;
-z-index: 100;
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  pointer-events: none;
+  z-index: 100;
 }
 
 /* 메인 버튼 */
 .open-btn {
-width: 100%;
-max-width: 360px;
-padding: 16px;
-background: linear-gradient(135deg, #F37321, #C2410C);
-color: white;
-border: none;
-border-radius: 14px;
-font-size: 16px;
-font-weight: 800;
-font-family: inherit;
-cursor: pointer;
-letter-spacing: -0.02em;
-box-shadow: 0 6px 20px rgba(243, 115, 33, 0.4);
-display: flex;
-flex-direction: column;
-align-items: center;
-gap: 2px;
+  width: 100%;
+  max-width: 360px;
+  padding: 16px;
+  background: linear-gradient(135deg, #F37321, #C2410C);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 800;
+  font-family: inherit;
+  cursor: pointer;
+  letter-spacing: -0.02em;
+  box-shadow: 0 6px 20px rgba(243, 115, 33, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
 }
 .open-btn:active { transform: scale(0.98); }
 .open-btn:disabled { opacity: 0.5; cursor: not-allowed; }
@@ -3930,72 +3923,71 @@ gap: 2px;
 
 /* 등급 확률 가이드 */
 .rates-card {
-width: 100%;
-max-width: 360px;
-background: rgba(255, 255, 255, 0.05);
-border: 1px solid rgba(252, 211, 77, 0.1);
-border-radius: 12px;
-padding: 14px;
-margin-top: 16px;
-backdrop-filter: blur(10px);
+  width: 100%;
+  max-width: 360px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(252, 211, 77, 0.1);
+  border-radius: 12px;
+  padding: 14px;
+  margin-top: 16px;
+  backdrop-filter: blur(10px);
 }
 .rates-title {
-font-size: 10px;
-font-weight: 800;
-letter-spacing: 0.08em;
-color: rgba(255, 255, 255, 0.5);
-margin-bottom: 10px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 10px;
 }
 .rate-row {
-display: flex;
-justify-content: space-between;
-align-items: center;
-padding: 5px 0;
-border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 .rate-row:last-child { border-bottom: none; }
 .rate-name {
-font-size: 12px;
-font-weight: 700;
+  font-size: 12px;
+  font-weight: 700;
 }
 .rate-percent {
-font-size: 11px;
-font-weight: 700;
-color: rgba(255, 255, 255, 0.5);
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 /* 히스토리 */
 .history {
-width: 100%;
-max-width: 360px;
-margin-top: 14px;
+  width: 100%;
+  max-width: 360px;
+  margin-top: 14px;
 }
 .history-title {
-font-size: 10px;
-font-weight: 800;
-letter-spacing: 0.08em;
-color: rgba(255, 255, 255, 0.5);
-margin-bottom: 8px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 8px;
 }
 .history-list {
-display: flex;
-flex-direction: column;
-gap: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 .history-item {
-background: rgba(255, 255, 255, 0.04);
-border-radius: 8px;
-padding: 8px 12px;
-display: flex;
-justify-content: space-between;
-align-items: center;
-font-size: 11px;
-border: 1px solid rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 8px;
+  padding: 8px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
 }
 .history-name { font-weight: 700; }
 .history-points { color: rgba(255, 255, 255, 0.4); font-weight: 600; }
 </style>
-
 </head>
 <body>
 
@@ -4234,7 +4226,6 @@ function confettiBlast(count) {
 updateHud();
 renderHistory();
 </script>
-
 </body>
 </html>
 " style="width:100%; height:100%; border:none; display:block;"></iframe>
@@ -4272,182 +4263,182 @@ body {
 
 /* === 상단 HUD === */
 .top-bar {
-width: 100%; max-width: 480px;
-display: flex; justify-content: space-between; align-items: center;
-margin-bottom: 10px;
+  width: 100%; max-width: 480px;
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 10px;
 }
 .player-info {
-display: flex; align-items: center; gap: 8px;
-background: rgba(255,255,255,0.06);
-border-radius: 100px;
-padding: 6px 12px;
-border: 1px solid rgba(255,255,255,0.1);
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 100px;
+  padding: 6px 12px;
+  border: 1px solid rgba(255,255,255,0.1);
 }
 .player-emoji { font-size: 18px; }
 .player-name { font-size: 11px; font-weight: 700; opacity: 0.7; }
 .player-points {
-font-size: 14px; font-weight: 800;
-color: #FCD34D;
-font-variant-numeric: tabular-nums;
+  font-size: 14px; font-weight: 800;
+  color: #FCD34D;
+  font-variant-numeric: tabular-nums;
 }
 .win-counter {
-font-size: 10px; font-weight: 700;
-background: rgba(252, 211, 77, 0.15);
-color: #FCD34D;
-padding: 3px 8px;
-border-radius: 100px;
-border: 1px solid rgba(252, 211, 77, 0.2);
+  font-size: 10px; font-weight: 700;
+  background: rgba(252, 211, 77, 0.15);
+  color: #FCD34D;
+  padding: 3px 8px;
+  border-radius: 100px;
+  border: 1px solid rgba(252, 211, 77, 0.2);
 }
 
 /* === 딜러/내 영역 === */
 .dealer-zone, .player-zone {
-width: 100%; max-width: 480px;
-background: linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
-border: 1px solid rgba(255,255,255,0.08);
-border-radius: 14px;
-padding: 12px;
-margin-bottom: 10px;
+  width: 100%; max-width: 480px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 12px;
+  margin-bottom: 10px;
 }
 .zone-header {
-display: flex; justify-content: space-between; align-items: center;
-margin-bottom: 8px;
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 8px;
 }
 .zone-title {
-font-size: 11px; font-weight: 800;
-letter-spacing: 0.1em;
-color: rgba(255,255,255,0.6);
+  font-size: 11px; font-weight: 800;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.6);
 }
 .zone-rank {
-font-size: 11px; font-weight: 800;
-background: linear-gradient(135deg, #FCD34D, #F37321);
--webkit-background-clip: text;
-background-clip: text;
--webkit-text-fill-color: transparent;
-letter-spacing: -0.02em;
-min-height: 14px;
+  font-size: 11px; font-weight: 800;
+  background: linear-gradient(135deg, #FCD34D, #F37321);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.02em;
+  min-height: 14px;
 }
 
 .cards {
-display: flex; gap: 10px;
-justify-content: center;
-perspective: 800px;
+  display: flex; gap: 10px;
+  justify-content: center;
+  perspective: 800px;
 }
 .card {
-width: 80px; height: 110px;
-border-radius: 8px;
-position: relative;
-transform-style: preserve-3d;
-transition: transform 0.6s ease;
-box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  width: 80px; height: 110px;
+  border-radius: 8px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
 }
 .card.flipped { transform: rotateY(180deg); }
 .card-face {
-position: absolute; inset: 0;
-backface-visibility: hidden;
-border-radius: 8px;
-display: flex; flex-direction: column;
-align-items: center; justify-content: center;
-font-weight: 800;
+  position: absolute; inset: 0;
+  backface-visibility: hidden;
+  border-radius: 8px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  font-weight: 800;
 }
 .card-back {
-background:
-repeating-linear-gradient(45deg, #7c2d12 0px, #7c2d12 4px, #991b1b 4px, #991b1b 8px),
-#7c2d12;
-border: 2px solid #FCD34D;
-display: flex; align-items: center; justify-content: center;
+  background: 
+    repeating-linear-gradient(45deg, #7c2d12 0px, #7c2d12 4px, #991b1b 4px, #991b1b 8px),
+    #7c2d12;
+  border: 2px solid #FCD34D;
+  display: flex; align-items: center; justify-content: center;
 }
 .card-back::after {
-content: ‘花’;
-font-size: 32px;
-color: #FCD34D;
-font-weight: 900;
-text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  content: '花';
+  font-size: 32px;
+  color: #FCD34D;
+  font-weight: 900;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 .card-front {
-transform: rotateY(180deg);
-background: linear-gradient(135deg, #fef3c7, #fde68a);
-border: 2px solid #92400e;
-color: #1a1a1a;
-padding: 6px;
+  transform: rotateY(180deg);
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  border: 2px solid #92400e;
+  color: #1a1a1a;
+  padding: 6px;
 }
 .card-month {
-font-size: 11px;
-font-weight: 700;
-color: #92400e;
-margin-bottom: 2px;
-letter-spacing: 0.05em;
+  font-size: 11px;
+  font-weight: 700;
+  color: #92400e;
+  margin-bottom: 2px;
+  letter-spacing: 0.05em;
 }
 .card-art {
-font-size: 38px;
-line-height: 1;
-margin-bottom: 2px;
+  font-size: 38px;
+  line-height: 1;
+  margin-bottom: 2px;
 }
 .card-type {
-font-size: 9px;
-font-weight: 800;
-color: #7c2d12;
-letter-spacing: 0.05em;
+  font-size: 9px;
+  font-weight: 800;
+  color: #7c2d12;
+  letter-spacing: 0.05em;
 }
 .card.dealing {
-animation: cardDeal 0.5s ease-out;
+  animation: cardDeal 0.5s ease-out;
 }
 @keyframes cardDeal {
-0% { transform: translate(-200px, -200px) rotate(-360deg); opacity: 0; }
-100% { transform: translate(0, 0) rotate(0); opacity: 1; }
+  0% { transform: translate(-200px, -200px) rotate(-360deg); opacity: 0; }
+  100% { transform: translate(0, 0) rotate(0); opacity: 1; }
 }
 
 /* 베팅 영역 (가운데) */
 .pot-area {
-width: 100%; max-width: 480px;
-background: linear-gradient(135deg, rgba(252, 211, 77, 0.1), rgba(243, 115, 33, 0.1));
-border: 1px solid rgba(252, 211, 77, 0.25);
-border-radius: 14px;
-padding: 14px;
-margin-bottom: 10px;
-text-align: center;
+  width: 100%; max-width: 480px;
+  background: linear-gradient(135deg, rgba(252, 211, 77, 0.1), rgba(243, 115, 33, 0.1));
+  border: 1px solid rgba(252, 211, 77, 0.25);
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 10px;
+  text-align: center;
 }
 .pot-label {
-font-size: 10px; font-weight: 800;
-color: rgba(255,255,255,0.5);
-letter-spacing: 0.1em;
-margin-bottom: 4px;
+  font-size: 10px; font-weight: 800;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.1em;
+  margin-bottom: 4px;
 }
 .pot-value {
-font-size: 22px; font-weight: 800;
-background: linear-gradient(135deg, #FCD34D, #F37321);
--webkit-background-clip: text;
-background-clip: text;
--webkit-text-fill-color: transparent;
-font-variant-numeric: tabular-nums;
-letter-spacing: -0.03em;
+  font-size: 22px; font-weight: 800;
+  background: linear-gradient(135deg, #FCD34D, #F37321);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
 }
 .pot-status {
-font-size: 11px;
-font-weight: 700;
-color: rgba(255,255,255,0.7);
-margin-top: 4px;
-min-height: 14px;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.7);
+  margin-top: 4px;
+  min-height: 14px;
 }
 
 /* 액션 버튼 */
 .actions {
-width: 100%; max-width: 480px;
-display: grid; grid-template-columns: 1fr 1fr 1fr;
-gap: 6px;
-margin-bottom: 10px;
+  width: 100%; max-width: 480px;
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 10px;
 }
 .action-btn {
-padding: 14px 6px;
-background: rgba(255,255,255,0.08);
-color: white;
-border: 1px solid rgba(255,255,255,0.1);
-border-radius: 10px;
-font-size: 12px; font-weight: 800;
-font-family: inherit;
-cursor: pointer;
-letter-spacing: -0.02em;
-display: flex; flex-direction: column;
-align-items: center; gap: 2px;
+  padding: 14px 6px;
+  background: rgba(255,255,255,0.08);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  font-size: 12px; font-weight: 800;
+  font-family: inherit;
+  cursor: pointer;
+  letter-spacing: -0.02em;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 2px;
 }
 .action-btn:disabled { opacity: 0.35; cursor: not-allowed; }
 .action-btn:active:not(:disabled) { transform: scale(0.97); }
@@ -4459,160 +4450,159 @@ align-items: center; gap: 2px;
 
 /* 베팅 슬라이더 */
 .bet-control {
-width: 100%; max-width: 480px;
-background: rgba(255,255,255,0.04);
-border: 1px solid rgba(255,255,255,0.08);
-border-radius: 10px;
-padding: 10px 14px;
-margin-bottom: 10px;
-display: none;
+  width: 100%; max-width: 480px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  display: none;
 }
 .bet-control.show { display: block; animation: slideIn 0.2s; }
 @keyframes slideIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; } }
 .bet-row {
-display: flex; gap: 6px; flex-wrap: wrap;
-margin-bottom: 8px;
+  display: flex; gap: 6px; flex-wrap: wrap;
+  margin-bottom: 8px;
 }
 .bet-chip {
-flex: 1; min-width: 0;
-padding: 8px 4px;
-background: rgba(252, 211, 77, 0.1);
-border: 1px solid rgba(252, 211, 77, 0.3);
-border-radius: 8px;
-color: #FCD34D;
-font-size: 11px; font-weight: 800;
-font-family: inherit;
-cursor: pointer;
-letter-spacing: -0.02em;
+  flex: 1; min-width: 0;
+  padding: 8px 4px;
+  background: rgba(252, 211, 77, 0.1);
+  border: 1px solid rgba(252, 211, 77, 0.3);
+  border-radius: 8px;
+  color: #FCD34D;
+  font-size: 11px; font-weight: 800;
+  font-family: inherit;
+  cursor: pointer;
+  letter-spacing: -0.02em;
 }
 .bet-chip:active { transform: scale(0.95); }
 .bet-chip.selected { background: rgba(252, 211, 77, 0.3); }
 .bet-confirm {
-width: 100%;
-padding: 10px;
-background: #F37321;
-color: white;
-border: none;
-border-radius: 8px;
-font-size: 13px; font-weight: 800;
-font-family: inherit;
-cursor: pointer;
-letter-spacing: -0.02em;
+  width: 100%;
+  padding: 10px;
+  background: #F37321;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px; font-weight: 800;
+  font-family: inherit;
+  cursor: pointer;
+  letter-spacing: -0.02em;
 }
 .bet-amount-display {
-text-align: center;
-font-size: 12px;
-font-weight: 700;
-color: rgba(255,255,255,0.7);
-margin-bottom: 6px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 6px;
 }
 
 /* 메시지 영역 */
 .message {
-width: 100%; max-width: 480px;
-background: rgba(0,0,0,0.4);
-border: 1px solid rgba(255,255,255,0.1);
-border-radius: 10px;
-padding: 10px 14px;
-margin-bottom: 10px;
-text-align: center;
-font-size: 12px;
-font-weight: 700;
-color: rgba(255,255,255,0.8);
-min-height: 38px;
-display: flex; align-items: center; justify-content: center;
+  width: 100%; max-width: 480px;
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.8);
+  min-height: 38px;
+  display: flex; align-items: center; justify-content: center;
 }
 
 /* 족보 가이드 */
 .rules-toggle {
-width: 100%; max-width: 480px;
-padding: 10px;
-background: rgba(255,255,255,0.04);
-border: 1px dashed rgba(255,255,255,0.15);
-border-radius: 10px;
-color: rgba(255,255,255,0.6);
-font-size: 11px;
-font-weight: 700;
-font-family: inherit;
-cursor: pointer;
-margin-bottom: 10px;
+  width: 100%; max-width: 480px;
+  padding: 10px;
+  background: rgba(255,255,255,0.04);
+  border: 1px dashed rgba(255,255,255,0.15);
+  border-radius: 10px;
+  color: rgba(255,255,255,0.6);
+  font-size: 11px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  margin-bottom: 10px;
 }
 .rules-content {
-width: 100%; max-width: 480px;
-background: rgba(0,0,0,0.4);
-border-radius: 10px;
-padding: 14px;
-margin-bottom: 14px;
-display: none;
-font-size: 11px;
-line-height: 1.6;
-color: rgba(255,255,255,0.8);
+  width: 100%; max-width: 480px;
+  background: rgba(0,0,0,0.4);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 14px;
+  display: none;
+  font-size: 11px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.8);
 }
 .rules-content.show { display: block; }
 .rules-content h4 {
-font-size: 11px;
-color: #FCD34D;
-margin-bottom: 6px;
-margin-top: 10px;
-letter-spacing: 0.05em;
+  font-size: 11px;
+  color: #FCD34D;
+  margin-bottom: 6px;
+  margin-top: 10px;
+  letter-spacing: 0.05em;
 }
 .rules-content h4:first-child { margin-top: 0; }
 .rules-content .rank-list {
-display: grid; grid-template-columns: auto 1fr; gap: 4px 12px;
+  display: grid; grid-template-columns: auto 1fr; gap: 4px 12px;
 }
 .rules-content .rank-name { font-weight: 800; color: #FCD34D; }
 
 /* 모달 */
 .modal-bg {
-display: none; position: fixed; inset: 0;
-background: rgba(0,0,0,0.85);
-align-items: center; justify-content: center;
-z-index: 1000; padding: 20px;
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.85);
+  align-items: center; justify-content: center;
+  z-index: 1000; padding: 20px;
 }
 .modal-bg.show { display: flex; animation: fadeIn 0.2s; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 .modal {
-background: linear-gradient(135deg, #1a1a2e, #16213e);
-border: 1px solid rgba(252, 211, 77, 0.3);
-color: white;
-border-radius: 18px;
-padding: 24px 20px;
-text-align: center;
-max-width: 320px; width: 100%;
-animation: popIn 0.4s;
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  border: 1px solid rgba(252, 211, 77, 0.3);
+  color: white;
+  border-radius: 18px;
+  padding: 24px 20px;
+  text-align: center;
+  max-width: 320px; width: 100%;
+  animation: popIn 0.4s;
 }
 @keyframes popIn {
-from { transform: scale(0.7); opacity: 0; }
-to { transform: scale(1); opacity: 1; }
+  from { transform: scale(0.7); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 .modal-emoji { font-size: 56px; margin-bottom: 6px; }
 .modal-title { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.5); letter-spacing: 0.15em; margin-bottom: 6px; }
-.modal-msg {
-font-size: 22px; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.03em;
-background: linear-gradient(135deg, #FCD34D, #F37321);
--webkit-background-clip: text;
-background-clip: text;
--webkit-text-fill-color: transparent;
+.modal-msg { 
+  font-size: 22px; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.03em;
+  background: linear-gradient(135deg, #FCD34D, #F37321);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 .modal-sub { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.6); margin-bottom: 16px; line-height: 1.6; }
-.modal-btn {
-background: linear-gradient(135deg, #F37321, #C2410C);
-color: white;
-border: none; border-radius: 100px;
-padding: 12px 32px;
-font-size: 14px; font-weight: 800;
-font-family: inherit; cursor: pointer;
+.modal-btn { 
+  background: linear-gradient(135deg, #F37321, #C2410C);
+  color: white;
+  border: none; border-radius: 100px;
+  padding: 12px 32px;
+  font-size: 14px; font-weight: 800;
+  font-family: inherit; cursor: pointer;
 }
 
 /* 베팅 칩 애니메이션 */
 .chip-fly {
-position: fixed;
-font-size: 24px;
-pointer-events: none;
-z-index: 100;
+  position: fixed;
+  font-size: 24px;
+  pointer-events: none;
+  z-index: 100;
 }
 </style>
-
 </head>
 <body>
 
@@ -4629,7 +4619,6 @@ z-index: 100;
 </div>
 
 <!-- 딜러 영역 -->
-
 <div class=&quot;dealer-zone&quot;>
   <div class=&quot;zone-header&quot;>
     <div class=&quot;zone-title&quot;>🤖 딜러 AI</div>
@@ -4642,7 +4631,6 @@ z-index: 100;
 </div>
 
 <!-- 베팅 풀 -->
-
 <div class=&quot;pot-area&quot;>
   <div class=&quot;pot-label&quot;>🪙 POT</div>
   <div class=&quot;pot-value&quot; id=&quot;potValue&quot;>0</div>
@@ -4650,7 +4638,6 @@ z-index: 100;
 </div>
 
 <!-- 내 영역 -->
-
 <div class=&quot;player-zone&quot;>
   <div class=&quot;zone-header&quot;>
     <div class=&quot;zone-title&quot;>👤 내 패</div>
@@ -4663,11 +4650,9 @@ z-index: 100;
 </div>
 
 <!-- 메시지 -->
-
 <div class=&quot;message&quot; id=&quot;message&quot;>새 라운드를 시작하세요!</div>
 
 <!-- 베팅 칩 선택 -->
-
 <div class=&quot;bet-control&quot; id=&quot;betControl&quot;>
   <div class=&quot;bet-amount-display&quot;>베팅 금액: <span id=&quot;betAmountDisplay&quot;>100</span> pt</div>
   <div class=&quot;bet-row&quot;>
@@ -4680,7 +4665,6 @@ z-index: 100;
 </div>
 
 <!-- 액션 버튼 -->
-
 <div class=&quot;actions&quot; id=&quot;actions&quot;>
   <button class=&quot;action-btn continue&quot; id=&quot;startBtn&quot; onclick=&quot;startRound()&quot;>
     🎴 라운드 시작 (-100pt)
@@ -4688,14 +4672,12 @@ z-index: 100;
 </div>
 
 <!-- 족보 가이드 토글 -->
-
 <button class=&quot;rules-toggle&quot; onclick=&quot;toggleRules()&quot;>📖 섯다 족보 보기 ▾</button>
-
 <div class=&quot;rules-content&quot; id=&quot;rulesContent&quot;>
   <h4>🎴 패 구성 (20장)</h4>
   <p>1월~10월 각 2장씩. 광/끗으로 구분.<br>
   광 패: 1광(송학) · 3광(흑싸리광) · 8광(공산명월) · 12광(오동광)</p>
-
+  
   <h4>🏆 족보 순위 (높은 순)</h4>
   <div class=&quot;rank-list&quot;>
     <span class=&quot;rank-name&quot;>38광땡</span><span>3월 + 8월 (둘 다 광) - 최고</span>
@@ -4712,7 +4694,7 @@ z-index: 100;
     <span class=&quot;rank-name&quot;>9끗 ~ 1끗</span><span>두 패 합 끝자리</span>
     <span class=&quot;rank-name&quot;>망통 (0끗)</span><span>합 끝자리 0 - 최하</span>
   </div>
-
+  
   <h4>📌 게임 방식</h4>
   <p>1. 시작하면 각자 카드 2장 분배 (기본 베팅 100pt)<br>
   2. 자기 패 확인 후 콜/레이즈/다이 선택<br>
@@ -4721,7 +4703,6 @@ z-index: 100;
 </div>
 
 <!-- 모달 -->
-
 <div class=&quot;modal-bg&quot; id=&quot;modal&quot;>
   <div class=&quot;modal&quot;>
     <div class=&quot;modal-emoji&quot; id=&quot;mEmoji&quot;>🎉</div>
@@ -5171,7 +5152,6 @@ function toggleRules() {
 // 초기화
 updateHud();
 </script>
-
 </body>
 </html>
 " style="width:100%; height:100%; border:none; display:block;"></iframe>
@@ -5210,522 +5190,520 @@ body {
 
 /* === 인트로 === */
 .intro {
-width: 100%; max-width: 480px;
-text-align: center;
-padding: 30px 16px;
+  width: 100%; max-width: 480px;
+  text-align: center;
+  padding: 30px 16px;
 }
 .intro-title {
-font-size: 28px;
-font-weight: 800;
-background: linear-gradient(135deg, #FCD34D, #F37321, #EF4444);
--webkit-background-clip: text;
-background-clip: text;
--webkit-text-fill-color: transparent;
-letter-spacing: -0.04em;
-margin-bottom: 8px;
-line-height: 1.2;
+  font-size: 28px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #FCD34D, #F37321, #EF4444);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.04em;
+  margin-bottom: 8px;
+  line-height: 1.2;
 }
 .intro-sub {
-font-size: 13px;
-color: rgba(255,255,255,0.6);
-font-weight: 600;
-margin-bottom: 24px;
-line-height: 1.5;
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  font-weight: 600;
+  margin-bottom: 24px;
+  line-height: 1.5;
 }
 
 /* 심지점장 카드 */
 .boss-card {
-background: linear-gradient(135deg, rgba(252, 211, 77, 0.15), rgba(243, 115, 33, 0.1));
-border: 1px solid rgba(252, 211, 77, 0.3);
-border-radius: 16px;
-padding: 20px;
-margin-bottom: 16px;
-text-align: center;
-backdrop-filter: blur(10px);
+  background: linear-gradient(135deg, rgba(252, 211, 77, 0.15), rgba(243, 115, 33, 0.1));
+  border: 1px solid rgba(252, 211, 77, 0.3);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
+  text-align: center;
+  backdrop-filter: blur(10px);
 }
 .boss-emoji {
-font-size: 64px;
-margin-bottom: 8px;
-filter: drop-shadow(0 0 12px rgba(252, 211, 77, 0.5));
+  font-size: 64px;
+  margin-bottom: 8px;
+  filter: drop-shadow(0 0 12px rgba(252, 211, 77, 0.5));
 }
 .boss-name {
-font-size: 18px;
-font-weight: 800;
-color: #FCD34D;
-margin-bottom: 4px;
-letter-spacing: -0.02em;
+  font-size: 18px;
+  font-weight: 800;
+  color: #FCD34D;
+  margin-bottom: 4px;
+  letter-spacing: -0.02em;
 }
 .boss-title {
-font-size: 11px;
-color: rgba(255,255,255,0.5);
-font-weight: 600;
-margin-bottom: 12px;
-letter-spacing: 0.08em;
+  font-size: 11px;
+  color: rgba(255,255,255,0.5);
+  font-weight: 600;
+  margin-bottom: 12px;
+  letter-spacing: 0.08em;
 }
 .boss-stats {
-display: grid; grid-template-columns: 1fr 1fr;
-gap: 8px;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 8px;
 }
 .boss-stat {
-background: rgba(0,0,0,0.3);
-border-radius: 8px;
-padding: 8px 6px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 8px;
+  padding: 8px 6px;
 }
 .boss-stat-label {
-font-size: 9px;
-color: rgba(255,255,255,0.5);
-font-weight: 700;
-letter-spacing: 0.05em;
-margin-bottom: 2px;
+  font-size: 9px;
+  color: rgba(255,255,255,0.5);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
 }
 .boss-stat-value {
-font-size: 14px;
-font-weight: 800;
-font-variant-numeric: tabular-nums;
-color: white;
+  font-size: 14px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: white;
 }
 
 .start-btn {
-width: 100%; max-width: 480px;
-padding: 16px;
-background: linear-gradient(135deg, #F37321, #C2410C);
-color: white;
-border: none;
-border-radius: 14px;
-font-size: 16px;
-font-weight: 800;
-font-family: inherit;
-cursor: pointer;
-letter-spacing: -0.02em;
-box-shadow: 0 6px 20px rgba(243, 115, 33, 0.4);
-margin-bottom: 16px;
+  width: 100%; max-width: 480px;
+  padding: 16px;
+  background: linear-gradient(135deg, #F37321, #C2410C);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 800;
+  font-family: inherit;
+  cursor: pointer;
+  letter-spacing: -0.02em;
+  box-shadow: 0 6px 20px rgba(243, 115, 33, 0.4);
+  margin-bottom: 16px;
 }
 .start-btn:active { transform: scale(0.98); }
 
 .record-card {
-width: 100%; max-width: 480px;
-background: rgba(255,255,255,0.04);
-border: 1px solid rgba(255,255,255,0.08);
-border-radius: 12px;
-padding: 14px;
+  width: 100%; max-width: 480px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 14px;
 }
 .record-title {
-font-size: 10px;
-color: rgba(255,255,255,0.5);
-font-weight: 800;
-letter-spacing: 0.1em;
-margin-bottom: 10px;
+  font-size: 10px;
+  color: rgba(255,255,255,0.5);
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  margin-bottom: 10px;
 }
 .record-row {
-display: flex; justify-content: space-between;
-padding: 5px 0;
-font-size: 12px;
+  display: flex; justify-content: space-between;
+  padding: 5px 0;
+  font-size: 12px;
 }
 .record-label { color: rgba(255,255,255,0.6); font-weight: 700; }
 .record-value { font-weight: 800; }
 
 /* === 게임 진행 === */
 .progress-bar {
-width: 100%; max-width: 480px;
-background: rgba(255,255,255,0.06);
-border-radius: 100px;
-height: 26px;
-position: relative;
-overflow: hidden;
-margin-bottom: 12px;
-border: 1px solid rgba(255,255,255,0.08);
+  width: 100%; max-width: 480px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 100px;
+  height: 26px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
 }
 .progress-fill {
-position: absolute;
-inset: 0 auto 0 0;
-background: linear-gradient(90deg, #FCD34D, #F37321);
-transition: width 0.4s;
-width: 0%;
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: linear-gradient(90deg, #FCD34D, #F37321);
+  transition: width 0.4s;
+  width: 0%;
 }
 .progress-text {
-position: absolute;
-inset: 0;
-display: flex;
-align-items: center;
-justify-content: center;
-font-size: 11px;
-font-weight: 800;
-z-index: 2;
-letter-spacing: 0.05em;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+  z-index: 2;
+  letter-spacing: 0.05em;
 }
 
 .score-board {
-width: 100%; max-width: 480px;
-display: grid; grid-template-columns: 1fr 1fr;
-gap: 8px;
-margin-bottom: 12px;
+  width: 100%; max-width: 480px;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
 }
 .score-side {
-background: rgba(255,255,255,0.04);
-border: 1px solid rgba(255,255,255,0.08);
-border-radius: 12px;
-padding: 10px;
-text-align: center;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 10px;
+  text-align: center;
 }
 .score-side.me { border-color: rgba(96, 165, 250, 0.3); }
 .score-side.boss { border-color: rgba(252, 211, 77, 0.3); }
 .score-side-label {
-font-size: 10px;
-font-weight: 800;
-letter-spacing: 0.05em;
-margin-bottom: 2px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
 }
 .score-side.me .score-side-label { color: #60A5FA; }
 .score-side.boss .score-side-label { color: #FCD34D; }
 .score-side-value {
-font-size: 20px;
-font-weight: 800;
-font-variant-numeric: tabular-nums;
+  font-size: 20px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
 }
 
 .game-stage {
-width: 100%; max-width: 480px;
-background: rgba(255,255,255,0.04);
-border: 1px solid rgba(255,255,255,0.08);
-border-radius: 16px;
-padding: 20px;
-text-align: center;
-margin-bottom: 12px;
-min-height: 340px;
-display: flex; flex-direction: column;
-align-items: center; justify-content: center;
+  width: 100%; max-width: 480px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 12px;
+  min-height: 340px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
 }
 
 .stage-title {
-font-size: 11px;
-color: rgba(255,255,255,0.5);
-font-weight: 800;
-letter-spacing: 0.1em;
-margin-bottom: 4px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.5);
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  margin-bottom: 4px;
 }
 .stage-name {
-font-size: 20px;
-font-weight: 800;
-margin-bottom: 12px;
-letter-spacing: -0.02em;
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
 }
 .stage-instruction {
-font-size: 12px;
-color: rgba(255,255,255,0.7);
-margin-bottom: 16px;
-font-weight: 600;
-line-height: 1.5;
+  font-size: 12px;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 16px;
+  font-weight: 600;
+  line-height: 1.5;
 }
 
 /* 반사신경 */
 .reaction-box {
-width: 240px; height: 240px;
-border-radius: 50%;
-display: flex; align-items: center; justify-content: center;
-font-size: 16px; font-weight: 800;
-cursor: pointer;
-transition: background 0.1s;
-margin: 0 auto;
+  width: 240px; height: 240px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 800;
+  cursor: pointer;
+  transition: background 0.1s;
+  margin: 0 auto;
 }
 .reaction-box.wait {
-background: linear-gradient(135deg, #DC2626, #991B1B);
-box-shadow: 0 0 30px rgba(220, 38, 38, 0.4);
+  background: linear-gradient(135deg, #DC2626, #991B1B);
+  box-shadow: 0 0 30px rgba(220, 38, 38, 0.4);
 }
 .reaction-box.ready {
-background: linear-gradient(135deg, #10B981, #047857);
-box-shadow: 0 0 30px rgba(16, 185, 129, 0.6);
+  background: linear-gradient(135deg, #10B981, #047857);
+  box-shadow: 0 0 30px rgba(16, 185, 129, 0.6);
 }
 .reaction-box.done {
-background: rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.1);
 }
 
 /* 숫자 기억 */
 .memory-display {
-font-size: 56px;
-font-weight: 800;
-font-variant-numeric: tabular-nums;
-letter-spacing: 0.1em;
-margin: 20px 0;
-min-height: 80px;
-display: flex;
-align-items: center;
-justify-content: center;
-background: linear-gradient(135deg, #FCD34D, #F37321);
--webkit-background-clip: text;
-background-clip: text;
--webkit-text-fill-color: transparent;
+  font-size: 56px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.1em;
+  margin: 20px 0;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #FCD34D, #F37321);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 .memory-input {
-width: 100%; max-width: 200px;
-padding: 12px;
-background: rgba(255,255,255,0.1);
-border: 1px solid rgba(255,255,255,0.2);
-border-radius: 10px;
-color: white;
-font-size: 20px;
-font-weight: 800;
-text-align: center;
-font-family: inherit;
-letter-spacing: 0.1em;
-outline: none;
+  width: 100%; max-width: 200px;
+  padding: 12px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 10px;
+  color: white;
+  font-size: 20px;
+  font-weight: 800;
+  text-align: center;
+  font-family: inherit;
+  letter-spacing: 0.1em;
+  outline: none;
 }
 .memory-input:focus { border-color: #FCD34D; }
 
 /* 타겟 클릭 */
 .target-area {
-position: relative;
-width: 100%;
-aspect-ratio: 1;
-background: rgba(0,0,0,0.3);
-border-radius: 12px;
-border: 1px solid rgba(255,255,255,0.08);
-overflow: hidden;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  background: rgba(0,0,0,0.3);
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
+  overflow: hidden;
 }
 .target {
-position: absolute;
-width: 48px; height: 48px;
-border-radius: 50%;
-background: radial-gradient(circle at 30% 30%, #FCD34D, #F37321);
-cursor: pointer;
-display: flex;
-align-items: center;
-justify-content: center;
-font-size: 20px;
-box-shadow: 0 0 12px rgba(252, 211, 77, 0.6);
-animation: targetPop 0.2s;
+  position: absolute;
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #FCD34D, #F37321);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  box-shadow: 0 0 12px rgba(252, 211, 77, 0.6);
+  animation: targetPop 0.2s;
 }
 .target:active { transform: scale(0.8); }
 @keyframes targetPop {
-from { transform: scale(0); }
-to { transform: scale(1); }
+  from { transform: scale(0); }
+  to { transform: scale(1); }
 }
 .timer-bar {
-width: 100%;
-height: 8px;
-background: rgba(255,255,255,0.1);
-border-radius: 4px;
-overflow: hidden;
-margin-top: 10px;
+  width: 100%;
+  height: 8px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 10px;
 }
 .timer-bar-fill {
-height: 100%;
-background: linear-gradient(90deg, #10B981, #FCD34D, #EF4444);
-width: 100%;
-transition: width 0.1s linear;
+  height: 100%;
+  background: linear-gradient(90deg, #10B981, #FCD34D, #EF4444);
+  width: 100%;
+  transition: width 0.1s linear;
 }
 
 /* 룰렛 */
 .roulette {
-position: relative;
-width: 240px; height: 240px;
-margin: 0 auto 16px;
+  position: relative;
+  width: 240px; height: 240px;
+  margin: 0 auto 16px;
 }
 .roulette-wheel {
-width: 100%; height: 100%;
-border-radius: 50%;
-background: conic-gradient(
-#EF4444 0deg 60deg,
-#F37321 60deg 120deg,
-#FCD34D 120deg 180deg,
-#10B981 180deg 240deg,
-#3B82F6 240deg 300deg,
-#A78BFA 300deg 360deg
-);
-transition: transform 4s cubic-bezier(0.17, 0.67, 0.21, 0.99);
-border: 4px solid white;
-box-shadow: 0 0 30px rgba(252, 211, 77, 0.4);
-position: relative;
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(
+    #EF4444 0deg 60deg,
+    #F37321 60deg 120deg,
+    #FCD34D 120deg 180deg,
+    #10B981 180deg 240deg,
+    #3B82F6 240deg 300deg,
+    #A78BFA 300deg 360deg
+  );
+  transition: transform 4s cubic-bezier(0.17, 0.67, 0.21, 0.99);
+  border: 4px solid white;
+  box-shadow: 0 0 30px rgba(252, 211, 77, 0.4);
+  position: relative;
 }
 .roulette-wheel::before {
-content: ‘’;
-position: absolute;
-inset: 30%;
-background: #1a1a2e;
-border-radius: 50%;
-z-index: 2;
-border: 3px solid white;
+  content: '';
+  position: absolute;
+  inset: 30%;
+  background: #1a1a2e;
+  border-radius: 50%;
+  z-index: 2;
+  border: 3px solid white;
 }
 .roulette-wheel::after {
-content: ‘🎰’;
-position: absolute;
-inset: 0;
-display: flex;
-align-items: center;
-justify-content: center;
-font-size: 28px;
-z-index: 3;
+  content: '🎰';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  z-index: 3;
 }
 .roulette-pointer {
-position: absolute;
-top: -16px;
-left: 50%;
-transform: translateX(-50%);
-width: 0; height: 0;
-border-left: 14px solid transparent;
-border-right: 14px solid transparent;
-border-top: 24px solid #EF4444;
-z-index: 4;
-filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0; height: 0;
+  border-left: 14px solid transparent;
+  border-right: 14px solid transparent;
+  border-top: 24px solid #EF4444;
+  z-index: 4;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
 }
 .roulette-segments {
-position: absolute;
-inset: 0;
-pointer-events: none;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }
 .roulette-label {
-position: absolute;
-font-size: 11px;
-font-weight: 800;
-color: white;
-text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+  position: absolute;
+  font-size: 11px;
+  font-weight: 800;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
 }
 
 /* 공통 액션 버튼 */
 .game-btn {
-width: 100%; max-width: 480px;
-padding: 14px;
-background: linear-gradient(135deg, #F37321, #C2410C);
-color: white;
-border: none;
-border-radius: 12px;
-font-size: 14px;
-font-weight: 800;
-font-family: inherit;
-cursor: pointer;
-letter-spacing: -0.02em;
-margin-top: 10px;
+  width: 100%; max-width: 480px;
+  padding: 14px;
+  background: linear-gradient(135deg, #F37321, #C2410C);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 800;
+  font-family: inherit;
+  cursor: pointer;
+  letter-spacing: -0.02em;
+  margin-top: 10px;
 }
 .game-btn:active { transform: scale(0.98); }
 .game-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
 .feedback {
-font-size: 14px;
-font-weight: 800;
-margin: 10px 0;
-min-height: 24px;
+  font-size: 14px;
+  font-weight: 800;
+  margin: 10px 0;
+  min-height: 24px;
 }
 .feedback.good { color: #10B981; }
 .feedback.bad { color: #EF4444; }
 .feedback.neutral { color: #FCD34D; }
 
 .click-count {
-font-size: 36px;
-font-weight: 800;
-color: #FCD34D;
-font-variant-numeric: tabular-nums;
-margin: 8px 0;
+  font-size: 36px;
+  font-weight: 800;
+  color: #FCD34D;
+  font-variant-numeric: tabular-nums;
+  margin: 8px 0;
 }
 
 /* 결과 모달 */
 .modal-bg {
-display: none; position: fixed; inset: 0;
-background: rgba(0,0,0,0.85);
-align-items: center; justify-content: center;
-z-index: 1000; padding: 20px;
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.85);
+  align-items: center; justify-content: center;
+  z-index: 1000; padding: 20px;
 }
 .modal-bg.show { display: flex; animation: fadeIn 0.2s; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 .modal {
-background: linear-gradient(135deg, #1a1a2e, #16213e);
-border: 1px solid rgba(252, 211, 77, 0.3);
-color: white;
-border-radius: 18px;
-padding: 28px 24px;
-text-align: center;
-max-width: 360px; width: 100%;
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  border: 1px solid rgba(252, 211, 77, 0.3);
+  color: white;
+  border-radius: 18px;
+  padding: 28px 24px;
+  text-align: center;
+  max-width: 360px; width: 100%;
 }
 .result-emoji { font-size: 64px; margin-bottom: 8px; }
 .result-title {
-font-size: 11px;
-color: rgba(255,255,255,0.5);
-font-weight: 700;
-letter-spacing: 0.15em;
-margin-bottom: 6px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.5);
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  margin-bottom: 6px;
 }
 .result-msg {
-font-size: 24px;
-font-weight: 800;
-margin-bottom: 12px;
-letter-spacing: -0.03em;
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 12px;
+  letter-spacing: -0.03em;
 }
 .result-msg.win {
-background: linear-gradient(135deg, #FCD34D, #F37321);
--webkit-background-clip: text;
-background-clip: text;
--webkit-text-fill-color: transparent;
+  background: linear-gradient(135deg, #FCD34D, #F37321);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 .result-msg.lose { color: #94A3B8; }
 .result-msg.draw { color: #60A5FA; }
 .result-detail {
-font-size: 13px;
-color: rgba(255,255,255,0.6);
-margin-bottom: 18px;
-line-height: 1.7;
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 18px;
+  line-height: 1.7;
 }
 .result-final {
-display: grid; grid-template-columns: 1fr auto 1fr;
-gap: 12px; align-items: center;
-margin-bottom: 18px;
+  display: grid; grid-template-columns: 1fr auto 1fr;
+  gap: 12px; align-items: center;
+  margin-bottom: 18px;
 }
 .result-side {
-text-align: center;
+  text-align: center;
 }
 .result-side-label {
-font-size: 10px;
-color: rgba(255,255,255,0.5);
-font-weight: 700;
-margin-bottom: 4px;
+  font-size: 10px;
+  color: rgba(255,255,255,0.5);
+  font-weight: 700;
+  margin-bottom: 4px;
 }
 .result-side-value {
-font-size: 28px;
-font-weight: 800;
-font-variant-numeric: tabular-nums;
+  font-size: 28px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
 }
 .result-side.me .result-side-value { color: #60A5FA; }
 .result-side.boss .result-side-value { color: #FCD34D; }
 .result-vs {
-font-size: 14px;
-color: rgba(255,255,255,0.4);
-font-weight: 800;
+  font-size: 14px;
+  color: rgba(255,255,255,0.4);
+  font-weight: 800;
 }
 .modal-btn {
-width: 100%;
-background: linear-gradient(135deg, #F37321, #C2410C);
-color: white;
-border: none;
-border-radius: 12px;
-padding: 14px;
-font-size: 14px;
-font-weight: 800;
-font-family: inherit;
-cursor: pointer;
+  width: 100%;
+  background: linear-gradient(135deg, #F37321, #C2410C);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 14px;
+  font-weight: 800;
+  font-family: inherit;
+  cursor: pointer;
 }
 
 /* 컴플레인 메시지 (재미용) */
 .boss-comment {
-background: rgba(252, 211, 77, 0.1);
-border-left: 3px solid #FCD34D;
-padding: 8px 12px;
-border-radius: 6px;
-font-size: 12px;
-font-style: italic;
-color: rgba(255,255,255,0.8);
-margin-bottom: 14px;
-text-align: left;
+  background: rgba(252, 211, 77, 0.1);
+  border-left: 3px solid #FCD34D;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-style: italic;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 14px;
+  text-align: left;
 }
 </style>
-
 </head>
 <body>
 
 <!-- 인트로 -->
-
 <div id=&quot;introScreen&quot;>
   <div class=&quot;intro&quot;>
     <div class=&quot;intro-title&quot;>🏆 심지점장<br>챌린지</div>
     <div class=&quot;intro-sub&quot;>4가지 미니게임으로 심지점장을 이겨라!</div>
   </div>
-
+  
   <div class=&quot;boss-card&quot;>
     <div class=&quot;boss-emoji&quot;>👨‍💼</div>
     <div class=&quot;boss-name&quot;>심지점장</div>
@@ -5749,9 +5727,9 @@ text-align: left;
       </div>
     </div>
   </div>
-
-<button class=&quot;start-btn&quot; onclick=&quot;startChallenge()&quot;>⚔️ 도전 시작!</button>
-
+  
+  <button class=&quot;start-btn&quot; onclick=&quot;startChallenge()&quot;>⚔️ 도전 시작!</button>
+  
   <div class=&quot;record-card&quot;>
     <div class=&quot;record-title&quot;>📊 도전 기록</div>
     <div class=&quot;record-row&quot;>
@@ -5778,13 +5756,12 @@ text-align: left;
 </div>
 
 <!-- 게임 진행 화면 -->
-
 <div id=&quot;gameScreen&quot; style=&quot;display:none; width:100%; max-width:480px;&quot;>
   <div class=&quot;progress-bar&quot;>
     <div class=&quot;progress-fill&quot; id=&quot;progressFill&quot;></div>
     <div class=&quot;progress-text&quot; id=&quot;progressText&quot;>스테이지 1/4</div>
   </div>
-
+  
   <div class=&quot;score-board&quot;>
     <div class=&quot;score-side me&quot;>
       <div class=&quot;score-side-label&quot;>👤 나</div>
@@ -5795,14 +5772,13 @@ text-align: left;
       <div class=&quot;score-side-value&quot; id=&quot;bossScore&quot;>0</div>
     </div>
   </div>
-
+  
   <div class=&quot;game-stage&quot; id=&quot;gameStage&quot;>
     <!-- 동적 -->
   </div>
 </div>
 
 <!-- 결과 모달 -->
-
 <div class=&quot;modal-bg&quot; id=&quot;modal&quot;>
   <div class=&quot;modal&quot;>
     <div class=&quot;result-emoji&quot; id=&quot;rEmoji&quot;>🏆</div>
@@ -6297,7 +6273,6 @@ function closeModal() {
 updateRecordDisplay();
 updateBossPreview();
 </script>
-
 </body>
 </html>
 " style="width:100%; height:100%; border:none; display:block;"></iframe>
@@ -6330,72 +6305,72 @@ body {
 }
 
 .hud {
-width: 100%; max-width: 520px;
-display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px;
-margin-bottom: 8px;
+  width: 100%; max-width: 520px;
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px;
+  margin-bottom: 8px;
 }
 .hud-box {
-background: rgba(0,0,0,0.4);
-border: 1px solid rgba(255,255,255,0.1);
-border-radius: 8px;
-padding: 8px;
-text-align: center;
-backdrop-filter: blur(8px);
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 8px;
+  text-align: center;
+  backdrop-filter: blur(8px);
 }
 .hud-label {
-font-size: 9px; opacity: 0.6; font-weight: 700;
-letter-spacing: 0.05em; margin-bottom: 3px;
+  font-size: 9px; opacity: 0.6; font-weight: 700;
+  letter-spacing: 0.05em; margin-bottom: 3px;
 }
 .hud-value {
-font-size: 16px; font-weight: 800;
-font-variant-numeric: tabular-nums;
+  font-size: 16px; font-weight: 800;
+  font-variant-numeric: tabular-nums;
 }
 .hud-value.gold { color: #FCD34D; }
 .hud-value.hp { color: #EF4444; }
 .hud-value.wave { color: #60A5FA; }
 
 .battlefield {
-position: relative;
-width: 100%; max-width: 520px;
-aspect-ratio: 6 / 4;
-background: linear-gradient(90deg, #fee2e2 0%, #fef3c7 30%, #d1fae5 70%, #dbeafe 100%);
-border-radius: 12px;
-overflow: hidden;
-border: 2px solid rgba(255,255,255,0.2);
-box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  position: relative;
+  width: 100%; max-width: 520px;
+  aspect-ratio: 6 / 4;
+  background: linear-gradient(90deg, #fee2e2 0%, #fef3c7 30%, #d1fae5 70%, #dbeafe 100%);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid rgba(255,255,255,0.2);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
 .grid-lines {
-position: absolute; inset: 0;
-display: grid;
-grid-template-columns: repeat(6, 1fr);
-grid-template-rows: repeat(4, 1fr);
-pointer-events: none;
+  position: absolute; inset: 0;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  pointer-events: none;
 }
 .grid-cell {
-border: 1px dashed rgba(0,0,0,0.08);
+  border: 1px dashed rgba(0,0,0,0.08);
 }
 .path-marker {
-position: absolute;
-left: 0; right: 0;
-background: rgba(0,0,0,0.05);
-pointer-events: none;
+  position: absolute;
+  left: 0; right: 0;
+  background: rgba(0,0,0,0.05);
+  pointer-events: none;
 }
 .unit {
-position: absolute;
-display: flex; flex-direction: column;
-align-items: center; justify-content: center;
-border-radius: 8px;
-font-weight: 800;
-text-align: center;
-font-size: 9px;
-color: white;
-cursor: grab;
-z-index: 10;
-box-shadow: 0 3px 8px rgba(0,0,0,0.3);
-transition: left 0.18s ease, top 0.18s ease;
-text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-padding: 2px;
-line-height: 1.1;
+  position: absolute;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  border-radius: 8px;
+  font-weight: 800;
+  text-align: center;
+  font-size: 9px;
+  color: white;
+  cursor: grab;
+  z-index: 10;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+  transition: left 0.18s ease, top 0.18s ease;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  padding: 2px;
+  line-height: 1.1;
 }
 .unit:active { cursor: grabbing; transform: scale(1.1); z-index: 100; }
 .unit.dragging { opacity: 0.7; transform: scale(1.15); z-index: 1000; transition: none; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
@@ -6420,29 +6395,29 @@ line-height: 1.1;
 @keyframes pulse { 0%,100% { box-shadow: 0 0 18px rgba(252,211,77,0.8); } 50% { box-shadow: 0 0 28px rgba(252,211,77,1); } }
 
 .enemy {
-position: absolute;
-display: flex; flex-direction: column;
-align-items: center; justify-content: center;
-border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-font-weight: 800;
-font-size: 8px;
-color: white;
-z-index: 5;
-text-shadow: 0 1px 2px rgba(0,0,0,0.8);
-box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+  position: absolute;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  font-weight: 800;
+  font-size: 8px;
+  color: white;
+  z-index: 5;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.4);
 }
 .enemy-hp-bar {
-position: absolute;
-bottom: -8px; left: 10%; right: 10%;
-height: 4px;
-background: rgba(0,0,0,0.5);
-border-radius: 2px;
-overflow: hidden;
+  position: absolute;
+  bottom: -8px; left: 10%; right: 10%;
+  height: 4px;
+  background: rgba(0,0,0,0.5);
+  border-radius: 2px;
+  overflow: hidden;
 }
 .enemy-hp-fill {
-height: 100%;
-background: #EF4444;
-transition: width 0.15s;
+  height: 100%;
+  background: #EF4444;
+  transition: width 0.15s;
 }
 
 /* 적 등급별 */
@@ -6451,57 +6426,57 @@ transition: width 0.15s;
 .e-3 { background: linear-gradient(135deg, #7C3AED, #4C1D95); }
 .e-4 { background: linear-gradient(135deg, #059669, #064E3B); }
 .e-5 { background: linear-gradient(135deg, #D97706, #78350F); }
-.boss {
-background: linear-gradient(135deg, #1F2937, #000) !important;
-border: 2px solid #FCD34D;
-box-shadow: 0 0 16px rgba(252,211,77,0.6);
+.boss { 
+  background: linear-gradient(135deg, #1F2937, #000) !important; 
+  border: 2px solid #FCD34D;
+  box-shadow: 0 0 16px rgba(252,211,77,0.6);
 }
 
 .bullet {
-position: absolute;
-width: 6px; height: 6px;
-background: radial-gradient(circle, #FCD34D, #F37321);
-border-radius: 50%;
-z-index: 8;
-box-shadow: 0 0 6px rgba(252,211,77,0.8);
-pointer-events: none;
+  position: absolute;
+  width: 6px; height: 6px;
+  background: radial-gradient(circle, #FCD34D, #F37321);
+  border-radius: 50%;
+  z-index: 8;
+  box-shadow: 0 0 6px rgba(252,211,77,0.8);
+  pointer-events: none;
 }
 .bullet.crit {
-width: 10px; height: 10px;
-background: radial-gradient(circle, #ffffff, #EF4444);
-box-shadow: 0 0 10px rgba(255,255,255,1);
+  width: 10px; height: 10px;
+  background: radial-gradient(circle, #ffffff, #EF4444);
+  box-shadow: 0 0 10px rgba(255,255,255,1);
 }
 
 .dmg-text {
-position: absolute;
-font-size: 11px; font-weight: 800;
-color: white;
-text-shadow: 0 1px 2px rgba(0,0,0,0.8);
-pointer-events: none;
-z-index: 20;
-animation: dmgFloat 0.6s ease-out forwards;
+  position: absolute;
+  font-size: 11px; font-weight: 800;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+  pointer-events: none;
+  z-index: 20;
+  animation: dmgFloat 0.6s ease-out forwards;
 }
 .dmg-text.crit { color: #FCD34D; font-size: 13px; }
 @keyframes dmgFloat {
-0% { opacity: 1; transform: translateY(0); }
-100% { opacity: 0; transform: translateY(-20px); }
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-20px); }
 }
 
 .actions {
-width: 100%; max-width: 520px;
-display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 6px;
-margin-top: 8px;
+  width: 100%; max-width: 520px;
+  display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 6px;
+  margin-top: 8px;
 }
 .btn {
-padding: 12px 8px;
-background: #F37321; color: white;
-border: none; border-radius: 10px;
-font-size: 13px; font-weight: 800;
-font-family: inherit; cursor: pointer;
-letter-spacing: -0.02em;
-display: flex; flex-direction: column;
-align-items: center; justify-content: center;
-gap: 2px;
+  padding: 12px 8px;
+  background: #F37321; color: white;
+  border: none; border-radius: 10px;
+  font-size: 13px; font-weight: 800;
+  font-family: inherit; cursor: pointer;
+  letter-spacing: -0.02em;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 2px;
 }
 .btn:active { opacity: 0.85; transform: scale(0.97); }
 .btn:disabled { opacity: 0.35; cursor: not-allowed; }
@@ -6512,18 +6487,18 @@ gap: 2px;
 .btn-cost { font-size: 10px; opacity: 0.8; font-weight: 600; }
 
 .modal-bg {
-display: none; position: fixed; inset: 0;
-background: rgba(0,0,0,0.85);
-align-items: center; justify-content: center;
-z-index: 1000; padding: 20px;
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.85);
+  align-items: center; justify-content: center;
+  z-index: 1000; padding: 20px;
 }
 .modal-bg.show { display: flex; animation: fadeIn 0.2s; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 .modal {
-background: white; color: #1a1a1a;
-border-radius: 18px;
-padding: 28px 24px; text-align: center;
-max-width: 360px; width: 100%;
+  background: white; color: #1a1a1a;
+  border-radius: 18px;
+  padding: 28px 24px; text-align: center;
+  max-width: 360px; width: 100%;
 }
 .modal-emoji { font-size: 56px; margin-bottom: 8px; }
 .modal-title { font-size: 11px; font-weight: 700; color: #6B7280; letter-spacing: 0.1em; margin-bottom: 6px; }
@@ -6532,27 +6507,27 @@ max-width: 360px; width: 100%;
 .modal-btn { background: #F37321; color: white; border: none; border-radius: 100px; padding: 12px 32px; font-size: 14px; font-weight: 800; font-family: inherit; cursor: pointer; }
 
 .help-text {
-font-size: 11px; opacity: 0.7; text-align: center;
-margin-top: 4px; line-height: 1.4;
+  font-size: 11px; opacity: 0.7; text-align: center;
+  margin-top: 4px; line-height: 1.4;
 }
 
 /* 등급 가이드 (작은 패널) */
 .tier-guide {
-width: 100%; max-width: 520px;
-background: rgba(0,0,0,0.4);
-border-radius: 8px;
-padding: 6px 10px;
-margin-top: 6px;
-display: flex; flex-wrap: wrap; gap: 4px;
-justify-content: center;
-font-size: 9px;
-border: 1px solid rgba(255,255,255,0.08);
+  width: 100%; max-width: 520px;
+  background: rgba(0,0,0,0.4);
+  border-radius: 8px;
+  padding: 6px 10px;
+  margin-top: 6px;
+  display: flex; flex-wrap: wrap; gap: 4px;
+  justify-content: center;
+  font-size: 9px;
+  border: 1px solid rgba(255,255,255,0.08);
 }
 .tier-pill {
-padding: 2px 8px;
-border-radius: 100px;
-font-weight: 800;
-letter-spacing: -0.02em;
+  padding: 2px 8px;
+  border-radius: 100px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
 </style>
@@ -7268,7 +7243,6 @@ setTimeout(() => {
 }, 50);
 
 </script>
-
 </body>
 </html>
 " style="width:100%; height:100%; border:none; display:block;"></iframe>
@@ -7284,7 +7258,6 @@ setTimeout(() => {
 <div id="branchAwardsContainer"></div>
 
 <!-- 24시간 박스 (지점시상용) -->
-
 <div style="background:linear-gradient(135deg, #F37321 0%, #C75A14 100%); border-radius:14px; padding:18px 20px; margin-top:16px; text-align:center; color:white;">
   <div style="font-size:13px; font-weight:800; margin-bottom:10px; letter-spacing:-0.02em;">
     🎁 매일 한 번, 행운의 박스 🎁
@@ -8507,7 +8480,6 @@ async function forceRefresh() {
 </script>
 
 <!-- 당첨 모달 -->
-
 <div id="prizeModal" class="prize-modal" onclick="if(event.target.id==='prizeModal') closePrize()">
   <div class="prize-content">
     <div class="prize-emoji" id="prizeEmoji">🎉</div>
