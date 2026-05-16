@@ -129,32 +129,43 @@ body::before {
   gap: 4px;
   margin: 16px 0 16px;
   padding: 6px;
-  background: var(--card);
-  border-radius: 14px;
+  background: linear-gradient(180deg, #FFFFFF 0%, #FAF9F6 100%);
+  border-radius: 16px;
   position: sticky;
   top: calc(env(safe-area-inset-top, 0) + 8px);
   z-index: 10;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-  border: 1.5px solid var(--ink);
+  box-shadow: 
+    0 1px 2px rgba(26, 26, 26, 0.04),
+    0 4px 16px rgba(0, 0, 0, 0.08),
+    0 8px 32px rgba(194, 90, 20, 0.05);
+  border: 1px solid rgba(26, 26, 26, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 .tab {
-  padding: 11px 4px;
-  border-radius: 9px;
+  padding: 12px 4px;
+  border-radius: 11px;
   text-align: center;
   font-size: 12px;
   font-weight: 700;
   color: var(--gray);
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   background: transparent;
   border: none;
   font-family: inherit;
   letter-spacing: -0.03em;
   white-space: nowrap;
+  position: relative;
 }
+.tab:hover { color: var(--ink); }
 .tab.active {
-  background: var(--ink);
+  background: linear-gradient(135deg, #1A1A1A, #2D2D2D);
   color: white;
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    0 4px 12px rgba(0, 0, 0, 0.15);
+  font-weight: 800;
 }
 .tab-campaign {
   color: var(--accent) !important;
@@ -166,11 +177,16 @@ body::before {
 
 /* === 카드 === */
 .card {
-  background: var(--card);
-  border-radius: 16px;
-  padding: 18px;
+  background: linear-gradient(180deg, #FFFFFF 0%, #FAF9F6 100%);
+  border-radius: 18px;
+  padding: 20px 18px;
   margin-bottom: 12px;
-  border: 1.5px solid var(--ink);
+  border: 1px solid rgba(26, 26, 26, 0.08);
+  box-shadow: 
+    0 1px 2px rgba(26, 26, 26, 0.04),
+    0 6px 20px rgba(194, 90, 20, 0.06);
+  position: relative;
+  overflow: hidden;
 }
 
 .card-soft {
@@ -178,8 +194,12 @@ body::before {
 }
 
 .card-dark {
-  background: var(--ink);
+  background: linear-gradient(135deg, #1A1A1A 0%, #2D2D2D 100%);
   color: white;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.2),
+    0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .card-accent {
@@ -189,10 +209,10 @@ body::before {
 
 /* === 빅 넘버 === */
 .big-num {
-  font-size: 44px;
+  font-size: 46px;
   font-weight: 800;
   line-height: 1;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.05em;
 }
 .big-num .unit {
   font-size: 18px;
@@ -201,16 +221,17 @@ body::before {
   margin-left: 4px;
 }
 .big-num-mid {
-  font-size: 30px;
+  font-size: 32px;
   font-weight: 800;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.04em;
 }
 .label {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--gray);
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 8px;
-  letter-spacing: 0;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 .label-white {
   color: rgba(255,255,255,0.6);
@@ -220,37 +241,65 @@ body::before {
 .bar {
   height: 8px;
   background: var(--line);
-  border-radius: 4px;
+  border-radius: 100px;
   overflow: hidden;
   margin-top: 12px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 .bar-fill {
   height: 100%;
-  border-radius: 4px;
-  transition: width 0.6s ease;
+  border-radius: 100px;
+  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
 }
-.bar-fill.warn { background: var(--warn); }
-.bar-fill.accent { background: var(--accent); }
-.bar-fill.success { background: var(--success); }
+.bar-fill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+  border-radius: 100px;
+}
+.bar-fill.warn { 
+  background: linear-gradient(90deg, #F59E0B, #D97706); 
+  box-shadow: 0 0 8px rgba(245, 158, 11, 0.3);
+}
+.bar-fill.accent { 
+  background: linear-gradient(90deg, var(--accent), var(--accent-deep)); 
+  box-shadow: 0 0 8px rgba(243, 115, 33, 0.35);
+}
+.bar-fill.success { 
+  background: linear-gradient(90deg, #10B981, #059669); 
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.3);
+}
 
 /* === KPI 그리드 === */
 .kpi-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
+  gap: 10px;
   margin-bottom: 12px;
 }
 .kpi-cell {
-  background: var(--card);
-  border-radius: 14px;
-  padding: 14px;
-  border: 1.5px solid var(--ink);
+  background: linear-gradient(180deg, #FFFFFF 0%, #FAF9F6 100%);
+  border-radius: 16px;
+  padding: 16px 14px;
+  border: 1px solid rgba(26, 26, 26, 0.08);
+  box-shadow: 
+    0 1px 2px rgba(26, 26, 26, 0.04),
+    0 4px 12px rgba(194, 90, 20, 0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.kpi-cell:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 2px 4px rgba(26, 26, 26, 0.04),
+    0 8px 20px rgba(194, 90, 20, 0.1);
 }
 .kpi-cell .num {
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 800;
   line-height: 1;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.04em;
 }
 .kpi-cell .num .unit {
   font-size: 12px;
@@ -263,12 +312,13 @@ body::before {
   font-weight: 700;
   margin-top: 6px;
 }
-.kpi-cell .pct.warn { color: var(--warn); }
-.kpi-cell .pct.success { color: var(--success); }
+.kpi-cell .pct.warn { color: #D97706; }
+.kpi-cell .pct.success { color: #059669; }
 .kpi-cell .target {
   font-size: 10px;
   color: var(--gray);
   margin-top: 2px;
+  font-weight: 600;
 }
 
 /* === 팀 리스트 === */
@@ -276,8 +326,12 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 0;
+  padding: 14px 4px;
   border-bottom: 1px solid var(--line);
+  transition: padding-left 0.2s;
+}
+.team-row:hover {
+  padding-left: 10px;
 }
 .team-row:last-child { border-bottom: none; }
 .team-row .name {
@@ -312,20 +366,38 @@ body::before {
 .fp-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 5px;
+  gap: 6px;
 }
 .fp-cell {
   aspect-ratio: 1.4 / 1;
-  border-radius: 7px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: -0.02em;
+  transition: transform 0.15s;
+  position: relative;
+  overflow: hidden;
 }
-.fp-cell.y { background: var(--success-soft); color: var(--success); }
-.fp-cell.n { background: var(--warn-soft); color: var(--warn); }
+.fp-cell:hover { transform: scale(1.05); }
+.fp-cell.y { 
+  background: linear-gradient(135deg, #10B981, #059669);
+  color: white;
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.25);
+  font-weight: 800;
+}
+.fp-cell.y::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.3), transparent 50%);
+}
+.fp-cell.n { 
+  background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+  color: #92400E;
+}
 
 /* === 랭킹 === */
 .rank-row {
@@ -427,29 +499,68 @@ body::before {
 
 /* === 시상 카드 === */
 .award {
-  background: var(--card);
-  border-radius: 14px;
-  padding: 16px;
-  margin-bottom: 10px;
-  border: 1.5px solid var(--ink);
+  background: linear-gradient(180deg, #FFFFFF 0%, #FAF9F6 100%);
+  border-radius: 18px;
+  padding: 20px 18px;
+  margin-bottom: 12px;
+  border: 1px solid rgba(26, 26, 26, 0.08);
+  box-shadow: 
+    0 1px 2px rgba(26, 26, 26, 0.04),
+    0 6px 20px rgba(194, 90, 20, 0.06);
+  position: relative;
+  overflow: hidden;
+  animation: awardFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+.award::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent 0%, var(--accent) 30%, var(--accent-deep) 70%, transparent 100%);
+  opacity: 0.85;
+}
+.award::after {
+  content: '';
+  position: absolute;
+  top: -40%; right: -20%;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(243, 115, 33, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.award:nth-child(1) { animation-delay: 0.05s; }
+.award:nth-child(2) { animation-delay: 0.15s; }
+.award:nth-child(3) { animation-delay: 0.25s; }
+.award:nth-child(4) { animation-delay: 0.35s; }
+.award:nth-child(5) { animation-delay: 0.45s; }
+@keyframes awardFadeIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 .award .award-tag {
-  display: inline-block;
-  padding: 3px 8px;
-  border-radius: 4px;
-  background: var(--accent-soft);
-  color: var(--accent-deep);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 11px;
+  border-radius: 100px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+  color: white;
   font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  margin-bottom: 8px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 8px rgba(243, 115, 33, 0.25);
+  position: relative;
+  z-index: 1;
 }
 .award .award-title {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: 800;
-  margin-bottom: 12px;
-  letter-spacing: -0.03em;
+  margin-bottom: 14px;
+  letter-spacing: -0.04em;
   color: var(--ink);
+  position: relative;
+  z-index: 1;
+  line-height: 1.15;
 }
 .award .award-sub {
   font-size: 11px;
@@ -482,17 +593,35 @@ body::before {
 
 /* === 섹션 타이틀 === */
 .section-title {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 800;
-  color: var(--gray);
-  letter-spacing: 0.05em;
-  margin: 20px 4px 10px;
+  color: var(--ink);
+  letter-spacing: 0.08em;
+  margin: 24px 4px 12px;
   text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-title::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 14px;
+  background: linear-gradient(180deg, var(--accent), var(--accent-deep));
+  border-radius: 2px;
 }
 
 /* === 페이지 전환 === */
 .page { display: none; }
-.page.active { display: block; }
+.page.active { 
+  display: block; 
+  animation: pageEnter 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
 /* === 등급 칩 === */
 .grade-row {
@@ -585,15 +714,26 @@ body::before {
 
 
 /* === 인포그래픽 모달 === */
-.award.clickable { cursor: pointer; position: relative; transition: transform 0.2s, box-shadow 0.2s; }
-.award.clickable:hover { transform: translateY(-2px); }
-.award.clickable:active { transform: translateY(0); }
+.award.clickable { cursor: pointer; transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s; }
+.award.clickable:hover { 
+  transform: translateY(-3px); 
+  box-shadow: 
+    0 2px 4px rgba(26, 26, 26, 0.04),
+    0 12px 28px rgba(194, 90, 20, 0.12);
+}
+.award.clickable:active { transform: translateY(-1px); transition-duration: 0.1s; }
 .info-badge {
-  position: absolute; top: 10px; right: 10px;
-  background: var(--accent); color: white;
-  font-size: 10px; font-weight: 700;
-  padding: 4px 8px; border-radius: 12px;
+  position: absolute; top: 14px; right: 14px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+  color: white;
+  font-size: 10px; font-weight: 800;
+  padding: 6px 11px; border-radius: 100px;
   z-index: 2;
+  box-shadow: 0 3px 10px rgba(243, 115, 33, 0.35);
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
 }
 .info-modal {
   display: none;
@@ -999,24 +1139,26 @@ input#bojangGeongang::-webkit-inner-spin-button {
   <div class="page" id="page-data">
 
 <!-- 환산월초/보장월초 -->
-<div class="card">
+<div class="card" style="position:relative;">
+  <div style="position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, transparent, #D97706, #F59E0B, transparent); border-radius:18px 18px 0 0;"></div>
   <div class="label">총 환산월초</div>
   <div class="big-num">
-    <span id="envTotal">1,852</span><span class="unit">만</span>
-    <span style="float:right; font-size:20px; color:var(--warn);" id="envPct">71.1%</span>
+    <span id="envTotal" style="background:linear-gradient(135deg, #1A1A1A 0%, #D97706 70%, #F59E0B 100%); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">1,852</span><span class="unit">만</span>
+    <span style="float:right; font-size:20px; color:#D97706; font-weight:800;" id="envPct">71.1%</span>
   </div>
   <div class="bar"><div class="bar-fill warn" id="envBar" style="width:71.1%"></div></div>
-  <div style="text-align:right; font-size:11px; color:var(--gray); margin-top:6px;">본사 진척</div>
+  <div style="text-align:right; font-size:10px; color:var(--gray); margin-top:8px; font-weight:600; letter-spacing:0.05em;">본사 진척</div>
 </div>
 
-<div class="card">
+<div class="card" style="position:relative;">
+  <div style="position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, transparent, var(--accent), var(--accent-deep), transparent); border-radius:18px 18px 0 0;"></div>
   <div class="label">보장월초</div>
   <div class="big-num">
-    <span id="covTotal">2,284</span><span class="unit">만</span>
-    <span style="float:right; font-size:20px; color:var(--accent);" id="covPct">90.3%</span>
+    <span id="covTotal" style="background:linear-gradient(135deg, #1A1A1A 0%, var(--accent) 70%, var(--accent-deep) 100%); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">2,284</span><span class="unit">만</span>
+    <span style="float:right; font-size:20px; color:var(--accent); font-weight:800;" id="covPct">90.3%</span>
   </div>
   <div class="bar"><div class="bar-fill accent" id="covBar" style="width:90.3%"></div></div>
-  <div style="text-align:right; font-size:11px; color:var(--gray); margin-top:6px;">본사 진척</div>
+  <div style="text-align:right; font-size:10px; color:var(--gray); margin-top:8px; font-weight:600; letter-spacing:0.05em;">본사 진척</div>
 </div>
 
 <!-- 활동 KPI 4개 -->
@@ -7271,7 +7413,7 @@ setTimeout(() => {
 
   </div>
 
-  <div class="update-badge" id="updateBadge">마지막 업데이트: 2026.05.15 07:30</div>
+  <div class="update-badge" id="updateBadge">마지막 업데이트: 2026.05.16 07:30</div>
 </div>
 
 <!-- 하단 플로팅 새로고침 버튼 (다이나믹 아일랜드 회피) -->
@@ -7306,45 +7448,45 @@ window._infoGroups = window._infoGroups || [];
 
 const DATA = {
   meta: {
-    date: '2026.05.15',
-    updatedAt: '2026.05.15 07:30',
+    date: '2026.05.16',
+    updatedAt: '2026.05.16 07:30',
   },
 
   daily: {
-    env: { value: 1888, pct: 76.4, target: '본사 진척' },
-    cov: { value: 2243, pct: 88.6, target: '본사 진척' },
+    env: { value: 1952, pct: 79.0, target: '본사 진척' },
+    cov: { value: 2287, pct: 90.4, target: '본사 진척' },
     activity: [
       { lbl: '가동',   val: 33, pct: 73.3, target: '/90', state: 'warn' },
-      { lbl: '실가동', val: 24, pct: 53.3, target: '/80', state: 'warn' },
-      { lbl: '3.3.3',  val:  8, pct: 17.8, target: '/50', state: 'warn' },
-      { lbl: '무가동', val: 13, pct: 28.9, target: '',    state: 'warn' },
+      { lbl: '실가동', val: 25, pct: 55.6, target: '/80', state: 'warn' },
+      { lbl: '3.3.3',  val: 11, pct: 24.4, target: '/50', state: 'warn' },
+      { lbl: '무가동', val: 12, pct: 26.7, target: '',    state: 'warn' },
     ],
     teams: [
       { n: '1팀',    m: 20, env: 623, gar: 697, g: 60.0,  sg: 45.0, score24680:  90.0, detail: { sg: 45.0, do: 20.0, pyo: 20.0, woo: 5.0 } },
-      { n: '2팀',    m: 11, env: 555, gar: 566, g: 81.8,  sg: 63.6, score24680: 127.3, detail: { sg: 63.6, do: 27.3, pyo: 27.3, woo: 9.1 } },
-      { n: '3팀',    m:  7, env: 221, gar: 275, g:100.0,  sg: 71.4, score24680:  85.7, detail: { sg: 71.4, do: 14.3, pyo: 0.0,  woo: 0.0 } },
-      { n: '의성팀', m:  7, env: 488, gar: 704, g: 71.4,  sg: 42.9, score24680: 128.6, detail: { sg: 42.9, do: 28.6, pyo: 28.6, woo: 28.6 } },
+      { n: '2팀',    m: 11, env: 591, gar: 590, g: 81.8,  sg: 72.7, score24680: 154.5, detail: { sg: 72.7, do: 45.5, pyo: 27.3, woo: 9.1 } },
+      { n: '3팀',    m:  7, env: 239, gar: 285, g:100.0,  sg: 71.4, score24680: 100.0, detail: { sg: 71.4, do: 14.3, pyo: 14.3, woo: 0.0 } },
+      { n: '의성팀', m:  7, env: 498, gar: 714, g: 71.4,  sg: 42.9, score24680: 128.6, detail: { sg: 42.9, do: 28.6, pyo: 28.6, woo: 28.6 } },
     ],
     top5: [
       { rank: 1, n: '서경숙', team: '의성팀장', val: 272, gar: 398, next: 263, grade: '탑' },
       { rank: 2, n: '김은미', team: '2팀장',    val: 186, gar: 244, next: 149, grade: '골드' },
-      { rank: 3, n: '임해경', team: '의성팀',   val: 147, gar: 262, next: 8,   grade: '우수' },
+      { rank: 3, n: '임해경', team: '의성팀',   val: 157, gar: 272, next: 8,   grade: '골드' },
       { rank: 4, n: '이금희', team: '1팀',      val: 130, gar: 203, next: 26,  grade: '우수' },
       { rank: 5, n: '손민혜', team: '1팀',      val: 105, gar: 104, next: 18,  grade: '실버' },
     ],
     grades: [
       { lbl: '탑',     n: 1 },
-      { lbl: '골드',   n: 1 },
-      { lbl: '우수',   n: 2 },
+      { lbl: '골드',   n: 2 },
+      { lbl: '우수',   n: 1 },
       { lbl: '실버',   n: 3 },
-      { lbl: '표준',   n: 2 },
-      { lbl: '도전',   n: 1 },
-      { lbl: '실가동', n: 14 },
-      { lbl: '가동',   n: 9 },
+      { lbl: '표준',   n: 3 },
+      { lbl: '도전',   n: 2 },
+      { lbl: '실가동', n: 13 },
+      { lbl: '가동',   n: 8 },
       { lbl: '무가동', n: 12 },
     ],
     inactive: {
-      count: 13, pct: 28.9,
+      count: 12, pct: 26.7,
       teams: [
         { n: '1팀',    names: ['전수진','박시영','김미진','윤양순','이정화','임민지','류지연','이혜정'] },
         { n: '2팀',    names: ['이경진','류현숙'] },
@@ -7352,17 +7494,17 @@ const DATA = {
       ],
     },
     "333": {
-      ach: 8, missed: 37, pct: 17.8,
+      ach: 11, missed: 34, pct: 24.4,
       list: [
         { n: '강주영', y: 1 }, { n: '이정애', y: 0 }, { n: '이옥화', y: 1 }, { n: '민희정', y: 0 }, { n: '남정림', y: 0 },
         { n: '전수진', y: 0 }, { n: '최향주', y: 1 }, { n: '이금희', y: 1 }, { n: '박시영', y: 0 }, { n: '배지혜', y: 0 },
-        { n: '이지혜', y: 0 }, { n: '김미진', y: 0 }, { n: '손민혜', y: 0 }, { n: '윤양순', y: 0 }, { n: '이정화', y: 0 },
+        { n: '이지혜', y: 1 }, { n: '김미진', y: 0 }, { n: '손민혜', y: 0 }, { n: '윤양순', y: 0 }, { n: '이정화', y: 0 },
         { n: '권정숙', y: 0 }, { n: '임민지', y: 0 }, { n: '류지연', y: 0 }, { n: '오명신', y: 0 }, { n: '이혜정', y: 0 },
-        { n: '김은미', y: 1 }, { n: '이재교', y: 0 }, { n: '권별하', y: 0 }, { n: '이춘화', y: 1 }, { n: '김희정', y: 0 },
+        { n: '김은미', y: 1 }, { n: '이재교', y: 1 }, { n: '권별하', y: 0 }, { n: '이춘화', y: 1 }, { n: '김희정', y: 0 },
         { n: '박규민', y: 0 }, { n: '김나희', y: 0 }, { n: '이경진', y: 0 }, { n: '신미진', y: 0 }, { n: '신은정', y: 0 },
         { n: '류현숙', y: 0 },
         { n: '장창숙', y: 1 }, { n: '서점순', y: 1 }, { n: '유주이', y: 0 }, { n: '천윤성', y: 0 },
-        { n: '임경순', y: 0 }, { n: '이소연', y: 0 }, { n: '김상순', y: 0 },
+        { n: '임경순', y: 0 }, { n: '이소연', y: 0 }, { n: '김상순', y: 1 },
         { n: '서경숙', y: 0 }, { n: '박승남', y: 0 }, { n: '이금수', y: 0 }, { n: '김남정', y: 0 },
         { n: '배달님', y: 0 }, { n: '차명희', y: 0 }, { n: '임해경', y: 0 },
       ],
