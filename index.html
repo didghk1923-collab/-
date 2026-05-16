@@ -117,6 +117,110 @@ body::before {
 }
 
 /* === 상단 헤더 === */
+/* 🎯 전광판 (어제 신계약) */
+.ticker-wrap {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  background: linear-gradient(135deg, #1A1A1A 0%, #2D2D2D 50%, #1A1A1A 100%);
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 8px 0 12px;
+  box-shadow: 
+    0 2px 8px rgba(0,0,0,0.15),
+    inset 0 1px 0 rgba(255,255,255,0.06);
+  border: 1px solid rgba(243,115,33,0.25);
+  height: 38px;
+}
+.ticker-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: linear-gradient(135deg, #DC2626, #991B1B);
+  padding: 0 11px;
+  flex-shrink: 0;
+  box-shadow: 2px 0 8px rgba(220,38,38,0.3);
+  z-index: 2;
+}
+.ticker-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #FCD34D;
+  box-shadow: 0 0 8px #FCD34D;
+  animation: tickerDot 1.2s infinite;
+}
+@keyframes tickerDot {
+  0%, 100% { opacity: 1; box-shadow: 0 0 8px #FCD34D; }
+  50% { opacity: 0.4; box-shadow: 0 0 12px #FCD34D; }
+}
+.ticker-label-text {
+  font-size: 10.5px;
+  font-weight: 800;
+  color: white;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+.ticker-track {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.ticker-content {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  white-space: nowrap;
+  animation: tickerSlide 30s linear infinite;
+  padding-left: 100%;
+}
+.ticker-content:hover {
+  animation-play-state: paused;
+}
+@keyframes tickerSlide {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+.ticker-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 22px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: -0.02em;
+}
+.ticker-item-rank {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #F37321, #C2410C);
+  color: white;
+  font-size: 10px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+.ticker-item-name {
+  font-weight: 800;
+  color: #FCD34D;
+}
+.ticker-item-amount {
+  font-weight: 800;
+  color: white;
+}
+.ticker-item-sep {
+  color: rgba(255,255,255,0.25);
+  margin: 0 4px;
+  font-size: 14px;
+}
+.ticker-item-emoji {
+  font-size: 14px;
+}
+
 .app-header {
   padding: 24px 4px 8px;
   display: flex;
@@ -1149,6 +1253,17 @@ input#bojangGeongang::-webkit-inner-spin-button {
 <div class="app">
 
   <!-- 헤더 -->
+
+  <!-- 🎯 전광판 (어제 신계약) - 현재 숨김, 사용할 때 display:none 제거 -->
+  <div class="ticker-wrap" style="display:none;">
+    <div class="ticker-label">
+      <span class="ticker-dot"></span>
+      <span class="ticker-label-text">LIVE · 어제 신계약</span>
+    </div>
+    <div class="ticker-track">
+      <div class="ticker-content" id="tickerContent"></div>
+    </div>
+  </div>
 
   <div class="app-header">
     <h1>
@@ -8757,9 +8872,36 @@ function getNextBoxTimeMsg() {
   return '월요일 오전 8시';
 }
 
+// 박스 당첨 결과 헬퍼
+function showPrizeFromResult(r) {
+  if (!r) return;
+  openPrize(r.item, r.opts);
+}
+
+function saveBoxResult(key, item, opts) {
+  try {
+    localStorage.setItem(key + '_result', JSON.stringify({ item, opts }));
+  } catch(e) {}
+}
+
+function loadBoxResult(key) {
+  try {
+    const s = localStorage.getItem(key + '_result');
+    return s ? JSON.parse(s) : null;
+  } catch(e) { return null; }
+}
+
 function openBoxBy(key) {
   const st = getBoxState(key);
-  if (!st.ready) return;
+  
+  // 🔄 이미 오픈한 상태(쿨다운 중)면 → 마지막 결과 다시 보여주기 (인증용)
+  if (!st.ready) {
+    const lastResult = loadBoxResult(key);
+    if (lastResult) {
+      showPrizeFromResult(lastResult);
+    }
+    return;
+  }
   
   // 🕐 시간대 체크 (월~금 8~10시)
   if (!isBoxTimeAllowed()) {
@@ -8783,39 +8925,49 @@ function openBoxBy(key) {
   const stamp = getNowStamp();
   const stampNote = `<div style="font-size:10px; color:#9CA3AF; font-weight:700; margin-top:10px; font-variant-numeric:tabular-nums;">${stamp}</div>`;
   
+  let item, opts;
   if (roll < 0.40) {
-    openPrize('롤팩 1개', {
+    item = '롤팩 1개';
+    opts = {
       emoji: '🎉',
       title: '🎉 당첨! 🎉',
       suffix: '당첨!',
       color: 'var(--accent)',
       note: '심지점장에게<br>직접 받으러 오세요 ~' + stampNote,
-    });
+    };
   } else if (roll < 0.50) {
-    openPrize('몽글행주 1개', {
+    item = '몽글행주 1개';
+    opts = {
       emoji: '🧽',
       title: '🎉 당첨! 🎉',
       suffix: '당첨!',
       color: 'var(--accent)',
       note: '심지점장에게<br>직접 받으러 오세요 ~' + stampNote,
-    });
+    };
   } else if (roll < 0.99) {
-    openPrize('꽝', {
+    item = '꽝';
+    opts = {
       emoji: '😅',
       title: '아쉽네요',
       suffix: '',
       color: '#9CA3AF',
       note: '24시간 뒤<br>다시 도전하세요!',
-    });
+    };
   } else {
-    openPrize('특별한 지점장의 선물', {
+    item = '특별한 지점장의 선물';
+    opts = {
       emoji: '🎁',
       title: '✨ 1% 잭팟! ✨',
       suffix: '당첨!',
       color: '#F37321',
       note: '심지점장에게 직접 받으러 오세요!<br><span style="font-size:11px; opacity:0.7;">선물 내용은 비밀 🤫</span>' + stampNote,
-    });
+    };
   }
+  
+  // 결과 저장 (다음에 재터치 시 인증용)
+  saveBoxResult(key, item, opts);
+  // 결과 표시
+  openPrize(item, opts);
 }
 
 // 호환용: 헤더 버튼이 onclick="openHourlyBox()"로 부르고 있으니 별칭 제공
@@ -9530,6 +9682,43 @@ document.addEventListener('keydown', e => {
   });
   observer.observe(document.body, { childList: true, subtree: true });
 })();
+
+// ============================================
+//          🎯 전광판 (어제 신계약)
+// ============================================
+// ⬇️⬇️⬇️ 매일 여기만 갈아끼우면 됩니다 ⬇️⬇️⬇️
+window.TICKER_ITEMS = [
+  // { name: 'FP이름', product: '상품명', premium: '월보험료' }
+  // 예시:
+  // { name: '서경숙', product: '시그니처H', premium: '15만원' },
+  // { name: '김은미', product: '종신', premium: '20만원' },
+];
+// ⬆️⬆️⬆️ 매일 여기만 갈아끼우면 됩니다 ⬆️⬆️⬆️
+
+(function renderTicker() {
+  const wrap = document.getElementById('tickerContent');
+  if (!wrap) return;
+  
+  const items = window.TICKER_ITEMS || [];
+  
+  if (items.length === 0) {
+    wrap.innerHTML = '<div class="ticker-item" style="color:rgba(255,255,255,0.5); font-weight:600;">📊 어제 신계약이 없거나 데이터 준비 중입니다</div>';
+    return;
+  }
+  
+  // 두 번 반복해서 끊김 없는 흐름 만들기
+  const renderOne = (it, idx) => `<div class="ticker-item">
+    <span class="ticker-item-emoji">🎉</span>
+    <span class="ticker-item-name">${it.name}</span>
+    <span style="opacity:0.85; font-size:11.5px;">${it.product || ''}</span>
+    <span class="ticker-item-amount">${it.premium || ''}</span>
+  </div>`;
+  
+  const html = items.map(renderOne).join('<span class="ticker-item-sep">•</span>');
+  // 두 번 복사해서 끊김 없이 흐르게
+  wrap.innerHTML = html + '<span class="ticker-item-sep">•</span>' + html;
+})();
+
 
 
 // ============================================
