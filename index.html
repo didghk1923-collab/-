@@ -8,6 +8,19 @@
 <meta name="color-scheme" content="light only">
 <meta name="supported-color-schemes" content="light">
 
+<!-- Google Analytics 4 (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J62WKZLYTX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-J62WKZLYTX', {
+    'send_page_view': true,
+    'anonymize_ip': true
+  });
+  window.gtag = gtag;
+</script>
+
 <!-- 캐시 무효화 (앱 열 때마다 최신 데이터) -->
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -8717,20 +8730,60 @@ function renderAllBoxes() {
   });
 }
 
+// 박스 오픈 가능 시간 체크 (월~금 8~10시)
+function isBoxTimeAllowed() {
+  const now = new Date();
+  const day = now.getDay();  // 0=일, 1=월, ..., 6=토
+  const hour = now.getHours();
+  // 월~금 = 1~5, 8시~10시 (10:00 직전까지)
+  return day >= 1 && day <= 5 && hour >= 8 && hour < 10;
+}
+
+// 다음 박스 오픈 시간까지 남은 시간 (사용자 안내용)
+function getNextBoxTimeMsg() {
+  const now = new Date();
+  const day = now.getDay();
+  const hour = now.getHours();
+  
+  // 평일 8시 이전 → 오늘 8시
+  if (day >= 1 && day <= 5 && hour < 8) {
+    return '오늘 오전 8시';
+  }
+  // 평일 10시 이후 → 다음 평일 8시 (단, 금요일 10시 이후면 다음주 월요일)
+  if (day >= 1 && day <= 4 && hour >= 10) {
+    return '내일 오전 8시';
+  }
+  // 금요일 10시 이후 / 주말 → 월요일 8시
+  return '월요일 오전 8시';
+}
+
 function openBoxBy(key) {
   const st = getBoxState(key);
   if (!st.ready) return;
   
+  // 🕐 시간대 체크 (월~금 8~10시)
+  if (!isBoxTimeAllowed()) {
+    openPrize('시간 외에요', {
+      emoji: '🕐',
+      title: '',
+      suffix: '',
+      color: '#1A1A1A',
+      note: `박스는 <b style="color:#F37321;">평일 오전 8시 ~ 10시</b>에만<br>열 수 있어요!<br><br><span style="font-size:11px; opacity:0.7;">다음 오픈: ${getNextBoxTimeMsg()}</span>`,
+    });
+    return;  // 쿨다운 시작 안 함
+  }
+  
+  // ✅ 시간대 OK — 박스 오픈 진행
   // 쿨다운 시작
   localStorage.setItem(key, String(Date.now()));
   renderAllBoxes();
   
-  // 확률 추첨: 30% 롤팩1개 / 10% 몽글행주1개 / 60% 꽝
+  // 확률 추첨: 40% 롤팩 / 10% 몽글행주 / 49% 꽝 / 1% 특별한 지점장의 선물
   const roll = Math.random();
   const stamp = getNowStamp();
   const stampNote = `<div style="font-size:10px; color:#9CA3AF; font-weight:700; margin-top:10px; font-variant-numeric:tabular-nums;">${stamp}</div>`;
   
-  if (roll < 0.30) {
+  if (roll < 0.40) {
     openPrize('롤팩 1개', {
       emoji: '🎉',
       title: '🎉 당첨! 🎉',
@@ -8738,7 +8791,7 @@ function openBoxBy(key) {
       color: 'var(--accent)',
       note: '심지점장에게<br>직접 받으러 오세요 ~' + stampNote,
     });
-  } else if (roll < 0.40) {
+  } else if (roll < 0.50) {
     openPrize('몽글행주 1개', {
       emoji: '🧽',
       title: '🎉 당첨! 🎉',
@@ -8746,13 +8799,21 @@ function openBoxBy(key) {
       color: 'var(--accent)',
       note: '심지점장에게<br>직접 받으러 오세요 ~' + stampNote,
     });
-  } else {
+  } else if (roll < 0.99) {
     openPrize('꽝', {
       emoji: '😅',
       title: '아쉽네요',
       suffix: '',
       color: '#9CA3AF',
       note: '24시간 뒤<br>다시 도전하세요!',
+    });
+  } else {
+    openPrize('특별한 지점장의 선물', {
+      emoji: '🎁',
+      title: '✨ 1% 잭팟! ✨',
+      suffix: '당첨!',
+      color: '#F37321',
+      note: '심지점장에게 직접 받으러 오세요!<br><span style="font-size:11px; opacity:0.7;">선물 내용은 비밀 🤫</span>' + stampNote,
     });
   }
 }
@@ -8766,6 +8827,14 @@ renderAllBoxes();
 
 // ============ 페이지 전환 (탭 + 사이드메뉴 공용) ============
 function switchPage(page) {
+  // GA 페이지 전환 이벤트
+  if (window.gtag) {
+    gtag('event', 'page_view', {
+      page_title: page,
+      page_path: '/' + page,
+    });
+  }
+  
   // 탭 active 처리 (해당 탭이 있을 때만)
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   const tabEl = document.querySelector(`.tab[data-page="${page}"]`);
@@ -9021,9 +9090,9 @@ async function forceRefresh() {
 function openPrize(item, opts) {
   opts = opts || {};
   document.getElementById('prizeEmoji').textContent = opts.emoji || '🎉';
-  document.getElementById('prizeTitle').textContent = opts.title || '축하합니다!';
+  document.getElementById('prizeTitle').textContent = (opts.title !== undefined) ? opts.title : '축하합니다!';
   document.getElementById('prizeItem').textContent = item;
-  document.getElementById('prizeSuffix').textContent = opts.suffix || '당첨!';
+  document.getElementById('prizeSuffix').textContent = (opts.suffix !== undefined) ? opts.suffix : '당첨!';
   document.getElementById('prizeNote').innerHTML = opts.note || '심지점장에게<br>직접 받으러 오세요 ~';
   // 색상도 옵션화
   const itemEl = document.getElementById('prizeItem');
@@ -9462,6 +9531,7 @@ document.addEventListener('keydown', e => {
   observer.observe(document.body, { childList: true, subtree: true });
 })();
 
+
 // ============================================
 //          💬 자유게시판 (Firebase)
 // ============================================
@@ -9472,6 +9542,7 @@ window.BOARD_CONFIG = {
   storageBucket: "shimhyunwoo-33a30.firebasestorage.app",
   messagingSenderId: "86406175567",
   appId: "1:86406175567:web:687ad4ce0ca01ca5ff433a",
+  measurementId: "G-J62WKZLYTX",
 };
 window.MANAGER_PW = "didghk1923!";
 
@@ -9771,6 +9842,12 @@ async function submitBoardPost() {
       likes: 0, dislikes: 0, commentCount: 0,
       createdAt: serverTimestamp(),
     });
+    // GA 이벤트
+    if (window.gtag) {
+      gtag('event', 'post_created', {
+        category: BOARD_STATE.writeCat || 'free',
+      });
+    }
     // 글 올린 후 해당 카테고리로 자동 전환
     if (BOARD_STATE.writeCat && BOARD_STATE.writeCat !== BOARD_STATE.cat) {
       switchBoardCat(BOARD_STATE.writeCat);
