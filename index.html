@@ -125,7 +125,7 @@ body::before {
 /* === 탭 === */
 .tabs {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 4px;
   margin: 16px 0 16px;
   padding: 6px;
@@ -143,10 +143,10 @@ body::before {
   -webkit-backdrop-filter: blur(10px);
 }
 .tab {
-  padding: 12px 4px;
+  padding: 11px 2px;
   border-radius: 11px;
   text-align: center;
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 700;
   color: var(--gray);
   cursor: pointer;
@@ -154,7 +154,7 @@ body::before {
   background: transparent;
   border: none;
   font-family: inherit;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.04em;
   white-space: nowrap;
   position: relative;
 }
@@ -366,22 +366,51 @@ body::before {
 .fp-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 6px;
+  gap: 5px;
+  grid-auto-rows: 1fr;
 }
 .fp-cell {
-  aspect-ratio: 1.4 / 1;
+  min-height: 88px;
   border-radius: 8px;
+  padding: 6px 3px 7px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 4px;
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   transition: transform 0.15s;
   position: relative;
   overflow: hidden;
+  text-align: center;
 }
-.fp-cell:hover { transform: scale(1.05); }
+.fp-cell:hover { transform: scale(1.04); }
+.fp-cell .fp-name {
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.fp-cell .fp-need-col {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  width: 100%;
+  align-items: center;
+}
+.fp-cell .fp-need-col .fp-line {
+  background: rgba(220, 38, 38, 0.95);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 100px;
+  white-space: nowrap;
+}
 .fp-cell.y { 
   background: linear-gradient(135deg, #10B981, #059669);
   color: white;
@@ -393,10 +422,13 @@ body::before {
   position: absolute;
   inset: 0;
   background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.3), transparent 50%);
+  pointer-events: none;
 }
 .fp-cell.n { 
-  background: linear-gradient(135deg, #FEF3C7, #FDE68A);
-  color: #92400E;
+  background: linear-gradient(135deg, #FEE2E2, #FCA5A5);
+  color: #991B1B;
+  box-shadow: 0 2px 6px rgba(220, 38, 38, 0.15);
+  font-weight: 800;
 }
 
 /* === 랭킹 === */
@@ -1058,6 +1090,14 @@ input#bojangGeongang::-webkit-inner-spin-button {
     <button id="sideClose" class="side-close" aria-label="닫기">✕</button>
   </div>
   <nav class="side-nav">
+    <button class="side-item" data-page="rank">
+      <span class="side-ico">🏆</span>
+      <span>랭킹 TOP5</span>
+    </button>
+    <button class="side-item" data-page="game">
+      <span class="side-ico">🗺️</span>
+      <span>FP의 여정</span>
+    </button>
     <button class="side-item" data-page="income">
       <span class="side-ico">💰</span>
       <span>급여 계산기</span>
@@ -1105,13 +1145,9 @@ input#bojangGeongang::-webkit-inner-spin-button {
         No.1
       </span>
       하회지점 공지사항
-      <button id="dailyEduBtn" onclick="switchPage('dailyedu')"
-        style="background:var(--ink); color:white; border:none; padding:4px 10px; margin-left:8px; vertical-align:middle; cursor:pointer; font-size:11px; font-weight:800; letter-spacing:-0.02em; border-radius:6px; line-height:1; box-shadow:0 2px 6px rgba(0,0,0,0.3);">
-        📖 오늘의 일상교육
-      </button>
-      <button id="campaignBtn" onclick="switchPage('campaign')"
-        style="background:var(--accent); color:white; border:none; padding:4px 10px; margin-left:6px; vertical-align:middle; cursor:pointer; font-size:11px; font-weight:800; letter-spacing:-0.02em; border-radius:6px; line-height:1; box-shadow:0 2px 6px rgba(243,115,33,0.3);">
-        🔥 5월 캠페인
+      <button id="boardBtn" onclick="switchPage('board')"
+        style="background:linear-gradient(135deg, #F37321, #C2410C); color:white; border:none; padding:5px 12px; margin-left:8px; vertical-align:middle; cursor:pointer; font-size:11.5px; font-weight:800; letter-spacing:-0.02em; border-radius:7px; line-height:1; box-shadow:0 2px 6px rgba(243,115,33,0.3);">
+        💬 자유게시판
       </button>
     </h1>
     <div style="text-align:right; display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
@@ -1128,15 +1164,39 @@ input#bojangGeongang::-webkit-inner-spin-button {
   <div class="tabs">
     <button class="tab active" data-page="hq">본사시상</button>
     <button class="tab" data-page="branch">지점시상</button>
-    <button class="tab" data-page="rank">랭킹 TOP5</button>
     <button class="tab" data-page="issue">5월 이슈</button>
-    <button class="tab" data-page="data">지점 현황</button>
-    <button class="tab" data-page="game">여정</button>
+    <button class="tab" data-page="data">바른활동</button>
+    <button class="tab" data-page="campaign">5월 캠페인</button>
+    <button class="tab" data-page="dailyedu">일상교육</button>
   </div>
 
   <!-- ============ 1. 지점 데이터 ============ -->
 
   <div class="page" id="page-data">
+
+<!-- 3.3.3 바른활동 (맨 위) -->
+<div class="section-title">3.3.3 바른활동</div>
+<div class="card" style="position:relative;">
+  <div style="position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, transparent, #10B981, #059669, transparent); border-radius:18px 18px 0 0;"></div>
+  <div style="display:flex; justify-content:space-around; padding: 8px 0 14px; text-align:center;">
+    <div>
+      <div style="font-size:11px; color:var(--gray); font-weight:600;">달성</div>
+      <div style="font-size:26px; font-weight:800; color:var(--success); letter-spacing:-0.04em;" id="ach333">3명</div>
+    </div>
+    <div>
+      <div style="font-size:11px; color:var(--gray); font-weight:600;">미달</div>
+      <div style="font-size:26px; font-weight:800; color:var(--warn); letter-spacing:-0.04em;" id="missed333">42명</div>
+    </div>
+    <div>
+      <div style="font-size:11px; color:var(--gray); font-weight:600;">달성률</div>
+      <div style="font-size:26px; font-weight:800; letter-spacing:-0.04em;" id="pct333">6.7%</div>
+    </div>
+  </div>
+  <div style="font-size:11px; color:var(--gray); font-weight:600; margin-bottom:10px; line-height:1.5; text-align:center;">
+    🟢 달성 · 🔴 미달은 부족한 항목만 표시
+  </div>
+  <div class="fp-grid" id="fpGrid"></div>
+</div>
 
 <!-- 환산월초/보장월초 -->
 <div class="card" style="position:relative;">
@@ -1181,26 +1241,6 @@ input#bojangGeongang::-webkit-inner-spin-button {
     <div class="sub">전체 45명 중 <span id="inactivePct">28.9%</span></div>
   </div>
   <div id="inactiveTeams"></div>
-</div>
-
-<!-- 3.3.3 -->
-<div class="section-title">3.3.3 바른활동</div>
-<div class="card">
-  <div style="display:flex; justify-content:space-around; padding: 8px 0 16px; text-align:center;">
-    <div>
-      <div style="font-size:11px; color:var(--gray); font-weight:600;">달성</div>
-      <div style="font-size:24px; font-weight:800; color:var(--success);" id="ach333">3명</div>
-    </div>
-    <div>
-      <div style="font-size:11px; color:var(--gray); font-weight:600;">미달</div>
-      <div style="font-size:24px; font-weight:800; color:var(--warn);" id="missed333">42명</div>
-    </div>
-    <div>
-      <div style="font-size:11px; color:var(--gray); font-weight:600;">달성률</div>
-      <div style="font-size:24px; font-weight:800;" id="pct333">6.7%</div>
-    </div>
-  </div>
-  <div class="fp-grid" id="fpGrid"></div>
 </div>
 
   </div>
@@ -1378,15 +1418,24 @@ input#bojangGeongang::-webkit-inner-spin-button {
     <!-- 일상교육 히어로 -->
     <div style="background:linear-gradient(135deg, #1A1A1A 0%, #3A3A3A 100%); border-radius:18px; padding:24px 20px; margin-bottom:16px; color:white; position:relative; overflow:hidden;">
       <div style="position:absolute; top:-30px; right:-30px; width:140px; height:140px; border-radius:50%; background:radial-gradient(circle, rgba(252,211,77,0.18) 0%, transparent 70%);"></div>
-      <div style="font-size:11px; font-weight:700; opacity:0.85; letter-spacing:0.08em; position:relative;" id="dailyEduDate">2026.05.13 (화) · 조회시간</div>
+      <div style="font-size:11px; font-weight:700; opacity:0.85; letter-spacing:0.08em; position:relative;" id="dailyEduDate">이번주 · 조회시간</div>
       <div style="font-size:22px; font-weight:800; margin-top:6px; line-height:1.3; letter-spacing:-0.03em; position:relative;">
-        📖 오늘의<br>
+        📖 이번주<br>
         <span style="color:#FCD34D;">일상교육</span>
       </div>
     </div>
 
-    <!-- 교육 콘텐츠 자리 -->
-    <div class="section-title">오늘의 주제</div>
+    <!-- 교육 콘텐츠 탭 -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin: 20px 0 12px; padding: 5px; background:linear-gradient(180deg, #FFFFFF 0%, #FAF9F6 100%); border-radius:14px; border:1px solid rgba(26,26,26,0.08); box-shadow: 0 1px 2px rgba(26,26,26,0.04), 0 4px 12px rgba(194,90,20,0.05);">
+      <button class="ded-tab active" data-tab="new" onclick="switchDedTab('new')" style="padding:10px 6px; border-radius:10px; border:none; background:linear-gradient(135deg, #1A1A1A, #2D2D2D); color:white; font-size:12px; font-weight:800; font-family:inherit; cursor:pointer; letter-spacing:-0.02em; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:5px; box-shadow:0 2px 6px rgba(0,0,0,0.18);">
+        <span>✨ 이번주 신규</span>
+        <span class="ded-tab-count" data-target="new" style="display:none; background:#EF4444; color:white; font-size:9px; font-weight:800; padding:1px 6px; border-radius:100px; letter-spacing:0;">0</span>
+      </button>
+      <button class="ded-tab" data-tab="old" onclick="switchDedTab('old')" style="padding:10px 6px; border-radius:10px; border:none; background:transparent; color:var(--gray); font-size:12px; font-weight:700; font-family:inherit; cursor:pointer; letter-spacing:-0.02em; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:5px;">
+        <span>📚 지난 자료</span>
+        <span class="ded-tab-count" data-target="old" style="display:none; background:rgba(0,0,0,0.1); color:var(--ink); font-size:9px; font-weight:800; padding:1px 6px; border-radius:100px; letter-spacing:0;">0</span>
+      </button>
+    </div>
     <div id="dailyEduWrap" class="card" style="padding:0; overflow:hidden; position:relative; background:#FFFFFF; transition:height 0.35s ease; min-height:300px;">
       <div id="dailyEduSlider" style="display:flex; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scrollbar-width:none; height:100%; width:100%; scroll-snap-stop:always; touch-action:pan-y; overscroll-behavior:none;">
         <style>
@@ -1410,14 +1459,59 @@ input#bojangGeongang::-webkit-inner-spin-button {
             -webkit-touch-callout: none;
             cursor: zoom-in;
           }
+          .ded-new-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: linear-gradient(135deg, #EF4444, #DC2626);
+            color: white;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 6px 11px;
+            border-radius: 100px;
+            letter-spacing: 0.08em;
+            box-shadow: 0 3px 10px rgba(239, 68, 68, 0.4);
+            z-index: 3;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            animation: newBadgePulse 1.8s ease-in-out infinite;
+          }
+          .ded-new-badge::before {
+            content: '✨';
+            font-size: 12px;
+          }
+          @keyframes newBadgePulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 3px 10px rgba(239, 68, 68, 0.4); }
+            50% { transform: scale(1.06); box-shadow: 0 4px 16px rgba(239, 68, 68, 0.6); }
+          }
+          .ded-date-tag {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            background: rgba(0, 0, 0, 0.65);
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 4px 9px;
+            border-radius: 100px;
+            letter-spacing: 0.03em;
+            z-index: 3;
+            pointer-events: none;
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+          }
         </style>
-        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/AD33BCE8-E96B-466B-A4AC-5623EAB60AD0.png" alt="일상교육 1/7"></div>
-        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/DB5E4ED4-87EA-48C2-8D5A-85F7E0E78AD3.png" alt="일상교육 2/7"></div>
-        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/77998A83-F4DC-42ED-BB42-BF58BAA0AF73.png" alt="일상교육 3/7"></div>
-        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/B992FF6B-FD77-4FB0-A958-4956BADCC759.png" alt="일상교육 4/7"></div>
-        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/52E970AA-1038-42F7-BFE2-A97DC2BBA682.png" alt="일상교육 5/7"></div>
-        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/6BFDC496-804A-4D1D-86F4-47FB9FBBB390.png" alt="일상교육 6/7"></div>
-        <div class="ded-slide"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/F787A2A9-E986-40C7-BC7B-D33F9D9BEDD3.png" alt="일상교육 7/7"></div>
+        <div class="ded-slide" data-uploaded="2026-05-16"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/images/64BD04F4-9FBF-4F49-9B39-82A04600F064.png" alt="일상교육 1/9"></div>
+        <div class="ded-slide" data-uploaded="2026-05-16"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/images/6F5C4220-E51A-404D-896A-AF772CAD0249.png" alt="일상교육 2/9"></div>
+        <div class="ded-slide" data-uploaded="2026-05-11"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/AD33BCE8-E96B-466B-A4AC-5623EAB60AD0.png" alt="일상교육 3/9"></div>
+        <div class="ded-slide" data-uploaded="2026-05-11"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/DB5E4ED4-87EA-48C2-8D5A-85F7E0E78AD3.png" alt="일상교육 4/9"></div>
+        <div class="ded-slide" data-uploaded="2026-05-11"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/77998A83-F4DC-42ED-BB42-BF58BAA0AF73.png" alt="일상교육 5/9"></div>
+        <div class="ded-slide" data-uploaded="2026-05-11"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/B992FF6B-FD77-4FB0-A958-4956BADCC759.png" alt="일상교육 6/9"></div>
+        <div class="ded-slide" data-uploaded="2026-05-11"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/52E970AA-1038-42F7-BFE2-A97DC2BBA682.png" alt="일상교육 7/9"></div>
+        <div class="ded-slide" data-uploaded="2026-05-11"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/6BFDC496-804A-4D1D-86F4-47FB9FBBB390.png" alt="일상교육 8/9"></div>
+        <div class="ded-slide" data-uploaded="2026-05-11"><img src="https://raw.githubusercontent.com/didghk1923-collab/-/refs/heads/main/F787A2A9-E986-40C7-BC7B-D33F9D9BEDD3.png" alt="일상교육 9/9"></div>
       </div>
       <!-- 좌우 넘김 버튼 -->
       <button onclick="dailyEduGo(-1)" aria-label="이전 사진"
@@ -1433,6 +1527,8 @@ input#bojangGeongang::-webkit-inner-spin-button {
         <span class="ded-dot" data-idx="4" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
         <span class="ded-dot" data-idx="5" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
         <span class="ded-dot" data-idx="6" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
+        <span class="ded-dot" data-idx="7" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
+        <span class="ded-dot" data-idx="8" style="width:9px; height:9px; border-radius:50%; background:white; opacity:0.4; transition:opacity 0.2s; cursor:pointer;"></span>
       </div>
     </div>
     <div style="text-align:center; font-size:11px; color:var(--gray); font-weight:600; margin-top:8px;">← 좌우로 스와이프해서 넘겨보세요 →</div>
@@ -1538,15 +1634,6 @@ input#bojangGeongang::-webkit-inner-spin-button {
       <div style="font-size:15px; font-weight:800; line-height:1.5; letter-spacing:-0.02em;">
         편의점 돈 내고 가지 말고<br>
         <span style="color:#FCD34D;">캠페인 해서 꽁짜로 씁시다 ~!</span>
-      </div>
-      
-      <!-- 24시간 박스 (캠페인용) -->
-      <div style="margin-top:18px;">
-        <button id="hourlyBoxCampaign" class="hourly-box hourly-box-big" onclick="openHourlyBoxCampaign()" aria-label="24시간 박스">
-          <span class="hourly-box-icon">🎁</span>
-          <span class="hourly-box-timer" id="hourlyBoxCampaignTimer">--:--:--</span>
-        </button>
-        <div style="font-size:10px; color:rgba(255,255,255,0.55); font-weight:600; margin-top:8px;">24시간마다 OPEN 가능</div>
       </div>
     </div>
 
@@ -7399,18 +7486,47 @@ setTimeout(() => {
 
 <div id="branchAwardsContainer"></div>
 
-<!-- 24시간 박스 (지점시상용) -->
-<div style="background:linear-gradient(135deg, #F37321 0%, #C75A14 100%); border-radius:14px; padding:18px 20px; margin-top:16px; text-align:center; color:white;">
-  <div style="font-size:13px; font-weight:800; margin-bottom:10px; letter-spacing:-0.02em;">
-    🎁 매일 한 번, 행운의 박스 🎁
   </div>
-  <button id="hourlyBoxBranch" class="hourly-box hourly-box-big" onclick="openHourlyBoxBranch()" aria-label="24시간 박스">
-    <span class="hourly-box-icon">🎁</span>
-    <span class="hourly-box-timer" id="hourlyBoxBranchTimer">--:--:--</span>
-  </button>
-  <div style="font-size:10px; color:rgba(255,255,255,0.7); font-weight:600; margin-top:8px;">24시간마다 OPEN 가능</div>
-</div>
 
+  <!-- ============ 자유게시판 ============ -->
+
+  <div class="page" id="page-board">
+    <!-- 헤더 -->
+    <div style="background:linear-gradient(135deg, #1A1A1A 0%, #3A3A3A 100%); border-radius:18px; padding:22px 20px; margin-bottom:14px; color:white; position:relative; overflow:hidden;">
+      <div style="position:absolute; top:-30px; right:-30px; width:140px; height:140px; border-radius:50%; background:radial-gradient(circle, rgba(252,211,77,0.18) 0%, transparent 70%);"></div>
+      <div style="font-size:11px; font-weight:700; opacity:0.85; letter-spacing:0.08em; position:relative;">FREE BOARD</div>
+      <div style="font-size:22px; font-weight:800; margin-top:4px; line-height:1.3; letter-spacing:-0.03em; position:relative;">
+        💬 자유게시판
+      </div>
+      <div style="font-size:11px; opacity:0.7; margin-top:6px; line-height:1.5; position:relative;">
+        하고 싶은 말 편하게 적어보세요 ~<br>
+        익명으로 작성됩니다
+      </div>
+    </div>
+
+    <!-- 글쓰기 버튼 + 지점장 모드 -->
+    <div style="display:grid; grid-template-columns:1fr auto; gap:8px; margin-bottom:14px;">
+      <button onclick="openBoardWrite()" style="background:linear-gradient(135deg, #F37321, #C2410C); color:white; border:none; border-radius:12px; padding:14px; font-size:14px; font-weight:800; cursor:pointer; font-family:inherit; letter-spacing:-0.02em; box-shadow:0 4px 12px rgba(243,115,33,0.3);">
+        ✏️ 글쓰기
+      </button>
+      <button onclick="toggleManagerMode()" id="managerModeBtn" style="background:rgba(0,0,0,0.06); color:var(--gray); border:1px solid rgba(0,0,0,0.08); border-radius:12px; padding:14px 16px; font-size:12px; font-weight:700; cursor:pointer; font-family:inherit; letter-spacing:-0.02em;">
+        🔓 지점장
+      </button>
+    </div>
+
+    <!-- 정렬 -->
+    <div style="display:flex; gap:6px; margin-bottom:12px;">
+      <button class="board-sort-btn active" data-sort="new" onclick="switchBoardSort('new')" style="flex:1; background:linear-gradient(135deg, #1A1A1A, #2D2D2D); color:white; border:none; border-radius:10px; padding:9px; font-size:12px; font-weight:800; cursor:pointer; font-family:inherit; letter-spacing:-0.02em;">🕐 최신순</button>
+      <button class="board-sort-btn" data-sort="hot" onclick="switchBoardSort('hot')" style="flex:1; background:rgba(0,0,0,0.04); color:var(--gray); border:1px solid rgba(0,0,0,0.08); border-radius:10px; padding:9px; font-size:12px; font-weight:700; cursor:pointer; font-family:inherit; letter-spacing:-0.02em;">🔥 추천순</button>
+    </div>
+
+    <!-- 글 목록 -->
+    <div id="boardList">
+      <div style="text-align:center; padding:40px 20px; color:var(--gray); font-size:13px;">
+        <div style="font-size:32px; margin-bottom:12px; opacity:0.4;">📋</div>
+        불러오는 중...
+      </div>
+    </div>
   </div>
 
   <div class="update-badge" id="updateBadge">마지막 업데이트: 2026.05.16 07:30</div>
@@ -7458,8 +7574,10 @@ const DATA = {
     activity: [
       { lbl: '가동',   val: 33, pct: 73.3, target: '/90', state: 'warn' },
       { lbl: '실가동', val: 25, pct: 55.6, target: '/80', state: 'warn' },
+      { lbl: '도전',   val: 12, pct: 26.7, target: '/50', state: 'warn' },
+      { lbl: '표준',   val: 10, pct: 22.2, target: '/40', state: 'warn' },
+      { lbl: '우수',   val:  4, pct:  8.9, target: '/30', state: 'warn' },
       { lbl: '3.3.3',  val: 11, pct: 24.4, target: '/50', state: 'warn' },
-      { lbl: '무가동', val: 12, pct: 26.7, target: '',    state: 'warn' },
     ],
     teams: [
       { n: '1팀',    m: 20, env: 623, gar: 697, g: 60.0,  sg: 45.0, score24680:  90.0, detail: { sg: 45.0, do: 20.0, pyo: 20.0, woo: 5.0 } },
@@ -7495,18 +7613,57 @@ const DATA = {
     },
     "333": {
       ach: 11, missed: 34, pct: 24.4,
+      // info: 정보동의, anal: 보장분석, visit: 고객방문 (목표 각 3개씩)
       list: [
-        { n: '강주영', y: 1 }, { n: '이정애', y: 0 }, { n: '이옥화', y: 1 }, { n: '민희정', y: 0 }, { n: '남정림', y: 0 },
-        { n: '전수진', y: 0 }, { n: '최향주', y: 1 }, { n: '이금희', y: 1 }, { n: '박시영', y: 0 }, { n: '배지혜', y: 0 },
-        { n: '이지혜', y: 1 }, { n: '김미진', y: 0 }, { n: '손민혜', y: 0 }, { n: '윤양순', y: 0 }, { n: '이정화', y: 0 },
-        { n: '권정숙', y: 0 }, { n: '임민지', y: 0 }, { n: '류지연', y: 0 }, { n: '오명신', y: 0 }, { n: '이혜정', y: 0 },
-        { n: '김은미', y: 1 }, { n: '이재교', y: 1 }, { n: '권별하', y: 0 }, { n: '이춘화', y: 1 }, { n: '김희정', y: 0 },
-        { n: '박규민', y: 0 }, { n: '김나희', y: 0 }, { n: '이경진', y: 0 }, { n: '신미진', y: 0 }, { n: '신은정', y: 0 },
-        { n: '류현숙', y: 0 },
-        { n: '장창숙', y: 1 }, { n: '서점순', y: 1 }, { n: '유주이', y: 0 }, { n: '천윤성', y: 0 },
-        { n: '임경순', y: 0 }, { n: '이소연', y: 0 }, { n: '김상순', y: 1 },
-        { n: '서경숙', y: 0 }, { n: '박승남', y: 0 }, { n: '이금수', y: 0 }, { n: '김남정', y: 0 },
-        { n: '배달님', y: 0 }, { n: '차명희', y: 0 }, { n: '임해경', y: 0 },
+        // 1팀
+        { n: '강주영', y: 1, info: 4,  anal: 15, visit: 3 },
+        { n: '이정애', y: 0, info: 2,  anal: 7,  visit: 3 },
+        { n: '이옥화', y: 1, info: 3,  anal: 4,  visit: 3 },
+        { n: '민희정', y: 0, info: 0,  anal: 3,  visit: 0 },
+        { n: '남정림', y: 0, info: 2,  anal: 10, visit: 2 },
+        { n: '전수진', y: 0, info: 0,  anal: 0,  visit: 0 },
+        { n: '최향주', y: 1, info: 9,  anal: 4,  visit: 4 },
+        { n: '이금희', y: 1, info: 3,  anal: 9,  visit: 3 },
+        { n: '박시영', y: 0, info: 0,  anal: 0,  visit: 0 },
+        { n: '배지혜', y: 0, info: 1,  anal: 4,  visit: 1 },
+        { n: '이지혜', y: 1, info: 3,  anal: 5,  visit: 3 },
+        { n: '김미진', y: 0, info: 0,  anal: 11, visit: 0 },
+        { n: '손민혜', y: 0, info: 3,  anal: 1,  visit: 3 },
+        { n: '윤양순', y: 0, info: 0,  anal: 0,  visit: 0 },
+        { n: '이정화', y: 0, info: 5,  anal: 2,  visit: 0 },
+        { n: '권정숙', y: 0, info: 0,  anal: 0,  visit: 0 },
+        { n: '임민지', y: 0, info: 0,  anal: 0,  visit: 0 },
+        { n: '류지연', y: 0, info: 0,  anal: 4,  visit: 0 },
+        { n: '오명신', y: 0, info: 1,  anal: 2,  visit: 0 },
+        { n: '이혜정', y: 0, info: 0,  anal: 0,  visit: 0 },
+        // 2팀
+        { n: '김은미', y: 1, info: 3,  anal: 8,  visit: 3 },
+        { n: '이재교', y: 1, info: 3,  anal: 5,  visit: 3 },
+        { n: '권별하', y: 0, info: 3,  anal: 3,  visit: 1 },
+        { n: '이춘화', y: 1, info: 4,  anal: 4,  visit: 3 },
+        { n: '김희정', y: 0, info: 2,  anal: 5,  visit: 2 },
+        { n: '박규민', y: 0, info: 0,  anal: 4,  visit: 0 },
+        { n: '김나희', y: 0, info: 2,  anal: 4,  visit: 5 },
+        { n: '이경진', y: 0, info: 0,  anal: 0,  visit: 0 },
+        { n: '신미진', y: 0, info: 3,  anal: 4,  visit: 2 },
+        { n: '신은정', y: 0, info: 0,  anal: 0,  visit: 0 },
+        { n: '류현숙', y: 0, info: 0,  anal: 1,  visit: 0 },
+        // 3팀
+        { n: '장창숙', y: 1, info: 3,  anal: 3,  visit: 3 },
+        { n: '서점순', y: 1, info: 4,  anal: 8,  visit: 3 },
+        { n: '유주이', y: 0, info: 3,  anal: 2,  visit: 2 },
+        { n: '천윤성', y: 0, info: 0,  anal: 4,  visit: 3 },
+        { n: '임경순', y: 0, info: 2,  anal: 3,  visit: 4 },
+        { n: '이소연', y: 0, info: 4,  anal: 3,  visit: 1 },
+        { n: '김상순', y: 1, info: 3,  anal: 7,  visit: 3 },
+        // 의성팀
+        { n: '서경숙', y: 0, info: 4,  anal: 4,  visit: 2 },
+        { n: '박승남', y: 0, info: 1,  anal: 5,  visit: 1 },
+        { n: '이금수', y: 0, info: 3,  anal: 7,  visit: 2 },
+        { n: '김남정', y: 0, info: 0,  anal: 0,  visit: 0 },
+        { n: '배달님', y: 0, info: 0,  anal: 0,  visit: 0 },
+        { n: '차명희', y: 0, info: 0,  anal: 0,  visit: 0 },
+        { n: '임해경', y: 0, info: 2,  anal: 9,  visit: 3 },
       ],
     },
   },
@@ -7895,9 +8052,26 @@ document.getElementById('inactiveTeams').innerHTML = DATA.daily.inactive.teams.m
 document.getElementById('ach333').textContent = DATA.daily['333'].ach + '명';
 document.getElementById('missed333').textContent = DATA.daily['333'].missed + '명';
 document.getElementById('pct333').textContent = DATA.daily['333'].pct + '%';
-document.getElementById('fpGrid').innerHTML = DATA.daily['333'].list.map(f =>
-  `<div class="fp-cell ${f.y ? 'y' : 'n'}">${f.n}</div>`
-).join('');
+document.getElementById('fpGrid').innerHTML = DATA.daily['333'].list.map(f => {
+  if (f.y) {
+    // 달성자
+    return `<div class="fp-cell y">${f.n}</div>`;
+  }
+  // 미달자 - 안 된 것만 한 줄씩 표시
+  const TARGET = 3;
+  const info = f.info || 0;
+  const anal = f.anal || 0;
+  const visit = f.visit || 0;
+  const items = [];
+  if (info < TARGET)  items.push(`정보동의 −${TARGET - info}`);
+  if (anal < TARGET)  items.push(`보장분석 −${TARGET - anal}`);
+  if (visit < TARGET) items.push(`고객방문 −${TARGET - visit}`);
+  const lines = items.map(t => `<div class="fp-line">${t}</div>`).join('');
+  return `<div class="fp-cell n">
+    <div class="fp-name">${f.n}</div>
+    <div class="fp-need-col">${lines}</div>
+  </div>`;
+}).join('');
 
 // --- 이슈 ---
 document.getElementById('issuesContainer').innerHTML = DATA.issues.map((i, idx) => {
@@ -8149,7 +8323,7 @@ document.getElementById('branchAwardsContainer').innerHTML = DATA.awards.branch.
   </div>
 `).join('');
 
-// ============ 오늘의 일상교육 날짜 자동 갱신 ============
+// ============ 이번주 일상교육 날짜 자동 갱신 ============
 (function() {
   const el = document.getElementById('dailyEduDate');
   if (!el) return;
@@ -8158,8 +8332,172 @@ document.getElementById('branchAwardsContainer').innerHTML = DATA.awards.branch.
   const yyyy = d.getFullYear();
   const mm = String(d.getMonth() + 1).padStart(2, '0');
   const dd = String(d.getDate()).padStart(2, '0');
-  el.textContent = `${yyyy}.${mm}.${dd} (${days[d.getDay()]}) · 조회시간`;
+  el.textContent = `${yyyy}.${mm}.${dd} (${days[d.getDay()]}) · 이번주 일상교육`;
 })();
+
+// ============ NEW 배지 + 탭 분류 시스템 ============
+// 각 슬라이드의 data-uploaded 속성 기준으로:
+// - 48시간 이내: "이번주 신규" 탭 + 빨강 NEW 배지
+// - 그 외: "지난 자료" 탭
+// - 모든 사진: 우하단에 작은 날짜 표시
+window._dedCategory = { newSlides: [], oldSlides: [] };
+
+(function() {
+  const slider = document.getElementById('dailyEduSlider');
+  if (!slider) return;
+  const slides = slider.querySelectorAll('.ded-slide');
+  if (!slides.length) return;
+  
+  const now = new Date();
+  let newCount = 0;
+  let oldCount = 0;
+  
+  slides.forEach((slide, idx) => {
+    const dateStr = slide.dataset.uploaded;
+    if (!dateStr) {
+      // 날짜 없으면 지난 자료로
+      slide.dataset.cat = 'old';
+      oldCount++;
+      window._dedCategory.oldSlides.push(idx);
+      return;
+    }
+    
+    // 이미 추가된 배지/태그 있으면 스킵
+    if (slide.querySelector('.ded-new-badge') || slide.querySelector('.ded-date-tag')) {
+      // 카테고리는 다시 분류
+      const uploadDate = new Date(dateStr + 'T00:00:00');
+      const diffH = (now - uploadDate) / (1000 * 60 * 60);
+      if (diffH >= 0 && diffH <= 48) {
+        slide.dataset.cat = 'new';
+        newCount++;
+        window._dedCategory.newSlides.push(idx);
+      } else {
+        slide.dataset.cat = 'old';
+        oldCount++;
+        window._dedCategory.oldSlides.push(idx);
+      }
+      return;
+    }
+    
+    const uploadDate = new Date(dateStr + 'T00:00:00');
+    const diffMs = now - uploadDate;
+    const diffH = diffMs / (1000 * 60 * 60);
+    
+    // 작은 날짜 태그 (모든 사진)
+    const dateTag = document.createElement('div');
+    dateTag.className = 'ded-date-tag';
+    const m = parseInt(dateStr.slice(5, 7));
+    const d = parseInt(dateStr.slice(8, 10));
+    dateTag.textContent = `${m}/${d} 업로드`;
+    slide.appendChild(dateTag);
+    
+    // 48시간 이내: NEW 배지 + 신규 카테고리
+    if (diffH >= 0 && diffH <= 48) {
+      const badge = document.createElement('div');
+      badge.className = 'ded-new-badge';
+      badge.textContent = 'NEW';
+      slide.appendChild(badge);
+      slide.dataset.cat = 'new';
+      newCount++;
+      window._dedCategory.newSlides.push(idx);
+    } else {
+      slide.dataset.cat = 'old';
+      oldCount++;
+      window._dedCategory.oldSlides.push(idx);
+    }
+  });
+  
+  // 탭에 카운트 표시
+  const newCountEl = document.querySelector('.ded-tab-count[data-target="new"]');
+  const oldCountEl = document.querySelector('.ded-tab-count[data-target="old"]');
+  if (newCountEl) {
+    newCountEl.textContent = newCount;
+    newCountEl.style.display = newCount > 0 ? 'inline-flex' : 'none';
+  }
+  if (oldCountEl) {
+    oldCountEl.textContent = oldCount;
+    oldCountEl.style.display = oldCount > 0 ? 'inline-flex' : 'none';
+  }
+  
+  // 초기 탭: 신규 있으면 신규, 없으면 지난 자료
+  const initialTab = newCount > 0 ? 'new' : 'old';
+  if (typeof switchDedTab === 'function') switchDedTab(initialTab);
+})();
+
+// 탭 전환 함수
+window.switchDedTab = function(tab) {
+  // 탭 버튼 스타일
+  document.querySelectorAll('.ded-tab').forEach(btn => {
+    if (btn.dataset.tab === tab) {
+      btn.classList.add('active');
+      btn.style.background = 'linear-gradient(135deg, #1A1A1A, #2D2D2D)';
+      btn.style.color = 'white';
+      btn.style.fontWeight = '800';
+      btn.style.boxShadow = '0 2px 6px rgba(0,0,0,0.18)';
+      // 카운트 배지 색깔도 적응
+      const cnt = btn.querySelector('.ded-tab-count');
+      if (cnt) {
+        if (tab === 'new') {
+          cnt.style.background = '#EF4444';
+          cnt.style.color = 'white';
+        } else {
+          cnt.style.background = 'rgba(255,255,255,0.2)';
+          cnt.style.color = 'white';
+        }
+      }
+    } else {
+      btn.classList.remove('active');
+      btn.style.background = 'transparent';
+      btn.style.color = 'var(--gray)';
+      btn.style.fontWeight = '700';
+      btn.style.boxShadow = 'none';
+      const cnt = btn.querySelector('.ded-tab-count');
+      if (cnt) {
+        cnt.style.background = 'rgba(0,0,0,0.1)';
+        cnt.style.color = 'var(--ink)';
+      }
+    }
+  });
+  
+  // 슬라이드 보이기/숨기기
+  const slider = document.getElementById('dailyEduSlider');
+  if (!slider) return;
+  const slides = slider.querySelectorAll('.ded-slide');
+  let visibleCount = 0;
+  slides.forEach((slide) => {
+    if (slide.dataset.cat === tab) {
+      slide.style.display = '';
+      visibleCount++;
+    } else {
+      slide.style.display = 'none';
+    }
+  });
+  
+  // 인디케이터 동그라미 갱신
+  const dotContainer = document.querySelector('.ded-dot') ? document.querySelector('.ded-dot').parentElement : null;
+  if (dotContainer) {
+    dotContainer.innerHTML = '';
+    for (let i = 0; i < visibleCount; i++) {
+      const span = document.createElement('span');
+      span.className = 'ded-dot' + (i === 0 ? ' active' : '');
+      span.dataset.idx = i;
+      span.style.cssText = 'width:9px; height:9px; border-radius:50%; background:white; cursor:pointer; transition:opacity 0.2s;' + (i === 0 ? '' : ' opacity:0.4;');
+      span.addEventListener('click', function() {
+        const w = slider.clientWidth;
+        slider.scrollTo({ left: i * w, behavior: 'smooth' });
+      });
+      dotContainer.appendChild(span);
+    }
+  }
+  
+  // 스크롤 위치 처음으로
+  slider.scrollLeft = 0;
+  
+  // 카드 높이 재계산
+  setTimeout(() => {
+    if (typeof dailyEduResize === 'function') dailyEduResize();
+  }, 100);
+};
 
 // ============ 오늘의 일상교육 슬라이더 인디케이터 + 높이 ============
 let _dailyEduTouching = false;  // 터치 중인지 플래그
@@ -8281,8 +8619,6 @@ const HOURLY_BOX_VERSION = 'v29-reset';
 // 등록된 박스 인스턴스 (각자 다른 storageKey + DOM id 사용)
 const HOURLY_BOXES = [
   { key: 'hahoeBox_header',   btnId: 'hourlyBox',          timerId: 'hourlyBoxTimer' },
-  { key: 'hahoeBox_campaign', btnId: 'hourlyBoxCampaign',  timerId: 'hourlyBoxCampaignTimer' },
-  { key: 'hahoeBox_branch',   btnId: 'hourlyBoxBranch',    timerId: 'hourlyBoxBranchTimer' },
 ];
 
 // 버전이 다르면 모든 박스 쿨다운 초기화 (새 룰로 진입 시 1회)
@@ -8352,12 +8688,12 @@ function openBoxBy(key) {
   localStorage.setItem(key, String(Date.now()));
   renderAllBoxes();
   
-  // 확률 추첨: 40% 롤팩1개 / 20% 몽글행주1개 / 40% 꽝
+  // 확률 추첨: 30% 롤팩1개 / 10% 몽글행주1개 / 60% 꽝
   const roll = Math.random();
   const stamp = getNowStamp();
   const stampNote = `<div style="font-size:10px; color:#9CA3AF; font-weight:700; margin-top:10px; font-variant-numeric:tabular-nums;">${stamp}</div>`;
   
-  if (roll < 0.40) {
+  if (roll < 0.30) {
     openPrize('롤팩 1개', {
       emoji: '🎉',
       title: '🎉 당첨! 🎉',
@@ -8365,7 +8701,7 @@ function openBoxBy(key) {
       color: 'var(--accent)',
       note: '심지점장에게<br>직접 받으러 오세요 ~' + stampNote,
     });
-  } else if (roll < 0.60) {
+  } else if (roll < 0.40) {
     openPrize('몽글행주 1개', {
       emoji: '🧽',
       title: '🎉 당첨! 🎉',
@@ -8386,8 +8722,6 @@ function openBoxBy(key) {
 
 // 호환용: 헤더 버튼이 onclick="openHourlyBox()"로 부르고 있으니 별칭 제공
 function openHourlyBox() { openBoxBy('hahoeBox_header'); }
-function openHourlyBoxCampaign() { openBoxBy('hahoeBox_campaign'); }
-function openHourlyBoxBranch() { openBoxBy('hahoeBox_branch'); }
 
 // 1초마다 모든 박스 카운트다운 갱신
 setInterval(renderAllBoxes, 1000);
@@ -9078,7 +9412,474 @@ document.addEventListener('keydown', e => {
   });
   observer.observe(document.body, { childList: true, subtree: true });
 })();
+
+// ============================================
+//          💬 자유게시판 (Firebase)
+// ============================================
+window.BOARD_CONFIG = {
+  apiKey: "AIzaSyDftS1rFIPAls8r-fD0qCAPqV7KQLNaQkI",
+  authDomain: "shimhyunwoo-33a30.firebaseapp.com",
+  projectId: "shimhyunwoo-33a30",
+  storageBucket: "shimhyunwoo-33a30.firebasestorage.app",
+  messagingSenderId: "86406175567",
+  appId: "1:86406175567:web:687ad4ce0ca01ca5ff433a",
+};
+window.MANAGER_PW = "didghk1923!";
+
+// Firebase SDK 동적 로드
+(function loadFirebase() {
+  const s1 = document.createElement('script');
+  s1.type = 'module';
+  s1.textContent = `
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, query, orderBy, doc, deleteDoc, updateDoc, increment, serverTimestamp, onSnapshot, where, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    
+    const app = initializeApp(window.BOARD_CONFIG);
+    const db = getFirestore(app);
+    
+    window._fb = { db, collection, addDoc, getDocs, query, orderBy, doc, deleteDoc, updateDoc, increment, serverTimestamp, onSnapshot, where, getDoc };
+    window.dispatchEvent(new Event('firebaseReady'));
+  `;
+  document.head.appendChild(s1);
+})();
+
+// 익명 닉네임 생성 (디바이스 ID 기반)
+window.ANIMALS = ['몽글강아지','까꿍고양이','쿵쿵토끼','두근햄찌','씩씩여우','아장펭귄','반짝곰돌이','두둠팬더','무지개공룡','신난다람쥐','뽀송강아지','말랑고양이','노을토끼','보들햄찌','꿈꾸는여우','발랄펭귄','달콤곰돌이','튼튼판다','새콤공룡','초롱다람쥐'];
+
+function getDeviceId() {
+  let id = localStorage.getItem('board_device_id');
+  if (!id) {
+    id = 'd' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+    localStorage.setItem('board_device_id', id);
+  }
+  return id;
+}
+
+function getNickname() {
+  let nick = localStorage.getItem('board_nickname');
+  if (!nick) {
+    const animal = ANIMALS[Math.floor(Math.random() * ANIMALS.length)];
+    const num = Math.floor(Math.random() * 1000);
+    nick = `${animal}${num}`;
+    localStorage.setItem('board_nickname', nick);
+  }
+  return nick;
+}
+
+// 지점장 모드
+window.BOARD_STATE = { sort: 'new', isManager: false, unsubscribe: null };
+
+function toggleManagerMode() {
+  if (BOARD_STATE.isManager) {
+    BOARD_STATE.isManager = false;
+    document.getElementById('managerModeBtn').innerHTML = '🔓 지점장';
+    document.getElementById('managerModeBtn').style.background = 'rgba(0,0,0,0.06)';
+    document.getElementById('managerModeBtn').style.color = 'var(--gray)';
+    renderBoardList();
+    return;
+  }
+  const pw = prompt('지점장 비밀번호를 입력하세요');
+  if (pw === MANAGER_PW) {
+    BOARD_STATE.isManager = true;
+    document.getElementById('managerModeBtn').innerHTML = '🔐 지점장';
+    document.getElementById('managerModeBtn').style.background = 'linear-gradient(135deg, #F37321, #C2410C)';
+    document.getElementById('managerModeBtn').style.color = 'white';
+    document.getElementById('managerModeBtn').style.borderColor = 'transparent';
+    renderBoardList();
+  } else if (pw !== null) {
+    alert('비밀번호가 틀렸어요');
+  }
+}
+
+function switchBoardSort(sort) {
+  BOARD_STATE.sort = sort;
+  document.querySelectorAll('.board-sort-btn').forEach(b => {
+    if (b.dataset.sort === sort) {
+      b.style.background = 'linear-gradient(135deg, #1A1A1A, #2D2D2D)';
+      b.style.color = 'white';
+      b.style.borderColor = 'transparent';
+      b.style.fontWeight = '800';
+    } else {
+      b.style.background = 'rgba(0,0,0,0.04)';
+      b.style.color = 'var(--gray)';
+      b.style.border = '1px solid rgba(0,0,0,0.08)';
+      b.style.fontWeight = '700';
+    }
+  });
+  renderBoardList();
+}
+
+// 시간 포맷
+function timeAgo(ts) {
+  if (!ts) return '방금';
+  const d = ts.toDate ? ts.toDate() : new Date(ts);
+  const diff = (Date.now() - d.getTime()) / 1000;
+  if (diff < 60) return '방금';
+  if (diff < 3600) return `${Math.floor(diff/60)}분 전`;
+  if (diff < 86400) return `${Math.floor(diff/3600)}시간 전`;
+  if (diff < 604800) return `${Math.floor(diff/86400)}일 전`;
+  return `${d.getMonth()+1}/${d.getDate()}`;
+}
+
+// 글 목록 렌더링 (실시간)
+function renderBoardList() {
+  const wrap = document.getElementById('boardList');
+  if (!wrap || !window._fb) return;
+  const { db, collection, query, orderBy, onSnapshot } = window._fb;
+  
+  // 기존 구독 해제
+  if (BOARD_STATE.unsubscribe) BOARD_STATE.unsubscribe();
+  
+  const sortField = BOARD_STATE.sort === 'hot' ? 'likes' : 'createdAt';
+  const q = query(collection(db, 'posts'), orderBy(sortField, 'desc'));
+  
+  BOARD_STATE.unsubscribe = onSnapshot(q, (snap) => {
+    if (snap.empty) {
+      wrap.innerHTML = `<div style="text-align:center; padding:60px 20px; color:var(--gray); font-size:13px;">
+        <div style="font-size:40px; margin-bottom:14px; opacity:0.3;">📝</div>
+        아직 글이 없어요<br>
+        <span style="font-size:11px; opacity:0.7;">첫 글의 주인공이 되어보세요!</span>
+      </div>`;
+      return;
+    }
+    
+    wrap.innerHTML = snap.docs.map(d => {
+      const p = d.data();
+      const id = d.id;
+      const isMine = p.deviceId === getDeviceId();
+      const canDelete = isMine || BOARD_STATE.isManager;
+      const managerInfo = BOARD_STATE.isManager 
+        ? `<div style="font-size:9px; color:#DC2626; font-weight:800; margin-top:3px; letter-spacing:0.02em;">🔐 ${p.deviceId || '?'}</div>` 
+        : '';
+      
+      return `<div onclick="openBoardPost('${id}')" style="background:linear-gradient(180deg, #FFFFFF, #FAF9F6); border:1px solid rgba(26,26,26,0.08); border-radius:12px; padding:14px 16px; margin-bottom:8px; cursor:pointer; box-shadow:0 1px 3px rgba(0,0,0,0.04); transition:all 0.15s;" onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.08)'" onmouseout="this.style.transform=''; this.style.boxShadow='0 1px 3px rgba(0,0,0,0.04)'">
+        <div style="font-size:14px; font-weight:800; color:var(--ink); letter-spacing:-0.02em; line-height:1.3; margin-bottom:6px;">${escapeHtml(p.title || '제목없음')}</div>
+        <div style="font-size:12px; color:var(--gray); line-height:1.4; margin-bottom:8px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${escapeHtml(p.content || '')}</div>
+        <div style="display:flex; justify-content:space-between; align-items:center; font-size:10.5px; color:var(--gray); font-weight:600;">
+          <div>
+            <span style="color:var(--accent); font-weight:800;">${escapeHtml(p.nickname || '익명')}</span>
+            ${isMine ? '<span style="color:#10B981; font-size:9px; margin-left:4px; font-weight:800;">내글</span>' : ''}
+            <span style="margin:0 6px; opacity:0.4;">·</span>
+            <span>${timeAgo(p.createdAt)}</span>
+            ${managerInfo}
+          </div>
+          <div style="display:flex; gap:8px; font-weight:700;">
+            <span>👍 ${p.likes || 0}</span>
+            <span>👎 ${p.dislikes || 0}</span>
+            <span>💬 ${p.commentCount || 0}</span>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  }, (err) => {
+    console.error('Firestore error:', err);
+    wrap.innerHTML = `<div style="text-align:center; padding:40px 20px; color:#DC2626; font-size:12px;">
+      불러오기 실패<br><span style="font-size:10px; opacity:0.7;">${err.code || err.message}</span>
+    </div>`;
+  });
+}
+
+function escapeHtml(s) {
+  return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+// 글쓰기 모달
+function openBoardWrite() {
+  const m = document.getElementById('boardWriteModal');
+  if (!m) return;
+  document.getElementById('writeNickname').textContent = getNickname();
+  document.getElementById('writeTitle').value = '';
+  document.getElementById('writeContent').value = '';
+  m.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closeBoardWrite() {
+  document.getElementById('boardWriteModal').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+async function submitBoardPost() {
+  const title = document.getElementById('writeTitle').value.trim();
+  const content = document.getElementById('writeContent').value.trim();
+  if (!title) { alert('제목을 입력해주세요'); return; }
+  if (!content) { alert('내용을 입력해주세요'); return; }
+  if (title.length > 60) { alert('제목은 60자 이내로 작성해주세요'); return; }
+  if (content.length > 2000) { alert('내용은 2000자 이내로 작성해주세요'); return; }
+  
+  const { db, collection, addDoc, serverTimestamp } = window._fb;
+  const btn = document.getElementById('writeSubmitBtn');
+  btn.disabled = true;
+  btn.textContent = '올리는 중...';
+  
+  try {
+    await addDoc(collection(db, 'posts'), {
+      title, content,
+      nickname: getNickname(),
+      deviceId: getDeviceId(),
+      likes: 0, dislikes: 0, commentCount: 0,
+      createdAt: serverTimestamp(),
+    });
+    closeBoardWrite();
+  } catch (e) {
+    console.error(e);
+    alert('등록 실패: ' + e.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '✏️ 작성 완료';
+  }
+}
+
+// 글 상세 보기
+window._currentPostId = null;
+window._postUnsub = null;
+window._commentsUnsub = null;
+
+async function openBoardPost(id) {
+  const m = document.getElementById('boardViewModal');
+  if (!m) return;
+  _currentPostId = id;
+  document.getElementById('viewContent').innerHTML = '<div style="text-align:center; padding:40px; color:var(--gray);">불러오는 중...</div>';
+  m.classList.add('show');
+  document.body.style.overflow = 'hidden';
+  
+  const { db, doc, onSnapshot, collection, query, orderBy } = window._fb;
+  
+  // 글 실시간 구독
+  if (_postUnsub) _postUnsub();
+  _postUnsub = onSnapshot(doc(db, 'posts', id), (snap) => {
+    if (!snap.exists()) {
+      document.getElementById('viewContent').innerHTML = '<div style="text-align:center; padding:40px; color:#DC2626;">삭제된 글이에요</div>';
+      return;
+    }
+    renderPostDetail(snap.id, snap.data());
+  });
+  
+  // 댓글 실시간 구독
+  if (_commentsUnsub) _commentsUnsub();
+  _commentsUnsub = onSnapshot(
+    query(collection(db, 'posts', id, 'comments'), orderBy('createdAt', 'asc')),
+    (snap) => {
+      renderComments(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+    }
+  );
+}
+
+function closeBoardPost() {
+  document.getElementById('boardViewModal').classList.remove('show');
+  document.body.style.overflow = '';
+  if (_postUnsub) { _postUnsub(); _postUnsub = null; }
+  if (_commentsUnsub) { _commentsUnsub(); _commentsUnsub = null; }
+  _currentPostId = null;
+}
+
+function renderPostDetail(id, p) {
+  const isMine = p.deviceId === getDeviceId();
+  const canDelete = isMine || BOARD_STATE.isManager;
+  const managerInfo = BOARD_STATE.isManager 
+    ? `<div style="font-size:10px; color:#DC2626; font-weight:800; margin-top:4px;">🔐 ${p.deviceId || '?'}</div>` 
+    : '';
+  
+  // 내 반응 상태
+  const myReact = localStorage.getItem('react_' + id) || '';
+  
+  document.getElementById('viewContent').innerHTML = `
+    <div style="padding:20px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px;">
+        <div>
+          <div style="font-size:11px; color:var(--accent); font-weight:800; letter-spacing:0.05em;">FREE BOARD</div>
+          <div style="font-size:18px; font-weight:800; color:var(--ink); letter-spacing:-0.03em; margin-top:4px; line-height:1.3;">${escapeHtml(p.title)}</div>
+        </div>
+        <button onclick="closeBoardPost()" style="background:rgba(0,0,0,0.06); color:var(--ink); border:none; width:32px; height:32px; border-radius:50%; font-size:16px; cursor:pointer; flex-shrink:0; margin-left:8px;">✕</button>
+      </div>
+      <div style="font-size:11px; color:var(--gray); margin-bottom:14px; padding-bottom:12px; border-bottom:1px solid rgba(0,0,0,0.06);">
+        <span style="color:var(--accent); font-weight:800;">${escapeHtml(p.nickname || '익명')}</span>
+        ${isMine ? '<span style="color:#10B981; font-size:10px; margin-left:4px; font-weight:800;">내글</span>' : ''}
+        <span style="margin:0 6px; opacity:0.4;">·</span>
+        <span>${timeAgo(p.createdAt)}</span>
+        ${managerInfo}
+      </div>
+      <div style="font-size:14px; line-height:1.6; color:var(--ink); white-space:pre-wrap; word-break:break-word; margin-bottom:18px;">${escapeHtml(p.content)}</div>
+      
+      <!-- 추천/비추 -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:14px;">
+        <button onclick="reactPost('like')" style="background:${myReact==='like'?'linear-gradient(135deg, #10B981, #059669)':'rgba(16,185,129,0.08)'}; color:${myReact==='like'?'white':'#059669'}; border:1px solid ${myReact==='like'?'transparent':'rgba(16,185,129,0.2)'}; border-radius:10px; padding:11px; font-size:13px; font-weight:800; cursor:pointer; font-family:inherit;">👍 추천 ${p.likes || 0}</button>
+        <button onclick="reactPost('dislike')" style="background:${myReact==='dislike'?'linear-gradient(135deg, #DC2626, #991B1B)':'rgba(220,38,38,0.08)'}; color:${myReact==='dislike'?'white':'#DC2626'}; border:1px solid ${myReact==='dislike'?'transparent':'rgba(220,38,38,0.2)'}; border-radius:10px; padding:11px; font-size:13px; font-weight:800; cursor:pointer; font-family:inherit;">👎 비추 ${p.dislikes || 0}</button>
+      </div>
+      
+      ${canDelete ? `<button onclick="deletePost('${id}')" style="width:100%; background:rgba(220,38,38,0.08); color:#DC2626; border:1px solid rgba(220,38,38,0.15); border-radius:10px; padding:10px; font-size:12px; font-weight:800; cursor:pointer; font-family:inherit; margin-bottom:14px;">🗑 글 삭제${BOARD_STATE.isManager && !isMine ? ' (지점장 권한)' : ''}</button>` : ''}
+      
+      <!-- 댓글 -->
+      <div style="font-size:13px; font-weight:800; color:var(--ink); letter-spacing:-0.02em; margin-bottom:10px;">
+        💬 댓글 <span id="commentCountInline" style="color:var(--accent);">${p.commentCount || 0}</span>
+      </div>
+      <div id="commentList"></div>
+      
+      <!-- 댓글 작성 -->
+      <div style="margin-top:14px; padding-top:14px; border-top:1px solid rgba(0,0,0,0.06);">
+        <textarea id="commentInput" placeholder="댓글을 입력하세요" maxlength="500" rows="2" style="width:100%; padding:10px 12px; border:1px solid rgba(0,0,0,0.1); border-radius:10px; font-family:inherit; font-size:13px; resize:vertical; box-sizing:border-box; outline:none;"></textarea>
+        <button onclick="submitComment()" style="width:100%; background:linear-gradient(135deg, #1A1A1A, #2D2D2D); color:white; border:none; border-radius:10px; padding:10px; font-size:13px; font-weight:800; cursor:pointer; font-family:inherit; margin-top:6px;">💬 댓글 달기</button>
+      </div>
+    </div>
+  `;
+}
+
+function renderComments(comments) {
+  const wrap = document.getElementById('commentList');
+  if (!wrap) return;
+  if (comments.length === 0) {
+    wrap.innerHTML = '<div style="text-align:center; padding:20px; color:var(--gray); font-size:12px;">첫 댓글을 남겨보세요!</div>';
+    return;
+  }
+  wrap.innerHTML = comments.map(c => {
+    const isMine = c.deviceId === getDeviceId();
+    const canDelete = isMine || BOARD_STATE.isManager;
+    const managerInfo = BOARD_STATE.isManager 
+      ? `<span style="color:#DC2626; font-size:9px; font-weight:800; margin-left:4px;">🔐 ${c.deviceId || '?'}</span>` 
+      : '';
+    
+    return `<div style="background:rgba(0,0,0,0.03); border-radius:10px; padding:10px 12px; margin-bottom:6px;">
+      <div style="font-size:11px; color:var(--gray); margin-bottom:4px;">
+        <span style="color:var(--accent); font-weight:800;">${escapeHtml(c.nickname)}</span>
+        ${isMine ? '<span style="color:#10B981; font-size:9px; margin-left:4px; font-weight:800;">내글</span>' : ''}
+        <span style="margin:0 4px; opacity:0.4;">·</span>
+        <span>${timeAgo(c.createdAt)}</span>
+        ${managerInfo}
+        ${canDelete ? `<button onclick="deleteComment('${c.id}')" style="float:right; background:transparent; border:none; color:#DC2626; font-size:10px; cursor:pointer; font-family:inherit; padding:0;">삭제</button>` : ''}
+      </div>
+      <div style="font-size:13px; color:var(--ink); line-height:1.4; white-space:pre-wrap; word-break:break-word;">${escapeHtml(c.content)}</div>
+    </div>`;
+  }).join('');
+}
+
+// 추천/비추
+async function reactPost(type) {
+  if (!_currentPostId) return;
+  const { db, doc, updateDoc, increment } = window._fb;
+  const prevReact = localStorage.getItem('react_' + _currentPostId) || '';
+  
+  // 같은 거 또 누르면 취소
+  if (prevReact === type) {
+    await updateDoc(doc(db, 'posts', _currentPostId), {
+      [type === 'like' ? 'likes' : 'dislikes']: increment(-1),
+    });
+    localStorage.removeItem('react_' + _currentPostId);
+    return;
+  }
+  
+  // 다른 거 누르면 이전 취소 + 새거 +1
+  const updates = {};
+  if (prevReact === 'like') updates.likes = increment(-1);
+  if (prevReact === 'dislike') updates.dislikes = increment(-1);
+  updates[type === 'like' ? 'likes' : 'dislikes'] = increment(1);
+  
+  await updateDoc(doc(db, 'posts', _currentPostId), updates);
+  localStorage.setItem('react_' + _currentPostId, type);
+}
+
+// 댓글 작성
+async function submitComment() {
+  const ta = document.getElementById('commentInput');
+  const content = ta.value.trim();
+  if (!content) { alert('댓글 내용을 입력해주세요'); return; }
+  if (content.length > 500) { alert('댓글은 500자 이내'); return; }
+  if (!_currentPostId) return;
+  
+  const { db, collection, addDoc, doc, updateDoc, increment, serverTimestamp } = window._fb;
+  try {
+    await addDoc(collection(db, 'posts', _currentPostId, 'comments'), {
+      content,
+      nickname: getNickname(),
+      deviceId: getDeviceId(),
+      createdAt: serverTimestamp(),
+    });
+    await updateDoc(doc(db, 'posts', _currentPostId), { commentCount: increment(1) });
+    ta.value = '';
+  } catch (e) {
+    alert('댓글 작성 실패: ' + e.message);
+  }
+}
+
+// 댓글 삭제
+async function deleteComment(commentId) {
+  if (!confirm('이 댓글을 삭제할까요?')) return;
+  if (!_currentPostId) return;
+  const { db, doc, deleteDoc, updateDoc, increment } = window._fb;
+  try {
+    await deleteDoc(doc(db, 'posts', _currentPostId, 'comments', commentId));
+    await updateDoc(doc(db, 'posts', _currentPostId), { commentCount: increment(-1) });
+  } catch (e) {
+    alert('삭제 실패: ' + e.message);
+  }
+}
+
+// 글 삭제
+async function deletePost(id) {
+  if (!confirm('이 글을 삭제할까요? (댓글도 함께 삭제됩니다)')) return;
+  const { db, doc, deleteDoc, collection, getDocs } = window._fb;
+  try {
+    // 댓글들도 삭제
+    const commentsSnap = await getDocs(collection(db, 'posts', id, 'comments'));
+    await Promise.all(commentsSnap.docs.map(c => deleteDoc(c.ref)));
+    // 글 삭제
+    await deleteDoc(doc(db, 'posts', id));
+    closeBoardPost();
+  } catch (e) {
+    alert('삭제 실패: ' + e.message);
+  }
+}
+
+// Firebase 준비되면 게시판 로딩 시작
+window.addEventListener('firebaseReady', () => {
+  // 게시판 페이지 처음 들어갈 때 한 번 갱신
+  console.log('Firebase ready');
+  // 게시판 페이지가 보이면 렌더링
+  const observer = new MutationObserver(() => {
+    const page = document.getElementById('page-board');
+    if (page && page.classList.contains('active') && window._fb && !BOARD_STATE.unsubscribe) {
+      renderBoardList();
+    }
+  });
+  observer.observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class'] });
+});
 </script>
+
+<!-- 글쓰기 모달 -->
+<div id="boardWriteModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:9998; overflow-y:auto;">
+  <style>
+    #boardWriteModal.show, #boardViewModal.show { display:block; animation: fadeIn 0.25s; }
+  </style>
+  <div style="max-width:500px; margin:0 auto; padding:20px 16px; min-height:100vh; display:flex; align-items:flex-start;">
+    <div style="background:white; border-radius:18px; width:100%; padding:20px; box-shadow:0 12px 40px rgba(0,0,0,0.3);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+        <div>
+          <div style="font-size:11px; color:var(--accent); font-weight:800; letter-spacing:0.05em;">NEW POST</div>
+          <div style="font-size:18px; font-weight:800; letter-spacing:-0.03em; margin-top:2px;">✏️ 글쓰기</div>
+        </div>
+        <button onclick="closeBoardWrite()" style="background:rgba(0,0,0,0.06); color:var(--ink); border:none; width:32px; height:32px; border-radius:50%; font-size:16px; cursor:pointer;">✕</button>
+      </div>
+      <div style="background:rgba(243,115,33,0.08); border:1px solid rgba(243,115,33,0.15); border-radius:10px; padding:10px 12px; margin-bottom:14px; font-size:11.5px; color:var(--ink); line-height:1.5;">
+        작성자: <b style="color:var(--accent);" id="writeNickname">익명</b><br>
+        <span style="color:var(--gray); font-size:10.5px;">FP님 디바이스에서 자동 생성된 닉네임이에요. 본인만 본인 글을 삭제할 수 있어요.</span>
+      </div>
+      <input type="text" id="writeTitle" placeholder="제목 (60자 이내)" maxlength="60" style="width:100%; padding:12px 14px; border:1px solid rgba(0,0,0,0.1); border-radius:10px; font-family:inherit; font-size:14px; font-weight:700; box-sizing:border-box; outline:none; margin-bottom:8px;">
+      <textarea id="writeContent" placeholder="내용을 적어주세요 (2000자 이내)" maxlength="2000" rows="8" style="width:100%; padding:12px 14px; border:1px solid rgba(0,0,0,0.1); border-radius:10px; font-family:inherit; font-size:13.5px; line-height:1.5; resize:vertical; box-sizing:border-box; outline:none;"></textarea>
+      <button id="writeSubmitBtn" onclick="submitBoardPost()" style="width:100%; background:linear-gradient(135deg, #F37321, #C2410C); color:white; border:none; border-radius:12px; padding:14px; font-size:14px; font-weight:800; cursor:pointer; font-family:inherit; margin-top:12px; box-shadow:0 4px 12px rgba(243,115,33,0.3);">
+        ✏️ 작성 완료
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- 글 상세 보기 모달 -->
+<div id="boardViewModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:9998; overflow-y:auto;">
+  <div style="max-width:500px; margin:0 auto; padding:20px 16px; min-height:100vh;">
+    <div style="background:white; border-radius:18px; width:100%; box-shadow:0 12px 40px rgba(0,0,0,0.3); overflow:hidden;">
+      <div id="viewContent"></div>
+    </div>
+  </div>
+</div>
+
+<script>
 
 </body>
 </html>
