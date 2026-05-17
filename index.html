@@ -44,7 +44,7 @@
 
 <style>
 :root {
-  color-scheme: light only;
+  color-scheme: light;
   --canvas: #F0EFEC;
   --card: #FFFFFF;
   --card-soft: #F7F5F1;
@@ -64,10 +64,33 @@
   --gold: #FFB800;
 }
 
+/* 🌙 다크모드 */
+[data-theme="dark"] {
+  color-scheme: dark;
+  --canvas: #0F0F0F;
+  --card: #1C1C1E;
+  --card-soft: #242427;
+  --ink: #F5F5F7;
+  --ink-soft: #C0C0C5;
+  --gray: #8E8E93;
+  --gray-soft: #5A5A5F;
+  --line: #2C2C2E;
+  --accent: #FF8845;
+  --accent-deep: #F37321;
+  --accent-soft: #3D2415;
+  --success: #34D399;
+  --success-soft: #1B3A2F;
+  --warn: #F87171;
+  --warn-soft: #3D1D1D;
+  --yellow: #FCD34D;
+  --gold: #FFB800;
+}
+
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
 html {
-  background: #F0EFEC !important;
+  background: var(--canvas) !important;
+  transition: background 0.3s ease;
 }
 
 /* 게임 풀스크린 모드 */
@@ -87,8 +110,9 @@ html {
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
-  background: #F0EFEC !important;
-  color: #1A1A1A !important;
+  background: var(--canvas) !important;
+  transition: background 0.3s ease, color 0.3s ease;
+  color: var(--ink) !important;
   font-size: 14px;
   line-height: 1.5;
   letter-spacing: -0.02em;
@@ -117,6 +141,65 @@ body::before {
 }
 
 /* === 상단 헤더 === */
+/* 🌙 다크모드 추가 보정 */
+[data-theme="dark"] .tabs {
+  background: linear-gradient(180deg, #1C1C1E 0%, #242427 100%) !important;
+  border-color: rgba(255,255,255,0.08) !important;
+}
+[data-theme="dark"] .tab.active {
+  background: linear-gradient(135deg, #FF8845, #C75A14) !important;
+}
+[data-theme="dark"] .tab:not(.active) {
+  color: var(--gray);
+}
+[data-theme="dark"] .card,
+[data-theme="dark"] .ded-card,
+[data-theme="dark"] .ded-slide-wrap {
+  background: var(--card) !important;
+  border-color: var(--line) !important;
+  color: var(--ink) !important;
+}
+/* 흰색 inline 배경들 보정 */
+[data-theme="dark"] [style*="background:white"],
+[data-theme="dark"] [style*="background: white"],
+[data-theme="dark"] [style*="background:#FFFFFF"],
+[data-theme="dark"] [style*="background: #FFFFFF"] {
+  background: var(--card) !important;
+}
+[data-theme="dark"] [style*="background:linear-gradient(135deg, #FFFFFF"],
+[data-theme="dark"] [style*="background: linear-gradient(135deg, #FFFFFF"] {
+  background: linear-gradient(135deg, #1C1C1E 0%, #242427 100%) !important;
+}
+[data-theme="dark"] [style*="background:linear-gradient(180deg, #FFFFFF"],
+[data-theme="dark"] [style*="background: linear-gradient(180deg, #FFFFFF"] {
+  background: linear-gradient(180deg, #1C1C1E 0%, #242427 100%) !important;
+}
+[data-theme="dark"] [style*="background:rgba(0,0,0,0.03)"] {
+  background: rgba(255,255,255,0.04) !important;
+}
+[data-theme="dark"] [style*="background:rgba(0,0,0,0.05)"] {
+  background: rgba(255,255,255,0.06) !important;
+}
+[data-theme="dark"] [style*="background:rgba(0,0,0,0.06)"] {
+  background: rgba(255,255,255,0.08) !important;
+}
+[data-theme="dark"] [style*="background:rgba(0,0,0,0.08)"] {
+  background: rgba(255,255,255,0.1) !important;
+}
+[data-theme="dark"] [style*="color:#1A1A1A"],
+[data-theme="dark"] [style*="color: #1A1A1A"] {
+  color: var(--ink) !important;
+}
+[data-theme="dark"] [style*="border:1px solid rgba(0,0,0"],
+[data-theme="dark"] [style*="border: 1px solid rgba(0,0,0"] {
+  border-color: var(--line) !important;
+}
+/* 모달들도 다크모드 */
+[data-theme="dark"] [style*="background:white; border-radius:18px"],
+[data-theme="dark"] [style*="background:white;border-radius:18px"] {
+  background: var(--card) !important;
+}
+
 /* 🎯 전광판 (어제 신계약) */
 .ticker-wrap {
   position: relative;
@@ -1194,6 +1277,18 @@ input#bojangGeongang::-webkit-inner-spin-button {
 
 </style>
 
+<script>
+// 🌙 테마 즉시 적용 (FOUC 방지)
+(function() {
+  try {
+    const saved = localStorage.getItem('theme');
+    if (saved === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  } catch(e) {}
+})();
+</script>
+
 </head>
 <body>
 
@@ -1269,7 +1364,9 @@ input#bojangGeongang::-webkit-inner-spin-button {
     <h1>
       <span style="font-size:11px; color:var(--accent); font-weight:700; letter-spacing:0.1em; display:block; margin-bottom:2px;">
         <button id="menuBtn" aria-label="메뉴" 
-          style="background:var(--ink); color:white; border:none; padding:4px 10px; margin-right:8px; vertical-align:middle; cursor:pointer; font-size:11px; font-weight:700; letter-spacing:0.05em; border-radius:6px; line-height:1;">메뉴</button>
+          style="background:var(--ink); color:white; border:none; padding:4px 10px; margin-right:6px; vertical-align:middle; cursor:pointer; font-size:11px; font-weight:700; letter-spacing:0.05em; border-radius:6px; line-height:1;">메뉴</button>
+        <button id="themeToggleBtn" onclick="toggleTheme()" aria-label="테마 변경" 
+          style="background:rgba(0,0,0,0.06); color:var(--ink); border:none; padding:4px 8px; margin-right:8px; vertical-align:middle; cursor:pointer; font-size:13px; border-radius:6px; line-height:1;">🌙</button>
         No.1
       </span>
       하회지점 공지사항
@@ -10662,6 +10759,31 @@ function openExpGuideModal() {
 }
 
 window.openExpGuideModal = openExpGuideModal;
+
+// 🌙 테마 토글
+window.toggleTheme = function() {
+  const html = document.documentElement;
+  const current = html.getAttribute('data-theme');
+  const next = current === 'dark' ? 'light' : 'dark';
+  if (next === 'dark') {
+    html.setAttribute('data-theme', 'dark');
+  } else {
+    html.removeAttribute('data-theme');
+  }
+  localStorage.setItem('theme', next);
+  // 버튼 이모지 갱신
+  const btn = document.getElementById('themeToggleBtn');
+  if (btn) btn.textContent = next === 'dark' ? '☀️' : '🌙';
+};
+
+// 페이지 로드 시 버튼 이모지 동기화
+setTimeout(() => {
+  const btn = document.getElementById('themeToggleBtn');
+  if (btn) {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    btn.textContent = isDark ? '☀️' : '🌙';
+  }
+}, 50);
 
 // 📋 EXP 가이드 모달 끝
 async function openLeaderboardModal() {
