@@ -242,7 +242,7 @@ body::before {
 /* === 탭 === */
 .tabs {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 4px;
   margin: 16px 0 16px;
   padding: 6px;
@@ -263,7 +263,7 @@ body::before {
   padding: 11px 2px;
   border-radius: 11px;
   text-align: center;
-  font-size: 11.5px;
+  font-size: 10.5px;
   font-weight: 700;
   color: var(--gray);
   cursor: pointer;
@@ -271,7 +271,7 @@ body::before {
   background: transparent;
   border: none;
   font-family: inherit;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.05em;
   white-space: nowrap;
   position: relative;
 }
@@ -1286,7 +1286,8 @@ input#bojangGeongang::-webkit-inner-spin-button {
   <!-- 탭 -->
 
   <div class="tabs">
-    <button class="tab active" data-page="hq">본사시상</button>
+    <button class="tab active" data-page="myinfo">내정보</button>
+    <button class="tab" data-page="hq">본사시상</button>
     <button class="tab" data-page="branch">지점시상</button>
     <button class="tab" data-page="issue">5월 이슈</button>
     <button class="tab" data-page="data">바른활동</button>
@@ -1294,41 +1295,33 @@ input#bojangGeongang::-webkit-inner-spin-button {
     <button class="tab" data-page="dailyedu">일상교육</button>
   </div>
 
-  <!-- 자유게시판 큰 배너 (강조) -->
-  <button onclick="switchPage('board')" id="boardBigBtn" style="
+  <!-- 자유게시판 큰 배너 (모든 탭 공통, 탭바 바로 밑) -->
+  <button onclick="switchPage('board')" style="
     width: 100%;
     background: linear-gradient(135deg, #F37321 0%, #DC2626 50%, #C2410C 100%);
     color: white;
     border: none;
     border-radius: 16px;
-    padding: 18px 20px;
+    padding: 16px 18px;
     font-family: inherit;
     cursor: pointer;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
     box-shadow: 0 6px 20px rgba(243,115,33,0.35), 0 2px 4px rgba(243,115,33,0.2);
     position: relative;
     overflow: hidden;
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 12px;
     text-align: left;
     transition: transform 0.2s, box-shadow 0.2s;
-  " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 10px 28px rgba(243,115,33,0.45), 0 4px 8px rgba(243,115,33,0.25)'" onmouseout="this.style.transform=''; this.style.boxShadow='0 6px 20px rgba(243,115,33,0.35), 0 2px 4px rgba(243,115,33,0.2)'">
-    <!-- 빛 효과 -->
+  " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 10px 28px rgba(243,115,33,0.45)'" onmouseout="this.style.transform=''; this.style.boxShadow='0 6px 20px rgba(243,115,33,0.35), 0 2px 4px rgba(243,115,33,0.2)'">
     <div style="position:absolute; top:-50%; right:-20%; width:200px; height:200px; border-radius:50%; background:radial-gradient(circle, rgba(252,211,77,0.4) 0%, transparent 70%); pointer-events:none;"></div>
-    <div style="position:absolute; bottom:-30%; left:-10%; width:150px; height:150px; border-radius:50%; background:radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%); pointer-events:none;"></div>
-    
-    <!-- 아이콘 -->
-    <div style="flex-shrink:0; width:56px; height:56px; border-radius:14px; background:rgba(255,255,255,0.2); display:flex; align-items:center; justify-content:center; font-size:28px; backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,0.25); box-shadow:inset 0 1px 0 rgba(255,255,255,0.3); position:relative;">💬</div>
-    
-    <!-- 텍스트 -->
+    <div style="flex-shrink:0; width:48px; height:48px; border-radius:12px; background:rgba(255,255,255,0.2); display:flex; align-items:center; justify-content:center; font-size:24px; backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,0.25); position:relative;">💬</div>
     <div style="flex:1; min-width:0; position:relative;">
-      <div style="font-size:10.5px; font-weight:800; opacity:0.9; letter-spacing:0.15em; margin-bottom:3px;">🔥 NEW · 하회지점 게시판</div>
-      <div style="font-size:18px; font-weight:800; letter-spacing:-0.03em; line-height:1.2; margin-bottom:3px;">자유게시판 OPEN!</div>
-      <div style="font-size:11px; opacity:0.85; line-height:1.4; font-weight:600;">🍯 꿀팁공유 · 💬 자유게시판 · 👏 칭찬합니다</div>
+      <div style="font-size:10px; font-weight:800; opacity:0.9; letter-spacing:0.15em; margin-bottom:2px;">🔥 NEW · 하회지점 게시판</div>
+      <div style="font-size:16px; font-weight:800; letter-spacing:-0.03em; line-height:1.2; margin-bottom:2px;">자유게시판 OPEN!</div>
+      <div style="font-size:10.5px; opacity:0.85; line-height:1.4; font-weight:600;">🍯 꿀팁공유 · 💬 자유게시판 · 👏 칭찬합니다</div>
     </div>
-    
-    <!-- 화살표 -->
     <div style="flex-shrink:0; font-size:22px; font-weight:900; opacity:0.7; position:relative;">›</div>
   </button>
 
@@ -1803,7 +1796,7 @@ input#bojangGeongang::-webkit-inner-spin-button {
 
   <!-- ============ 1. 본사 시상 ============ -->
 
-  <div class="page active" id="page-hq">
+  <div class="page" id="page-hq">
 
 <!-- 히어로 카드 제거됨 -->
 
@@ -7650,6 +7643,33 @@ setTimeout(() => {
 
   </div>
 
+  <!-- ============ 내 정보 (메인) ============ -->
+
+  <div class="page active" id="page-myinfo">
+    <!-- 환영 헤더 -->
+    <div style="background:linear-gradient(135deg, #1A1A1A 0%, #2D2D2D 50%, #1A1A1A 100%); border-radius:18px; padding:20px 20px; margin-bottom:14px; color:white; position:relative; overflow:hidden;">
+      <div style="position:absolute; top:-40px; right:-40px; width:180px; height:180px; border-radius:50%; background:radial-gradient(circle, rgba(243,115,33,0.2) 0%, transparent 70%); pointer-events:none;"></div>
+      <div style="position:absolute; bottom:-30px; left:-30px; width:140px; height:140px; border-radius:50%; background:radial-gradient(circle, rgba(252,211,77,0.12) 0%, transparent 70%); pointer-events:none;"></div>
+      <div style="position:relative;">
+        <div style="font-size:11px; font-weight:800; color:#FCD34D; letter-spacing:0.15em; margin-bottom:6px;">🏆 No.1 하회지점</div>
+        <div style="font-size:24px; font-weight:900; line-height:1.2; letter-spacing:-0.03em;">오늘도 화이팅!</div>
+        <div style="font-size:11.5px; opacity:0.7; margin-top:6px; line-height:1.5;">
+          매일 들어와서 활동포인트 쌓고<br>
+          승진해보세요 🎉
+        </div>
+      </div>
+    </div>
+
+    <!-- 🎯 내 정보 카드 -->
+    <div id="myInfoCard"></div>
+
+    <!-- 🎮 레벨 카드 -->
+    <div id="levelCard"></div>
+
+    <!-- 🎁 박스 누적 통계 -->
+    <div id="boxStatsCard"></div>
+  </div>
+
   <!-- ============ 자유게시판 ============ -->
 
   <div class="page" id="page-board">
@@ -7776,6 +7796,54 @@ const DATA = {
         { n: '의성팀', names: ['김남정','배달님'] },
       ],
     },
+    // 전체 FP 정보 (내 정보 카드용)
+    fpList: [
+      { n: '강주영', team: '1팀', grade: '표준', env: 80, cov: 9 },
+      { n: '이정애', team: '1팀', grade: '실가동', env: 36, cov: 56 },
+      { n: '이옥화', team: '1팀', grade: '실가동', env: 41, cov: 40 },
+      { n: '민희정', team: '1팀', grade: '실가동', env: 31, cov: 17 },
+      { n: '남정림', team: '1팀', grade: '가동', env: 2, cov: 3 },
+      { n: '전수진', team: '1팀', grade: '-', env: 0, cov: 0 },
+      { n: '최향주', team: '1팀', grade: '가동', env: 9, cov: 8 },
+      { n: '이금희', team: '1팀', grade: '우수', env: 130, cov: 203 },
+      { n: '박시영', team: '1팀', grade: '-', env: 0, cov: 0 },
+      { n: '배지혜', team: '1팀', grade: '실버', env: 102, cov: 165 },
+      { n: '이지혜', team: '1팀', grade: '가동', env: 23, cov: 15 },
+      { n: '김미진', team: '1팀', grade: '-', env: 0, cov: 0 },
+      { n: '손민혜', team: '1팀', grade: '실버', env: 105, cov: 104 },
+      { n: '윤양순', team: '1팀', grade: '-', env: 0, cov: 0 },
+      { n: '이정화', team: '1팀', grade: '-', env: 0, cov: 0 },
+      { n: '권정숙', team: '1팀', grade: '실가동', env: 34, cov: 56 },
+      { n: '임민지', team: '1팀', grade: '-', env: 0, cov: 0 },
+      { n: '류지연', team: '1팀', grade: '-', env: 0, cov: 0 },
+      { n: '오명신', team: '1팀', grade: '실가동', env: 30, cov: 20 },
+      { n: '이혜정', team: '1팀', grade: '-', env: 0, cov: 0 },
+      { n: '김은미', team: '2팀', grade: '골드', env: 186, cov: 244 },
+      { n: '이재교', team: '2팀', grade: '가동', env: 13, cov: 10 },
+      { n: '권별하', team: '2팀', grade: '실가동', env: 30, cov: 18 },
+      { n: '이춘화', team: '2팀', grade: '도전', env: 50, cov: 38 },
+      { n: '김희정', team: '2팀', grade: '도전', env: 55, cov: 43 },
+      { n: '박규민', team: '2팀', grade: '실가동', env: 31, cov: 21 },
+      { n: '김나희', team: '2팀', grade: '표준', env: 85, cov: 103 },
+      { n: '이경진', team: '2팀', grade: '-', env: 0, cov: 0 },
+      { n: '신미진', team: '2팀', grade: '실가동', env: 38, cov: 30 },
+      { n: '신은정', team: '2팀', grade: '실버', env: 102, cov: 84 },
+      { n: '류현숙', team: '2팀', grade: '-', env: 0, cov: 0 },
+      { n: '장창숙', team: '3팀', grade: '실가동', env: 30, cov: 30 },
+      { n: '서점순', team: '3팀', grade: '표준', env: 81, cov: 84 },
+      { n: '유주이', team: '3팀', grade: '실가동', env: 31, cov: 42 },
+      { n: '천윤성', team: '3팀', grade: '실가동', env: 39, cov: 51 },
+      { n: '임경순', team: '3팀', grade: '실가동', env: 31, cov: 42 },
+      { n: '이소연', team: '3팀', grade: '가동', env: 17, cov: 30 },
+      { n: '김상순', team: '3팀', grade: '가동', env: 10, cov: 7 },
+      { n: '서경숙', team: '의성팀', grade: '탑', env: 272, cov: 398 },
+      { n: '박승남', team: '의성팀', grade: '가동', env: 21, cov: 12 },
+      { n: '이금수', team: '의성팀', grade: '실가동', env: 32, cov: 22 },
+      { n: '김남정', team: '의성팀', grade: '-', env: 0, cov: 0 },
+      { n: '배달님', team: '의성팀', grade: '-', env: 0, cov: 1 },
+      { n: '차명희', team: '의성팀', grade: '가동', env: 16, cov: 9 },
+      { n: '임해경', team: '의성팀', grade: '골드', env: 157, cov: 272 },
+    ],
     "333": {
       ach: 20, missed: 25, pct: 44.4,
       // info: 정보동의, anal: 보장분석, visit: 고객방문 (목표 각 3개씩)
@@ -8881,7 +8949,26 @@ function showPrizeFromResult(r) {
 function saveBoxResult(key, item, opts) {
   try {
     localStorage.setItem(key + '_result', JSON.stringify({ item, opts }));
+    // 통계 누적
+    const stats = loadBoxStats();
+    stats.total = (stats.total || 0) + 1;
+    if (item === '롤팩 1개') stats.roll = (stats.roll || 0) + 1;
+    else if (item === '몽글행주 1개') stats.mongle = (stats.mongle || 0) + 1;
+    else if (item === '꽝') stats.miss = (stats.miss || 0) + 1;
+    else if (item === '특별한 지점장의 선물') stats.special = (stats.special || 0) + 1;
+    stats.lastAt = Date.now();
+    if (!stats.firstAt) stats.firstAt = Date.now();
+    localStorage.setItem('hahoeBox_stats', JSON.stringify(stats));
   } catch(e) {}
+}
+
+function loadBoxStats() {
+  try {
+    const s = localStorage.getItem('hahoeBox_stats');
+    return s ? JSON.parse(s) : { total: 0, roll: 0, mongle: 0, miss: 0, special: 0 };
+  } catch(e) {
+    return { total: 0, roll: 0, mongle: 0, miss: 0, special: 0 };
+  }
 }
 
 function loadBoxResult(key) {
@@ -8966,6 +9053,18 @@ function openBoxBy(key) {
   
   // 결과 저장 (다음에 재터치 시 인증용)
   saveBoxResult(key, item, opts);
+  // 통계 카드 갱신
+  if (typeof renderBoxStatsCard === 'function') renderBoxStatsCard();
+  
+  // 🎮 EXP 적립
+  if (item === '특별한 지점장의 선물') {
+    addExp('box_jackpot', 500);  // 잭팟 +500
+  } else if (item === '꽝') {
+    addExp('box_open', 10);  // 꽝도 +10 (도전상)
+  } else {
+    addExp('box_win', 30);  // 당첨 +30
+  }
+  
   // 결과 표시
   openPrize(item, opts);
 }
@@ -9011,11 +9110,20 @@ function switchPage(page) {
   if (page === 'dailyedu' && typeof dailyEduResize === 'function') {
     setTimeout(dailyEduResize, 50);
     setTimeout(dailyEduResize, 300);
+    // 🎮 일상교육 방문 EXP (하루 1회)
+    if (typeof addExp === 'function') addExp('visit_edu', 5, { dailyOnce: true });
   }
   
   // 자유게시판 페이지 진입 시 글 목록 로드
   if (page === 'board' && window._fb && typeof renderBoardList === 'function') {
     renderBoardList();
+  }
+  
+  // 내정보 탭 진입 시 카드 렌더링
+  if (page === 'myinfo') {
+    if (typeof renderMyInfoCard === 'function') renderMyInfoCard();
+    if (typeof renderLevelCard === 'function') renderLevelCard();
+    if (typeof renderBoxStatsCard === 'function') renderBoxStatsCard();
   }
 }
 // 글로벌 노출 (배지 onclick에서 접근 가능하도록)
@@ -9684,6 +9792,967 @@ document.addEventListener('keydown', e => {
 })();
 
 // ============================================
+//          🎯 내 정보 카드
+// ============================================
+window.MY_FP = localStorage.getItem('my_fp_name') || null;
+
+// 다음 등급까지 필요한 환산 계산 (만원 단위)
+function getNextGradeInfo(env, currentGrade) {
+  const grades = [
+    { name: '실가동', need: 30 },
+    { name: '도전',   need: 50 },
+    { name: '표준',   need: 70 },
+    { name: '실버',   need: 100 },
+    { name: '우수',   need: 125 },
+    { name: '골드',   need: 150 },
+    { name: '프로',   need: 200 },
+    { name: '탑',     need: 250 },
+    { name: '슈퍼',   need: 300 },
+  ];
+  // 현재 환산보다 큰 등급 찾기
+  for (const g of grades) {
+    if (env < g.need) {
+      return { name: g.name, need: g.need, gap: g.need - env };
+    }
+  }
+  return null;  // 슈퍼 이상
+}
+
+// 등급별 색깔
+function getGradeColor(grade) {
+  const map = {
+    '슈퍼':   { bg: 'linear-gradient(135deg, #DC2626, #991B1B)', text: 'white' },
+    '탑':     { bg: 'linear-gradient(135deg, #F37321, #C2410C)', text: 'white' },
+    '프로':   { bg: 'linear-gradient(135deg, #8B5CF6, #6D28D9)', text: 'white' },
+    '골드':   { bg: 'linear-gradient(135deg, #FCD34D, #EAB308)', text: '#78350F' },
+    '우수':   { bg: 'linear-gradient(135deg, #C7D2FE, #818CF8)', text: '#1E1B4B' },
+    '실버':   { bg: 'linear-gradient(135deg, #E5E7EB, #9CA3AF)', text: '#1F2937' },
+    '표준':   { bg: 'linear-gradient(135deg, #BAE6FD, #38BDF8)', text: '#0C4A6E' },
+    '도전':   { bg: 'linear-gradient(135deg, #FED7AA, #FB923C)', text: '#7C2D12' },
+    '실가동': { bg: 'linear-gradient(135deg, #D1FAE5, #34D399)', text: '#064E3B' },
+    '가동':   { bg: 'linear-gradient(135deg, #FEF3C7, #FCD34D)', text: '#78350F' },
+    '-':      { bg: 'rgba(0,0,0,0.06)',                          text: '#6B7280' },
+  };
+  return map[grade] || map['-'];
+}
+
+function renderMyInfoCard() {
+  const wrap = document.getElementById('myInfoCard');
+  if (!wrap) return;
+  
+  // FP 미선택 상태
+  if (!MY_FP) {
+    wrap.innerHTML = `
+      <button onclick="openFpPicker()" style="
+        width: 100%;
+        background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+        border: 1px dashed rgba(217, 119, 6, 0.4);
+        border-radius: 14px;
+        padding: 14px 16px;
+        margin-bottom: 14px;
+        cursor: pointer;
+        font-family: inherit;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-align: left;
+      ">
+        <div style="font-size:24px;">👋</div>
+        <div style="flex:1;">
+          <div style="font-size:13px; font-weight:800; color:#92400E; letter-spacing:-0.02em;">FP님 누구신가요?</div>
+          <div style="font-size:11px; color:#92400E; opacity:0.75; margin-top:2px;">이름 한 번 등록하면 매일 내 현황을 볼 수 있어요</div>
+        </div>
+        <div style="font-size:18px; color:#D97706;">›</div>
+      </button>
+    `;
+    return;
+  }
+  
+  // FP 선택됨 - 데이터 찾기
+  const fp = (DATA.daily.fpList || []).find(f => f.n === MY_FP);
+  if (!fp) {
+    wrap.innerHTML = '';
+    return;
+  }
+  
+  // 3.3.3 현황 찾기
+  const my333 = (DATA.daily['333'].list || []).find(p => p.n === MY_FP) || {};
+  const TARGET = 3;
+  const need333 = [];
+  if ((my333.info || 0)  < TARGET) need333.push(`정보동의 ${TARGET - (my333.info || 0)}건`);
+  if ((my333.anal || 0)  < TARGET) need333.push(`보장분석 ${TARGET - (my333.anal || 0)}건`);
+  if ((my333.visit || 0) < TARGET) need333.push(`고객방문 ${TARGET - (my333.visit || 0)}건`);
+  
+  // 다음 등급
+  const next = getNextGradeInfo(fp.env, fp.grade);
+  const gradeStyle = getGradeColor(fp.grade);
+  
+  // TOP5 안에 있는지
+  const top5 = DATA.daily.top5 || [];
+  const myRank = top5.findIndex(t => t.n === MY_FP);
+  const rankBadge = myRank >= 0 
+    ? `<div style="background:linear-gradient(135deg, #DC2626, #991B1B); color:white; font-size:10px; font-weight:800; padding:3px 8px; border-radius:100px; letter-spacing:-0.02em;">🏆 지점 ${myRank + 1}위!</div>`
+    : '';
+  
+  wrap.innerHTML = `
+    <div style="
+      background: linear-gradient(135deg, #1A1A1A 0%, #2D2D2D 100%);
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 14px;
+      color: white;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    ">
+      <!-- 빛 효과 -->
+      <div style="position:absolute; top:-40px; right:-40px; width:160px; height:160px; border-radius:50%; background:radial-gradient(circle, rgba(243,115,33,0.15) 0%, transparent 70%); pointer-events:none;"></div>
+      
+      <!-- 헤더 -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; position:relative;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:10px; font-weight:800; opacity:0.6; letter-spacing:0.1em;">${fp.team}</span>
+          <span style="opacity:0.3;">·</span>
+          <span style="font-size:16px; font-weight:800; letter-spacing:-0.03em;">${fp.n}</span>
+          <span style="display:inline-block; background:${gradeStyle.bg}; color:${gradeStyle.text}; font-size:10px; font-weight:800; padding:2px 8px; border-radius:6px; letter-spacing:-0.02em;">${fp.grade}</span>
+        </div>
+        <button onclick="openFpPicker()" style="background:transparent; border:none; color:rgba(255,255,255,0.4); font-size:11px; cursor:pointer; font-family:inherit; padding:0;">변경</button>
+      </div>
+      
+      ${rankBadge ? `<div style="margin-bottom:12px; position:relative;">${rankBadge}</div>` : ''}
+      
+      <!-- 환산/보장 -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; position:relative;">
+        <div style="background:rgba(255,255,255,0.06); border-radius:10px; padding:10px 12px;">
+          <div style="font-size:10px; font-weight:700; opacity:0.55; letter-spacing:0.05em;">환산월초</div>
+          <div style="font-size:20px; font-weight:900; color:#F37321; letter-spacing:-0.03em; line-height:1.1; margin-top:3px;">${fp.env}<span style="font-size:11px; opacity:0.7; margin-left:2px;">만</span></div>
+        </div>
+        <div style="background:rgba(255,255,255,0.06); border-radius:10px; padding:10px 12px;">
+          <div style="font-size:10px; font-weight:700; opacity:0.55; letter-spacing:0.05em;">보장월초</div>
+          <div style="font-size:20px; font-weight:900; color:#FCD34D; letter-spacing:-0.03em; line-height:1.1; margin-top:3px;">${fp.cov}<span style="font-size:11px; opacity:0.7; margin-left:2px;">만</span></div>
+        </div>
+      </div>
+      
+      <!-- 다음 등급까지 -->
+      ${next ? `<div style="background:rgba(243,115,33,0.15); border:1px solid rgba(243,115,33,0.3); border-radius:8px; padding:8px 12px; margin-bottom:10px; position:relative;">
+        <span style="font-size:11px; opacity:0.85;">🎯 다음 등급</span>
+        <span style="font-size:12px; font-weight:800; color:#FCD34D; margin-left:6px;">${next.name}</span>
+        <span style="font-size:11px; opacity:0.85; margin-left:6px;">까지</span>
+        <span style="font-size:13px; font-weight:900; color:white; margin-left:6px;">${next.gap}만</span>
+      </div>` : `<div style="background:linear-gradient(135deg, rgba(252,211,77,0.2), rgba(243,115,33,0.2)); border:1px solid rgba(252,211,77,0.4); border-radius:8px; padding:8px 12px; margin-bottom:10px; position:relative; text-align:center;">
+        <span style="font-size:12px; font-weight:800; color:#FCD34D;">🏆 최고 등급 달성 중!</span>
+      </div>`}
+      
+      <!-- 3.3.3 -->
+      <div style="background:rgba(255,255,255,0.06); border-radius:8px; padding:8px 12px; position:relative;">
+        ${my333.y === 1 
+          ? `<div style="display:flex; align-items:center; gap:6px;">
+              <span style="font-size:14px;">✅</span>
+              <span style="font-size:12px; font-weight:800; color:#10B981;">3.3.3 달성!</span>
+              <span style="font-size:11px; opacity:0.7;">정보동의 ${my333.info}건 · 보장분석 ${my333.anal}건 · 고객방문 ${my333.visit}건</span>
+            </div>`
+          : need333.length > 0
+            ? `<div style="display:flex; align-items:center; gap:6px;">
+                <span style="font-size:14px;">🎯</span>
+                <span style="font-size:11.5px; font-weight:700; opacity:0.9;">3.3.3까지</span>
+                <span style="font-size:12px; font-weight:800; color:#FCA5A5;">${need333.join(' · ')}</span>
+              </div>`
+            : `<div style="display:flex; align-items:center; gap:6px;">
+                <span style="font-size:14px;">📋</span>
+                <span style="font-size:11.5px; opacity:0.7;">3.3.3 활동을 시작해보세요</span>
+              </div>`
+        }
+      </div>
+    </div>
+  `;
+}
+
+// FP 선택 모달
+function openFpPicker() {
+  const m = document.getElementById('fpPickerModal');
+  if (!m) return;
+  // FP 목록 렌더
+  const wrap = document.getElementById('fpPickerList');
+  const teams = {};
+  (DATA.daily.fpList || []).forEach(f => {
+    if (!teams[f.team]) teams[f.team] = [];
+    teams[f.team].push(f);
+  });
+  
+  wrap.innerHTML = Object.entries(teams).map(([teamName, fps]) => `
+    <div style="margin-bottom:14px;">
+      <div style="font-size:11px; font-weight:800; color:var(--accent); letter-spacing:0.1em; margin-bottom:6px;">${teamName}</div>
+      <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:5px;">
+        ${fps.map(f => `<button onclick="selectFp('${f.n}')" style="background:${MY_FP === f.n ? 'linear-gradient(135deg, #F37321, #C2410C)' : 'rgba(0,0,0,0.05)'}; color:${MY_FP === f.n ? 'white' : 'var(--ink)'}; border:1px solid ${MY_FP === f.n ? 'transparent' : 'rgba(0,0,0,0.08)'}; border-radius:8px; padding:9px 4px; font-size:12px; font-weight:${MY_FP === f.n ? '800' : '700'}; cursor:pointer; font-family:inherit; letter-spacing:-0.03em;">${f.n}</button>`).join('')}
+      </div>
+    </div>
+  `).join('');
+  
+  m.style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeFpPicker() {
+  const m = document.getElementById('fpPickerModal');
+  if (m) m.style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function selectFp(name) {
+  MY_FP = name;
+  localStorage.setItem('my_fp_name', name);
+  closeFpPicker();
+  renderMyInfoCard();
+  // 🎮 FP 선택했으니 Firebase에 레벨 즉시 동기화
+  if (typeof syncLevelToFirebase === 'function') {
+    syncLevelToFirebase(getUserStats());
+  }
+}
+
+window.openFpPicker = openFpPicker;
+window.closeFpPicker = closeFpPicker;
+window.selectFp = selectFp;
+window.renderMyInfoCard = renderMyInfoCard;
+
+// 첫 렌더
+setTimeout(renderMyInfoCard, 100);
+
+// ============================================
+//          🎁 박스 누적 통계 카드
+// ============================================
+function renderBoxStatsCard() {
+  const wrap = document.getElementById('boxStatsCard');
+  if (!wrap) return;
+  const stats = loadBoxStats();
+  
+  // 한 번도 안 열었으면 숨김
+  if (!stats.total || stats.total === 0) {
+    wrap.innerHTML = '';
+    return;
+  }
+  
+  const total = stats.total;
+  const roll = stats.roll || 0;
+  const mongle = stats.mongle || 0;
+  const miss = stats.miss || 0;
+  const special = stats.special || 0;
+  const winTotal = roll + mongle + special;
+  const winRate = total > 0 ? Math.round((winTotal / total) * 100) : 0;
+  
+  // 행운 지수 (당첨률 기준 멘트)
+  let luckEmoji = '😐';
+  let luckText = '평범한';
+  let luckColor = '#9CA3AF';
+  if (winRate >= 80) { luckEmoji = '🍀'; luckText = '럭키한'; luckColor = '#10B981'; }
+  else if (winRate >= 60) { luckEmoji = '😊'; luckText = '운 좋은'; luckColor = '#3B82F6'; }
+  else if (winRate >= 40) { luckEmoji = '😐'; luckText = '평범한'; luckColor = '#9CA3AF'; }
+  else if (winRate >= 20) { luckEmoji = '😅'; luckText = '운 없는'; luckColor = '#F59E0B'; }
+  else { luckEmoji = '💀'; luckText = '불운한'; luckColor = '#DC2626'; }
+  
+  // 특별선물 받은 사람은 무조건 럭키
+  if (special > 0) {
+    luckEmoji = '✨';
+    luckText = '잭팟 당첨자';
+    luckColor = '#F37321';
+  }
+  
+  // 첫 박스 이후 며칠
+  const days = stats.firstAt ? Math.max(1, Math.floor((Date.now() - stats.firstAt) / 86400000) + 1) : 1;
+  
+  wrap.innerHTML = `
+    <div style="
+      background: linear-gradient(135deg, #FFFFFF 0%, #FAF9F6 100%);
+      border: 1px solid rgba(26,26,26,0.08);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      position: relative;
+      overflow: hidden;
+    ">
+      <!-- 헤더 -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <div>
+          <div style="font-size:10px; font-weight:800; color:var(--accent); letter-spacing:0.1em;">MY BOX STATS</div>
+          <div style="font-size:14px; font-weight:800; color:var(--ink); letter-spacing:-0.02em; margin-top:2px;">🎁 박스 누적</div>
+        </div>
+        <div style="background:${luckColor}15; border:1px solid ${luckColor}30; padding:5px 11px; border-radius:100px; display:flex; align-items:center; gap:5px;">
+          <span style="font-size:13px;">${luckEmoji}</span>
+          <span style="font-size:11px; font-weight:800; color:${luckColor}; letter-spacing:-0.02em;">${luckText} FP</span>
+        </div>
+      </div>
+      
+      <!-- 메인 통계 (총 / 당첨률) -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px;">
+        <div style="background:linear-gradient(135deg, #1A1A1A, #2D2D2D); border-radius:10px; padding:10px 12px; color:white;">
+          <div style="font-size:10px; opacity:0.65; font-weight:700;">총 오픈</div>
+          <div style="font-size:22px; font-weight:900; letter-spacing:-0.03em; line-height:1.1; margin-top:2px;">${total}<span style="font-size:11px; opacity:0.7; margin-left:2px;">회</span></div>
+          <div style="font-size:9.5px; opacity:0.5; margin-top:2px;">${days}일 간</div>
+        </div>
+        <div style="background:linear-gradient(135deg, #F37321, #C2410C); border-radius:10px; padding:10px 12px; color:white;">
+          <div style="font-size:10px; opacity:0.85; font-weight:700;">당첨률</div>
+          <div style="font-size:22px; font-weight:900; letter-spacing:-0.03em; line-height:1.1; margin-top:2px;">${winRate}<span style="font-size:11px; opacity:0.8; margin-left:1px;">%</span></div>
+          <div style="font-size:9.5px; opacity:0.75; margin-top:2px;">${winTotal}/${total}회</div>
+        </div>
+      </div>
+      
+      <!-- 상품별 -->
+      <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:5px;">
+        <div style="background:${roll > 0 ? 'rgba(243,115,33,0.1)' : 'rgba(0,0,0,0.03)'}; border:1px solid ${roll > 0 ? 'rgba(243,115,33,0.2)' : 'rgba(0,0,0,0.06)'}; border-radius:8px; padding:7px 4px; text-align:center;">
+          <div style="font-size:16px; line-height:1;">🎉</div>
+          <div style="font-size:14px; font-weight:900; color:${roll > 0 ? 'var(--accent)' : '#9CA3AF'}; letter-spacing:-0.03em; margin-top:3px; line-height:1;">${roll}</div>
+          <div style="font-size:8.5px; font-weight:700; color:var(--gray); margin-top:2px; line-height:1;">롤팩</div>
+        </div>
+        <div style="background:${mongle > 0 ? 'rgba(16,185,129,0.1)' : 'rgba(0,0,0,0.03)'}; border:1px solid ${mongle > 0 ? 'rgba(16,185,129,0.2)' : 'rgba(0,0,0,0.06)'}; border-radius:8px; padding:7px 4px; text-align:center;">
+          <div style="font-size:16px; line-height:1;">🧽</div>
+          <div style="font-size:14px; font-weight:900; color:${mongle > 0 ? '#059669' : '#9CA3AF'}; letter-spacing:-0.03em; margin-top:3px; line-height:1;">${mongle}</div>
+          <div style="font-size:8.5px; font-weight:700; color:var(--gray); margin-top:2px; line-height:1;">몽글</div>
+        </div>
+        <div style="background:${special > 0 ? 'linear-gradient(135deg, rgba(252,211,77,0.2), rgba(243,115,33,0.2))' : 'rgba(0,0,0,0.03)'}; border:1px solid ${special > 0 ? 'rgba(243,115,33,0.3)' : 'rgba(0,0,0,0.06)'}; border-radius:8px; padding:7px 4px; text-align:center;">
+          <div style="font-size:16px; line-height:1;">🎁</div>
+          <div style="font-size:14px; font-weight:900; color:${special > 0 ? 'var(--accent)' : '#9CA3AF'}; letter-spacing:-0.03em; margin-top:3px; line-height:1;">${special}</div>
+          <div style="font-size:8.5px; font-weight:700; color:var(--gray); margin-top:2px; line-height:1;">잭팟</div>
+        </div>
+        <div style="background:rgba(0,0,0,0.03); border:1px solid rgba(0,0,0,0.06); border-radius:8px; padding:7px 4px; text-align:center;">
+          <div style="font-size:16px; line-height:1;">😅</div>
+          <div style="font-size:14px; font-weight:900; color:#9CA3AF; letter-spacing:-0.03em; margin-top:3px; line-height:1;">${miss}</div>
+          <div style="font-size:8.5px; font-weight:700; color:var(--gray); margin-top:2px; line-height:1;">꽝</div>
+        </div>
+      </div>
+      
+      ${special > 0 ? `<div style="margin-top:10px; padding:8px 12px; background:linear-gradient(135deg, rgba(252,211,77,0.15), rgba(243,115,33,0.15)); border:1px solid rgba(243,115,33,0.25); border-radius:8px; text-align:center;">
+        <span style="font-size:11px; font-weight:800; color:#D97706; letter-spacing:-0.02em;">✨ 1% 잭팟 ${special}회 당첨! ✨</span>
+      </div>` : ''}
+    </div>
+  `;
+}
+
+// ============================================
+//          🎮 레벨 시스템 (RPG 99레벨 + Firebase 랭킹)
+// ============================================
+
+// 99레벨 영업 직급 티어 (10단계)
+window.LEVEL_TIERS = [
+  { min:  1, max:  9, emoji: '🌱', title: '신입사원',         color: '#10B981' },
+  { min: 10, max: 19, emoji: '👨‍💼', title: '주임',             color: '#3B82F6' },
+  { min: 20, max: 29, emoji: '💼', title: '대리',             color: '#6366F1' },
+  { min: 30, max: 39, emoji: '📊', title: '과장',             color: '#8B5CF6' },
+  { min: 40, max: 49, emoji: '🎯', title: '차장',             color: '#A855F7' },
+  { min: 50, max: 59, emoji: '🏢', title: '부장',             color: '#EC4899' },
+  { min: 60, max: 69, emoji: '💎', title: '이사',             color: '#F37321' },
+  { min: 70, max: 79, emoji: '🏆', title: '상무',             color: '#EAB308' },
+  { min: 80, max: 89, emoji: '👔', title: '전무',             color: '#DC2626' },
+  { min: 90, max: 99, emoji: '👑', title: '하회지점의 전설',   color: '#991B1B' },
+];
+
+// 🏅 명예 칭호 (조건 달성 시 부여)
+window.HIDDEN_TITLES = [
+  { id: 'first_box',    emoji: '🎁', title: '오픈 데뷔',       desc: '박스를 처음 열었다',          check: (s) => s.boxTotal >= 1 },
+  { id: 'box_10',       emoji: '🎲', title: '꾸준한 도전자',   desc: '박스 10회 오픈',             check: (s) => s.boxTotal >= 10 },
+  { id: 'box_50',       emoji: '🏆', title: '박스 마스터',     desc: '박스 50회 오픈',             check: (s) => s.boxTotal >= 50 },
+  { id: 'jackpot_1',    emoji: '✨', title: '1% 행운의 주인공', desc: '1% 잭팟 당첨',              check: (s) => s.boxSpecial >= 1 },
+  { id: 'jackpot_3',    emoji: '🌟', title: '럭키 스타',       desc: '잭팟 3회 당첨',             check: (s) => s.boxSpecial >= 3 },
+  { id: 'unlucky_10',   emoji: '💪', title: '꺾이지 않는 마음', desc: '연속 꽝 10회 (그래도 도전!)', check: (s) => s.missStreak >= 10 },
+  { id: 'first_post',   emoji: '✍️', title: '첫 발자국',       desc: '첫 게시글 작성',            check: (s) => s.postCount >= 1 },
+  { id: 'post_10',      emoji: '📝', title: '소통의 선두주자', desc: '게시글 10개 작성',          check: (s) => s.postCount >= 10 },
+  { id: 'comment_30',   emoji: '💬', title: '소통의 달인',     desc: '댓글 30개 작성',            check: (s) => s.commentCount >= 30 },
+  { id: 'attend_7',     emoji: '🌅', title: '성실한 영업맨',   desc: '7일 연속 출석',             check: (s) => s.attendStreak >= 7 },
+  { id: 'attend_30',    emoji: '🔥', title: '한 달 개근왕',    desc: '30일 연속 출석',            check: (s) => s.attendStreak >= 30 },
+  { id: 'lv_30',        emoji: '🎖️', title: '실력자',          desc: '과장 승진',                  check: (s) => s.lv >= 30 },
+  { id: 'lv_50',        emoji: '🏅', title: '베테랑',          desc: '부장 승진',                  check: (s) => s.lv >= 50 },
+  { id: 'lv_99',        emoji: '👑', title: '하회의 영업왕',   desc: '하회지점의 전설 등극',       check: (s) => s.lv >= 99 },
+  { id: 'early_bird',   emoji: '🐓', title: '아침형 인간',     desc: '오전 6시 이전 접속',        check: (s) => s.earlyBird === true },
+  { id: 'night_owl',    emoji: '🦉', title: '밤샘 영업맨',     desc: '새벽 2~5시 접속',           check: (s) => s.nightOwl === true },
+];
+
+// 레벨 공식: 200일 만렙 기준 (꾸준한 활동 시)
+// 매일 평균 50포인트 × 200일 = 10,000포인트 → Lv99
+// 공식: Lv N 도달 = (N-1) × N 포인트 (Lv99 = 9,702)
+function levelToExp(lv) {
+  if (lv <= 1) return 0;
+  return Math.floor((lv - 1) * lv);
+}
+
+function expToLevel(exp) {
+  for (let lv = 99; lv >= 1; lv--) {
+    if (exp >= levelToExp(lv)) return lv;
+  }
+  return 1;
+}
+
+function getLevelTier(lv) {
+  for (const t of LEVEL_TIERS) {
+    if (lv >= t.min && lv <= t.max) return t;
+  }
+  return LEVEL_TIERS[0];
+}
+
+// 🎮 사용자 통계 (Firebase 연동용)
+function getUserStats() {
+  try {
+    const s = localStorage.getItem('user_stats');
+    return s ? JSON.parse(s) : {
+      exp: 0,
+      boxTotal: 0, boxRoll: 0, boxMongle: 0, boxSpecial: 0, boxMiss: 0,
+      missStreak: 0,
+      postCount: 0, commentCount: 0,
+      attendStreak: 0, lastAttendDate: null,
+      visitEduDate: null,
+      nightOwl: false, earlyBird: false,
+      titles: [],  // 획득한 칭호 ID 배열
+      history: {},  // 일일 이벤트 기록
+    };
+  } catch(e) {
+    return { exp: 0, titles: [], history: {} };
+  }
+}
+
+function saveUserStats(stats) {
+  try {
+    localStorage.setItem('user_stats', JSON.stringify(stats));
+  } catch(e) {}
+}
+
+// EXP 추가 + 칭호 체크 + Firebase 동기화
+function addExp(eventKey, points, options) {
+  options = options || {};
+  const stats = getUserStats();
+  const prevLv = expToLevel(stats.exp);
+  
+  // 하루 1회 제한
+  if (options.dailyOnce) {
+    const today = new Date().toISOString().slice(0, 10);
+    const k = `${eventKey}_${today}`;
+    if (stats.history[k]) return null;
+    stats.history[k] = true;
+  }
+  
+  stats.exp = (stats.exp || 0) + points;
+  
+  // 이벤트별 통계 갱신
+  if (eventKey === 'box_open') { stats.boxTotal++; stats.boxMiss++; stats.missStreak = (stats.missStreak || 0) + 1; }
+  else if (eventKey === 'box_win') { stats.boxTotal++; stats.missStreak = 0; }
+  else if (eventKey === 'box_jackpot') { stats.boxTotal++; stats.boxSpecial = (stats.boxSpecial || 0) + 1; stats.missStreak = 0; }
+  else if (eventKey === 'post_write') { stats.postCount = (stats.postCount || 0) + 1; }
+  else if (eventKey === 'comment_write') { stats.commentCount = (stats.commentCount || 0) + 1; }
+  else if (eventKey === 'daily_visit') {
+    // 출석 연속 체크
+    const today = new Date().toISOString().slice(0, 10);
+    const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+    if (stats.lastAttendDate === yesterday) stats.attendStreak = (stats.attendStreak || 0) + 1;
+    else if (stats.lastAttendDate !== today) stats.attendStreak = 1;
+    stats.lastAttendDate = today;
+  }
+  
+  // 시간대 체크
+  const hour = new Date().getHours();
+  if (hour >= 2 && hour < 5) stats.nightOwl = true;
+  if (hour < 6) stats.earlyBird = true;
+  
+  // 칭호 체크
+  const newLv = expToLevel(stats.exp);
+  stats.lv = newLv;
+  const checkData = { ...stats, lv: newLv };
+  const newTitles = [];
+  HIDDEN_TITLES.forEach(t => {
+    if (!stats.titles.includes(t.id) && t.check(checkData)) {
+      stats.titles.push(t.id);
+      newTitles.push(t);
+    }
+  });
+  
+  saveUserStats(stats);
+  
+  // Firebase 동기화 (FP 이름 선택했을 때만)
+  syncLevelToFirebase(stats);
+  
+  const leveledUp = newLv > prevLv;
+  
+  // 알림 표시
+  if (leveledUp) {
+    showLevelUpToast(newLv);
+  } else if (!options.silent) {
+    showExpToast(points, eventKey);
+  }
+  
+  // 새 칭호 획득 토스트
+  newTitles.forEach((t, i) => {
+    setTimeout(() => showTitleToast(t), 600 + i * 1200);
+  });
+  
+  // 카드 갱신
+  if (typeof renderLevelCard === 'function') renderLevelCard();
+  
+  return { points, leveledUp, newLv, newTitles };
+}
+
+// Firebase에 레벨 정보 저장 (FP 선택했을 때만)
+async function syncLevelToFirebase(stats) {
+  if (!window.MY_FP || !window._fb) return;
+  try {
+    const { db, doc, setDoc } = window._fb;
+    // setDoc + merge로 upsert
+    const { setDoc: sd, doc: dc } = window._fb;
+    await sd(dc(db, 'leaderboard', window.MY_FP), {
+      name: window.MY_FP,
+      exp: stats.exp || 0,
+      lv: stats.lv || 1,
+      boxTotal: stats.boxTotal || 0,
+      postCount: stats.postCount || 0,
+      titles: stats.titles || [],
+      updatedAt: Date.now(),
+    }, { merge: true });
+  } catch(e) {
+    console.log('레벨 동기화 실패:', e.message);
+  }
+}
+
+// 일반 EXP 획득 토스트
+function showExpToast(points, eventKey) {
+  const labels = {
+    box_open: '박스 오픈',
+    box_win: '🎉 박스 당첨',
+    box_jackpot: '✨ 잭팟 당첨!',
+    post_write: '✍️ 글 작성',
+    comment_write: '💬 댓글 작성',
+    daily_visit: '🌅 출석체크',
+    visit_edu: '📖 일상교육 방문',
+  };
+  const label = labels[eventKey] || eventKey;
+  
+  const toast = document.createElement('div');
+  toast.style.cssText = `
+    position: fixed; bottom: 80px; left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: linear-gradient(135deg, #1A1A1A, #2D2D2D);
+    color: white; padding: 10px 18px; border-radius: 100px;
+    font-size: 12.5px; font-weight: 800; letter-spacing: -0.02em;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3); z-index: 99998;
+    opacity: 0; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none; display: flex; align-items: center; gap: 8px;
+  `;
+  toast.innerHTML = `<span>${label}</span><span style="color:#FCD34D;">+${points}포인트</span>`;
+  document.body.appendChild(toast);
+  
+  requestAnimationFrame(() => {
+    toast.style.opacity = '1';
+    toast.style.transform = 'translateX(-50%) translateY(0)';
+  });
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateX(-50%) translateY(-20px)';
+    setTimeout(() => toast.remove(), 400);
+  }, 2200);
+}
+
+// 레벨업 풀스크린 토스트
+function showLevelUpToast(newLv) {
+  const tier = getLevelTier(newLv);
+  const m = document.createElement('div');
+  m.style.cssText = `
+    position: fixed; inset: 0; background: rgba(0,0,0,0.88);
+    z-index: 99999; display: flex; align-items: center; justify-content: center;
+    backdrop-filter: blur(10px); cursor: pointer;
+  `;
+  m.innerHTML = `
+    <style>
+      @keyframes lvScale { 0% { transform:scale(0.5); opacity:0; } 60% { transform:scale(1.1); } 100% { transform:scale(1); opacity:1; } }
+      @keyframes lvGlow { 0%,100% { text-shadow: 0 0 30px ${tier.color}aa; } 50% { text-shadow: 0 0 60px ${tier.color}, 0 0 100px ${tier.color}88; } }
+      @keyframes lvBounce { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-12px); } }
+    </style>
+    <div style="text-align:center; animation:lvScale 0.6s cubic-bezier(0.16, 1, 0.3, 1);">
+      <div style="font-size:90px; line-height:1; margin-bottom:12px; animation:lvBounce 1.2s ease infinite;">${tier.emoji}</div>
+      <div style="font-size:14px; font-weight:800; color:${tier.color}; letter-spacing:0.25em; margin-bottom:14px;">🎉 승진!</div>
+      <div style="font-size:38px; font-weight:900; color:white; letter-spacing:-0.04em; line-height:1; animation:lvGlow 1.8s ease infinite;">${tier.title}</div>
+      <div style="font-size:13px; font-weight:700; color:rgba(255,255,255,0.6); margin-top:14px;">으로 승진했어요!</div>
+      <div style="font-size:11px; color:rgba(255,255,255,0.4); margin-top:14px;">탭하여 닫기</div>
+    </div>
+  `;
+  m.onclick = () => m.remove();
+  document.body.appendChild(m);
+  setTimeout(() => { if (m.parentNode) m.remove(); }, 4500);
+}
+
+// 새 칭호 획득 토스트
+function showTitleToast(t) {
+  const m = document.createElement('div');
+  m.style.cssText = `
+    position: fixed; top: 80px; left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    background: linear-gradient(135deg, #1A1A1A 0%, #2D2D2D 100%);
+    border: 2px solid #FCD34D;
+    color: white; padding: 14px 20px; border-radius: 16px;
+    font-family: inherit; box-shadow: 0 8px 30px rgba(252,211,77,0.4);
+    z-index: 99997; opacity: 0;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex; align-items: center; gap: 12px;
+    min-width: 240px;
+  `;
+  m.innerHTML = `
+    <div style="font-size:36px;">${t.emoji}</div>
+    <div>
+      <div style="font-size:9px; font-weight:800; color:#FCD34D; letter-spacing:0.15em;">🏅 NEW</div>
+      <div style="font-size:14px; font-weight:900; letter-spacing:-0.02em; margin-top:2px;">${t.title}</div>
+      <div style="font-size:10.5px; opacity:0.7; margin-top:2px;">${t.desc}</div>
+    </div>
+  `;
+  document.body.appendChild(m);
+  requestAnimationFrame(() => {
+    m.style.opacity = '1';
+    m.style.transform = 'translateX(-50%) translateY(0)';
+  });
+  setTimeout(() => {
+    m.style.opacity = '0';
+    m.style.transform = 'translateX(-50%) translateY(-20px)';
+    setTimeout(() => m.remove(), 500);
+  }, 3500);
+}
+
+// 레벨 카드 렌더링 (Lv 99 + 진행도 + 칭호 + 랭킹 버튼)
+function renderLevelCard() {
+  const wrap = document.getElementById('levelCard');
+  if (!wrap) return;
+  
+  const stats = getUserStats();
+  const exp = stats.exp || 0;
+  const lv = expToLevel(exp);
+  const tier = getLevelTier(lv);
+  
+  const currentLvExp = levelToExp(lv);
+  const nextLvExp = lv >= 99 ? currentLvExp : levelToExp(lv + 1);
+  const progressInLv = exp - currentLvExp;
+  const neededInLv = nextLvExp - currentLvExp;
+  const pct = neededInLv > 0 ? Math.min(100, (progressInLv / neededInLv) * 100) : 100;
+  
+  const titles = stats.titles || [];
+  const totalTitles = HIDDEN_TITLES.length;
+  
+  wrap.innerHTML = `
+    <div style="
+      background: linear-gradient(135deg, #1A1A1A 0%, #2D2D2D 100%);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 14px;
+      color: white;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    ">
+      <!-- 글로우 -->
+      <div style="position:absolute; top:-50px; right:-50px; width:160px; height:160px; border-radius:50%; background:radial-gradient(circle, ${tier.color}33 0%, transparent 70%); pointer-events:none;"></div>
+      
+      <div style="display:flex; align-items:center; gap:14px; position:relative;">
+        <!-- 티어 -->
+        <div style="
+          width: 60px; height: 60px;
+          border-radius: 16px;
+          background: linear-gradient(135deg, ${tier.color}, ${tier.color}dd);
+          display: flex; align-items: center; justify-content: center;
+          font-size: 32px; flex-shrink: 0;
+          box-shadow: 0 4px 20px ${tier.color}55, inset 0 1px 0 rgba(255,255,255,0.2);
+        ">${tier.emoji}</div>
+        
+        <!-- 정보 -->
+        <div style="flex:1; min-width:0;">
+          <div style="display:flex; align-items:baseline; gap:8px; margin-bottom:6px;">
+            <span style="font-size:22px; font-weight:900; color:${tier.color}; letter-spacing:-0.03em; line-height:1;">${tier.title}</span>
+            ${lv < 99 ? `<span style="font-size:11px; font-weight:700; opacity:0.55;">총 ${exp}포인트</span>` : `<span style="font-size:11px; font-weight:700; color:#FCD34D;">최고 등급!</span>`}
+          </div>
+          
+          ${lv < 99 ? `
+            <div style="background:rgba(255,255,255,0.1); border-radius:100px; height:8px; overflow:hidden; margin-bottom:6px;">
+              <div style="height:100%; width:${pct}%; background:linear-gradient(90deg, ${tier.color}, #FCD34D); border-radius:100px; transition:width 0.5s ease; box-shadow:0 0 10px ${tier.color}aa;"></div>
+            </div>
+            
+            <div style="font-size:11px; font-weight:700; opacity:0.85;">
+              다음 승진까지 <span style="color:#FCD34D; font-weight:900;">${neededInLv - progressInLv}포인트</span> 남았어요!
+            </div>
+          ` : `
+            <div style="font-size:11px; font-weight:700; opacity:0.65;">하회지점의 전설이 되셨어요 👑</div>
+          `}
+        </div>
+      </div>
+      
+      <!-- 칭호 + 가이드 + 랭킹 -->
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin-top:14px; position:relative;">
+        <button onclick="openTitlesModal()" style="
+          background:rgba(255,255,255,0.06);
+          border:1px solid rgba(255,255,255,0.1);
+          border-radius:10px; padding:10px 6px;
+          color:white; font-family:inherit; cursor:pointer;
+          display:flex; align-items:center; justify-content:center; gap:4px;
+          font-size:11.5px; font-weight:700; letter-spacing:-0.02em;
+        ">
+          <span>🏅</span>
+          <span>받은 상장 ${titles.length}/${totalTitles}</span>
+        </button>
+        <button onclick="openExpGuideModal()" style="
+          background:rgba(255,255,255,0.06);
+          border:1px solid rgba(255,255,255,0.1);
+          border-radius:10px; padding:10px 6px;
+          color:white; font-family:inherit; cursor:pointer;
+          display:flex; align-items:center; justify-content:center; gap:4px;
+          font-size:11.5px; font-weight:700; letter-spacing:-0.02em;
+        ">
+          <span>📋</span>
+          <span>포인트 받는법</span>
+        </button>
+        <button onclick="openLeaderboardModal()" style="
+          background:linear-gradient(135deg, #F37321, #C2410C);
+          border:none; border-radius:10px; padding:10px 6px;
+          color:white; font-family:inherit; cursor:pointer;
+          display:flex; align-items:center; justify-content:center; gap:4px;
+          font-size:11.5px; font-weight:800; letter-spacing:-0.02em;
+          box-shadow:0 2px 8px rgba(243,115,33,0.3);
+        ">
+          <span>🏆</span>
+          <span>지점 순위</span>
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+// 🎭 칭호 모달
+function openTitlesModal() {
+  const stats = getUserStats();
+  const owned = new Set(stats.titles || []);
+  
+  const m = document.createElement('div');
+  m.style.cssText = `
+    position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+    z-index: 99998; overflow-y: auto;
+  `;
+  m.innerHTML = `
+    <div style="max-width:500px; margin:0 auto; padding:20px 16px; min-height:100vh; display:flex; align-items:center; justify-content:center;">
+      <div style="background:white; border-radius:18px; width:100%; padding:20px; box-shadow:0 12px 40px rgba(0,0,0,0.3); max-height:90vh; overflow-y:auto;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+          <div>
+            <div style="font-size:11px; color:var(--accent); font-weight:800; letter-spacing:0.05em;">HONOR</div>
+            <div style="font-size:18px; font-weight:800; letter-spacing:-0.03em; margin-top:2px;">🏅 받은 상장 ${owned.size}/${HIDDEN_TITLES.length}</div>
+          </div>
+          <button onclick="this.closest('div[style*=\\'position: fixed\\']').remove()" style="background:rgba(0,0,0,0.06); color:var(--ink); border:none; width:32px; height:32px; border-radius:50%; font-size:16px; cursor:pointer;">✕</button>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+          ${HIDDEN_TITLES.map(t => {
+            const has = owned.has(t.id);
+            return `<div style="
+              background:${has ? 'linear-gradient(135deg, #FFFBEB, #FEF3C7)' : 'rgba(0,0,0,0.03)'};
+              border:1px solid ${has ? 'rgba(252,211,77,0.4)' : 'rgba(0,0,0,0.06)'};
+              border-radius:10px; padding:10px;
+              opacity:${has ? '1' : '0.45'};
+              text-align:center;
+            ">
+              <div style="font-size:24px; line-height:1; filter:${has ? 'none' : 'grayscale(0.8)'};">${has ? t.emoji : '🔒'}</div>
+              <div style="font-size:11.5px; font-weight:800; color:var(--ink); margin-top:5px; letter-spacing:-0.02em;">${has ? t.title : '???'}</div>
+              <div style="font-size:9.5px; color:var(--gray); margin-top:2px; line-height:1.3;">${has ? t.desc : '???'}</div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+  m.onclick = (e) => { if (e.target === m) m.remove(); };
+  document.body.appendChild(m);
+}
+
+// 📋 EXP 가이드 모달
+function openExpGuideModal() {
+  const stats = getUserStats();
+  const today = new Date().toISOString().slice(0, 10);
+  const todayVisit = stats.history[`daily_visit_${today}`];
+  const todayEdu = stats.history[`visit_edu_${today}`];
+  
+  const m = document.createElement('div');
+  m.style.cssText = `
+    position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+    z-index: 99998; overflow-y: auto;
+  `;
+  
+  const expRules = [
+    { 
+      group: '🌅 매일 자동 적립',
+      items: [
+        { icon: '✅', label: '출석체크', desc: '하루 1회 자동', exp: 10, done: !!todayVisit },
+        { icon: '📖', label: '일상교육 페이지 방문', desc: '하루 1회', exp: 5, done: !!todayEdu },
+      ]
+    },
+    {
+      group: '🎁 박스 (평일 8~10시)',
+      items: [
+        { icon: '🎉', label: '롤팩/몽글 당첨', desc: '박스에서 상품 당첨', exp: 30 },
+        { icon: '😅', label: '꽝 (도전상)', desc: '시도 자체가 포인트', exp: 10 },
+        { icon: '✨', label: '1% 잭팟', desc: '특별선물 당첨 시!', exp: 500 },
+      ]
+    },
+    {
+      group: '💬 게시판 활동',
+      items: [
+        { icon: '✍️', label: '게시글 작성', desc: '꿀팁/자유/칭찬 글', exp: 20 },
+        { icon: '💬', label: '댓글 작성', desc: '다른 사람 글에 댓글', exp: 5 },
+      ]
+    },
+  ];
+  
+  let html = `
+    <div style="max-width:500px; margin:0 auto; padding:20px 16px; min-height:100vh; display:flex; align-items:center; justify-content:center;">
+      <div style="background:white; border-radius:18px; width:100%; padding:20px; box-shadow:0 12px 40px rgba(0,0,0,0.3); max-height:90vh; overflow-y:auto;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+          <div>
+            <div style="font-size:11px; color:var(--accent); font-weight:800; letter-spacing:0.05em;">ACTIVITY POINT</div>
+            <div style="font-size:18px; font-weight:800; letter-spacing:-0.03em; margin-top:2px;">📋 활동포인트 쌓는 법</div>
+          </div>
+          <button onclick="this.closest('div[style*=\\'position: fixed\\']').remove()" style="background:rgba(0,0,0,0.06); color:var(--ink); border:none; width:32px; height:32px; border-radius:50%; font-size:16px; cursor:pointer;">✕</button>
+        </div>
+        
+        <div style="background:linear-gradient(135deg, #FFFBEB, #FEF3C7); border:1px solid rgba(252,211,77,0.4); border-radius:10px; padding:10px 12px; margin-bottom:14px; font-size:11.5px; color:#92400E; line-height:1.5;">
+          💡 매일 출석체크만 해도 자동으로 포인트가 쌓여요!<br>
+          박스 + 글쓰기 + 댓글까지 활용하면 더 빨리 승진할 수 있어요.
+        </div>
+  `;
+  
+  expRules.forEach(group => {
+    html += `<div style="margin-bottom:14px;">
+      <div style="font-size:12px; font-weight:800; color:var(--ink); margin-bottom:6px; letter-spacing:-0.02em;">${group.group}</div>
+      <div style="display:flex; flex-direction:column; gap:5px;">`;
+    group.items.forEach(it => {
+      const isDone = it.done;
+      html += `<div style="
+        display:flex; align-items:center; gap:10px;
+        padding:10px 12px;
+        background:${isDone ? 'linear-gradient(135deg, #D1FAE5, #A7F3D0)' : 'rgba(0,0,0,0.03)'};
+        border:1px solid ${isDone ? 'rgba(16,185,129,0.3)' : 'rgba(0,0,0,0.06)'};
+        border-radius:10px;
+      ">
+        <div style="font-size:20px;">${it.icon}</div>
+        <div style="flex:1; min-width:0;">
+          <div style="font-size:12.5px; font-weight:800; color:var(--ink); letter-spacing:-0.02em;">${it.label}${isDone ? ' <span style=\"font-size:10px; color:#059669; font-weight:800;\">✓ 오늘 완료</span>' : ''}</div>
+          <div style="font-size:10.5px; color:var(--gray); margin-top:1px;">${it.desc}</div>
+        </div>
+        <div style="background:${it.exp >= 100 ? 'linear-gradient(135deg, #FCD34D, #F37321)' : 'var(--accent)'}; color:white; padding:4px 10px; border-radius:100px; font-size:11px; font-weight:800; letter-spacing:-0.02em; flex-shrink:0;">+${it.exp}</div>
+      </div>`;
+    });
+    html += `</div></div>`;
+  });
+  
+  // 티어 목록
+  html += `<div style="margin-top:18px; padding-top:14px; border-top:1px solid rgba(0,0,0,0.08);">
+    <div style="font-size:12px; font-weight:800; color:var(--ink); margin-bottom:8px; letter-spacing:-0.02em;">🎖️ 승진 단계</div>
+    <div style="display:flex; flex-direction:column; gap:4px;">`;
+  LEVEL_TIERS.forEach(t => {
+    const startP = 8 * (t.min - 1) * (t.min - 1);
+    html += `<div style="
+      display:flex; align-items:center; gap:8px;
+      padding:9px 12px;
+      background:linear-gradient(90deg, ${t.color}11, transparent);
+      border-left:3px solid ${t.color};
+      border-radius:6px;
+    ">
+      <span style="font-size:18px;">${t.emoji}</span>
+      <span style="font-size:13px; color:var(--ink); font-weight:800; letter-spacing:-0.02em; flex:1;">${t.title}</span>
+      <span style="font-size:10px; color:var(--gray); font-weight:700;">${startP}포인트~</span>
+    </div>`;
+  });
+  html += `</div></div>`;
+  
+  html += `</div></div>`;
+  m.innerHTML = html;
+  m.onclick = (e) => { if (e.target === m) m.remove(); };
+  document.body.appendChild(m);
+}
+
+window.openExpGuideModal = openExpGuideModal;
+
+// 📋 EXP 가이드 모달 끝
+async function openLeaderboardModal() {
+  const m = document.createElement('div');
+  m.style.cssText = `
+    position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+    z-index: 99998; overflow-y: auto;
+  `;
+  m.innerHTML = `
+    <div style="max-width:500px; margin:0 auto; padding:20px 16px; min-height:100vh; display:flex; align-items:center; justify-content:center;">
+      <div style="background:white; border-radius:18px; width:100%; padding:20px; box-shadow:0 12px 40px rgba(0,0,0,0.3); max-height:90vh; overflow-y:auto;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+          <div>
+            <div style="font-size:11px; color:var(--accent); font-weight:800; letter-spacing:0.05em;">LEADERBOARD</div>
+            <div style="font-size:18px; font-weight:800; letter-spacing:-0.03em; margin-top:2px;">🏆 지점 레벨 랭킹</div>
+          </div>
+          <button onclick="this.closest('div[style*=\\'position: fixed\\']').remove()" style="background:rgba(0,0,0,0.06); color:var(--ink); border:none; width:32px; height:32px; border-radius:50%; font-size:16px; cursor:pointer;">✕</button>
+        </div>
+        <div id="leaderboardList" style="text-align:center; padding:30px; color:var(--gray); font-size:13px;">불러오는 중...</div>
+      </div>
+    </div>
+  `;
+  m.onclick = (e) => { if (e.target === m) m.remove(); };
+  document.body.appendChild(m);
+  
+  // Firebase 데이터 로드
+  if (!window._fb) {
+    document.getElementById('leaderboardList').innerHTML = '<div style="padding:30px; color:#DC2626;">Firebase 연결 필요</div>';
+    return;
+  }
+  
+  try {
+    const { db, collection, getDocs, query, orderBy } = window._fb;
+    const q = query(collection(db, 'leaderboard'), orderBy('exp', 'desc'));
+    const snap = await getDocs(q);
+    
+    if (snap.empty) {
+      document.getElementById('leaderboardList').innerHTML = `<div style="padding:30px;">
+        <div style="font-size:40px; margin-bottom:10px; opacity:0.3;">🏆</div>
+        <div style="color:var(--gray); font-size:13px;">아직 랭킹 데이터가 없어요!</div>
+        <div style="color:var(--gray); font-size:11px; margin-top:6px; opacity:0.7;">내 정보 카드에서 이름 선택 후 활동하면<br>여기 랭킹에 자동으로 올라가요</div>
+      </div>`;
+      return;
+    }
+    
+    const rows = snap.docs.map((d, idx) => {
+      const data = d.data();
+      const tier = getLevelTier(data.lv || 1);
+      const isMine = data.name === window.MY_FP;
+      const medals = ['🥇', '🥈', '🥉'];
+      const rankBadge = idx < 3 ? medals[idx] : `<span style="color:var(--gray); font-weight:800;">${idx + 1}</span>`;
+      
+      return `<div style="
+        display:flex; align-items:center; gap:10px;
+        padding:10px 12px; margin-bottom:6px;
+        background:${isMine ? 'linear-gradient(135deg, #FFFBEB, #FEF3C7)' : 'linear-gradient(180deg, #FFFFFF, #FAF9F6)'};
+        border:1px solid ${isMine ? 'rgba(252,211,77,0.4)' : 'rgba(0,0,0,0.06)'};
+        border-radius:10px;
+      ">
+        <div style="width:28px; text-align:center; font-size:16px;">${rankBadge}</div>
+        <div style="font-size:24px;">${tier.emoji}</div>
+        <div style="flex:1; min-width:0;">
+          <div style="font-size:13px; font-weight:800; color:var(--ink); letter-spacing:-0.02em;">${data.name}${isMine ? ' <span style=\"color:#10B981; font-size:10px; font-weight:800;\">나</span>' : ''}</div>
+          <div style="font-size:10.5px; color:${tier.color}; font-weight:800; margin-top:1px;">${tier.title}</div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:13px; font-weight:900; color:${tier.color}; letter-spacing:-0.02em;">${data.exp || 0}</div>
+          <div style="font-size:9px; color:var(--gray); font-weight:700;">포인트</div>
+        </div>
+      </div>`;
+    }).join('');
+    
+    document.getElementById('leaderboardList').innerHTML = `<div style="text-align:left;">${rows}</div>`;
+  } catch(e) {
+    document.getElementById('leaderboardList').innerHTML = `<div style="padding:30px; color:#DC2626;">로드 실패: ${e.message}</div>`;
+  }
+}
+
+window.addExp = addExp;
+window.getUserStats = getUserStats;
+window.renderLevelCard = renderLevelCard;
+window.openTitlesModal = openTitlesModal;
+window.openLeaderboardModal = openLeaderboardModal;
+setTimeout(renderLevelCard, 200);
+
+// 출석체크
+setTimeout(() => {
+  addExp('daily_visit', 10, { dailyOnce: true });
+}, 1500);
+
+// ============================================
 //          🎯 전광판 (어제 신계약)
 // ============================================
 // ⬇️⬇️⬇️ 매일 여기만 갈아끼우면 됩니다 ⬇️⬇️⬇️
@@ -10037,6 +11106,8 @@ async function submitBoardPost() {
         category: BOARD_STATE.writeCat || 'free',
       });
     }
+    // 🎮 EXP 적립
+    if (typeof addExp === 'function') addExp('post_write', 20);
     // 글 올린 후 해당 카테고리로 자동 전환
     if (BOARD_STATE.writeCat && BOARD_STATE.writeCat !== BOARD_STATE.cat) {
       switchBoardCat(BOARD_STATE.writeCat);
@@ -10236,6 +11307,8 @@ async function submitComment() {
     });
     await updateDoc(doc(db, 'posts', _currentPostId), { commentCount: increment(1) });
     ta.value = '';
+    // 🎮 EXP 적립
+    if (typeof addExp === 'function') addExp('comment_write', 5);
   } catch (e) {
     alert('댓글 작성 실패: ' + e.message);
   }
@@ -10303,6 +11376,26 @@ window.getDeviceId = getDeviceId;
 window.masterDeletePost = masterDeletePost;
 window.masterDeleteComment = masterDeleteComment;
 </script>
+
+<!-- 글쓰기 모달 -->
+<!-- FP 선택 모달 -->
+<div id="fpPickerModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:9998; overflow-y:auto;">
+  <div style="max-width:500px; margin:0 auto; padding:20px 16px; min-height:100vh; display:flex; align-items:center; justify-content:center;">
+    <div style="background:white; border-radius:18px; width:100%; padding:20px; box-shadow:0 12px 40px rgba(0,0,0,0.3); max-height:90vh; overflow-y:auto;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+        <div>
+          <div style="font-size:11px; color:var(--accent); font-weight:800; letter-spacing:0.05em;">FP 선택</div>
+          <div style="font-size:18px; font-weight:800; letter-spacing:-0.03em; margin-top:2px;">👋 FP님 누구신가요?</div>
+        </div>
+        <button onclick="closeFpPicker()" style="background:rgba(0,0,0,0.06); color:var(--ink); border:none; width:32px; height:32px; border-radius:50%; font-size:16px; cursor:pointer;">✕</button>
+      </div>
+      <div style="background:rgba(243,115,33,0.08); border:1px solid rgba(243,115,33,0.15); border-radius:10px; padding:10px 12px; margin-bottom:14px; font-size:11.5px; color:var(--ink); line-height:1.5;">
+        본인 이름을 선택하면 매일 본인 현황(환산/등급/3.3.3)을<br>메인에서 바로 확인할 수 있어요!
+      </div>
+      <div id="fpPickerList"></div>
+    </div>
+  </div>
+</div>
 
 <!-- 글쓰기 모달 -->
 <div id="boardWriteModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:9998; overflow-y:auto;">
