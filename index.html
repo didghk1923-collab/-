@@ -7717,15 +7717,12 @@ function renderAdminPanel() {
   m.style.cssText = `
     position: fixed; inset: 0; background: rgba(0,0,0,0.7);
     z-index: 99998; overflow-y: auto;
-    padding-top: env(safe-area-inset-top, 0);
-    padding-bottom: env(safe-area-inset-bottom, 0);
-    box-sizing: border-box;
   `;
   m.addEventListener('click', (e) => {
     if (e.target === m) m.remove();
   });
   m.innerHTML = `
-    <div style="max-width:600px; margin:0 auto; padding:16px; min-height:100vh;">
+    <div style="max-width:600px; margin:0 auto; padding: calc(env(safe-area-inset-top, 0) + 16px) 16px calc(env(safe-area-inset-bottom, 0) + 16px); min-height:100vh; box-sizing: border-box;">
       <div style="background:white; border-radius:18px; padding:18px; box-shadow:0 12px 40px rgba(0,0,0,0.3);">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
           <div>
@@ -8364,15 +8361,12 @@ async function openFpStatus() {
   m.style.cssText = `
     position: fixed; inset: 0; background: rgba(0,0,0,0.7);
     z-index: 99998; overflow-y: auto;
-    padding-top: env(safe-area-inset-top, 0);
-    padding-bottom: env(safe-area-inset-bottom, 0);
-    box-sizing: border-box;
   `;
   m.addEventListener('click', (e) => {
     if (e.target === m) m.remove();
   });
   m.innerHTML = `
-    <div style="max-width:600px; margin:0 auto; padding:16px; min-height:100vh;">
+    <div style="max-width:600px; margin:0 auto; padding: calc(env(safe-area-inset-top, 0) + 16px) 16px calc(env(safe-area-inset-bottom, 0) + 16px); min-height:100vh; box-sizing: border-box;">
       <div style="background:white; border-radius:18px; padding:18px; box-shadow:0 12px 40px rgba(0,0,0,0.3);">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
           <div>
@@ -8482,15 +8476,12 @@ async function openSignupStatus() {
   m.style.cssText = `
     position: fixed; inset: 0; background: rgba(0,0,0,0.7);
     z-index: 99998; overflow-y: auto;
-    padding-top: env(safe-area-inset-top, 0);
-    padding-bottom: env(safe-area-inset-bottom, 0);
-    box-sizing: border-box;
   `;
   m.addEventListener('click', (e) => {
     if (e.target === m) m.remove();
   });
   m.innerHTML = `
-    <div style="max-width:600px; margin:0 auto; padding:16px; min-height:100vh;">
+    <div style="max-width:600px; margin:0 auto; padding: calc(env(safe-area-inset-top, 0) + 16px) 16px calc(env(safe-area-inset-bottom, 0) + 16px); min-height:100vh; box-sizing: border-box;">
       <div style="background:white; border-radius:18px; padding:18px; box-shadow:0 12px 40px rgba(0,0,0,0.3);">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
           <div>
