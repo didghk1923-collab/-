@@ -7757,11 +7757,11 @@ async function renderAdminAssign() {
           else badge = '🔵';
         }
         
-        html += `<button onclick="openMissionEdit('${fp.n}', '${type}')" style="background:${has ? info.colorSoft : 'rgba(0,0,0,0.03)'}; border:1px solid ${has ? info.color + '55' : 'rgba(0,0,0,0.08)'}; border-radius:8px; padding:7px 4px; font-family:inherit; cursor:pointer; text-align:center;">
+        html += `<button onclick="openMissionEdit('${fp.n}', '${type}')" style="background:${has ? info.colorSoft : 'rgba(0,0,0,0.03)'}; border:1px solid ${has ? info.color + '55' : 'rgba(0,0,0,0.08)'}; border-radius:8px; padding:7px 4px; font-family:inherit; cursor:pointer; text-align:center; min-width:0; overflow:hidden;">
           <div style="font-size:14px;">${info.icon}</div>
           <div style="font-size:9px; font-weight:800; color:${has ? info.color : 'var(--gray)'}; margin-top:2px;">${info.label.replace(' 미션', '')}</div>
           ${has 
-            ? `<div style="font-size:9.5px; font-weight:700; color:var(--ink); margin-top:3px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${badge} ${m.title}</div>` 
+            ? `<div style="font-size:9.5px; font-weight:700; color:var(--ink); margin-top:3px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:100%;">${badge} ${m.title}</div>` 
             : `<div style="font-size:9px; color:var(--gray); opacity:0.5; margin-top:3px;">미배정</div>`}
         </button>`;
       });
@@ -8268,14 +8268,8 @@ async function autoGenerateMonthlyMission(fp) {
   // 💰 보상 = 목표(총환산월초) / 5만원 → 1코인
   const reward = Math.max(1, Math.floor(targetEnv / 5));
   
-  let title, desc;
-  if (targetEnv === 0) {
-    title = '🎯 이번 달 환산월초 30만원 달성';
-    desc = '목표 달성 시 🪙6코인';
-  } else {
-    title = `🎯 이번 달 환산월초 ${targetEnv}만원 달성`;
-    desc = `목표 달성 시 🪙${reward}코인`;
-  }
+  const title = `🎯 이번 달 환산월초 ${targetEnv || 30}만원 달성`;
+  const desc = '';
   
   try {
     await setDoc(doc(db, 'missions', docId), {
