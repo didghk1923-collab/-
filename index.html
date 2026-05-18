@@ -6521,7 +6521,7 @@ function openChangePin() {
           <div style="font-size:11px; font-weight:800; color:#FCD34D; letter-spacing:0.1em;">CHANGE PIN</div>
           <div style="font-size:18px; font-weight:900; letter-spacing:-0.03em; margin-top:2px;">🔑 핀번호 변경</div>
         </div>
-        <button onclick="document.getElementById('changePinModal').remove()" style="background:rgba(255,255,255,0.1); border:none; color:white; width:40px; height:40px; border-radius:50%; font-size:18px; cursor:pointer; touch-action:manipulation; -webkit-tap-highlight-color:transparent; flex-shrink:0;">✕</button>
+        <button onclick="document.getElementById('changePinModal').remove()" style="background:rgba(255,255,255,0.18); border:2px solid rgba(255,255,255,0.25); color:white; width:48px; height:48px; border-radius:50%; font-size:22px; cursor:pointer; touch-action:manipulation; -webkit-tap-highlight-color:rgba(255,255,255,0.2); flex-shrink:0; font-weight:800;">✕</button>
       </div>
       
       <div style="font-size:11.5px; color:rgba(255,255,255,0.65); margin-bottom:14px;">${window.MY_FP}님의 핀번호를 변경합니다</div>
@@ -7729,7 +7729,7 @@ function renderAdminPanel() {
             <div style="font-size:11px; color:var(--accent); font-weight:800; letter-spacing:0.05em;">ADMIN</div>
             <div style="font-size:18px; font-weight:900; letter-spacing:-0.03em;">🎯 미션 관리</div>
           </div>
-          <button onclick="document.getElementById('missionAdminModal').remove()" style="background:rgba(0,0,0,0.08); border:none; width:40px; height:40px; border-radius:50%; font-size:18px; cursor:pointer; touch-action:manipulation; -webkit-tap-highlight-color:transparent; flex-shrink:0;">✕</button>
+          <button onclick="document.getElementById('missionAdminModal').remove()" style="background:rgba(0,0,0,0.12); border:2px solid rgba(0,0,0,0.15); width:48px; height:48px; border-radius:50%; font-size:22px; cursor:pointer; touch-action:manipulation; -webkit-tap-highlight-color:rgba(0,0,0,0.1); flex-shrink:0; font-weight:800; color:#1A1A1A;">✕</button>
         </div>
         <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:3px; background:rgba(0,0,0,0.04); padding:3px; border-radius:10px; margin-bottom:14px;">
           <button onclick="switchAdminTab('assign')" id="adminTabAssign" style="background:white; color:var(--ink); border:none; border-radius:8px; padding:8px 4px; font-size:10.5px; font-weight:800; cursor:pointer; font-family:inherit; box-shadow:0 1px 3px rgba(0,0,0,0.06); letter-spacing:-0.03em;">📝 미션</button>
@@ -7968,7 +7968,7 @@ function openMissionEdit(fpName, missionType, specialId) {
             <div style="font-size:16px; font-weight:900; letter-spacing:-0.02em;">${fpName}님</div>
             <div style="font-size:10px; color:var(--gray); margin-top:2px;">기간: ${info.period}${missionType !== 'special' ? ' · ' + getPeriodKey(missionType) : ''}</div>
           </div>
-          <button onclick="document.getElementById('missionEditModal').remove()" style="background:rgba(0,0,0,0.08); border:none; width:40px; height:40px; border-radius:50%; font-size:18px; cursor:pointer; touch-action:manipulation; -webkit-tap-highlight-color:transparent; flex-shrink:0;">✕</button>
+          <button onclick="document.getElementById('missionEditModal').remove()" style="background:rgba(0,0,0,0.12); border:2px solid rgba(0,0,0,0.15); width:48px; height:48px; border-radius:50%; font-size:22px; cursor:pointer; touch-action:manipulation; -webkit-tap-highlight-color:rgba(0,0,0,0.1); flex-shrink:0; font-weight:800; color:#1A1A1A;">✕</button>
         </div>
         <label style="font-size:11px; font-weight:800; color:var(--ink); display:block; margin-bottom:5px;">미션 제목 *</label>
         <input type="text" id="missionTitle" value="${(currentMission.title || '').replace(/"/g, '&quot;')}" placeholder="예: 신규 고객 3명 전화하기" style="width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:8px; font-size:13px; font-family:inherit; margin-bottom:10px; box-sizing:border-box;">
@@ -8280,10 +8280,13 @@ async function renderManagerDashboard() {
       
       <!-- 📊 핵심 지표 4개 -->
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px; position:relative;">
-        <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:11px 13px;">
-          <div style="font-size:10px; color:rgba(255,255,255,0.5); font-weight:700;">👥 가입자</div>
+        <button onclick="openSignupStatus()" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:11px 13px; color:white; font-family:inherit; cursor:pointer; text-align:left;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="font-size:10px; color:rgba(255,255,255,0.5); font-weight:700;">👥 가입자</div>
+            <div style="font-size:9px; color:rgba(252,211,77,0.7); font-weight:800;">탭 →</div>
+          </div>
           <div style="font-size:18px; font-weight:900; color:white; letter-spacing:-0.02em; margin-top:2px;">${activeUsers}<span style="font-size:11px; opacity:0.5; margin-left:2px;">/${fps.length}명</span></div>
-        </div>
+        </button>
         <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:11px 13px;">
           <div style="font-size:10px; color:rgba(255,255,255,0.5); font-weight:700;">📈 활동포인트</div>
           <div style="font-size:18px; font-weight:900; color:#10B981; letter-spacing:-0.02em; margin-top:2px;">${totalExp.toLocaleString()}<span style="font-size:11px; opacity:0.5; margin-left:2px;">P</span></div>
@@ -8370,7 +8373,7 @@ async function openFpStatus() {
             <div style="font-size:11px; color:var(--accent); font-weight:800; letter-spacing:0.05em;">FP STATUS</div>
             <div style="font-size:18px; font-weight:900; letter-spacing:-0.03em;">👥 전체 FP 현황</div>
           </div>
-          <button onclick="document.getElementById('fpStatusModal').remove()" style="background:rgba(0,0,0,0.08); border:none; width:40px; height:40px; border-radius:50%; font-size:18px; cursor:pointer; touch-action:manipulation; -webkit-tap-highlight-color:transparent; flex-shrink:0;">✕</button>
+          <button onclick="document.getElementById('fpStatusModal').remove()" style="background:rgba(0,0,0,0.12); border:2px solid rgba(0,0,0,0.15); width:48px; height:48px; border-radius:50%; font-size:22px; cursor:pointer; touch-action:manipulation; -webkit-tap-highlight-color:rgba(0,0,0,0.1); flex-shrink:0; font-weight:800; color:#1A1A1A;">✕</button>
         </div>
         <div id="fpStatusContent" style="text-align:center; padding:30px; color:var(--gray); font-size:13px;">불러오는 중...</div>
       </div>
@@ -8463,6 +8466,153 @@ window.renderManagerDashboard = renderManagerDashboard;
 window.openManagerPanel = openManagerPanel;
 window.openFpStatus = openFpStatus;
 window.isManager = isManager;
+
+// 👥 가입 현황 전용 모달 (누가 가입했는지 한눈에)
+async function openSignupStatus() {
+  if (!isManager()) return;
+  
+  const m = document.createElement('div');
+  m.id = 'signupStatusModal';
+  m.style.cssText = `
+    position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+    z-index: 99998; overflow-y: auto;
+  `;
+  m.addEventListener('click', (e) => {
+    if (e.target === m) m.remove();
+  });
+  m.innerHTML = `
+    <div style="max-width:600px; margin:0 auto; padding:16px; min-height:100vh;">
+      <div style="background:white; border-radius:18px; padding:18px; box-shadow:0 12px 40px rgba(0,0,0,0.3);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+          <div>
+            <div style="font-size:11px; color:var(--accent); font-weight:800; letter-spacing:0.05em;">SIGNUP STATUS</div>
+            <div style="font-size:18px; font-weight:900; letter-spacing:-0.03em;">👥 가입 현황</div>
+          </div>
+          <button onclick="document.getElementById('signupStatusModal').remove()" style="background:rgba(0,0,0,0.12); border:2px solid rgba(0,0,0,0.15); width:48px; height:48px; border-radius:50%; font-size:22px; cursor:pointer; touch-action:manipulation; -webkit-tap-highlight-color:rgba(0,0,0,0.1); flex-shrink:0; font-weight:800; color:#1A1A1A;">✕</button>
+        </div>
+        <div id="signupStatusContent" style="text-align:center; padding:30px; color:var(--gray); font-size:13px;">불러오는 중...</div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(m);
+  
+  try {
+    const { db, doc, getDoc } = window._fb;
+    const fps = (DATA.daily.fpList || []);
+    const userData = {};
+    
+    await Promise.all(fps.map(async fp => {
+      const snap = await getDoc(doc(db, 'users', fp.n));
+      if (snap.exists()) {
+        const d = snap.data();
+        userData[fp.n] = {
+          joined: true,
+          createdAt: d.createdAt || 0,
+          welcomeBonus: !!d.welcomeBonus,
+        };
+      } else {
+        userData[fp.n] = { joined: false };
+      }
+    }));
+    
+    // 가입자/미가입자 분리
+    const joined = fps.filter(f => userData[f.n]?.joined);
+    const notJoined = fps.filter(f => !userData[f.n]?.joined);
+    
+    // 팀별 분류
+    const teams = {};
+    fps.forEach(f => { if (!teams[f.team]) teams[f.team] = []; teams[f.team].push(f); });
+    
+    // 상단 요약
+    let html = `<div style="background:linear-gradient(135deg, #FFFBEB, #FEF3C7); border:1px solid rgba(252,211,77,0.4); border-radius:10px; padding:12px 14px; margin-bottom:12px; text-align:left;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div style="font-size:10px; font-weight:800; color:#92400E; letter-spacing:0.1em;">SUMMARY</div>
+          <div style="font-size:16px; font-weight:900; color:#92400E; margin-top:2px;">✅ ${joined.length}명 / 📋 ${notJoined.length}명 미가입</div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:10px; color:#92400E; opacity:0.7; font-weight:700;">가입률</div>
+          <div style="font-size:24px; font-weight:900; color:#F37321; line-height:1; margin-top:2px;">${Math.round(joined.length / fps.length * 100)}<span style="font-size:13px; opacity:0.7;">%</span></div>
+        </div>
+      </div>
+    </div>`;
+    
+    // 가입자 목록 (최근 가입순)
+    if (joined.length > 0) {
+      const sortedJoined = joined.slice().sort((a, b) => (userData[b.n].createdAt || 0) - (userData[a.n].createdAt || 0));
+      html += `<div style="margin-bottom:14px;">
+        <div style="font-size:12px; font-weight:900; color:#10B981; margin-bottom:8px; letter-spacing:-0.02em;">✅ 가입 완료 (${joined.length}명)</div>
+        <div style="display:flex; flex-direction:column; gap:4px; text-align:left;">`;
+      sortedJoined.forEach((fp, idx) => {
+        const d = userData[fp.n];
+        const ago = d.createdAt ? formatTimeAgo(d.createdAt) : '';
+        html += `<div style="background:linear-gradient(90deg, rgba(16,185,129,0.08), white); border:1px solid rgba(16,185,129,0.2); border-radius:8px; padding:9px 12px; display:flex; align-items:center; gap:8px;">
+          <span style="font-size:10px; color:var(--gray); font-weight:700; min-width:24px;">${idx + 1}</span>
+          <span style="font-size:9.5px; color:#10B981; font-weight:700; min-width:42px;">${fp.team}</span>
+          <span style="font-size:13px; font-weight:800; color:var(--ink); flex:1; letter-spacing:-0.02em;">${fp.n}</span>
+          ${d.welcomeBonus ? `<span style="font-size:9px; color:#D97706; font-weight:800; background:rgba(252,211,77,0.15); padding:2px 6px; border-radius:4px;">🎁 30</span>` : ''}
+          <span style="font-size:9.5px; color:var(--gray); font-weight:700; min-width:60px; text-align:right;">${ago}</span>
+        </div>`;
+      });
+      html += `</div></div>`;
+    }
+    
+    // 미가입자 목록 (팀별)
+    if (notJoined.length > 0) {
+      html += `<div>
+        <div style="font-size:12px; font-weight:900; color:#9CA3AF; margin-bottom:8px; letter-spacing:-0.02em;">📋 미가입 (${notJoined.length}명)</div>
+        <div style="text-align:left;">`;
+      
+      const notJoinedByTeam = {};
+      notJoined.forEach(f => {
+        if (!notJoinedByTeam[f.team]) notJoinedByTeam[f.team] = [];
+        notJoinedByTeam[f.team].push(f);
+      });
+      
+      Object.entries(notJoinedByTeam).forEach(([team, list]) => {
+        html += `<div style="margin-bottom:10px;">
+          <div style="font-size:10.5px; font-weight:800; color:var(--gray); letter-spacing:0.05em; margin-bottom:5px;">${team} · ${list.length}명</div>
+          <div style="display:flex; flex-wrap:wrap; gap:4px;">`;
+        list.forEach(fp => {
+          const sabun = window.FP_SABUN[fp.n] || '';
+          html += `<div style="background:rgba(0,0,0,0.04); border:1px solid rgba(0,0,0,0.08); border-radius:6px; padding:6px 9px; font-size:11px; color:var(--ink); font-weight:700; letter-spacing:-0.02em;">
+            ${fp.n}<span style="font-size:9px; color:var(--gray); margin-left:4px; font-weight:600;">(${sabun})</span>
+          </div>`;
+        });
+        html += `</div></div>`;
+      });
+      
+      html += `</div>
+        <div style="margin-top:10px; padding:9px 12px; background:rgba(243,115,33,0.08); border:1px solid rgba(243,115,33,0.2); border-radius:8px; font-size:10.5px; color:var(--accent-deep); line-height:1.5;">
+          💡 미가입 FP에게 사번 안내 후 <b>사번 + @</b>로 첫 로그인하라고 알려주세요
+        </div>
+      </div>`;
+    }
+    
+    document.getElementById('signupStatusContent').innerHTML = html;
+  } catch(e) {
+    document.getElementById('signupStatusContent').innerHTML = '<div style="color:#DC2626; padding:30px;">로드 실패: ' + e.message + '</div>';
+  }
+}
+
+// 시간 표시 헬퍼
+function formatTimeAgo(timestamp) {
+  if (!timestamp) return '';
+  const diff = Date.now() - timestamp;
+  const min = Math.floor(diff / 60000);
+  if (min < 1) return '방금';
+  if (min < 60) return `${min}분 전`;
+  const hr = Math.floor(min / 60);
+  if (hr < 24) return `${hr}시간 전`;
+  const day = Math.floor(hr / 24);
+  if (day < 7) return `${day}일 전`;
+  const week = Math.floor(day / 7);
+  if (week < 5) return `${week}주 전`;
+  return `${Math.floor(day / 30)}개월 전`;
+}
+
+window.openSignupStatus = openSignupStatus;
+window.formatTimeAgo = formatTimeAgo;
 
 // ============================================
 //          💰 하회코인 시세판
