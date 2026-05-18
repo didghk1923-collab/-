@@ -1322,6 +1322,10 @@ input#bojangGeongang::-webkit-inner-spin-button {
       <span class="side-ico">🎲</span>
       <span>등급업 게임</span>
     </button>
+    <button class="side-item" onclick="openMissionAdmin(); closeSidePanel(); event.preventDefault(); event.stopPropagation();">
+      <span class="side-ico">🔒</span>
+      <span>지점장 관리</span>
+    </button>
     <button class="side-item" data-page="suika" style="display:none;">
       <span class="side-ico">🍉</span>
       <span>보험 합치기</span>
@@ -2950,6 +2954,10 @@ body {
     <button class=&quot;btn&quot; onclick=&quot;newGame()&quot;>🔄 새 게임</button>
   </div>
 
+  <div class=&quot;controls&quot; style=&quot;margin-top: 8px;&quot;>
+    <button class=&quot;btn&quot; id=&quot;autoBtn&quot; onclick=&quot;toggleAutoPlay()&quot; style=&quot;background:linear-gradient(135deg, #8B5CF6, #6D28D9); color:white; flex:1;&quot;>🤖 AI 자동 플레이</button>
+  </div>
+
   <!-- 명예의 전당 -->
   <div class=&quot;hof-panel&quot; id=&quot;hofPanel&quot;>
     <div class=&quot;hof-header&quot;>
@@ -3028,6 +3036,17 @@ let tileIdSeq = 0;
 let tileMap = new Map(); // id → element
 
 function newGame() {
+  // AI 자동 플레이 중단
+  if (autoPlayActive) {
+    autoPlayActive = false;
+    const btn = document.getElementById('autoBtn');
+    if (btn) {
+      btn.innerHTML = '🤖 AI 자동 플레이';
+      btn.style.background = 'linear-gradient(135deg, #8B5CF6, #6D28D9)';
+    }
+    if (autoPlayTimer) clearTimeout(autoPlayTimer);
+  }
+  
   // 게임 횟수 카운트 (실제 시작할 때만)
   playCount++;
   localStorage.setItem('promo2048_play_count', String(playCount));
@@ -3383,6 +3402,190 @@ function getHighestTile() {
     }
   }
   return max;
+}
+
+// ============================================
+//          🤖 AI 자동 플레이
+// ============================================
+let autoPlayActive = false;
+let autoPlayTimer = null;
+
+// 그리드 시뮬레이션 (실제로 변경 안 함)
+function simulateMove(g, dir) {
+  const size = g.length;
+  const newG = g.map(r => r.slice());
+  let scoreGained = 0;
+  let moved = false;
+  
+  function slideRow(row) {
+    const nonZero = row.filter(v => v !== 0);
+    const result = [];
+    let i = 0;
+    while (i < nonZero.length) {
+      if (i + 1 < nonZero.length &amp;&amp; nonZero[i] === nonZero[i+1]) {
+        result.push(nonZero[i] * 2);
+        scoreGained += nonZero[i] * 2;
+        i += 2;
+      } else {
+        result.push(nonZero[i]);
+        i++;
+      }
+    }
+    while (result.length < size) result.push(0);
+    return result;
+  }
+  
+  if (dir === 3) { // left
+    for (let r = 0; r < size; r++) {
+      const newRow = slideRow(newG[r]);
+      for (let c = 0; c < size; c++) {
+        if (newG[r][c] !== newRow[c]) moved = true;
+        newG[r][c] = newRow[c];
+      }
+    }
+  } else if (dir === 1) { // right
+    for (let r = 0; r < size; r++) {
+      const newRow = slideRow(newG[r].slice().reverse()).reverse();
+      for (let c = 0; c < size; c++) {
+        if (newG[r][c] !== newRow[c]) moved = true;
+        newG[r][c] = newRow[c];
+      }
+    }
+  } else if (dir === 0) { // up
+    for (let c = 0; c < size; c++) {
+      const col = [];
+      for (let r = 0; r < size; r++) col.push(newG[r][c]);
+      const newCol = slideRow(col);
+      for (let r = 0; r < size; r++) {
+        if (newG[r][c] !== newCol[r]) moved = true;
+        newG[r][c] = newCol[r];
+      }
+    }
+  } else if (dir === 2) { // down
+    for (let c = 0; c < size; c++) {
+      const col = [];
+      for (let r = 0; r < size; r++) col.push(newG[r][c]);
+      const newCol = slideRow(col.slice().reverse()).reverse();
+      for (let r = 0; r < size; r++) {
+        if (newG[r][c] !== newCol[r]) moved = true;
+        newG[r][c] = newCol[r];
+      }
+    }
+  }
+  
+  return { grid: newG, score: scoreGained, moved };
+}
+
+// 그리드 평가 함수 (높을수록 좋음)
+function evaluateGrid(g) {
+  const size = g.length;
+  let score = 0;
+  let emptyCount = 0;
+  let maxTile = 0;
+  let maxR = 0, maxC = 0;
+  
+  for (let r = 0; r < size; r++) {
+    for (let c = 0; c < size; c++) {
+      if (g[r][c] === 0) emptyCount++;
+      if (g[r][c] > maxTile) { maxTile = g[r][c]; maxR = r; maxC = c; }
+    }
+  }
+  
+  // 1. 빈 칸 많을수록 좋음 (가장 중요)
+  score += emptyCount * 270;
+  
+  // 2. 최댓값 타일이 모서리에 있으면 보너스
+  if ((maxR === 0 || maxR === size - 1) &amp;&amp; (maxC === 0 || maxC === size - 1)) {
+    score += maxTile * 4;
+  }
+  
+  // 3. 모노토닉 (단조 증가/감소) - 한 줄이 정렬된 형태면 좋음
+  // 좌상단부터 우하단으로 갈수록 큰 값이 좋음
+  const weight = [
+    [16, 15, 14, 13],
+    [9, 10, 11, 12],
+    [8, 7, 6, 5],
+    [1, 2, 3, 4],
+  ];
+  for (let r = 0; r < size; r++) {
+    for (let c = 0; c < size; c++) {
+      score += g[r][c] * weight[r][c];
+    }
+  }
+  
+  // 4. 인접한 같은 값들 - 합쳐질 가능성
+  for (let r = 0; r < size; r++) {
+    for (let c = 0; c < size; c++) {
+      if (g[r][c] !== 0) {
+        if (c < size - 1 &amp;&amp; g[r][c] === g[r][c+1]) score += g[r][c] * 2;
+        if (r < size - 1 &amp;&amp; g[r][c] === g[r+1][c]) score += g[r][c] * 2;
+      }
+    }
+  }
+  
+  return score;
+}
+
+// 최적 방향 찾기
+function findBestMove() {
+  let bestDir = -1;
+  let bestScore = -Infinity;
+  
+  for (let dir = 0; dir < 4; dir++) {
+    const sim = simulateMove(grid, dir);
+    if (!sim.moved) continue;
+    
+    let score = sim.score * 1.5 + evaluateGrid(sim.grid);
+    
+    if (score > bestScore) {
+      bestScore = score;
+      bestDir = dir;
+    }
+  }
+  
+  return bestDir;
+}
+
+function toggleAutoPlay() {
+  autoPlayActive = !autoPlayActive;
+  const btn = document.getElementById('autoBtn');
+  
+  if (autoPlayActive) {
+    btn.innerHTML = '⏸ AI 정지';
+    btn.style.background = 'linear-gradient(135deg, #DC2626, #991B1B)';
+    runAutoPlay();
+  } else {
+    btn.innerHTML = '🤖 AI 자동 플레이';
+    btn.style.background = 'linear-gradient(135deg, #8B5CF6, #6D28D9)';
+    if (autoPlayTimer) {
+      clearTimeout(autoPlayTimer);
+      autoPlayTimer = null;
+    }
+  }
+}
+
+function runAutoPlay() {
+  if (!autoPlayActive || gameOver) {
+    autoPlayActive = false;
+    const btn = document.getElementById('autoBtn');
+    if (btn) {
+      btn.innerHTML = '🤖 AI 자동 플레이';
+      btn.style.background = 'linear-gradient(135deg, #8B5CF6, #6D28D9)';
+    }
+    return;
+  }
+  
+  const bestDir = findBestMove();
+  if (bestDir === -1) {
+    // 움직일 수 없음 (게임 오버 상태)
+    autoPlayActive = false;
+    return;
+  }
+  
+  move(bestDir);
+  
+  // 다음 수까지 대기 (속도 조절)
+  autoPlayTimer = setTimeout(runAutoPlay, 80);
 }
 
 function showModal() {
@@ -7757,6 +7960,9 @@ setTimeout(() => {
       </div>
     </div>
 
+    <!-- 🎯 미션 카드 -->
+    <div id="missionCard"></div>
+
     <!-- 🎯 내 정보 카드 -->
     <div id="myInfoCard"></div>
 
@@ -9161,9 +9367,249 @@ function openBoxBy(key) {
     addExp('box_win', 30);  // 당첨 +30
   }
   
-  // 결과 표시
-  openPrize(item, opts);
+  // 🎲 당첨 시 더블 도전 기회 (꽝/잭팟은 제외)
+  if (item === '롤팩 1개' || item === '몽글행주 1개') {
+    showDoubleChance(key, item, opts);
+  } else {
+    // 꽝/잭팟은 바로 결과 표시
+    openPrize(item, opts);
+  }
 }
+
+// 🎲 더블 도전 모달 (3단계까지)
+// stage: 0=처음당첨(1배), 1=2배도전중, 2=4배도전중
+function showDoubleChance(key, originalItem, originalOpts, stage, currentQty) {
+  stage = stage || 0;
+  currentQty = currentQty || 1;
+  
+  // 다음 도전 정보
+  const nextQty = currentQty * 2;
+  const isLastChance = stage === 2; // 4배 → 8배 도전이 마지막
+  const successRate = isLastChance ? 30 : 50;
+  
+  const m = document.createElement('div');
+  m.style.cssText = `
+    position: fixed; inset: 0; background: rgba(0,0,0,0.92);
+    z-index: 99999; display: flex; align-items: center; justify-content: center;
+    backdrop-filter: blur(10px); padding: 20px;
+  `;
+  
+  // 단계별 색상/문구
+  let stageColor, stageTitle, stageEmoji;
+  if (stage === 0) {
+    stageColor = '#F37321';
+    stageTitle = '🎉 당첨 확정!';
+    stageEmoji = originalOpts.emoji;
+  } else if (stage === 1) {
+    stageColor = '#FCD34D';
+    stageTitle = '🔥 더블 성공!';
+    stageEmoji = '🎉🎉';
+  } else {
+    stageColor = '#DC2626';
+    stageTitle = '🔥🔥 트리플 성공!';
+    stageEmoji = '🎉🎉🎉🎉';
+  }
+  
+  const itemName = `${originalItem.replace(/\d+개/, '')}${currentQty}개`;
+  
+  m.innerHTML = `
+    <style>
+      @keyframes doubleFloat { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-8px); } }
+      @keyframes doublePulse { 0%,100% { box-shadow: 0 0 30px ${stageColor}66; } 50% { box-shadow: 0 0 60px ${stageColor}, 0 0 100px ${stageColor}66; } }
+      @keyframes doublePop { 0% { transform:scale(0.5); opacity:0; } 60% { transform:scale(1.1); } 100% { transform:scale(1); opacity:1; } }
+      @keyframes warnFlash { 0%,100% { color: #DC2626; } 50% { color: #FCD34D; } }
+      .double-btn:active { transform: scale(0.96) !important; }
+    </style>
+    <div style="background:linear-gradient(180deg, #1A1A1A 0%, #0F0F0F 100%); border-radius:24px; padding:24px 22px; max-width:380px; width:100%; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,0.5); border:1px solid ${stageColor}55; animation:doublePop 0.5s cubic-bezier(0.16, 1, 0.3, 1); position:relative; overflow:hidden;">
+      <!-- 빛 효과 -->
+      <div style="position:absolute; top:-60px; right:-60px; width:200px; height:200px; border-radius:50%; background:radial-gradient(circle, ${stageColor}33 0%, transparent 70%); pointer-events:none;"></div>
+      <div style="position:absolute; bottom:-50px; left:-50px; width:160px; height:160px; border-radius:50%; background:radial-gradient(circle, ${stageColor}22 0%, transparent 70%); pointer-events:none;"></div>
+      
+      <!-- 단계 표시 (점) -->
+      <div style="display:flex; justify-content:center; gap:5px; margin-bottom:14px; position:relative;">
+        ${[0,1,2].map(i => `<div style="width:8px; height:8px; border-radius:50%; background:${i <= stage ? stageColor : 'rgba(255,255,255,0.15)'};"></div>`).join('')}
+      </div>
+      
+      <!-- 당첨된 상품 -->
+      <div style="font-size:54px; line-height:1; margin-bottom:10px; animation:doubleFloat 2s ease infinite; position:relative;">${stageEmoji}</div>
+      <div style="font-size:11px; font-weight:800; color:${stageColor}; letter-spacing:0.15em; margin-bottom:4px; position:relative;">${stageTitle}</div>
+      <div style="font-size:22px; font-weight:900; color:white; letter-spacing:-0.03em; line-height:1.2; margin-bottom:16px; position:relative;">
+        <span style="color:${stageColor};">${currentQty}배</span> · ${itemName}
+      </div>
+      
+      <!-- 더블 도전 안내 -->
+      <div style="background:linear-gradient(135deg, ${stageColor}22, ${isLastChance ? '#DC2626' : stageColor}22); border:1px solid ${stageColor}55; border-radius:16px; padding:14px 16px; margin-bottom:14px; animation:doublePulse 2s ease infinite; position:relative;">
+        <div style="font-size:28px; line-height:1; margin-bottom:4px;">${isLastChance ? '💀' : '🎲'}</div>
+        <div style="font-size:13px; font-weight:900; color:${isLastChance ? '#DC2626' : '#FCD34D'}; letter-spacing:-0.02em; ${isLastChance ? 'animation:warnFlash 1s ease infinite;' : ''}">
+          ${isLastChance ? '⚠️ 마지막 도전! ⚠️' : `⚡ ${nextQty}배 도전!`}
+        </div>
+        <div style="font-size:11px; color:rgba(255,255,255,0.75); margin-top:6px; line-height:1.5;">
+          <b style="color:#10B981;">${successRate}% 성공</b> → <b style="color:#FCD34D;">${nextQty}개!</b><br>
+          <b style="color:#DC2626;">${100 - successRate}% 실패</b> → <b style="color:#DC2626;">전부 꽝</b> 💀
+        </div>
+      </div>
+      
+      <!-- 버튼 -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+        <button class="double-btn" onclick='claimSafe(${JSON.stringify({ key, item: itemName, qty: currentQty }).replace(/'/g, "&apos;")})' style="
+          background:rgba(16,185,129,0.15);
+          color:white; border:1px solid rgba(16,185,129,0.4);
+          border-radius:12px; padding:14px 8px;
+          font-family:inherit; font-size:13px; font-weight:800;
+          letter-spacing:-0.02em; cursor:pointer;
+          transition:transform 0.1s;
+        ">
+          🛡️ ${currentQty}개<br>받기
+        </button>
+        <button class="double-btn" onclick='tryDouble(${JSON.stringify({ key, originalItem, originalOpts, stage, currentQty }).replace(/'/g, "&apos;")})' style="
+          background:linear-gradient(135deg, ${isLastChance ? '#DC2626' : '#F37321'}, ${isLastChance ? '#7C2D12' : '#C2410C'});
+          color:white; border:none;
+          border-radius:12px; padding:14px 8px;
+          font-family:inherit; font-size:13px; font-weight:900;
+          letter-spacing:-0.02em; cursor:pointer;
+          box-shadow:0 4px 16px ${isLastChance ? 'rgba(220,38,38,0.5)' : 'rgba(243,115,33,0.5)'};
+          transition:transform 0.1s;
+        ">
+          ${isLastChance ? '💀 최종도전' : '⚡ 더블!'}<br>(${successRate}%)
+        </button>
+      </div>
+      
+      <div style="font-size:10px; color:rgba(255,255,255,0.4); margin-top:10px;">${isLastChance ? '🚨 실패하면 모두 사라집니다!' : `최대 8개까지 가능 · 마지막은 30% 확률`}</div>
+    </div>
+  `;
+  document.body.appendChild(m);
+  m.id = 'doubleModal';
+}
+
+// 안전하게 받기 - 현재 수량 확정
+function claimSafe(data) {
+  const modal = document.getElementById('doubleModal');
+  if (modal) modal.remove();
+  
+  const stamp = getNowStamp();
+  const stampNote = `<div style="font-size:10px; color:#9CA3AF; font-weight:700; margin-top:10px; font-variant-numeric:tabular-nums;">${stamp}</div>`;
+  
+  let emoji, title, suffix, color;
+  if (data.qty >= 8) { emoji = '🎊🎊🎊'; title = '🏆 8배 잭팟! 🏆'; suffix = '대박!'; color = '#DC2626'; }
+  else if (data.qty >= 4) { emoji = '🎉🎉🎉🎉'; title = '🔥 4배 당첨! 🔥'; suffix = '4배!'; color = '#F37321'; }
+  else if (data.qty >= 2) { emoji = '🎉🎉'; title = '🎉 2배 당첨! 🎉'; suffix = '2배!'; color = '#F37321'; }
+  else { emoji = '🎁'; title = '🎉 당첨! 🎉'; suffix = '당첨!'; color = '#F37321'; }
+  
+  const opts = {
+    emoji, title, suffix, color,
+    note: `<b style="color:#10B981;">${data.item}</b> 획득!<br>심지점장에게 직접 받으러 오세요 ~` + stampNote,
+  };
+  
+  saveBoxResult(data.key, data.item, opts);
+  openPrize(data.item, opts);
+}
+
+// 더블 도전!
+function tryDouble(data) {
+  const modal = document.getElementById('doubleModal');
+  if (modal) modal.remove();
+  
+  const isLastChance = data.stage === 2;
+  const successRate = isLastChance ? 0.3 : 0.5;
+  const success = Math.random() < successRate;
+  const newQty = data.currentQty * 2;
+  
+  // 도전 애니메이션
+  const anim = document.createElement('div');
+  anim.style.cssText = `
+    position: fixed; inset: 0; background: rgba(0,0,0,0.95);
+    z-index: 99999; display: flex; align-items: center; justify-content: center;
+    backdrop-filter: blur(10px);
+  `;
+  anim.innerHTML = `
+    <style>
+      @keyframes diceSpin { 0% { transform:rotate(0deg); } 100% { transform:rotate(1440deg); } }
+      @keyframes pulseBg { 0%,100% { background:rgba(0,0,0,0.95); } 50% { background:${isLastChance ? 'rgba(220,38,38,0.4)' : 'rgba(243,115,33,0.3)'}; } }
+    </style>
+    <div style="text-align:center; animation:pulseBg 0.4s ease infinite;">
+      <div style="font-size:120px; line-height:1; animation:diceSpin 1.4s cubic-bezier(0.5, 0, 0.5, 1);">🎲</div>
+      <div style="font-size:14px; font-weight:800; color:${isLastChance ? '#DC2626' : '#FCD34D'}; margin-top:14px; letter-spacing:0.2em;">
+        ${isLastChance ? '💀 ALL OR NOTHING 💀' : 'DOUBLE OR NOTHING...'}
+      </div>
+      <div style="font-size:11px; color:rgba(255,255,255,0.5); margin-top:8px;">${data.currentQty}개 → ${newQty}개 도전!</div>
+    </div>
+  `;
+  document.body.appendChild(anim);
+  
+  setTimeout(() => {
+    anim.remove();
+    
+    if (success) {
+      // 🎉 성공 - 다음 단계로 또는 최종 획득
+      if (isLastChance) {
+        // 마지막 도전 성공 → 8개 확정!
+        const finalItem = `${data.originalItem.replace(/\d+개/, '')}${newQty}개`;
+        const stamp = getNowStamp();
+        const stampNote = `<div style="font-size:10px; color:#9CA3AF; font-weight:700; margin-top:10px; font-variant-numeric:tabular-nums;">${stamp}</div>`;
+        const finalOpts = {
+          emoji: '🎊🎊🎊',
+          title: '🏆 8배 최종 잭팟! 🏆',
+          suffix: '대박!',
+          color: '#DC2626',
+          note: `<b style="color:#FCD34D; font-size:14px;">${finalItem} 획득!</b><br>심지점장에게 직접 받으러 오세요 ~<br><span style="font-size:11px; opacity:0.7;">전설의 8배 당첨자 ✨</span>` + stampNote,
+        };
+        // 통계 추가 카운트
+        try {
+          const stats = loadBoxStats();
+          // 8배는 원래 1배 카운트 + 추가 7개
+          if (data.originalItem.includes('롤팩')) stats.roll = (stats.roll || 0) + 7;
+          else if (data.originalItem.includes('몽글')) stats.mongle = (stats.mongle || 0) + 7;
+          localStorage.setItem('hahoeBox_stats', JSON.stringify(stats));
+        } catch(e) {}
+        addExp('box_jackpot', 200);  // 8배는 특별 보너스
+        saveBoxResult(data.key, finalItem, finalOpts);
+        if (typeof renderBoxStatsCard === 'function') renderBoxStatsCard();
+        openPrize(finalItem, finalOpts);
+      } else {
+        // 다음 단계로 또 도전!
+        // 통계 - 1개씩 추가 카운트 (현재 수량만큼)
+        try {
+          const stats = loadBoxStats();
+          const addQty = newQty - data.currentQty; // 추가된 만큼
+          if (data.originalItem.includes('롤팩')) stats.roll = (stats.roll || 0) + addQty;
+          else if (data.originalItem.includes('몽글')) stats.mongle = (stats.mongle || 0) + addQty;
+          localStorage.setItem('hahoeBox_stats', JSON.stringify(stats));
+        } catch(e) {}
+        addExp('box_win', 30);  // 보너스 EXP
+        if (typeof renderBoxStatsCard === 'function') renderBoxStatsCard();
+        // 다음 단계 모달
+        showDoubleChance(data.key, data.originalItem, data.originalOpts, data.stage + 1, newQty);
+      }
+    } else {
+      // 💀 실패 - 전부 꽝
+      const stamp = getNowStamp();
+      const stampNote = `<div style="font-size:10px; color:#9CA3AF; font-weight:700; margin-top:10px; font-variant-numeric:tabular-nums;">${stamp}</div>`;
+      const failItem = `더블 실패 (꽝)`;
+      const failOpts = {
+        emoji: '💀',
+        title: '⚡ 더블 실패! ⚡',
+        suffix: '',
+        color: '#DC2626',
+        note: `<b style="color:#DC2626;">${data.currentQty}개</b>가 모두 꽝으로 변신!<br><span style="font-size:11px; opacity:0.7;">욕심내면 안 돼요... 😭</span>` + stampNote,
+      };
+      // 통계 갱신 - 현재까지 모았던 거 다 빼고 꽝 +1
+      try {
+        const stats = loadBoxStats();
+        if (data.originalItem.includes('롤팩')) stats.roll = Math.max(0, (stats.roll || 0) - data.currentQty);
+        else if (data.originalItem.includes('몽글')) stats.mongle = Math.max(0, (stats.mongle || 0) - data.currentQty);
+        stats.miss = (stats.miss || 0) + 1;
+        localStorage.setItem('hahoeBox_stats', JSON.stringify(stats));
+      } catch(e) {}
+      saveBoxResult(data.key, failItem, failOpts);
+      if (typeof renderBoxStatsCard === 'function') renderBoxStatsCard();
+      openPrize(failItem, failOpts);
+    }
+  }, 1500);
+}
+
+window.showDoubleChance = showDoubleChance;
+window.claimSafe = claimSafe;
+window.tryDouble = tryDouble;
 
 // 호환용: 헤더 버튼이 onclick="openHourlyBox()"로 부르고 있으니 별칭 제공
 function openHourlyBox() { openBoxBy('hahoeBox_header'); }
@@ -9220,6 +9666,7 @@ function switchPage(page) {
     if (typeof renderMyInfoCard === 'function') renderMyInfoCard();
     if (typeof renderLevelCard === 'function') renderLevelCard();
     if (typeof renderBoxStatsCard === 'function') renderBoxStatsCard();
+    if (typeof renderMissionCard === 'function') renderMissionCard();
   }
 }
 // 글로벌 노출 (배지 onclick에서 접근 가능하도록)
@@ -10006,10 +10453,20 @@ function renderMyInfoCard() {
       
       <!-- 헤더 -->
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; position:relative;">
-        <div style="display:flex; align-items:center; gap:8px;">
+        <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
           <span style="font-size:10px; font-weight:800; opacity:0.6; letter-spacing:0.1em;">${fp.team}</span>
           <span style="opacity:0.3;">·</span>
           <span style="font-size:16px; font-weight:800; letter-spacing:-0.03em;">${fp.n}</span>
+          ${(() => {
+            // 강화 시스템 숨김 중 - 활성화하려면 false → true
+            const SHOW_ENHANCE = false;
+            if (!SHOW_ENHANCE) return '';
+            const eData = getEnhanceData();
+            const eLv = eData.lv || 0;
+            if (eLv === 0) return '';
+            const eInfo = ENHANCE_LEVELS[eLv - 1];
+            return `<span style="display:inline-flex; align-items:center; gap:3px; background:linear-gradient(135deg, ${eInfo.color}, ${eInfo.color}dd); color:white; font-size:11px; font-weight:900; padding:2px 8px; border-radius:6px; letter-spacing:-0.02em; box-shadow:0 2px 6px ${eInfo.color}66;">⚔️ +${eLv}</span>`;
+          })()}
           <span style="display:inline-block; background:${gradeStyle.bg}; color:${gradeStyle.text}; font-size:10px; font-weight:800; padding:2px 8px; border-radius:6px; letter-spacing:-0.02em;">${fp.grade}</span>
         </div>
         <button onclick="openFpPicker()" style="background:transparent; border:none; color:rgba(255,255,255,0.4); font-size:11px; cursor:pointer; font-family:inherit; padding:0;">변경</button>
@@ -10103,6 +10560,8 @@ function selectFp(name) {
   if (typeof syncLevelToFirebase === 'function') {
     syncLevelToFirebase(getUserStats());
   }
+  // 🎯 미션 카드 갱신
+  if (typeof renderMissionCard === 'function') renderMissionCard();
 }
 
 window.openFpPicker = openFpPicker;
@@ -10569,8 +11028,8 @@ function renderLevelCard() {
         </div>
       </div>
       
-      <!-- 칭호 + 가이드 + 랭킹 -->
-      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin-top:14px; position:relative;">
+      <!-- 칭호 + 가이드 -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:14px; position:relative;">
         <button onclick="openTitlesModal()" style="
           background:rgba(255,255,255,0.06);
           border:1px solid rgba(255,255,255,0.1);
@@ -10593,12 +11052,25 @@ function renderLevelCard() {
           <span>📋</span>
           <span>포인트 받는법</span>
         </button>
+        <button onclick="openEnhanceModal()" style="
+          display:none;
+          background:linear-gradient(135deg, #8B5CF6, #6D28D9);
+          border:none; border-radius:10px; padding:10px 6px;
+          color:white; font-family:inherit; cursor:pointer;
+          align-items:center; justify-content:center; gap:4px;
+          font-size:11px; font-weight:800; letter-spacing:-0.02em;
+          box-shadow:0 2px 8px rgba(139,92,246,0.3);
+        ">
+          <span>⚔️</span>
+          <span>영업력 강화</span>
+        </button>
         <button onclick="openLeaderboardModal()" style="
+          display:none;
           background:linear-gradient(135deg, #F37321, #C2410C);
           border:none; border-radius:10px; padding:10px 6px;
           color:white; font-family:inherit; cursor:pointer;
-          display:flex; align-items:center; justify-content:center; gap:4px;
-          font-size:11.5px; font-weight:800; letter-spacing:-0.02em;
+          align-items:center; justify-content:center; gap:4px;
+          font-size:11px; font-weight:800; letter-spacing:-0.02em;
           box-shadow:0 2px 8px rgba(243,115,33,0.3);
         ">
           <span>🏆</span>
@@ -10758,6 +11230,778 @@ function openExpGuideModal() {
 }
 
 window.openExpGuideModal = openExpGuideModal;
+
+// ============================================
+//          🎯 미션 + 하회코인 시스템
+// ============================================
+
+// 오늘 날짜 (YYYY-MM-DD)
+function getTodayKey() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+// FP의 오늘 미션 가져오기
+async function loadMyMission() {
+  if (!window.MY_FP || !window._fb) return null;
+  try {
+    const { db, doc, getDoc } = window._fb;
+    const today = getTodayKey();
+    const snap = await getDoc(doc(db, 'missions', `${window.MY_FP}_${today}`));
+    return snap.exists() ? snap.data() : null;
+  } catch(e) { 
+    return null;
+  }
+}
+
+// FP의 코인 잔액 가져오기
+async function loadMyCoins() {
+  if (!window.MY_FP || !window._fb) return 0;
+  try {
+    const { db, doc, getDoc } = window._fb;
+    const snap = await getDoc(doc(db, 'coins', window.MY_FP));
+    return snap.exists() ? (snap.data().amount || 0) : 0;
+  } catch(e) { return 0; }
+}
+
+// FP가 미션 완료 신청
+async function requestMissionComplete() {
+  if (!window.MY_FP || !window._fb) {
+    alert('FP 이름을 먼저 선택해주세요!');
+    return;
+  }
+  try {
+    const { db, doc, setDoc } = window._fb;
+    const today = getTodayKey();
+    await setDoc(doc(db, 'missions', `${window.MY_FP}_${today}`), {
+      status: 'pending',
+      requestedAt: Date.now(),
+    }, { merge: true });
+    alert('✅ 완료 신청했어요!\n지점장님 확인을 기다려주세요.');
+    renderMissionCard();
+  } catch(e) {
+    alert('신청 실패: ' + e.message);
+  }
+}
+
+// 미션 카드 렌더링 (FP 화면)
+async function renderMissionCard() {
+  const wrap = document.getElementById('missionCard');
+  if (!wrap) return;
+  
+  if (!window.MY_FP) {
+    wrap.innerHTML = '';
+    return;
+  }
+  
+  if (!window._fb) {
+    wrap.innerHTML = '<div style="padding:14px; background:rgba(0,0,0,0.04); border-radius:14px; margin-bottom:14px; font-size:12px; color:var(--gray); text-align:center;">Firebase 연결 중...</div>';
+    setTimeout(renderMissionCard, 1000);
+    return;
+  }
+  
+  const mission = await loadMyMission();
+  const coins = await loadMyCoins();
+  
+  if (!mission || !mission.title) {
+    wrap.innerHTML = `
+      <div style="background:linear-gradient(135deg, #FFFBEB, #FEF3C7); border:1px solid rgba(252,211,77,0.4); border-radius:16px; padding:14px 16px; margin-bottom:14px; display:flex; align-items:center; gap:12px;">
+        <div style="font-size:28px;">🎯</div>
+        <div style="flex:1;">
+          <div style="font-size:11px; font-weight:800; color:#92400E; letter-spacing:0.05em; margin-bottom:2px;">TODAY MISSION</div>
+          <div style="font-size:13px; font-weight:700; color:#78350F;">오늘의 미션이 아직 없어요</div>
+          <div style="font-size:11px; color:#92400E; opacity:0.75; margin-top:2px;">지점장님이 곧 미션을 배정해드릴 거예요!</div>
+        </div>
+        <div style="background:white; border-radius:10px; padding:6px 10px; text-align:center;">
+          <div style="font-size:9px; color:#92400E; font-weight:800;">하회코인</div>
+          <div style="font-size:14px; font-weight:900; color:#D97706;">🪙 ${coins}</div>
+        </div>
+      </div>
+    `;
+    return;
+  }
+  
+  const status = mission.status || 'open';
+  const reward = mission.reward || 1;
+  
+  let statusBox = '';
+  let actionBtn = '';
+  
+  if (status === 'open') {
+    statusBox = `<div style="background:linear-gradient(135deg, rgba(59,130,246,0.15), rgba(99,102,241,0.15)); border:1px solid rgba(59,130,246,0.3); border-radius:8px; padding:6px 10px; font-size:11px; font-weight:800; color:#1D4ED8; text-align:center; margin-bottom:10px;">⏳ 진행 중</div>`;
+    actionBtn = `<button onclick="requestMissionComplete()" style="width:100%; background:linear-gradient(135deg, #F37321, #C2410C); color:white; border:none; border-radius:10px; padding:12px; font-family:inherit; font-size:13px; font-weight:900; letter-spacing:-0.02em; cursor:pointer; box-shadow:0 4px 12px rgba(243,115,33,0.3);">✅ 완료 신청하기</button>`;
+  } else if (status === 'pending') {
+    statusBox = `<div style="background:linear-gradient(135deg, rgba(252,211,77,0.2), rgba(245,158,11,0.2)); border:1px solid rgba(245,158,11,0.4); border-radius:8px; padding:6px 10px; font-size:11px; font-weight:800; color:#92400E; text-align:center; margin-bottom:10px;">⏰ 지점장 승인 대기 중...</div>`;
+    actionBtn = `<button disabled style="width:100%; background:rgba(0,0,0,0.06); color:var(--gray); border:none; border-radius:10px; padding:12px; font-family:inherit; font-size:13px; font-weight:800; letter-spacing:-0.02em; cursor:not-allowed;">⏳ 승인 대기 중</button>`;
+  } else if (status === 'approved') {
+    statusBox = `<div style="background:linear-gradient(135deg, rgba(16,185,129,0.15), rgba(5,150,105,0.15)); border:1px solid rgba(16,185,129,0.4); border-radius:8px; padding:6px 10px; font-size:11px; font-weight:800; color:#059669; text-align:center; margin-bottom:10px;">🎉 클리어 완료! · 🪙 ${reward}코인 획득</div>`;
+    actionBtn = `<button disabled style="width:100%; background:linear-gradient(135deg, #10B981, #059669); color:white; border:none; border-radius:10px; padding:12px; font-family:inherit; font-size:13px; font-weight:900; letter-spacing:-0.02em; cursor:default;">✨ 완료! 내일 다시!</button>`;
+  } else if (status === 'rejected') {
+    statusBox = `<div style="background:linear-gradient(135deg, rgba(220,38,38,0.15), rgba(153,27,27,0.15)); border:1px solid rgba(220,38,38,0.4); border-radius:8px; padding:6px 10px; font-size:11px; font-weight:800; color:#DC2626; text-align:center; margin-bottom:10px;">❌ 거절됨 - 다시 도전!</div>`;
+    actionBtn = `<button onclick="requestMissionComplete()" style="width:100%; background:linear-gradient(135deg, #F37321, #C2410C); color:white; border:none; border-radius:10px; padding:12px; font-family:inherit; font-size:13px; font-weight:900; letter-spacing:-0.02em; cursor:pointer; box-shadow:0 4px 12px rgba(243,115,33,0.3);">✅ 다시 완료 신청</button>`;
+  }
+  
+  wrap.innerHTML = `
+    <div style="background:linear-gradient(135deg, #1A1A1A 0%, #2D2D2D 100%); border-radius:16px; padding:16px; margin-bottom:14px; color:white; position:relative; overflow:hidden; box-shadow:0 4px 12px rgba(0,0,0,0.15);">
+      <div style="position:absolute; top:-40px; right:-40px; width:160px; height:160px; border-radius:50%; background:radial-gradient(circle, rgba(243,115,33,0.18) 0%, transparent 70%); pointer-events:none;"></div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; position:relative;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:11px; font-weight:800; color:#FCD34D; letter-spacing:0.1em;">🎯 TODAY MISSION</span>
+        </div>
+        <div style="background:rgba(252,211,77,0.15); border:1px solid rgba(252,211,77,0.3); padding:4px 10px; border-radius:100px; display:flex; align-items:center; gap:4px;">
+          <span style="font-size:11px;">🪙</span>
+          <span style="font-size:11px; font-weight:900; color:#FCD34D;">${coins}</span>
+        </div>
+      </div>
+      <div style="font-size:16px; font-weight:800; line-height:1.4; letter-spacing:-0.02em; margin-bottom:8px; position:relative;">${mission.title}</div>
+      ${mission.desc ? `<div style="font-size:11.5px; opacity:0.7; line-height:1.5; margin-bottom:12px; position:relative;">${mission.desc}</div>` : ''}
+      <div style="display:flex; gap:8px; align-items:center; margin-bottom:10px; position:relative;">
+        <div style="background:rgba(252,211,77,0.15); padding:4px 10px; border-radius:6px; font-size:11px; font-weight:800; color:#FCD34D;">🪙 ${reward}코인 보상</div>
+      </div>
+      <div style="position:relative;">${statusBox}</div>
+      <div style="position:relative;">${actionBtn}</div>
+    </div>
+  `;
+}
+
+// 지점장 관리 패널
+const MISSION_ADMIN_PW = 'didghk1923!';
+
+function openMissionAdmin() {
+  const pw = prompt('🔒 지점장 비밀번호를 입력하세요:');
+  if (pw !== MISSION_ADMIN_PW) {
+    if (pw !== null) alert('비밀번호가 틀렸어요!');
+    return;
+  }
+  renderAdminPanel();
+}
+
+function renderAdminPanel() {
+  const m = document.createElement('div');
+  m.id = 'missionAdminModal';
+  m.style.cssText = `
+    position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+    z-index: 99998; overflow-y: auto;
+  `;
+  m.innerHTML = `
+    <div style="max-width:600px; margin:0 auto; padding:16px; min-height:100vh;">
+      <div style="background:white; border-radius:18px; padding:18px; box-shadow:0 12px 40px rgba(0,0,0,0.3);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+          <div>
+            <div style="font-size:11px; color:var(--accent); font-weight:800; letter-spacing:0.05em;">ADMIN</div>
+            <div style="font-size:18px; font-weight:900; letter-spacing:-0.03em;">🎯 미션 관리</div>
+          </div>
+          <button onclick="document.getElementById('missionAdminModal').remove()" style="background:rgba(0,0,0,0.06); border:none; width:32px; height:32px; border-radius:50%; font-size:16px; cursor:pointer;">✕</button>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:4px; background:rgba(0,0,0,0.04); padding:4px; border-radius:10px; margin-bottom:14px;">
+          <button onclick="switchAdminTab('assign')" id="adminTabAssign" style="background:white; color:var(--ink); border:none; border-radius:8px; padding:8px; font-size:11.5px; font-weight:800; cursor:pointer; font-family:inherit; box-shadow:0 1px 3px rgba(0,0,0,0.06);">📝 미션 배정</button>
+          <button onclick="switchAdminTab('pending')" id="adminTabPending" style="background:transparent; color:var(--gray); border:none; border-radius:8px; padding:8px; font-size:11.5px; font-weight:700; cursor:pointer; font-family:inherit;">⏰ 승인 대기</button>
+          <button onclick="switchAdminTab('coins')" id="adminTabCoins" style="background:transparent; color:var(--gray); border:none; border-radius:8px; padding:8px; font-size:11.5px; font-weight:700; cursor:pointer; font-family:inherit;">🪙 코인 관리</button>
+        </div>
+        <div id="adminContent"></div>
+      </div>
+    </div>
+  `;
+  m.onclick = (e) => { if (e.target === m) m.remove(); };
+  document.body.appendChild(m);
+  switchAdminTab('assign');
+}
+
+function switchAdminTab(tab) {
+  ['Assign', 'Pending', 'Coins'].forEach(t => {
+    const btn = document.getElementById('adminTab' + t);
+    if (btn) {
+      const isActive = t.toLowerCase() === tab;
+      btn.style.background = isActive ? 'white' : 'transparent';
+      btn.style.color = isActive ? 'var(--ink)' : 'var(--gray)';
+      btn.style.fontWeight = isActive ? '800' : '700';
+      btn.style.boxShadow = isActive ? '0 1px 3px rgba(0,0,0,0.06)' : 'none';
+    }
+  });
+  if (tab === 'assign') renderAdminAssign();
+  else if (tab === 'pending') renderAdminPending();
+  else if (tab === 'coins') renderAdminCoins();
+}
+
+async function renderAdminAssign() {
+  const wrap = document.getElementById('adminContent');
+  if (!wrap) return;
+  wrap.innerHTML = '<div style="text-align:center; padding:30px; color:var(--gray); font-size:13px;">불러오는 중...</div>';
+  if (!window._fb) { wrap.innerHTML = '<div style="padding:30px; color:#DC2626; font-size:12px;">Firebase 연결 필요</div>'; return; }
+  
+  const today = getTodayKey();
+  const fps = (DATA.daily.fpList || []);
+  const missions = {};
+  
+  try {
+    const { db, doc, getDoc } = window._fb;
+    await Promise.all(fps.map(async fp => {
+      const snap = await getDoc(doc(db, 'missions', `${fp.n}_${today}`));
+      missions[fp.n] = snap.exists() ? snap.data() : null;
+    }));
+  } catch(e) {}
+  
+  const teams = {};
+  fps.forEach(f => { if (!teams[f.team]) teams[f.team] = []; teams[f.team].push(f); });
+  
+  let html = '<div style="margin-bottom:12px; font-size:11px; color:var(--gray); line-height:1.5;">💡 FP를 선택하면 오늘 미션을 배정/수정할 수 있어요.<br>오늘 날짜: <b>' + today + '</b></div>';
+  
+  Object.entries(teams).forEach(([team, fpList]) => {
+    html += `<div style="margin-bottom:12px;">
+      <div style="font-size:11px; font-weight:800; color:var(--accent); letter-spacing:0.05em; margin-bottom:6px;">${team}</div>
+      <div style="display:flex; flex-direction:column; gap:4px;">`;
+    fpList.forEach(fp => {
+      const m = missions[fp.n];
+      const hasMission = m && m.title;
+      const status = m?.status || '';
+      let badge = '';
+      if (hasMission) {
+        if (status === 'approved') badge = `<span style="background:#10B981; color:white; font-size:9px; font-weight:800; padding:2px 6px; border-radius:4px;">완료</span>`;
+        else if (status === 'pending') badge = `<span style="background:#F59E0B; color:white; font-size:9px; font-weight:800; padding:2px 6px; border-radius:4px;">대기</span>`;
+        else if (status === 'rejected') badge = `<span style="background:#DC2626; color:white; font-size:9px; font-weight:800; padding:2px 6px; border-radius:4px;">거절</span>`;
+        else badge = `<span style="background:#3B82F6; color:white; font-size:9px; font-weight:800; padding:2px 6px; border-radius:4px;">진행</span>`;
+      }
+      const safeM = JSON.stringify(m || {}).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+      html += `<button onclick='openMissionEdit("${fp.n}", JSON.parse(this.dataset.m))' data-m='${safeM}' style="background:white; border:1px solid rgba(0,0,0,0.08); border-radius:8px; padding:9px 12px; font-family:inherit; cursor:pointer; display:flex; align-items:center; gap:8px; text-align:left;">
+        <span style="font-size:12px; font-weight:800; color:var(--ink); flex-shrink:0; min-width:48px;">${fp.n}</span>
+        ${hasMission ? `<span style="font-size:11px; color:var(--gray); flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0;">${m.title}</span>` : `<span style="font-size:11px; color:var(--gray); opacity:0.5; flex:1;">미배정</span>`}
+        ${badge}
+      </button>`;
+    });
+    html += `</div></div>`;
+  });
+  
+  wrap.innerHTML = html;
+}
+
+function openMissionEdit(fpName, currentMission) {
+  currentMission = currentMission || {};
+  const m = document.createElement('div');
+  m.id = 'missionEditModal';
+  m.style.cssText = `position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 99999; display: flex; align-items: center; justify-content: center; padding: 16px;`;
+  m.innerHTML = `
+    <div style="background:white; border-radius:16px; padding:18px; max-width:420px; width:100%;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+        <div>
+          <div style="font-size:10px; color:var(--accent); font-weight:800;">미션 배정</div>
+          <div style="font-size:16px; font-weight:900; letter-spacing:-0.02em;">${fpName}님</div>
+        </div>
+        <button onclick="document.getElementById('missionEditModal').remove()" style="background:rgba(0,0,0,0.06); border:none; width:30px; height:30px; border-radius:50%; font-size:14px; cursor:pointer;">✕</button>
+      </div>
+      <label style="font-size:11px; font-weight:800; color:var(--ink); display:block; margin-bottom:5px;">미션 제목 *</label>
+      <input type="text" id="missionTitle" value="${(currentMission.title || '').replace(/"/g, '&quot;')}" placeholder="예: 신규 고객 3명 전화하기" style="width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:8px; font-size:13px; font-family:inherit; margin-bottom:10px; box-sizing:border-box;">
+      <label style="font-size:11px; font-weight:800; color:var(--ink); display:block; margin-bottom:5px;">상세 설명 (선택)</label>
+      <textarea id="missionDesc" placeholder="구체적인 미션 내용" style="width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:8px; font-size:12px; font-family:inherit; margin-bottom:10px; box-sizing:border-box; min-height:60px; resize:vertical;">${currentMission.desc || ''}</textarea>
+      <label style="font-size:11px; font-weight:800; color:var(--ink); display:block; margin-bottom:5px;">🪙 보상 코인</label>
+      <input type="number" id="missionReward" value="${currentMission.reward || 1}" min="1" style="width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:8px; font-size:13px; font-family:inherit; margin-bottom:14px; box-sizing:border-box;">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+        ${currentMission.title ? `<button onclick="deleteMission('${fpName}')" style="background:rgba(220,38,38,0.1); color:#DC2626; border:1px solid rgba(220,38,38,0.3); border-radius:8px; padding:11px; font-family:inherit; font-size:12px; font-weight:800; cursor:pointer;">🗑 미션 삭제</button>` : `<button onclick="document.getElementById('missionEditModal').remove()" style="background:rgba(0,0,0,0.05); color:var(--ink); border:1px solid var(--line); border-radius:8px; padding:11px; font-family:inherit; font-size:12px; font-weight:800; cursor:pointer;">취소</button>`}
+        <button onclick="saveMission('${fpName}')" style="background:linear-gradient(135deg, #F37321, #C2410C); color:white; border:none; border-radius:8px; padding:11px; font-family:inherit; font-size:12px; font-weight:900; cursor:pointer;">💾 저장</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(m);
+  setTimeout(() => document.getElementById('missionTitle')?.focus(), 100);
+}
+
+async function saveMission(fpName) {
+  const title = document.getElementById('missionTitle').value.trim();
+  const desc = document.getElementById('missionDesc').value.trim();
+  const reward = parseInt(document.getElementById('missionReward').value) || 1;
+  if (!title) { alert('미션 제목을 입력해주세요!'); return; }
+  if (!window._fb) { alert('Firebase 연결 필요'); return; }
+  try {
+    const { db, doc, setDoc } = window._fb;
+    const today = getTodayKey();
+    await setDoc(doc(db, 'missions', `${fpName}_${today}`), {
+      fpName, title, desc, reward, status: 'open', assignedAt: Date.now(),
+    }, { merge: true });
+    document.getElementById('missionEditModal').remove();
+    renderAdminAssign();
+  } catch(e) { alert('저장 실패: ' + e.message); }
+}
+
+async function deleteMission(fpName) {
+  if (!confirm(`${fpName}님 오늘 미션을 삭제할까요?`)) return;
+  try {
+    const { db, doc, deleteDoc } = window._fb;
+    const today = getTodayKey();
+    await deleteDoc(doc(db, 'missions', `${fpName}_${today}`));
+    document.getElementById('missionEditModal').remove();
+    renderAdminAssign();
+  } catch(e) { alert('삭제 실패: ' + e.message); }
+}
+
+async function renderAdminPending() {
+  const wrap = document.getElementById('adminContent');
+  if (!wrap) return;
+  wrap.innerHTML = '<div style="text-align:center; padding:30px; color:var(--gray); font-size:13px;">불러오는 중...</div>';
+  try {
+    const { db, doc, getDoc } = window._fb;
+    const today = getTodayKey();
+    const fps = (DATA.daily.fpList || []);
+    const pending = [];
+    await Promise.all(fps.map(async fp => {
+      const snap = await getDoc(doc(db, 'missions', `${fp.n}_${today}`));
+      if (snap.exists()) {
+        const data = snap.data();
+        if (data.status === 'pending') pending.push({ ...data, fpName: fp.n });
+      }
+    }));
+    if (pending.length === 0) {
+      wrap.innerHTML = `<div style="text-align:center; padding:40px 20px;"><div style="font-size:40px; margin-bottom:10px; opacity:0.3;">✅</div><div style="color:var(--gray); font-size:13px;">승인 대기 중인 미션이 없어요!</div></div>`;
+      return;
+    }
+    let html = '<div style="display:flex; flex-direction:column; gap:8px;">';
+    pending.forEach(m => {
+      const requestedAgo = m.requestedAt ? Math.floor((Date.now() - m.requestedAt) / 60000) : 0;
+      html += `<div style="background:linear-gradient(135deg, #FFFBEB, #FEF3C7); border:1px solid rgba(245,158,11,0.4); border-radius:12px; padding:12px 14px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <div style="font-size:14px; font-weight:900; color:var(--ink); letter-spacing:-0.02em;">${m.fpName}</div>
+          <div style="font-size:9.5px; color:#92400E; font-weight:700;">⏱ ${requestedAgo}분 전</div>
+        </div>
+        <div style="font-size:12px; color:var(--ink); font-weight:700; margin-bottom:6px;">${m.title}</div>
+        ${m.desc ? `<div style="font-size:10.5px; color:var(--gray); margin-bottom:8px;">${m.desc}</div>` : ''}
+        <div style="font-size:10px; color:#D97706; font-weight:800; margin-bottom:10px;">🪙 보상: ${m.reward || 1}코인</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+          <button onclick="rejectMission('${m.fpName}')" style="background:rgba(220,38,38,0.1); color:#DC2626; border:1px solid rgba(220,38,38,0.3); border-radius:6px; padding:8px; font-family:inherit; font-size:11px; font-weight:800; cursor:pointer;">❌ 거절</button>
+          <button onclick="approveMission('${m.fpName}', ${m.reward || 1})" style="background:linear-gradient(135deg, #10B981, #059669); color:white; border:none; border-radius:6px; padding:8px; font-family:inherit; font-size:11px; font-weight:900; cursor:pointer;">✅ 승인 (+${m.reward || 1}코인)</button>
+        </div>
+      </div>`;
+    });
+    html += '</div>';
+    wrap.innerHTML = html;
+  } catch(e) {
+    wrap.innerHTML = '<div style="padding:30px; color:#DC2626; font-size:12px;">로드 실패: ' + e.message + '</div>';
+  }
+}
+
+async function approveMission(fpName, reward) {
+  if (!confirm(`${fpName}님 미션 승인 + 🪙${reward}코인 지급할까요?`)) return;
+  try {
+    const { db, doc, setDoc, getDoc } = window._fb;
+    const today = getTodayKey();
+    await setDoc(doc(db, 'missions', `${fpName}_${today}`), { status: 'approved', approvedAt: Date.now() }, { merge: true });
+    const coinSnap = await getDoc(doc(db, 'coins', fpName));
+    const current = coinSnap.exists() ? (coinSnap.data().amount || 0) : 0;
+    await setDoc(doc(db, 'coins', fpName), { amount: current + reward, updatedAt: Date.now() }, { merge: true });
+    renderAdminPending();
+  } catch(e) { alert('승인 실패: ' + e.message); }
+}
+
+async function rejectMission(fpName) {
+  if (!confirm(`${fpName}님 미션을 거절할까요?`)) return;
+  try {
+    const { db, doc, setDoc } = window._fb;
+    const today = getTodayKey();
+    await setDoc(doc(db, 'missions', `${fpName}_${today}`), { status: 'rejected', rejectedAt: Date.now() }, { merge: true });
+    renderAdminPending();
+  } catch(e) { alert('거절 실패: ' + e.message); }
+}
+
+async function renderAdminCoins() {
+  const wrap = document.getElementById('adminContent');
+  if (!wrap) return;
+  wrap.innerHTML = '<div style="text-align:center; padding:30px; color:var(--gray); font-size:13px;">불러오는 중...</div>';
+  try {
+    const { db, doc, getDoc } = window._fb;
+    const fps = (DATA.daily.fpList || []);
+    const coins = {};
+    await Promise.all(fps.map(async fp => {
+      const snap = await getDoc(doc(db, 'coins', fp.n));
+      coins[fp.n] = snap.exists() ? (snap.data().amount || 0) : 0;
+    }));
+    const sorted = fps.slice().sort((a, b) => (coins[b.n] || 0) - (coins[a.n] || 0));
+    let html = '<div style="margin-bottom:12px; font-size:11px; color:var(--gray); line-height:1.5;">💡 FP를 누르면 코인 수정 가능</div>';
+    html += '<div style="display:flex; flex-direction:column; gap:4px;">';
+    sorted.forEach((fp, idx) => {
+      const c = coins[fp.n] || 0;
+      const medals = ['🥇', '🥈', '🥉'];
+      const medal = idx < 3 && c > 0 ? medals[idx] : '';
+      html += `<button onclick="editCoin('${fp.n}', ${c})" style="background:${c > 0 ? 'linear-gradient(90deg, #FFFBEB, white)' : 'white'}; border:1px solid rgba(0,0,0,0.08); border-radius:8px; padding:10px 12px; font-family:inherit; cursor:pointer; display:flex; align-items:center; gap:8px; text-align:left;">
+        ${medal ? `<span style="font-size:14px;">${medal}</span>` : `<span style="width:14px; text-align:center; color:var(--gray); font-size:11px; font-weight:700;">${idx+1}</span>`}
+        <span style="font-size:10px; color:var(--gray); font-weight:700; min-width:50px;">${fp.team}</span>
+        <span style="font-size:13px; font-weight:800; color:var(--ink); flex:1;">${fp.n}</span>
+        <span style="font-size:13px; font-weight:900; color:${c > 0 ? '#D97706' : 'var(--gray)'};">🪙 ${c}</span>
+      </button>`;
+    });
+    html += '</div>';
+    wrap.innerHTML = html;
+  } catch(e) {
+    wrap.innerHTML = '<div style="padding:30px; color:#DC2626; font-size:12px;">로드 실패: ' + e.message + '</div>';
+  }
+}
+
+function editCoin(fpName, currentCoin) {
+  const input = prompt(`${fpName}님의 코인을 얼마로 변경할까요?\n현재: 🪙 ${currentCoin}`, currentCoin);
+  if (input === null) return;
+  const newAmount = parseInt(input);
+  if (isNaN(newAmount) || newAmount < 0) { alert('숫자만 입력해주세요!'); return; }
+  (async () => {
+    try {
+      const { db, doc, setDoc } = window._fb;
+      await setDoc(doc(db, 'coins', fpName), { amount: newAmount, updatedAt: Date.now() }, { merge: true });
+      renderAdminCoins();
+    } catch(e) { alert('수정 실패: ' + e.message); }
+  })();
+}
+
+window.requestMissionComplete = requestMissionComplete;
+window.renderMissionCard = renderMissionCard;
+window.openMissionAdmin = openMissionAdmin;
+window.switchAdminTab = switchAdminTab;
+window.openMissionEdit = openMissionEdit;
+window.saveMission = saveMission;
+window.deleteMission = deleteMission;
+window.approveMission = approveMission;
+window.rejectMission = rejectMission;
+window.editCoin = editCoin;
+
+// ============================================
+//          ⚔️ 영업력 강화 시스템
+// ============================================
+window.ENHANCE_LEVELS = [
+  // +0 → +1, +2, ... +15
+  { lv:  1, cost:   10, rate: 95, title: '평범한 FP',         color: '#9CA3AF' },
+  { lv:  2, cost:   20, rate: 90, title: '노력하는 FP',       color: '#10B981' },
+  { lv:  3, cost:   30, rate: 85, title: '성장하는 FP',       color: '#3B82F6' },
+  { lv:  4, cost:   50, rate: 75, title: '빛나는 FP',         color: '#6366F1' },
+  { lv:  5, cost:   80, rate: 65, title: '우수 FP',           color: '#8B5CF6' },
+  { lv:  6, cost:  120, rate: 55, title: '탁월한 FP',         color: '#A855F7' },
+  { lv:  7, cost:  180, rate: 45, title: '위대한 FP',         color: '#EC4899' },
+  { lv:  8, cost:  250, rate: 35, title: '전설의 FP',         color: '#F37321' },
+  { lv:  9, cost:  350, rate: 25, title: '신화의 FP',         color: '#EAB308' },
+  { lv: 10, cost:  500, rate: 15, title: '영업의 신',         color: '#DC2626' },
+  { lv: 11, cost:  700, rate: 12, title: '하회의 별',         color: '#991B1B' },
+  { lv: 12, cost: 1000, rate: 10, title: '안동의 자랑',       color: '#7C2D12' },
+  { lv: 13, cost: 1500, rate:  7, title: '한화의 보물',       color: '#451A03' },
+  { lv: 14, cost: 2000, rate:  5, title: '영업의 황제',       color: '#000000' },
+  { lv: 15, cost: 3000, rate:  3, title: '하회지점의 전설',   color: '#FCD34D' },
+];
+
+// 강화 데이터 관리
+function getEnhanceData() {
+  try {
+    const s = localStorage.getItem('enhance_data');
+    return s ? JSON.parse(s) : { lv: 0, attempts: 0, success: 0, fails: 0, brokeCount: 0, maxReached: 0 };
+  } catch(e) {
+    return { lv: 0, attempts: 0, success: 0, fails: 0, brokeCount: 0, maxReached: 0 };
+  }
+}
+
+function saveEnhanceData(d) {
+  try { localStorage.setItem('enhance_data', JSON.stringify(d)); } catch(e) {}
+}
+
+// 강화 시도
+function tryEnhance() {
+  const data = getEnhanceData();
+  const stats = getUserStats();
+  const currentLv = data.lv || 0;
+  
+  if (currentLv >= 15) {
+    alert('✨ 이미 최고 단계입니다! 하회지점의 전설 등극! 🏆');
+    return;
+  }
+  
+  const next = ENHANCE_LEVELS[currentLv]; // 다음 강화 정보
+  if (stats.exp < next.cost) {
+    alert(`💸 활동포인트가 부족해요!\n필요: ${next.cost}P / 보유: ${stats.exp}P`);
+    return;
+  }
+  
+  // 포인트 차감
+  stats.exp -= next.cost;
+  saveUserStats(stats);
+  
+  // 시도 카운트
+  data.attempts = (data.attempts || 0) + 1;
+  
+  // 확률 굴리기
+  const roll = Math.random() * 100;
+  const success = roll < next.rate;
+  
+  if (success) {
+    data.lv = currentLv + 1;
+    data.success = (data.success || 0) + 1;
+    if (data.lv > (data.maxReached || 0)) data.maxReached = data.lv;
+    saveEnhanceData(data);
+    showEnhanceResult('success', currentLv + 1, next);
+  } else {
+    data.fails = (data.fails || 0) + 1;
+    // 실패 처리
+    let newLv = currentLv;
+    let broke = false;
+    if (currentLv >= 10) {
+      // +10 이상 실패 = 0으로 초기화 (터짐)
+      newLv = 0;
+      broke = true;
+      data.brokeCount = (data.brokeCount || 0) + 1;
+    } else if (currentLv >= 6) {
+      // +6~9 실패 = -1 강등
+      newLv = currentLv - 1;
+    }
+    // +5 이하 = 유지
+    data.lv = newLv;
+    saveEnhanceData(data);
+    showEnhanceResult(broke ? 'broke' : 'fail', newLv, next, currentLv);
+  }
+  
+  // UI 갱신
+  if (typeof renderLevelCard === 'function') renderLevelCard();
+  if (typeof renderMyInfoCard === 'function') renderMyInfoCard();
+  if (typeof updateEnhanceModal === 'function') updateEnhanceModal();
+}
+
+// 강화 결과 모달
+function showEnhanceResult(type, newLv, info, prevLv) {
+  const m = document.createElement('div');
+  m.style.cssText = `
+    position: fixed; inset: 0; background: rgba(0,0,0,0.92);
+    z-index: 99999; display: flex; align-items: center; justify-content: center;
+    backdrop-filter: blur(10px); cursor: pointer;
+  `;
+  
+  let content = '';
+  if (type === 'success') {
+    const color = info.color;
+    content = `
+      <style>
+        @keyframes successPop { 0% { transform:scale(0.3) rotate(-20deg); opacity:0; } 60% { transform:scale(1.15) rotate(5deg); } 100% { transform:scale(1) rotate(0deg); opacity:1; } }
+        @keyframes successGlow { 0%,100% { text-shadow: 0 0 30px ${color}, 0 0 60px ${color}aa; } 50% { text-shadow: 0 0 50px ${color}, 0 0 100px ${color}, 0 0 150px ${color}aa; } }
+        @keyframes successPulse { 0%,100% { transform:scale(1); } 50% { transform:scale(1.05); } }
+        @keyframes sparkle { 0%, 100% { opacity: 0; transform: scale(0); } 50% { opacity: 1; transform: scale(1); } }
+        .spark { position: absolute; font-size: 30px; animation: sparkle 1.2s ease infinite; pointer-events: none; }
+      </style>
+      <div style="text-align:center; animation:successPop 0.8s cubic-bezier(0.16, 1, 0.3, 1); position:relative;">
+        <div class="spark" style="top:-20px; left:-50px; animation-delay:0s;">✨</div>
+        <div class="spark" style="top:30px; right:-60px; animation-delay:0.3s;">⭐</div>
+        <div class="spark" style="bottom:-10px; left:-30px; animation-delay:0.6s;">✨</div>
+        <div class="spark" style="bottom:50px; right:-40px; animation-delay:0.9s;">⭐</div>
+        <div style="font-size:90px; line-height:1; margin-bottom:12px; animation:successPulse 1.2s ease infinite;">${getStarsHtml(newLv)}</div>
+        <div style="font-size:14px; font-weight:800; color:${color}; letter-spacing:0.25em; margin-bottom:8px;">⚔️ 강화 성공!</div>
+        <div style="font-size:80px; font-weight:900; color:white; letter-spacing:-0.06em; line-height:1; animation:successGlow 1.8s ease infinite;">+${newLv}</div>
+        <div style="font-size:22px; font-weight:900; color:${color}; margin-top:14px; letter-spacing:-0.03em;">${info.title}</div>
+        <div style="font-size:11px; color:rgba(255,255,255,0.5); margin-top:18px;">탭하여 닫기</div>
+      </div>
+    `;
+  } else if (type === 'broke') {
+    content = `
+      <style>
+        @keyframes brokeShake { 0%,100% { transform:translateX(0); } 10%,30%,50%,70%,90% { transform:translateX(-10px); } 20%,40%,60%,80% { transform:translateX(10px); } }
+        @keyframes brokeFade { 0% { opacity:0; transform:scale(1.5); } 100% { opacity:1; transform:scale(1); } }
+      </style>
+      <div style="text-align:center; animation:brokeFade 0.6s ease, brokeShake 0.8s ease 0.6s;">
+        <div style="font-size:100px; line-height:1; margin-bottom:12px;">💥</div>
+        <div style="font-size:14px; font-weight:800; color:#DC2626; letter-spacing:0.25em; margin-bottom:8px;">⚰️ 강화 실패!</div>
+        <div style="font-size:80px; font-weight:900; color:#DC2626; letter-spacing:-0.06em; line-height:1;">+${prevLv} → 0</div>
+        <div style="font-size:15px; font-weight:800; color:white; margin-top:14px; letter-spacing:-0.02em;">강화가 터졌습니다...</div>
+        <div style="font-size:11px; color:rgba(255,255,255,0.5); margin-top:14px; line-height:1.6;">처음부터 다시 시작!<br>그래도 포기하지 마세요 💪</div>
+        <div style="font-size:11px; color:rgba(255,255,255,0.4); margin-top:18px;">탭하여 닫기</div>
+      </div>
+    `;
+  } else {
+    // fail
+    const downgrade = prevLv > newLv;
+    content = `
+      <style>
+        @keyframes failFade { 0% { opacity:0; transform:translateY(20px); } 100% { opacity:1; transform:translateY(0); } }
+      </style>
+      <div style="text-align:center; animation:failFade 0.5s ease;">
+        <div style="font-size:80px; line-height:1; margin-bottom:12px;">${downgrade ? '😱' : '😢'}</div>
+        <div style="font-size:14px; font-weight:800; color:#F59E0B; letter-spacing:0.25em; margin-bottom:8px;">강화 실패</div>
+        <div style="font-size:50px; font-weight:900; color:white; letter-spacing:-0.04em; line-height:1;">+${prevLv}${downgrade ? ` → +${newLv}` : ''}</div>
+        <div style="font-size:13px; font-weight:700; color:rgba(255,255,255,0.7); margin-top:14px;">${downgrade ? '한 단계 강등되었어요' : '그래도 단계는 유지!'}</div>
+        <div style="font-size:11px; color:rgba(255,255,255,0.4); margin-top:18px;">탭하여 닫기</div>
+      </div>
+    `;
+  }
+  
+  m.innerHTML = content;
+  m.onclick = () => m.remove();
+  document.body.appendChild(m);
+  setTimeout(() => { if (m.parentNode) m.remove(); }, 5000);
+}
+
+// 별 표시 HTML
+function getStarsHtml(lv) {
+  if (lv === 0) return '⚔️';
+  if (lv <= 5) return '⭐'.repeat(Math.min(lv, 5));
+  if (lv <= 10) return '🌟'.repeat(Math.min(lv - 5, 5));
+  return '👑'.repeat(Math.min(lv - 10, 5));
+}
+
+// 강화 모달
+function openEnhanceModal() {
+  const m = document.createElement('div');
+  m.id = 'enhanceModal';
+  m.style.cssText = `
+    position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+    z-index: 99998; overflow-y: auto;
+  `;
+  m.onclick = (e) => { if (e.target === m) m.remove(); };
+  document.body.appendChild(m);
+  renderEnhanceModalContent();
+}
+
+function renderEnhanceModalContent() {
+  const m = document.getElementById('enhanceModal');
+  if (!m) return;
+  const data = getEnhanceData();
+  const stats = getUserStats();
+  const currentLv = data.lv || 0;
+  const next = currentLv < 15 ? ENHANCE_LEVELS[currentLv] : null;
+  const currentTitle = currentLv > 0 ? ENHANCE_LEVELS[currentLv - 1].title : '평범한 FP';
+  const currentColor = currentLv > 0 ? ENHANCE_LEVELS[currentLv - 1].color : '#9CA3AF';
+  
+  const canEnhance = next && stats.exp >= next.cost;
+  
+  m.innerHTML = `
+    <div style="max-width:500px; margin:0 auto; padding:20px 16px; min-height:100vh; display:flex; align-items:center; justify-content:center;">
+      <div style="background:linear-gradient(180deg, #1A1A1A 0%, #0F0F0F 100%); border-radius:20px; width:100%; padding:24px 20px; box-shadow:0 20px 60px rgba(0,0,0,0.5); max-height:92vh; overflow-y:auto; color:white; position:relative; overflow-x:hidden;">
+        <!-- 빛 효과 -->
+        <div style="position:absolute; top:-50px; right:-50px; width:200px; height:200px; border-radius:50%; background:radial-gradient(circle, ${currentColor}33 0%, transparent 70%); pointer-events:none;"></div>
+        
+        <!-- 헤더 -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; position:relative;">
+          <div>
+            <div style="font-size:11px; color:${currentColor}; font-weight:800; letter-spacing:0.15em;">⚔️ ENHANCE</div>
+            <div style="font-size:20px; font-weight:900; letter-spacing:-0.03em; margin-top:2px;">영업력 강화</div>
+          </div>
+          <button onclick="this.closest('#enhanceModal').remove()" style="background:rgba(255,255,255,0.1); color:white; border:none; width:32px; height:32px; border-radius:50%; font-size:16px; cursor:pointer;">✕</button>
+        </div>
+        
+        <!-- 현재 강화 단계 -->
+        <div style="background:linear-gradient(135deg, ${currentColor}22, ${currentColor}11); border:1px solid ${currentColor}55; border-radius:16px; padding:18px; margin-bottom:14px; text-align:center; position:relative;">
+          <div style="font-size:50px; line-height:1; margin-bottom:6px;">${getStarsHtml(currentLv)}</div>
+          <div style="font-size:42px; font-weight:900; color:${currentColor}; letter-spacing:-0.04em; line-height:1; text-shadow:0 0 20px ${currentColor}aa;">+${currentLv}</div>
+          <div style="font-size:14px; font-weight:800; color:white; margin-top:8px; letter-spacing:-0.02em;">${currentTitle}</div>
+        </div>
+        
+        ${next ? `
+          <!-- 다음 단계 정보 -->
+          <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:14px; margin-bottom:14px;">
+            <div style="font-size:10px; font-weight:800; color:${next.color}; letter-spacing:0.1em; margin-bottom:8px;">▼ 다음 단계</div>
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+              <div>
+                <div style="font-size:13px; font-weight:800; color:white;">${next.title}</div>
+                <div style="font-size:11px; color:rgba(255,255,255,0.5); margin-top:2px;">+${next.lv} 강화</div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-size:20px; font-weight:900; color:${next.color}; letter-spacing:-0.03em;">${next.rate}%</div>
+                <div style="font-size:10px; color:rgba(255,255,255,0.5); font-weight:700;">성공률</div>
+              </div>
+            </div>
+            <!-- 실패 페널티 -->
+            <div style="background:rgba(0,0,0,0.3); border-radius:8px; padding:8px 10px; font-size:10.5px; color:rgba(255,255,255,0.7); line-height:1.5;">
+              ${next.lv <= 5 
+                ? `<span style="color:#10B981;">✅ 안전구간:</span> 실패해도 단계 유지` 
+                : next.lv <= 9 
+                  ? `<span style="color:#F59E0B;">⚠️ 강등구간:</span> 실패 시 -1 강등`
+                  : `<span style="color:#DC2626;">💀 위험구간:</span> 실패 시 0으로 초기화!`}
+            </div>
+          </div>
+          
+          <!-- 비용 + 보유 포인트 -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:14px;">
+            <div style="background:rgba(255,255,255,0.04); border-radius:10px; padding:12px;">
+              <div style="font-size:10px; font-weight:800; color:rgba(255,255,255,0.5); letter-spacing:0.05em;">강화 비용</div>
+              <div style="font-size:18px; font-weight:900; color:#FCD34D; letter-spacing:-0.02em; margin-top:2px;">${next.cost}<span style="font-size:11px; opacity:0.7; margin-left:2px;">P</span></div>
+            </div>
+            <div style="background:rgba(255,255,255,0.04); border-radius:10px; padding:12px;">
+              <div style="font-size:10px; font-weight:800; color:rgba(255,255,255,0.5); letter-spacing:0.05em;">보유 포인트</div>
+              <div style="font-size:18px; font-weight:900; color:${stats.exp >= next.cost ? '#10B981' : '#DC2626'}; letter-spacing:-0.02em; margin-top:2px;">${stats.exp}<span style="font-size:11px; opacity:0.7; margin-left:2px;">P</span></div>
+            </div>
+          </div>
+          
+          <!-- 강화 버튼 -->
+          <button onclick="tryEnhance()" ${canEnhance ? '' : 'disabled'} style="
+            width:100%;
+            background:${canEnhance ? `linear-gradient(135deg, ${next.color}, ${next.color}cc)` : 'rgba(255,255,255,0.06)'};
+            color:white; 
+            border:none;
+            border-radius:14px;
+            padding:16px;
+            font-size:15px;
+            font-weight:900;
+            letter-spacing:-0.02em;
+            cursor:${canEnhance ? 'pointer' : 'not-allowed'};
+            font-family:inherit;
+            box-shadow:${canEnhance ? `0 6px 20px ${next.color}66` : 'none'};
+            opacity:${canEnhance ? '1' : '0.4'};
+            transition:transform 0.1s;
+          " ${canEnhance ? `onmousedown="this.style.transform='scale(0.97)'" onmouseup="this.style.transform=''" onmouseleave="this.style.transform=''"` : ''}>
+            ⚔️ ${canEnhance ? `+${next.lv} 강화 도전!` : '포인트 부족'}
+          </button>
+        ` : `
+          <div style="background:linear-gradient(135deg, #FCD34D22, #F3732122); border:1px solid #FCD34D55; border-radius:14px; padding:24px; text-align:center; margin-bottom:14px;">
+            <div style="font-size:48px; margin-bottom:8px;">🏆</div>
+            <div style="font-size:18px; font-weight:900; color:#FCD34D; letter-spacing:-0.03em;">하회지점의 전설</div>
+            <div style="font-size:12px; color:rgba(255,255,255,0.7); margin-top:6px;">최고 단계에 도달했습니다!</div>
+          </div>
+        `}
+        
+        <!-- 통계 -->
+        <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:10px; padding:12px; margin-bottom:14px;">
+          <div style="font-size:10px; font-weight:800; color:rgba(255,255,255,0.5); letter-spacing:0.1em; margin-bottom:8px;">📊 나의 강화 기록</div>
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:6px; text-align:center;">
+            <div>
+              <div style="font-size:16px; font-weight:900; color:white;">${data.attempts || 0}</div>
+              <div style="font-size:9px; color:rgba(255,255,255,0.5); font-weight:700;">총 시도</div>
+            </div>
+            <div>
+              <div style="font-size:16px; font-weight:900; color:#10B981;">${data.success || 0}</div>
+              <div style="font-size:9px; color:rgba(255,255,255,0.5); font-weight:700;">성공</div>
+            </div>
+            <div>
+              <div style="font-size:16px; font-weight:900; color:#F59E0B;">${data.fails || 0}</div>
+              <div style="font-size:9px; color:rgba(255,255,255,0.5); font-weight:700;">실패</div>
+            </div>
+            <div>
+              <div style="font-size:16px; font-weight:900; color:#DC2626;">${data.brokeCount || 0}</div>
+              <div style="font-size:9px; color:rgba(255,255,255,0.5); font-weight:700;">터짐</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 강화 단계 표 -->
+        <div style="background:rgba(255,255,255,0.03); border-radius:10px; padding:12px;">
+          <div style="font-size:10px; font-weight:800; color:rgba(255,255,255,0.5); letter-spacing:0.1em; margin-bottom:8px;">⚔️ 전체 단계</div>
+          <div style="display:flex; flex-direction:column; gap:3px; max-height:240px; overflow-y:auto;">
+            ${ENHANCE_LEVELS.map(t => {
+              const isCurrent = t.lv === currentLv;
+              const isPassed = t.lv <= currentLv;
+              return `<div style="
+                display:flex; align-items:center; gap:8px;
+                padding:6px 10px;
+                background:${isCurrent ? `${t.color}22` : 'transparent'};
+                border:1px solid ${isCurrent ? t.color + '66' : 'transparent'};
+                border-radius:6px;
+                opacity:${isPassed && !isCurrent ? '0.5' : '1'};
+              ">
+                <span style="font-size:13px; font-weight:900; color:${t.color}; min-width:32px;">+${t.lv}</span>
+                <span style="font-size:11px; color:white; font-weight:700; flex:1; letter-spacing:-0.02em;">${t.title}</span>
+                <span style="font-size:10px; color:rgba(255,255,255,0.5); font-weight:700;">${t.rate}%</span>
+                <span style="font-size:10px; color:#FCD34D; font-weight:700;">${t.cost}P</span>
+              </div>`;
+            }).join('')}
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function updateEnhanceModal() {
+  if (document.getElementById('enhanceModal')) {
+    renderEnhanceModalContent();
+  }
+}
+
+window.tryEnhance = tryEnhance;
+window.openEnhanceModal = openEnhanceModal;
+window.updateEnhanceModal = updateEnhanceModal;
+window.getEnhanceData = getEnhanceData;
 
 // 🌙 테마 토글
 window.toggleTheme = function() {
@@ -10931,12 +12175,12 @@ window.MANAGER_PW = "didghk1923!";
   s1.type = 'module';
   s1.textContent = `
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs, query, orderBy, doc, deleteDoc, updateDoc, increment, serverTimestamp, onSnapshot, where, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, getDocs, query, orderBy, doc, deleteDoc, updateDoc, increment, serverTimestamp, onSnapshot, where, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
     
     const app = initializeApp(window.BOARD_CONFIG);
     const db = getFirestore(app);
     
-    window._fb = { db, collection, addDoc, getDocs, query, orderBy, doc, deleteDoc, updateDoc, increment, serverTimestamp, onSnapshot, where, getDoc };
+    window._fb = { db, collection, addDoc, getDocs, query, orderBy, doc, deleteDoc, updateDoc, increment, serverTimestamp, onSnapshot, where, getDoc, setDoc };
     window.dispatchEvent(new Event('firebaseReady'));
   `;
   document.head.appendChild(s1);
@@ -11466,13 +12710,13 @@ async function deletePost(id) {
 
 // Firebase 준비되면 게시판 로딩 시작
 window.addEventListener('firebaseReady', () => {
-  // 게시판 페이지 처음 들어갈 때 한 번 갱신
   console.log('Firebase ready');
-  // 이미 게시판 페이지에 있으면 즉시 로드
   const page = document.getElementById('page-board');
   if (page && page.classList.contains('active')) {
     renderBoardList();
   }
+  // 🎯 미션 카드도 갱신
+  if (typeof renderMissionCard === 'function') renderMissionCard();
 });
 
 // 게시판 함수들 글로벌 노출 (onclick에서 호출 가능하도록)
