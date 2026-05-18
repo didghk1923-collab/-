@@ -6297,20 +6297,108 @@ async function submitNewPin(name) {
   }
   
   try {
-    const { db, doc, setDoc } = window._fb;
+    const { db, doc, setDoc, getDoc } = window._fb;
+    
+    // 기존 회원인지 확인 (가입 보너스 1회만 지급)
+    const userSnap = await getDoc(doc(db, 'users', name));
+    const isNewUser = !userSnap.exists() || !userSnap.data().welcomeBonus;
+    
+    // users 저장
     await setDoc(doc(db, 'users', name), {
       name: name,
       pinHash: hashPin(pin),
-      createdAt: Date.now(),
+      createdAt: userSnap.exists() ? (userSnap.data().createdAt || Date.now()) : Date.now(),
+      welcomeBonus: true,  // 보너스 지급 표시
     }, { merge: true });
     
+    // 🎁 가입 축하 선물 30코인 (지점장 제외, 신규만)
+    let gotBonus = false;
+    if (isNewUser && name !== window.MANAGER_NAME) {
+      const coinSnap = await getDoc(doc(db, 'coins', name));
+      const current = coinSnap.exists() ? (coinSnap.data().amount || 0) : 0;
+      await setDoc(doc(db, 'coins', name), {
+        amount: current + 30,
+        updatedAt: Date.now(),
+        welcomeBonusAt: Date.now(),
+      }, { merge: true });
+      gotBonus = true;
+    }
+    
     document.getElementById('setNewPinModal').remove();
-    alert('🎉 비밀번호가 설정되었어요!\n이제 4자리 비밀번호로 로그인됩니다.');
-    doLoginSuccess(name);
+    
+    if (gotBonus) {
+      // 화려한 축하 모달
+      showWelcomeBonusModal(name, 30);
+    } else {
+      alert('🎉 비밀번호가 설정되었어요!\n이제 4자리 비밀번호로 로그인됩니다.');
+      doLoginSuccess(name);
+    }
   } catch(e) {
     msg.textContent = '❌ 오류: ' + e.message;
   }
 }
+
+// 🎁 가입 축하 선물 모달
+function showWelcomeBonusModal(name, coins) {
+  const m = document.createElement('div');
+  m.id = 'welcomeBonusModal';
+  m.style.cssText = `
+    position: fixed; inset: 0; background: rgba(0,0,0,0.92);
+    z-index: 100004; display: flex; align-items: center; justify-content: center; padding: 16px;
+    backdrop-filter: blur(15px);
+  `;
+  m.innerHTML = `
+    <div style="background:linear-gradient(180deg, #1C1C1E 0%, #2D2D2D 100%); border:2px solid rgba(252,211,77,0.5); border-radius:24px; padding:32px 24px; max-width:380px; width:100%; color:white; text-align:center; box-shadow:0 30px 80px rgba(252,211,77,0.3); position:relative; overflow:hidden;">
+      <!-- 빛 효과 -->
+      <div style="position:absolute; top:-80px; left:50%; transform:translateX(-50%); width:300px; height:300px; border-radius:50%; background:radial-gradient(circle, rgba(252,211,77,0.3) 0%, transparent 70%); pointer-events:none;"></div>
+      <div style="position:absolute; bottom:-50px; right:-50px; width:200px; height:200px; border-radius:50%; background:radial-gradient(circle, rgba(243,115,33,0.25) 0%, transparent 70%); pointer-events:none;"></div>
+      
+      <div style="position:relative;">
+        <!-- 선물 아이콘 (애니메이션) -->
+        <div style="font-size:80px; margin-bottom:14px; animation: bounceIn 0.6s ease-out;">🎁</div>
+        
+        <div style="font-size:11px; font-weight:800; color:#FCD34D; letter-spacing:0.25em; margin-bottom:8px;">WELCOME BONUS</div>
+        <div style="font-size:24px; font-weight:900; letter-spacing:-0.03em; margin-bottom:6px;">${name}님, 환영해요!</div>
+        <div style="font-size:13px; color:rgba(255,255,255,0.65); line-height:1.5; margin-bottom:22px;">
+          하회지점 가입 축하 선물 🎉<br>
+          🪙 ${coins}코인을 받으셨어요!
+        </div>
+        
+        <!-- 코인 카드 -->
+        <div style="background:linear-gradient(135deg, rgba(252,211,77,0.15), rgba(243,115,33,0.1)); border:1px solid rgba(252,211,77,0.4); border-radius:16px; padding:18px; margin-bottom:22px;">
+          <div style="font-size:50px; line-height:1; margin-bottom:8px;">🪙</div>
+          <div style="font-size:36px; font-weight:900; color:#FCD34D; letter-spacing:-0.03em; line-height:1;">+ ${coins}</div>
+          <div style="font-size:11px; color:rgba(252,211,77,0.7); font-weight:700; margin-top:4px; letter-spacing:0.1em;">HAHOE COIN</div>
+        </div>
+        
+        <div style="font-size:11px; color:rgba(255,255,255,0.45); line-height:1.6; margin-bottom:20px;">
+          미션 클리어하면 더 많은 코인을 받을 수 있어요!<br>
+          ☀️ 일일 · 📅 주간 · 🗓️ 월간 · ⭐ 특별 미션
+        </div>
+        
+        <button onclick="closeWelcomeBonus('${name}')" style="width:100%; background:linear-gradient(135deg, #F37321, #C2410C); color:white; border:none; border-radius:12px; padding:14px; font-family:inherit; font-size:14px; font-weight:900; letter-spacing:-0.02em; cursor:pointer; box-shadow:0 4px 20px rgba(243,115,33,0.4);">
+          🚀 시작하기
+        </button>
+      </div>
+    </div>
+    <style>
+      @keyframes bounceIn {
+        0% { transform: scale(0.3); opacity: 0; }
+        50% { transform: scale(1.15); }
+        100% { transform: scale(1); opacity: 1; }
+      }
+    </style>
+  `;
+  document.body.appendChild(m);
+}
+
+function closeWelcomeBonus(name) {
+  document.getElementById('welcomeBonusModal').remove();
+  doLoginSuccess(name);
+}
+
+window.showWelcomeBonusModal = showWelcomeBonusModal;
+window.closeWelcomeBonus = closeWelcomeBonus;
 
 window.onSabunInput = onSabunInput;
 window.submitLogin = submitLogin;
@@ -7325,23 +7413,126 @@ window.openExpGuideModal = openExpGuideModal;
 //          🎯 미션 + 하회코인 시스템
 // ============================================
 
+// 📋 미션 종류 정의
+window.MISSION_TYPES = {
+  daily: {
+    label: '일일 미션',
+    icon: '☀️',
+    color: '#F37321',
+    colorSoft: 'rgba(243,115,33,0.15)',
+    period: '24시간',
+    defaultReward: 1,
+    // 키: daily_2026-05-18
+  },
+  weekly: {
+    label: '주간 미션',
+    icon: '📅',
+    color: '#3B82F6',
+    colorSoft: 'rgba(59,130,246,0.15)',
+    period: '7일',
+    defaultReward: 5,
+    // 키: weekly_2026-W20
+  },
+  monthly: {
+    label: '월간 미션',
+    icon: '🗓️',
+    color: '#8B5CF6',
+    colorSoft: 'rgba(139,92,246,0.15)',
+    period: '1개월',
+    defaultReward: 20,
+    // 키: monthly_2026-05
+  },
+  special: {
+    label: '특별 미션',
+    icon: '⭐',
+    color: '#DC2626',
+    colorSoft: 'rgba(220,38,38,0.15)',
+    period: '지점장 지정',
+    defaultReward: 10,
+    // 키: special_{id}
+  },
+};
+
 // 오늘 날짜 (YYYY-MM-DD)
 function getTodayKey() {
   const d = new Date();
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
 
-// FP의 오늘 미션 가져오기
-async function loadMyMission() {
-  if (!window.MY_FP || !window._fb) return null;
-  try {
-    const { db, doc, getDoc } = window._fb;
-    const today = getTodayKey();
-    const snap = await getDoc(doc(db, 'missions', `${window.MY_FP}_${today}`));
-    return snap.exists() ? snap.data() : null;
-  } catch(e) { 
-    return null;
+// 이번 주 키 (YYYY-W주차)
+function getWeekKey() {
+  const d = new Date();
+  const yearStart = new Date(d.getFullYear(), 0, 1);
+  const dayOfYear = Math.ceil((d - yearStart) / 86400000);
+  const weekNum = Math.ceil((dayOfYear + yearStart.getDay()) / 7);
+  return `${d.getFullYear()}-W${String(weekNum).padStart(2,'0')}`;
+}
+
+// 이번 달 키 (YYYY-MM)
+function getMonthKey() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+}
+
+// 미션 종류별 현재 기간 키
+function getPeriodKey(type) {
+  if (type === 'daily') return getTodayKey();
+  if (type === 'weekly') return getWeekKey();
+  if (type === 'monthly') return getMonthKey();
+  return 'current';  // special은 별도
+}
+
+// 미션 Firestore 문서 ID 생성
+function getMissionDocId(fpName, type, specialId) {
+  if (type === 'special') {
+    return `${fpName}__special__${specialId}`;
   }
+  return `${fpName}__${type}__${getPeriodKey(type)}`;
+}
+
+// FP의 현재 모든 미션 가져오기 (daily/weekly/monthly/special)
+async function loadMyMissions() {
+  if (!window.MY_FP || !window._fb) return { daily: null, weekly: null, monthly: null, specials: [] };
+  try {
+    const { db, doc, getDoc, collection, query, where, getDocs } = window._fb;
+    
+    // daily / weekly / monthly: 정해진 키
+    const [daily, weekly, monthly] = await Promise.all([
+      getDoc(doc(db, 'missions', getMissionDocId(window.MY_FP, 'daily'))),
+      getDoc(doc(db, 'missions', getMissionDocId(window.MY_FP, 'weekly'))),
+      getDoc(doc(db, 'missions', getMissionDocId(window.MY_FP, 'monthly'))),
+    ]);
+    
+    // special: 활성화된 것들 - 컬렉션에서 검색
+    const specials = [];
+    try {
+      const q = query(collection(db, 'missions'), where('fpName', '==', window.MY_FP), where('type', '==', 'special'));
+      const snap = await getDocs(q);
+      snap.forEach(d => {
+        const data = d.data();
+        // approved 안 된 것만 표시 (또는 최근 7일내 승인된 것)
+        if (data.status !== 'approved' || (data.approvedAt && Date.now() - data.approvedAt < 86400000 * 7)) {
+          specials.push({ ...data, _docId: d.id });
+        }
+      });
+    } catch(e) { console.warn('special 미션 로드 실패:', e); }
+    
+    return {
+      daily: daily.exists() ? daily.data() : null,
+      weekly: weekly.exists() ? weekly.data() : null,
+      monthly: monthly.exists() ? monthly.data() : null,
+      specials,
+    };
+  } catch(e) { 
+    console.warn('미션 로드 실패:', e);
+    return { daily: null, weekly: null, monthly: null, specials: [] };
+  }
+}
+
+// 호환: 기존 코드에서 loadMyMission 부르는 곳을 위한 alias
+async function loadMyMission() {
+  const all = await loadMyMissions();
+  return all.daily;
 }
 
 // FP의 코인 잔액 가져오기
@@ -7354,16 +7545,16 @@ async function loadMyCoins() {
   } catch(e) { return 0; }
 }
 
-// FP가 미션 완료 신청
-async function requestMissionComplete() {
+// FP가 미션 완료 신청 (종류별)
+async function requestMissionComplete(missionType, specialId) {
   if (!window.MY_FP || !window._fb) {
-    alert('FP 이름을 먼저 선택해주세요!');
+    alert('로그인 후 이용 가능합니다');
     return;
   }
   try {
     const { db, doc, setDoc } = window._fb;
-    const today = getTodayKey();
-    await setDoc(doc(db, 'missions', `${window.MY_FP}_${today}`), {
+    const docId = getMissionDocId(window.MY_FP, missionType || 'daily', specialId);
+    await setDoc(doc(db, 'missions', docId), {
       status: 'pending',
       requestedAt: Date.now(),
     }, { merge: true });
@@ -7374,20 +7565,18 @@ async function requestMissionComplete() {
   }
 }
 
-// 미션 카드 렌더링 (FP 화면)
+// 미션 카드 렌더링 (FP 화면) - 4종 미션 모두
 async function renderMissionCard() {
   const wrap = document.getElementById('missionCard');
   if (!wrap) return;
   
   if (!window.MY_FP) {
-    // FP 미선택 시 - 안내 박스
     wrap.innerHTML = `
       <div style="background:linear-gradient(135deg, #FFFBEB, #FEF3C7); border:1px solid rgba(252,211,77,0.4); border-radius:16px; padding:14px 16px; margin-bottom:14px; display:flex; align-items:center; gap:12px;">
         <div style="font-size:28px;">🎯</div>
         <div style="flex:1;">
-          <div style="font-size:11px; font-weight:800; color:#92400E; letter-spacing:0.05em; margin-bottom:2px;">TODAY MISSION</div>
-          <div style="font-size:13px; font-weight:700; color:#78350F;">FP 이름을 먼저 선택해주세요</div>
-          <div style="font-size:11px; color:#92400E; opacity:0.75; margin-top:2px;">아래 내정보 카드에서 본인 이름을 선택하면 오늘의 미션이 표시돼요</div>
+          <div style="font-size:11px; font-weight:800; color:#92400E; letter-spacing:0.05em; margin-bottom:2px;">MISSIONS</div>
+          <div style="font-size:13px; font-weight:700; color:#78350F;">로그인 후 미션을 확인하세요</div>
         </div>
       </div>
     `;
@@ -7395,21 +7584,80 @@ async function renderMissionCard() {
   }
   
   if (!window._fb) {
-    wrap.innerHTML = '<div style="padding:14px; background:rgba(0,0,0,0.04); border-radius:14px; margin-bottom:14px; font-size:12px; color:var(--gray); text-align:center;">Firebase 연결 중...</div>';
+    wrap.innerHTML = '<div style="padding:14px; background:rgba(0,0,0,0.04); border-radius:14px; margin-bottom:14px; font-size:12px; color:var(--gray); text-align:center;">미션 로딩 중...</div>';
     setTimeout(renderMissionCard, 1000);
     return;
   }
   
-  const mission = await loadMyMission();
+  // 지점장은 미션 카드 안 보임 (지점장은 미션 받는 사람 아님)
+  if (isManager()) {
+    wrap.innerHTML = '';
+    return;
+  }
+  
+  const missions = await loadMyMissions();
   const coins = await loadMyCoins();
   
-  if (!mission || !mission.title) {
+  // 미션 카드 HTML 생성 함수
+  function buildMissionBox(mission, type, specialId) {
+    if (!mission || !mission.title) return '';
+    const info = MISSION_TYPES[type];
+    const status = mission.status || 'open';
+    const reward = mission.reward || info.defaultReward;
+    
+    let statusBox = '';
+    let actionBtn = '';
+    
+    const completeArg = specialId ? `'${type}', '${specialId}'` : `'${type}'`;
+    
+    if (status === 'open') {
+      statusBox = `<div style="background:${info.colorSoft}; border:1px solid ${info.color}55; border-radius:8px; padding:5px 10px; font-size:10.5px; font-weight:800; color:${info.color}; text-align:center; margin-bottom:8px;">⏳ 진행 중</div>`;
+      actionBtn = `<button onclick="requestMissionComplete(${completeArg})" style="width:100%; background:linear-gradient(135deg, ${info.color}, ${info.color}cc); color:white; border:none; border-radius:8px; padding:10px; font-family:inherit; font-size:12px; font-weight:900; letter-spacing:-0.02em; cursor:pointer;">✅ 완료 신청</button>`;
+    } else if (status === 'pending') {
+      statusBox = `<div style="background:linear-gradient(135deg, rgba(252,211,77,0.2), rgba(245,158,11,0.2)); border:1px solid rgba(245,158,11,0.4); border-radius:8px; padding:5px 10px; font-size:10.5px; font-weight:800; color:#92400E; text-align:center; margin-bottom:8px;">⏰ 승인 대기 중</div>`;
+      actionBtn = `<button disabled style="width:100%; background:rgba(0,0,0,0.06); color:var(--gray); border:none; border-radius:8px; padding:10px; font-family:inherit; font-size:12px; font-weight:800; cursor:not-allowed;">⏳ 대기 중</button>`;
+    } else if (status === 'approved') {
+      statusBox = `<div style="background:linear-gradient(135deg, rgba(16,185,129,0.15), rgba(5,150,105,0.15)); border:1px solid rgba(16,185,129,0.4); border-radius:8px; padding:5px 10px; font-size:10.5px; font-weight:800; color:#059669; text-align:center; margin-bottom:8px;">🎉 클리어 · 🪙 ${reward}코인 획득</div>`;
+      actionBtn = `<button disabled style="width:100%; background:linear-gradient(135deg, #10B981, #059669); color:white; border:none; border-radius:8px; padding:10px; font-family:inherit; font-size:12px; font-weight:900; cursor:default;">✨ 완료!</button>`;
+    } else if (status === 'rejected') {
+      statusBox = `<div style="background:linear-gradient(135deg, rgba(220,38,38,0.15), rgba(153,27,27,0.15)); border:1px solid rgba(220,38,38,0.4); border-radius:8px; padding:5px 10px; font-size:10.5px; font-weight:800; color:#DC2626; text-align:center; margin-bottom:8px;">❌ 거절 - 다시 도전!</div>`;
+      actionBtn = `<button onclick="requestMissionComplete(${completeArg})" style="width:100%; background:linear-gradient(135deg, ${info.color}, ${info.color}cc); color:white; border:none; border-radius:8px; padding:10px; font-family:inherit; font-size:12px; font-weight:900; letter-spacing:-0.02em; cursor:pointer;">✅ 다시 신청</button>`;
+    }
+    
+    return `
+      <div style="background:white; border:1px solid ${info.color}33; border-radius:12px; padding:12px 14px; margin-bottom:8px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <div style="display:flex; align-items:center; gap:5px;">
+            <span style="font-size:14px;">${info.icon}</span>
+            <span style="font-size:10.5px; font-weight:900; color:${info.color}; letter-spacing:0.05em;">${info.label}</span>
+          </div>
+          <span style="font-size:10px; font-weight:800; color:#D97706; background:rgba(252,211,77,0.15); padding:2px 7px; border-radius:6px;">🪙 ${reward}</span>
+        </div>
+        <div style="font-size:13.5px; font-weight:800; color:var(--ink); line-height:1.4; letter-spacing:-0.02em; margin-bottom:6px;">${mission.title}</div>
+        ${mission.desc ? `<div style="font-size:11px; color:var(--gray); line-height:1.5; margin-bottom:8px;">${mission.desc}</div>` : ''}
+        ${statusBox}
+        ${actionBtn}
+      </div>
+    `;
+  }
+  
+  // 모든 미션 박스
+  const dailyHtml = buildMissionBox(missions.daily, 'daily');
+  const weeklyHtml = buildMissionBox(missions.weekly, 'weekly');
+  const monthlyHtml = buildMissionBox(missions.monthly, 'monthly');
+  const specialsHtml = (missions.specials || []).map(s => {
+    return buildMissionBox(s, 'special', s.specialId || s._docId.split('__special__')[1]);
+  }).join('');
+  
+  const hasAny = dailyHtml || weeklyHtml || monthlyHtml || specialsHtml;
+  
+  if (!hasAny) {
     wrap.innerHTML = `
       <div style="background:linear-gradient(135deg, #FFFBEB, #FEF3C7); border:1px solid rgba(252,211,77,0.4); border-radius:16px; padding:14px 16px; margin-bottom:14px; display:flex; align-items:center; gap:12px;">
         <div style="font-size:28px;">🎯</div>
         <div style="flex:1;">
-          <div style="font-size:11px; font-weight:800; color:#92400E; letter-spacing:0.05em; margin-bottom:2px;">TODAY MISSION</div>
-          <div style="font-size:13px; font-weight:700; color:#78350F;">오늘의 미션이 아직 없어요</div>
+          <div style="font-size:11px; font-weight:800; color:#92400E; letter-spacing:0.05em; margin-bottom:2px;">MISSIONS</div>
+          <div style="font-size:13px; font-weight:700; color:#78350F;">현재 진행 중인 미션이 없어요</div>
           <div style="font-size:11px; color:#92400E; opacity:0.75; margin-top:2px;">지점장님이 곧 미션을 배정해드릴 거예요!</div>
         </div>
         <div style="background:white; border-radius:10px; padding:6px 10px; text-align:center;">
@@ -7421,45 +7669,27 @@ async function renderMissionCard() {
     return;
   }
   
-  const status = mission.status || 'open';
-  const reward = mission.reward || 1;
-  
-  let statusBox = '';
-  let actionBtn = '';
-  
-  if (status === 'open') {
-    statusBox = `<div style="background:linear-gradient(135deg, rgba(59,130,246,0.15), rgba(99,102,241,0.15)); border:1px solid rgba(59,130,246,0.3); border-radius:8px; padding:6px 10px; font-size:11px; font-weight:800; color:#1D4ED8; text-align:center; margin-bottom:10px;">⏳ 진행 중</div>`;
-    actionBtn = `<button onclick="requestMissionComplete()" style="width:100%; background:linear-gradient(135deg, #F37321, #C2410C); color:white; border:none; border-radius:10px; padding:12px; font-family:inherit; font-size:13px; font-weight:900; letter-spacing:-0.02em; cursor:pointer; box-shadow:0 4px 12px rgba(243,115,33,0.3);">✅ 완료 신청하기</button>`;
-  } else if (status === 'pending') {
-    statusBox = `<div style="background:linear-gradient(135deg, rgba(252,211,77,0.2), rgba(245,158,11,0.2)); border:1px solid rgba(245,158,11,0.4); border-radius:8px; padding:6px 10px; font-size:11px; font-weight:800; color:#92400E; text-align:center; margin-bottom:10px;">⏰ 지점장 승인 대기 중...</div>`;
-    actionBtn = `<button disabled style="width:100%; background:rgba(0,0,0,0.06); color:var(--gray); border:none; border-radius:10px; padding:12px; font-family:inherit; font-size:13px; font-weight:800; letter-spacing:-0.02em; cursor:not-allowed;">⏳ 승인 대기 중</button>`;
-  } else if (status === 'approved') {
-    statusBox = `<div style="background:linear-gradient(135deg, rgba(16,185,129,0.15), rgba(5,150,105,0.15)); border:1px solid rgba(16,185,129,0.4); border-radius:8px; padding:6px 10px; font-size:11px; font-weight:800; color:#059669; text-align:center; margin-bottom:10px;">🎉 클리어 완료! · 🪙 ${reward}코인 획득</div>`;
-    actionBtn = `<button disabled style="width:100%; background:linear-gradient(135deg, #10B981, #059669); color:white; border:none; border-radius:10px; padding:12px; font-family:inherit; font-size:13px; font-weight:900; letter-spacing:-0.02em; cursor:default;">✨ 완료! 내일 다시!</button>`;
-  } else if (status === 'rejected') {
-    statusBox = `<div style="background:linear-gradient(135deg, rgba(220,38,38,0.15), rgba(153,27,27,0.15)); border:1px solid rgba(220,38,38,0.4); border-radius:8px; padding:6px 10px; font-size:11px; font-weight:800; color:#DC2626; text-align:center; margin-bottom:10px;">❌ 거절됨 - 다시 도전!</div>`;
-    actionBtn = `<button onclick="requestMissionComplete()" style="width:100%; background:linear-gradient(135deg, #F37321, #C2410C); color:white; border:none; border-radius:10px; padding:12px; font-family:inherit; font-size:13px; font-weight:900; letter-spacing:-0.02em; cursor:pointer; box-shadow:0 4px 12px rgba(243,115,33,0.3);">✅ 다시 완료 신청</button>`;
-  }
-  
+  // 미션 종합 카드
   wrap.innerHTML = `
-    <div style="background:linear-gradient(135deg, #1A1A1A 0%, #2D2D2D 100%); border-radius:16px; padding:16px; margin-bottom:14px; color:white; position:relative; overflow:hidden; box-shadow:0 4px 12px rgba(0,0,0,0.15);">
-      <div style="position:absolute; top:-40px; right:-40px; width:160px; height:160px; border-radius:50%; background:radial-gradient(circle, rgba(243,115,33,0.18) 0%, transparent 70%); pointer-events:none;"></div>
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; position:relative;">
+    <div style="background:linear-gradient(135deg, #1A1A1A 0%, #2D2D2D 100%); border-radius:16px; padding:14px; margin-bottom:14px; color:white; position:relative; overflow:hidden;">
+      <div style="position:absolute; top:-40px; right:-40px; width:140px; height:140px; border-radius:50%; background:radial-gradient(circle, rgba(243,115,33,0.15) 0%, transparent 70%); pointer-events:none;"></div>
+      
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; position:relative;">
         <div style="display:flex; align-items:center; gap:8px;">
-          <span style="font-size:11px; font-weight:800; color:#FCD34D; letter-spacing:0.1em;">🎯 TODAY MISSION</span>
+          <span style="font-size:11px; font-weight:800; color:#FCD34D; letter-spacing:0.15em;">🎯 MY MISSIONS</span>
         </div>
-        <div style="background:rgba(252,211,77,0.15); border:1px solid rgba(252,211,77,0.3); padding:4px 10px; border-radius:100px; display:flex; align-items:center; gap:4px;">
+        <div style="background:rgba(252,211,77,0.15); border:1px solid rgba(252,211,77,0.3); padding:3px 10px; border-radius:100px; display:flex; align-items:center; gap:4px;">
           <span style="font-size:11px;">🪙</span>
           <span style="font-size:11px; font-weight:900; color:#FCD34D;">${coins}</span>
         </div>
       </div>
-      <div style="font-size:16px; font-weight:800; line-height:1.4; letter-spacing:-0.02em; margin-bottom:8px; position:relative;">${mission.title}</div>
-      ${mission.desc ? `<div style="font-size:11.5px; opacity:0.7; line-height:1.5; margin-bottom:12px; position:relative;">${mission.desc}</div>` : ''}
-      <div style="display:flex; gap:8px; align-items:center; margin-bottom:10px; position:relative;">
-        <div style="background:rgba(252,211,77,0.15); padding:4px 10px; border-radius:6px; font-size:11px; font-weight:800; color:#FCD34D;">🪙 ${reward}코인 보상</div>
+      
+      <div style="position:relative;">
+        ${dailyHtml}
+        ${weeklyHtml}
+        ${monthlyHtml}
+        ${specialsHtml}
       </div>
-      <div style="position:relative;">${statusBox}</div>
-      <div style="position:relative;">${actionBtn}</div>
     </div>
   `;
 }
@@ -7593,104 +7823,208 @@ async function renderAdminAssign() {
   wrap.innerHTML = '<div style="text-align:center; padding:30px; color:var(--gray); font-size:13px;">불러오는 중...</div>';
   if (!window._fb) { wrap.innerHTML = '<div style="padding:30px; color:#DC2626; font-size:12px;">Firebase 연결 필요</div>'; return; }
   
-  const today = getTodayKey();
   const fps = (DATA.daily.fpList || []);
-  const missions = {};
+  const fpMissions = {};  // { fpName: { daily, weekly, monthly, specials[] } }
   
   try {
-    const { db, doc, getDoc } = window._fb;
+    const { db, doc, getDoc, collection, query, where, getDocs } = window._fb;
+    
+    // 각 FP의 4종 미션 일괄 로드
     await Promise.all(fps.map(async fp => {
-      const snap = await getDoc(doc(db, 'missions', `${fp.n}_${today}`));
-      missions[fp.n] = snap.exists() ? snap.data() : null;
+      const [daily, weekly, monthly] = await Promise.all([
+        getDoc(doc(db, 'missions', getMissionDocId(fp.n, 'daily'))),
+        getDoc(doc(db, 'missions', getMissionDocId(fp.n, 'weekly'))),
+        getDoc(doc(db, 'missions', getMissionDocId(fp.n, 'monthly'))),
+      ]);
+      const specials = [];
+      try {
+        const q = query(collection(db, 'missions'), where('fpName', '==', fp.n), where('type', '==', 'special'));
+        const snap = await getDocs(q);
+        snap.forEach(d => specials.push({ ...d.data(), _docId: d.id }));
+      } catch(e) {}
+      
+      fpMissions[fp.n] = {
+        daily: daily.exists() ? daily.data() : null,
+        weekly: weekly.exists() ? weekly.data() : null,
+        monthly: monthly.exists() ? monthly.data() : null,
+        specials,
+      };
     }));
   } catch(e) {}
   
   const teams = {};
   fps.forEach(f => { if (!teams[f.team]) teams[f.team] = []; teams[f.team].push(f); });
   
-  let html = '<div style="margin-bottom:12px; font-size:11px; color:var(--gray); line-height:1.5;">💡 FP를 선택하면 오늘 미션을 배정/수정할 수 있어요.<br>오늘 날짜: <b>' + today + '</b></div>';
+  let html = `<div style="margin-bottom:12px; padding:10px 12px; background:linear-gradient(135deg, #FFFBEB, rgba(252,211,77,0.1)); border:1px solid rgba(252,211,77,0.3); border-radius:8px; font-size:11px; color:#92400E; line-height:1.5;">💡 4종 미션을 따로 배정할 수 있어요<br>
+    <span style="font-size:10px;">${MISSION_TYPES.daily.icon} 일일 · ${MISSION_TYPES.weekly.icon} 주간 · ${MISSION_TYPES.monthly.icon} 월간 · ${MISSION_TYPES.special.icon} 특별</span></div>`;
   
   Object.entries(teams).forEach(([team, fpList]) => {
-    html += `<div style="margin-bottom:12px;">
+    html += `<div style="margin-bottom:14px;">
       <div style="font-size:11px; font-weight:800; color:var(--accent); letter-spacing:0.05em; margin-bottom:6px;">${team}</div>
-      <div style="display:flex; flex-direction:column; gap:4px;">`;
+      <div style="display:flex; flex-direction:column; gap:10px;">`;
+    
     fpList.forEach(fp => {
-      const m = missions[fp.n];
-      const hasMission = m && m.title;
-      const status = m?.status || '';
-      let badge = '';
-      if (hasMission) {
-        if (status === 'approved') badge = `<span style="background:#10B981; color:white; font-size:9px; font-weight:800; padding:2px 6px; border-radius:4px;">완료</span>`;
-        else if (status === 'pending') badge = `<span style="background:#F59E0B; color:white; font-size:9px; font-weight:800; padding:2px 6px; border-radius:4px;">대기</span>`;
-        else if (status === 'rejected') badge = `<span style="background:#DC2626; color:white; font-size:9px; font-weight:800; padding:2px 6px; border-radius:4px;">거절</span>`;
-        else badge = `<span style="background:#3B82F6; color:white; font-size:9px; font-weight:800; padding:2px 6px; border-radius:4px;">진행</span>`;
+      const fm = fpMissions[fp.n] || {};
+      
+      // FP별 카드
+      html += `<div style="background:white; border:1px solid rgba(0,0,0,0.1); border-radius:10px; padding:10px 12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <div style="font-size:13px; font-weight:900; color:var(--ink); letter-spacing:-0.02em;">${fp.n}</div>
+          <button onclick="openMissionEdit('${fp.n}', 'special')" style="background:${MISSION_TYPES.special.color}; color:white; border:none; border-radius:6px; padding:5px 9px; font-family:inherit; font-size:10px; font-weight:800; cursor:pointer;">⭐ 특별 추가</button>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:4px;">`;
+      
+      // daily/weekly/monthly 슬롯
+      ['daily', 'weekly', 'monthly'].forEach(type => {
+        const info = MISSION_TYPES[type];
+        const m = fm[type];
+        const has = m && m.title;
+        const status = m?.status || '';
+        let badge = '';
+        if (has) {
+          if (status === 'approved') badge = '✅';
+          else if (status === 'pending') badge = '⏰';
+          else if (status === 'rejected') badge = '❌';
+          else badge = '🔵';
+        }
+        
+        html += `<button onclick="openMissionEdit('${fp.n}', '${type}')" style="background:${has ? info.colorSoft : 'rgba(0,0,0,0.03)'}; border:1px solid ${has ? info.color + '55' : 'rgba(0,0,0,0.08)'}; border-radius:8px; padding:7px 4px; font-family:inherit; cursor:pointer; text-align:center;">
+          <div style="font-size:14px;">${info.icon}</div>
+          <div style="font-size:9px; font-weight:800; color:${has ? info.color : 'var(--gray)'}; margin-top:2px;">${info.label.replace(' 미션', '')}</div>
+          ${has 
+            ? `<div style="font-size:9.5px; font-weight:700; color:var(--ink); margin-top:3px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${badge} ${m.title}</div>` 
+            : `<div style="font-size:9px; color:var(--gray); opacity:0.5; margin-top:3px;">미배정</div>`}
+        </button>`;
+      });
+      
+      html += `</div>`;
+      
+      // 특별 미션 (있을 때만)
+      if (fm.specials && fm.specials.length > 0) {
+        html += `<div style="margin-top:8px; padding-top:8px; border-top:1px dashed rgba(0,0,0,0.08); display:flex; flex-direction:column; gap:4px;">`;
+        fm.specials.forEach(s => {
+          const status = s.status || 'open';
+          let badge = '';
+          if (status === 'approved') badge = '✅';
+          else if (status === 'pending') badge = '⏰';
+          else if (status === 'rejected') badge = '❌';
+          else badge = '🔵';
+          html += `<button onclick="openMissionEdit('${fp.n}', 'special', '${s.specialId || s._docId.split('__special__')[1]}')" style="background:${MISSION_TYPES.special.colorSoft}; border:1px solid ${MISSION_TYPES.special.color}55; border-radius:6px; padding:6px 9px; font-family:inherit; cursor:pointer; display:flex; align-items:center; gap:6px; text-align:left;">
+            <span style="font-size:12px;">⭐</span>
+            <span style="font-size:10.5px; font-weight:800; color:${MISSION_TYPES.special.color};">${badge}</span>
+            <span style="font-size:11px; font-weight:700; color:var(--ink); flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${s.title}</span>
+          </button>`;
+        });
+        html += `</div>`;
       }
-      const safeM = JSON.stringify(m || {}).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-      html += `<button onclick='openMissionEdit("${fp.n}", JSON.parse(this.dataset.m))' data-m='${safeM}' style="background:white; border:1px solid rgba(0,0,0,0.08); border-radius:8px; padding:9px 12px; font-family:inherit; cursor:pointer; display:flex; align-items:center; gap:8px; text-align:left;">
-        <span style="font-size:12px; font-weight:800; color:var(--ink); flex-shrink:0; min-width:48px;">${fp.n}</span>
-        ${hasMission ? `<span style="font-size:11px; color:var(--gray); flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0;">${m.title}</span>` : `<span style="font-size:11px; color:var(--gray); opacity:0.5; flex:1;">미배정</span>`}
-        ${badge}
-      </button>`;
+      
+      html += `</div>`;
     });
+    
     html += `</div></div>`;
   });
   
   wrap.innerHTML = html;
 }
 
-function openMissionEdit(fpName, currentMission) {
-  currentMission = currentMission || {};
-  const m = document.createElement('div');
-  m.id = 'missionEditModal';
-  m.style.cssText = `position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 99999; display: flex; align-items: center; justify-content: center; padding: 16px;`;
-  m.innerHTML = `
-    <div style="background:white; border-radius:16px; padding:18px; max-width:420px; width:100%;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-        <div>
-          <div style="font-size:10px; color:var(--accent); font-weight:800;">미션 배정</div>
-          <div style="font-size:16px; font-weight:900; letter-spacing:-0.02em;">${fpName}님</div>
+function openMissionEdit(fpName, missionType, specialId) {
+  missionType = missionType || 'daily';
+  const info = MISSION_TYPES[missionType];
+  
+  // 기존 미션 데이터 로드
+  (async () => {
+    let currentMission = {};
+    if (window._fb) {
+      try {
+        const { db, doc, getDoc } = window._fb;
+        if (missionType === 'special' && specialId) {
+          const snap = await getDoc(doc(db, 'missions', getMissionDocId(fpName, 'special', specialId)));
+          if (snap.exists()) currentMission = snap.data();
+        } else if (missionType !== 'special') {
+          const snap = await getDoc(doc(db, 'missions', getMissionDocId(fpName, missionType)));
+          if (snap.exists()) currentMission = snap.data();
+        }
+      } catch(e) {}
+    }
+    
+    const m = document.createElement('div');
+    m.id = 'missionEditModal';
+    m.style.cssText = `position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 99999; display: flex; align-items: center; justify-content: center; padding: 16px;`;
+    
+    const hasMission = !!currentMission.title;
+    const reward = currentMission.reward || info.defaultReward;
+    
+    m.innerHTML = `
+      <div style="background:white; border-radius:16px; padding:18px; max-width:420px; width:100%;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+          <div>
+            <div style="display:flex; align-items:center; gap:6px; margin-bottom:3px;">
+              <span style="font-size:14px;">${info.icon}</span>
+              <span style="font-size:10px; color:${info.color}; font-weight:800; background:${info.colorSoft}; padding:2px 7px; border-radius:5px;">${info.label}</span>
+            </div>
+            <div style="font-size:16px; font-weight:900; letter-spacing:-0.02em;">${fpName}님</div>
+            <div style="font-size:10px; color:var(--gray); margin-top:2px;">기간: ${info.period}${missionType !== 'special' ? ' · ' + getPeriodKey(missionType) : ''}</div>
+          </div>
+          <button onclick="document.getElementById('missionEditModal').remove()" style="background:rgba(0,0,0,0.06); border:none; width:30px; height:30px; border-radius:50%; font-size:14px; cursor:pointer;">✕</button>
         </div>
-        <button onclick="document.getElementById('missionEditModal').remove()" style="background:rgba(0,0,0,0.06); border:none; width:30px; height:30px; border-radius:50%; font-size:14px; cursor:pointer;">✕</button>
+        <label style="font-size:11px; font-weight:800; color:var(--ink); display:block; margin-bottom:5px;">미션 제목 *</label>
+        <input type="text" id="missionTitle" value="${(currentMission.title || '').replace(/"/g, '&quot;')}" placeholder="예: 신규 고객 3명 전화하기" style="width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:8px; font-size:13px; font-family:inherit; margin-bottom:10px; box-sizing:border-box;">
+        <label style="font-size:11px; font-weight:800; color:var(--ink); display:block; margin-bottom:5px;">상세 설명 (선택)</label>
+        <textarea id="missionDesc" placeholder="구체적인 미션 내용" style="width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:8px; font-size:12px; font-family:inherit; margin-bottom:10px; box-sizing:border-box; min-height:60px; resize:vertical;">${currentMission.desc || ''}</textarea>
+        <label style="font-size:11px; font-weight:800; color:var(--ink); display:block; margin-bottom:5px;">🪙 보상 코인 (기본 ${info.defaultReward})</label>
+        <input type="number" id="missionReward" value="${reward}" min="1" style="width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:8px; font-size:13px; font-family:inherit; margin-bottom:14px; box-sizing:border-box;">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+          ${hasMission 
+            ? `<button onclick="deleteMission('${fpName}', '${missionType}', '${specialId || currentMission.specialId || ''}')" style="background:rgba(220,38,38,0.1); color:#DC2626; border:1px solid rgba(220,38,38,0.3); border-radius:8px; padding:11px; font-family:inherit; font-size:12px; font-weight:800; cursor:pointer;">🗑 삭제</button>` 
+            : `<button onclick="document.getElementById('missionEditModal').remove()" style="background:rgba(0,0,0,0.05); color:var(--ink); border:1px solid var(--line); border-radius:8px; padding:11px; font-family:inherit; font-size:12px; font-weight:800; cursor:pointer;">취소</button>`}
+          <button onclick="saveMission('${fpName}', '${missionType}', '${specialId || currentMission.specialId || ''}')" style="background:linear-gradient(135deg, ${info.color}, ${info.color}cc); color:white; border:none; border-radius:8px; padding:11px; font-family:inherit; font-size:12px; font-weight:900; cursor:pointer;">💾 저장</button>
+        </div>
       </div>
-      <label style="font-size:11px; font-weight:800; color:var(--ink); display:block; margin-bottom:5px;">미션 제목 *</label>
-      <input type="text" id="missionTitle" value="${(currentMission.title || '').replace(/"/g, '&quot;')}" placeholder="예: 신규 고객 3명 전화하기" style="width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:8px; font-size:13px; font-family:inherit; margin-bottom:10px; box-sizing:border-box;">
-      <label style="font-size:11px; font-weight:800; color:var(--ink); display:block; margin-bottom:5px;">상세 설명 (선택)</label>
-      <textarea id="missionDesc" placeholder="구체적인 미션 내용" style="width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:8px; font-size:12px; font-family:inherit; margin-bottom:10px; box-sizing:border-box; min-height:60px; resize:vertical;">${currentMission.desc || ''}</textarea>
-      <label style="font-size:11px; font-weight:800; color:var(--ink); display:block; margin-bottom:5px;">🪙 보상 코인</label>
-      <input type="number" id="missionReward" value="${currentMission.reward || 1}" min="1" style="width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:8px; font-size:13px; font-family:inherit; margin-bottom:14px; box-sizing:border-box;">
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
-        ${currentMission.title ? `<button onclick="deleteMission('${fpName}')" style="background:rgba(220,38,38,0.1); color:#DC2626; border:1px solid rgba(220,38,38,0.3); border-radius:8px; padding:11px; font-family:inherit; font-size:12px; font-weight:800; cursor:pointer;">🗑 미션 삭제</button>` : `<button onclick="document.getElementById('missionEditModal').remove()" style="background:rgba(0,0,0,0.05); color:var(--ink); border:1px solid var(--line); border-radius:8px; padding:11px; font-family:inherit; font-size:12px; font-weight:800; cursor:pointer;">취소</button>`}
-        <button onclick="saveMission('${fpName}')" style="background:linear-gradient(135deg, #F37321, #C2410C); color:white; border:none; border-radius:8px; padding:11px; font-family:inherit; font-size:12px; font-weight:900; cursor:pointer;">💾 저장</button>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(m);
-  setTimeout(() => document.getElementById('missionTitle')?.focus(), 100);
+    `;
+    document.body.appendChild(m);
+    setTimeout(() => document.getElementById('missionTitle')?.focus(), 100);
+  })();
 }
 
-async function saveMission(fpName) {
+async function saveMission(fpName, missionType, specialId) {
   const title = document.getElementById('missionTitle').value.trim();
   const desc = document.getElementById('missionDesc').value.trim();
   const reward = parseInt(document.getElementById('missionReward').value) || 1;
   if (!title) { alert('미션 제목을 입력해주세요!'); return; }
   if (!window._fb) { alert('Firebase 연결 필요'); return; }
+  
+  const type = missionType || 'daily';
+  // special이고 id 없으면 새로 만듦
+  let sid = specialId;
+  if (type === 'special' && !sid) {
+    sid = 'sp_' + Date.now();
+  }
+  
   try {
     const { db, doc, setDoc } = window._fb;
-    const today = getTodayKey();
-    await setDoc(doc(db, 'missions', `${fpName}_${today}`), {
-      fpName, title, desc, reward, status: 'open', assignedAt: Date.now(),
-    }, { merge: true });
+    const docId = getMissionDocId(fpName, type, sid);
+    const data = {
+      fpName, title, desc, reward, 
+      type,
+      status: 'open', 
+      assignedAt: Date.now(),
+    };
+    if (sid) data.specialId = sid;
+    if (type !== 'special') data.periodKey = getPeriodKey(type);
+    
+    await setDoc(doc(db, 'missions', docId), data, { merge: true });
     document.getElementById('missionEditModal').remove();
     renderAdminAssign();
   } catch(e) { alert('저장 실패: ' + e.message); }
 }
 
-async function deleteMission(fpName) {
-  if (!confirm(`${fpName}님 오늘 미션을 삭제할까요?`)) return;
+async function deleteMission(fpName, missionType, specialId) {
+  const info = MISSION_TYPES[missionType] || MISSION_TYPES.daily;
+  if (!confirm(`${fpName}님 ${info.label}을 삭제할까요?`)) return;
   try {
     const { db, doc, deleteDoc } = window._fb;
-    const today = getTodayKey();
-    await deleteDoc(doc(db, 'missions', `${fpName}_${today}`));
+    const docId = getMissionDocId(fpName, missionType, specialId);
+    await deleteDoc(doc(db, 'missions', docId));
     document.getElementById('missionEditModal').remove();
     renderAdminAssign();
   } catch(e) { alert('삭제 실패: ' + e.message); }
@@ -7701,35 +8035,45 @@ async function renderAdminPending() {
   if (!wrap) return;
   wrap.innerHTML = '<div style="text-align:center; padding:30px; color:var(--gray); font-size:13px;">불러오는 중...</div>';
   try {
-    const { db, doc, getDoc } = window._fb;
-    const today = getTodayKey();
-    const fps = (DATA.daily.fpList || []);
+    const { db, collection, query, where, getDocs } = window._fb;
+    
+    // pending 상태인 모든 미션 가져오기
+    const q = query(collection(db, 'missions'), where('status', '==', 'pending'));
+    const snap = await getDocs(q);
     const pending = [];
-    await Promise.all(fps.map(async fp => {
-      const snap = await getDoc(doc(db, 'missions', `${fp.n}_${today}`));
-      if (snap.exists()) {
-        const data = snap.data();
-        if (data.status === 'pending') pending.push({ ...data, fpName: fp.n });
-      }
-    }));
+    snap.forEach(d => pending.push({ ...d.data(), _docId: d.id }));
+    
     if (pending.length === 0) {
       wrap.innerHTML = `<div style="text-align:center; padding:40px 20px;"><div style="font-size:40px; margin-bottom:10px; opacity:0.3;">✅</div><div style="color:var(--gray); font-size:13px;">승인 대기 중인 미션이 없어요!</div></div>`;
       return;
     }
+    
+    // 미션 종류별로 정렬 (특별 → 월간 → 주간 → 일일 순)
+    const order = { special: 0, monthly: 1, weekly: 2, daily: 3 };
+    pending.sort((a, b) => (order[a.type || 'daily'] - order[b.type || 'daily']) || (a.requestedAt - b.requestedAt));
+    
     let html = '<div style="display:flex; flex-direction:column; gap:8px;">';
     pending.forEach(m => {
+      const type = m.type || 'daily';
+      const info = MISSION_TYPES[type];
       const requestedAgo = m.requestedAt ? Math.floor((Date.now() - m.requestedAt) / 60000) : 0;
+      const reward = m.reward || info.defaultReward;
+      
       html += `<div style="background:linear-gradient(135deg, #FFFBEB, #FEF3C7); border:1px solid rgba(245,158,11,0.4); border-radius:12px; padding:12px 14px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-          <div style="font-size:14px; font-weight:900; color:var(--ink); letter-spacing:-0.02em;">${m.fpName}</div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="font-size:14px;">${info.icon}</span>
+            <span style="font-size:9px; font-weight:800; color:${info.color}; background:${info.colorSoft}; padding:2px 6px; border-radius:4px;">${info.label}</span>
+            <span style="font-size:14px; font-weight:900; color:var(--ink); letter-spacing:-0.02em;">${m.fpName}</span>
+          </div>
           <div style="font-size:9.5px; color:#92400E; font-weight:700;">⏱ ${requestedAgo}분 전</div>
         </div>
         <div style="font-size:12px; color:var(--ink); font-weight:700; margin-bottom:6px;">${m.title}</div>
         ${m.desc ? `<div style="font-size:10.5px; color:var(--gray); margin-bottom:8px;">${m.desc}</div>` : ''}
-        <div style="font-size:10px; color:#D97706; font-weight:800; margin-bottom:10px;">🪙 보상: ${m.reward || 1}코인</div>
+        <div style="font-size:10px; color:#D97706; font-weight:800; margin-bottom:10px;">🪙 보상: ${reward}코인</div>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
-          <button onclick="rejectMission('${m.fpName}')" style="background:rgba(220,38,38,0.1); color:#DC2626; border:1px solid rgba(220,38,38,0.3); border-radius:6px; padding:8px; font-family:inherit; font-size:11px; font-weight:800; cursor:pointer;">❌ 거절</button>
-          <button onclick="approveMission('${m.fpName}', ${m.reward || 1})" style="background:linear-gradient(135deg, #10B981, #059669); color:white; border:none; border-radius:6px; padding:8px; font-family:inherit; font-size:11px; font-weight:900; cursor:pointer;">✅ 승인 (+${m.reward || 1}코인)</button>
+          <button onclick="rejectMission('${m.fpName}', '${type}', '${m.specialId || ''}')" style="background:rgba(220,38,38,0.1); color:#DC2626; border:1px solid rgba(220,38,38,0.3); border-radius:6px; padding:8px; font-family:inherit; font-size:11px; font-weight:800; cursor:pointer;">❌ 거절</button>
+          <button onclick="approveMission('${m.fpName}', ${reward}, '${type}', '${m.specialId || ''}')" style="background:linear-gradient(135deg, #10B981, #059669); color:white; border:none; border-radius:6px; padding:8px; font-family:inherit; font-size:11px; font-weight:900; cursor:pointer;">✅ 승인 (+${reward}코인)</button>
         </div>
       </div>`;
     });
@@ -7740,12 +8084,13 @@ async function renderAdminPending() {
   }
 }
 
-async function approveMission(fpName, reward) {
-  if (!confirm(`${fpName}님 미션 승인 + 🪙${reward}코인 지급할까요?`)) return;
+async function approveMission(fpName, reward, missionType, specialId) {
+  const info = MISSION_TYPES[missionType] || MISSION_TYPES.daily;
+  if (!confirm(`${fpName}님 ${info.label} 승인 + 🪙${reward}코인 지급할까요?`)) return;
   try {
     const { db, doc, setDoc, getDoc } = window._fb;
-    const today = getTodayKey();
-    await setDoc(doc(db, 'missions', `${fpName}_${today}`), { status: 'approved', approvedAt: Date.now() }, { merge: true });
+    const docId = getMissionDocId(fpName, missionType, specialId);
+    await setDoc(doc(db, 'missions', docId), { status: 'approved', approvedAt: Date.now() }, { merge: true });
     const coinSnap = await getDoc(doc(db, 'coins', fpName));
     const current = coinSnap.exists() ? (coinSnap.data().amount || 0) : 0;
     await setDoc(doc(db, 'coins', fpName), { amount: current + reward, updatedAt: Date.now() }, { merge: true });
@@ -7753,12 +8098,13 @@ async function approveMission(fpName, reward) {
   } catch(e) { alert('승인 실패: ' + e.message); }
 }
 
-async function rejectMission(fpName) {
-  if (!confirm(`${fpName}님 미션을 거절할까요?`)) return;
+async function rejectMission(fpName, missionType, specialId) {
+  const info = MISSION_TYPES[missionType] || MISSION_TYPES.daily;
+  if (!confirm(`${fpName}님 ${info.label}을 거절할까요?`)) return;
   try {
     const { db, doc, setDoc } = window._fb;
-    const today = getTodayKey();
-    await setDoc(doc(db, 'missions', `${fpName}_${today}`), { status: 'rejected', rejectedAt: Date.now() }, { merge: true });
+    const docId = getMissionDocId(fpName, missionType, specialId);
+    await setDoc(doc(db, 'missions', docId), { status: 'rejected', rejectedAt: Date.now() }, { merge: true });
     renderAdminPending();
   } catch(e) { alert('거절 실패: ' + e.message); }
 }
@@ -7861,7 +8207,6 @@ async function renderManagerDashboard() {
   
   // 데이터 일괄 수집
   const fps = (DATA.daily.fpList || []);
-  const today = getTodayKey();
   let totalCoins = 0;
   let coinHolders = 0;
   let missionAssigned = 0;
@@ -7871,28 +8216,41 @@ async function renderManagerDashboard() {
   let totalExp = 0;
   
   try {
-    const { db, doc, getDoc } = window._fb;
+    const { db, doc, getDoc, collection, query, where, getDocs } = window._fb;
     
+    // 1️⃣ 4종 미션 한 번에 카운트 (Firestore 쿼리)
+    try {
+      const allMissionsSnap = await getDocs(collection(db, 'missions'));
+      allMissionsSnap.forEach(d => {
+        const data = d.data();
+        const type = data.type || 'daily';
+        let isCurrent = false;
+        if (type === 'special') {
+          isCurrent = true;  // 특별은 모두 카운트
+        } else if (type === 'daily') {
+          isCurrent = data.periodKey === getTodayKey();
+        } else if (type === 'weekly') {
+          isCurrent = data.periodKey === getWeekKey();
+        } else if (type === 'monthly') {
+          isCurrent = data.periodKey === getMonthKey();
+        }
+        if (!isCurrent || !data.title) return;
+        missionAssigned++;
+        if (data.status === 'approved') missionApproved++;
+        if (data.status === 'pending') missionPending++;
+      });
+    } catch(e) { console.warn('미션 카운트 실패:', e); }
+    
+    // 2️⃣ FP별 코인/포인트/가입 정보
     await Promise.all(fps.map(async fp => {
-      // 코인
       const coinSnap = await getDoc(doc(db, 'coins', fp.n));
       if (coinSnap.exists()) {
         const amt = coinSnap.data().amount || 0;
         totalCoins += amt;
         if (amt > 0) coinHolders++;
       }
-      // 미션
-      const mSnap = await getDoc(doc(db, 'missions', `${fp.n}_${today}`));
-      if (mSnap.exists()) {
-        const d = mSnap.data();
-        if (d.title) missionAssigned++;
-        if (d.status === 'approved') missionApproved++;
-        if (d.status === 'pending') missionPending++;
-      }
-      // 가입자
       const uSnap = await getDoc(doc(db, 'users', fp.n));
       if (uSnap.exists()) activeUsers++;
-      // 활동포인트
       const sSnap = await getDoc(doc(db, 'userStats', fp.n));
       if (sSnap.exists()) totalExp += (sSnap.data().exp || 0);
     }));
@@ -7933,7 +8291,7 @@ async function renderManagerDashboard() {
           <div style="font-size:9px; color:rgba(255,255,255,0.4); font-weight:700; margin-top:2px;">${totalAsset.toLocaleString()}원 규모</div>
         </div>
         <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:11px 13px;">
-          <div style="font-size:10px; color:rgba(255,255,255,0.5); font-weight:700;">🎯 오늘 미션</div>
+          <div style="font-size:10px; color:rgba(255,255,255,0.5); font-weight:700;">🎯 진행 미션</div>
           <div style="font-size:18px; font-weight:900; color:white; letter-spacing:-0.02em; margin-top:2px;">${missionApproved}<span style="font-size:11px; opacity:0.5; margin-left:2px;">/${missionAssigned}건</span></div>
           ${missionPending > 0 ? `<div style="font-size:9px; color:#F59E0B; font-weight:800; margin-top:2px;">⏰ 대기 ${missionPending}건!</div>` : ''}
         </div>
@@ -8019,22 +8377,34 @@ async function openFpStatus() {
   try {
     const { db, doc, getDoc } = window._fb;
     const fps = (DATA.daily.fpList || []);
-    const today = getTodayKey();
     const fpData = {};
     
     await Promise.all(fps.map(async fp => {
-      const [users, stats, coins, mission] = await Promise.all([
+      const [users, stats, coins, daily, weekly, monthly] = await Promise.all([
         getDoc(doc(db, 'users', fp.n)),
         getDoc(doc(db, 'userStats', fp.n)),
         getDoc(doc(db, 'coins', fp.n)),
-        getDoc(doc(db, 'missions', `${fp.n}_${today}`)),
+        getDoc(doc(db, 'missions', getMissionDocId(fp.n, 'daily'))),
+        getDoc(doc(db, 'missions', getMissionDocId(fp.n, 'weekly'))),
+        getDoc(doc(db, 'missions', getMissionDocId(fp.n, 'monthly'))),
       ]);
+      
+      // 미션 카운트
+      let missionTotal = 0, missionDone = 0, missionPending = 0;
+      [daily, weekly, monthly].forEach(snap => {
+        if (snap.exists() && snap.data().title) {
+          missionTotal++;
+          if (snap.data().status === 'approved') missionDone++;
+          if (snap.data().status === 'pending') missionPending++;
+        }
+      });
+      
       fpData[fp.n] = {
         joined: users.exists(),
         exp: stats.exists() ? (stats.data().exp || 0) : 0,
         attendStreak: stats.exists() ? (stats.data().attendStreak || 0) : 0,
         coins: coins.exists() ? (coins.data().amount || 0) : 0,
-        missionStatus: mission.exists() ? mission.data().status : null,
+        missionTotal, missionDone, missionPending,
       };
     }));
     
@@ -8058,11 +8428,11 @@ async function openFpStatus() {
       
       fpList.forEach(fp => {
         const d = fpData[fp.n] || {};
-        const mStatus = d.missionStatus;
         let mBadge = '';
-        if (mStatus === 'approved') mBadge = `<span style="background:#10B981; color:white; font-size:9px; font-weight:800; padding:2px 5px; border-radius:3px;">완료</span>`;
-        else if (mStatus === 'pending') mBadge = `<span style="background:#F59E0B; color:white; font-size:9px; font-weight:800; padding:2px 5px; border-radius:3px;">대기</span>`;
-        else if (mStatus === 'open') mBadge = `<span style="background:#3B82F6; color:white; font-size:9px; font-weight:800; padding:2px 5px; border-radius:3px;">진행</span>`;
+        if (d.missionTotal > 0) {
+          const color = d.missionDone === d.missionTotal ? '#10B981' : d.missionPending > 0 ? '#F59E0B' : '#3B82F6';
+          mBadge = `<span style="background:${color}; color:white; font-size:9px; font-weight:800; padding:2px 5px; border-radius:3px;">${d.missionDone}/${d.missionTotal}</span>`;
+        }
         
         html += `<div style="background:${d.joined ? 'white' : 'rgba(0,0,0,0.02)'}; border:1px solid rgba(0,0,0,0.08); border-radius:8px; padding:8px 10px; display:flex; align-items:center; gap:6px; opacity:${d.joined ? '1' : '0.6'};">
           <span style="font-size:12px; font-weight:800; color:var(--ink); min-width:50px; letter-spacing:-0.02em;">${fp.n}</span>
