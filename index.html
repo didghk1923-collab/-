@@ -1275,6 +1275,192 @@ input#bojangGeongang::-webkit-inner-spin-button {
 .hourly-box-big .hourly-box-icon { font-size: 28px; }
 .hourly-box-big .hourly-box-timer { font-size: 14px; }
 
+/* 🔒 로그인 오버레이 */
+.login-overlay {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(160deg, #0F0F0F 0%, #1A1A1A 50%, #0F0F0F 100%);
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+}
+.login-overlay.hidden {
+  display: none;
+}
+
+.login-box {
+  background: linear-gradient(180deg, #1C1C1E 0%, #16161A 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 28px 24px;
+  max-width: 380px;
+  width: 100%;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.login-box::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  right: -100px;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(243, 115, 33, 0.2) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 24px;
+  position: relative;
+}
+.login-logo {
+  font-size: 50px;
+  line-height: 1;
+  margin-bottom: 10px;
+  filter: drop-shadow(0 4px 12px rgba(252, 211, 77, 0.4));
+}
+.login-brand {
+  font-size: 11px;
+  font-weight: 800;
+  color: #FCD34D;
+  letter-spacing: 0.2em;
+  margin-bottom: 6px;
+}
+.login-title {
+  font-size: 22px;
+  font-weight: 900;
+  color: white;
+  letter-spacing: -0.03em;
+}
+
+.login-label {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.login-fp-select {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 14px 16px;
+  color: white;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.2s;
+}
+.login-fp-select:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.login-fp-display {
+  background: linear-gradient(135deg, rgba(243, 115, 33, 0.15), rgba(252, 211, 77, 0.08));
+  border: 1px solid rgba(243, 115, 33, 0.3);
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  color: white;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.pin-input-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+.pin-box {
+  width: 56px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  text-align: center;
+  font-size: 26px;
+  font-weight: 800;
+  color: white;
+  font-family: inherit;
+  -webkit-text-security: disc;
+  text-security: disc;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+.pin-box:focus {
+  border-color: #F37321;
+  background: rgba(243, 115, 33, 0.08);
+}
+.pin-box.error {
+  border-color: #DC2626;
+  background: rgba(220, 38, 38, 0.1);
+  animation: pinShake 0.4s;
+}
+@keyframes pinShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+
+.login-submit-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #F37321, #C2410C);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  cursor: pointer;
+  margin-top: 16px;
+  box-shadow: 0 4px 16px rgba(243, 115, 33, 0.3);
+  transition: transform 0.1s, opacity 0.2s;
+}
+.login-submit-btn:disabled {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.3);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+.login-submit-btn:active:not(:disabled) { transform: scale(0.98); }
+
+.login-help {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+  margin-top: 14px;
+  line-height: 1.5;
+}
+
+.login-footer {
+  font-size: 10.5px;
+  color: rgba(255, 255, 255, 0.4);
+  text-align: center;
+  margin-top: 22px;
+  letter-spacing: 0.1em;
+  position: relative;
+}
+
 </style>
 
 <script>
@@ -1291,6 +1477,50 @@ input#bojangGeongang::-webkit-inner-spin-button {
 
 </head>
 <body>
+
+<!-- 🔒 로그인 오버레이 -->
+<div id="loginOverlay" class="login-overlay">
+  <div class="login-box">
+    <!-- 헤더 -->
+    <div class="login-header">
+      <div class="login-logo">🏆</div>
+      <div class="login-brand">No.1 하회지점</div>
+      <div class="login-title">로그인</div>
+    </div>
+    
+    <!-- 사번 입력 -->
+    <div style="margin-bottom:14px;">
+      <div class="login-label">🆔 사번 입력</div>
+      <input type="tel" inputmode="numeric" maxlength="10" id="loginSabun" placeholder="사번을 입력하세요" 
+        oninput="onSabunInput()"
+        style="width:100%; background:rgba(255,255,255,0.06); border:1.5px solid rgba(255,255,255,0.15); border-radius:12px; padding:14px 16px; color:white; font-size:16px; font-weight:700; font-family:inherit; letter-spacing:0.05em; box-sizing:border-box; outline:none; transition:border-color 0.2s;">
+      <div id="loginSabunMsg" style="font-size:11px; margin-top:6px; min-height:16px; color:#10B981;"></div>
+    </div>
+    
+    <!-- 비밀번호 입력 -->
+    <div style="margin-bottom:14px;">
+      <div class="login-label" id="loginPwLabel">🔒 비밀번호</div>
+      <input type="password" id="loginPassword" placeholder="비밀번호" 
+        onkeydown="if(event.key==='Enter')submitLogin()"
+        style="width:100%; background:rgba(255,255,255,0.06); border:1.5px solid rgba(255,255,255,0.15); border-radius:12px; padding:14px 16px; color:white; font-size:16px; font-weight:700; font-family:inherit; box-sizing:border-box; outline:none;">
+    </div>
+    
+    <div id="loginMsg" style="font-size:11.5px; color:#FCA5A5; text-align:center; margin-bottom:10px; min-height:18px;"></div>
+    
+    <button class="login-submit-btn" onclick="submitLogin()" id="loginSubmitBtn">로그인</button>
+    
+    <div style="margin-top:14px; padding:10px 12px; background:rgba(252,211,77,0.08); border:1px solid rgba(252,211,77,0.2); border-radius:10px; font-size:11px; color:rgba(252,211,77,0.85); line-height:1.6;">
+      💡 처음 로그인 시 비밀번호: <b>사번 + @</b><br>
+      <span style="font-size:10.5px; opacity:0.8;">예: 사번이 12345678이면 → 12345678@</span><br>
+      <span style="font-size:10.5px; opacity:0.8;">로그인 후 4자리 숫자 비번으로 변경됩니다</span>
+    </div>
+    
+    <!-- 푸터 -->
+    <div class="login-footer">
+      🪙 하회코인 · 🎯 미션 · 🎁 박스
+    </div>
+  </div>
+</div>
 
 <!-- 사이드 패널 오버레이 -->
 <div id="sideOverlay" class="side-overlay"></div>
@@ -1321,6 +1551,18 @@ input#bojangGeongang::-webkit-inner-spin-button {
     <button class="side-item" onclick="openMissionAdmin(); closeSidePanel(); event.preventDefault(); event.stopPropagation();">
       <span class="side-ico">🔒</span>
       <span>지점장 관리</span>
+    </button>
+    
+    <!-- 구분선 -->
+    <div style="height:1px; background:rgba(0,0,0,0.08); margin:8px 16px;"></div>
+    
+    <button class="side-item" onclick="openChangePin(); closeSidePanel(); event.preventDefault(); event.stopPropagation();">
+      <span class="side-ico">🔑</span>
+      <span>핀번호 변경</span>
+    </button>
+    <button class="side-item" onclick="logout(); event.preventDefault(); event.stopPropagation();">
+      <span class="side-ico">🚪</span>
+      <span>로그아웃</span>
     </button>
   </nav>
 </aside>
@@ -3196,6 +3438,9 @@ newGame();
   <!-- ============ 내 정보 (메인) ============ -->
 
   <div class="page active" id="page-myinfo">
+    <!-- 👔 지점장 전용 대시보드 (지점장 로그인 시만 표시) -->
+    <div id="managerDashboard"></div>
+    
     <!-- 🪙 하회코인 시세판 -->
     <div id="coinTickerCard" style="margin-bottom:14px;"></div>
 
@@ -4907,6 +5152,10 @@ function switchPage(page) {
     if (typeof renderBoxStatsCard === 'function') renderBoxStatsCard();
     if (typeof renderMissionCard === 'function') renderMissionCard();
     if (typeof renderCoinTickerCard === 'function') renderCoinTickerCard();
+    // 👔 지점장 대시보드
+    if (isManager() && typeof renderManagerDashboard === 'function') {
+      renderManagerDashboard();
+    }
   }
 }
 // 글로벌 노출 (배지 onclick에서 접근 가능하도록)
@@ -5804,6 +6053,452 @@ function selectFp(name) {
   if (typeof renderMissionCard === 'function') renderMissionCard();
 }
 
+// ============================================
+//          🔒 로그인 시스템
+// ============================================
+
+// 간단한 핀번호 해시 (보안용은 아님, 평문 노출 방지용)
+function hashPin(pin) {
+  let h = 0;
+  const salt = 'hahoe2026';
+  const s = pin + salt;
+  for (let i = 0; i < s.length; i++) {
+    h = ((h << 5) - h) + s.charCodeAt(i);
+    h |= 0;
+  }
+  return String(h);
+}
+
+// 🆔 FP명 → 사번 매핑
+window.FP_SABUN = {
+  '심현우': '2231013',  // 👔 지점장
+  '강주영': '20801835', '이정애': '20601780', '이옥화': '20908211', '민희정': '21014044',
+  '남정림': '21022522', '전수진': '22217537', '최향주': '22224134', '이금희': '22417653',
+  '박시영': '22417654', '배지혜': '22424153', '이지혜': '22424154', '김미진': '22453566',
+  '손민혜': '22457231', '윤양순': '22513221', '이정화': '22523159', '권정숙': '22539808',
+  '임민지': '22541700', '류지연': '22556307', '오명신': '22601601', '이혜정': '22603018',
+  '김은미': '21402111', '이재교': '20708984', '권별하': '21807529', '이춘화': '21903201',
+  '김희정': '22224581', '박규민': '22407677', '김나희': '22500716', '이경진': '22538815',
+  '신미진': '22601602', '신은정': '22615893', '류현숙': '22619519',
+  '장창숙': '21310498', '서점순': '8858502', '유주이': '22203106', '천윤성': '22302951',
+  '임경순': '22430478', '이소연': '22601599', '김상순': '22601653',
+  '서경숙': '20418226', '박승남': '20608505', '이금수': '21410664', '김남정': '22209605',
+  '배달님': '22438149', '차명희': '22549639', '임해경': '22556308',
+};
+
+// 👔 지점장 사번 (관리자 권한)
+window.MANAGER_NAME = '심현우';
+window.MANAGER_SABUN = '2231013';
+
+// 사번으로 FP명 찾기
+function findFpBySabun(sabun) {
+  for (const [name, sb] of Object.entries(window.FP_SABUN)) {
+    if (sb === sabun) return name;
+  }
+  return null;
+}
+
+// 현재 사용자가 지점장인지 확인
+function isManager() {
+  return window.MY_FP === window.MANAGER_NAME;
+}
+
+let loginSelectedName = null;
+let loginMode = 'login';  // 'login' or 'firstTime' (사번+@로 로그인) or 'setNewPin' (새 4자리 핀 설정)
+
+// 사번 입력 시 실시간 FP 확인
+function onSabunInput() {
+  const sabun = document.getElementById('loginSabun').value.trim();
+  const msgEl = document.getElementById('loginSabunMsg');
+  
+  if (sabun.length < 6) {
+    msgEl.textContent = '';
+    loginSelectedName = null;
+    return;
+  }
+  
+  const name = findFpBySabun(sabun);
+  if (name) {
+    msgEl.textContent = `✓ ${name}님`;
+    msgEl.style.color = '#10B981';
+    loginSelectedName = name;
+  } else {
+    msgEl.textContent = '❌ 사번을 다시 확인해주세요';
+    msgEl.style.color = '#FCA5A5';
+    loginSelectedName = null;
+  }
+}
+
+async function submitLogin() {
+  const sabun = document.getElementById('loginSabun').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const msg = document.getElementById('loginMsg');
+  
+  // 사번 검증
+  const name = findFpBySabun(sabun);
+  if (!name) {
+    msg.textContent = '❌ 사번을 확인해주세요';
+    msg.style.color = '#FCA5A5';
+    return;
+  }
+  loginSelectedName = name;
+  
+  if (!password) {
+    msg.textContent = '❌ 비밀번호를 입력해주세요';
+    msg.style.color = '#FCA5A5';
+    return;
+  }
+  
+  if (!window._fb) {
+    msg.textContent = '⏳ 서버 연결 중... 잠시 후 다시 시도해주세요';
+    msg.style.color = '#FCD34D';
+    setTimeout(() => { if (window._fb) submitLogin(); }, 1500);
+    return;
+  }
+  
+  const btn = document.getElementById('loginSubmitBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ 처리 중...';
+  
+  try {
+    const { db, doc, getDoc, setDoc } = window._fb;
+    const snap = await getDoc(doc(db, 'users', name));
+    const initPw = sabun + '@';  // 초기 비밀번호: 사번+@
+    
+    if (!snap.exists() || !snap.data().pinHash) {
+      // 첫 로그인 - 초기 비밀번호로 시도
+      if (password === initPw) {
+        // ✅ 초기 비밀번호 일치 - 새 핀번호 설정 화면으로
+        btn.disabled = false;
+        btn.textContent = '로그인';
+        showSetNewPin(name);
+        return;
+      } else {
+        loginShowError('첫 로그인은 [사번 + @] 입니다\n예: ' + initPw);
+        return;
+      }
+    }
+    
+    // 기존 회원 - 핀번호 검증
+    const saved = snap.data();
+    if (saved.pinHash === hashPin(password)) {
+      // ✅ 로그인 성공
+      doLoginSuccess(name);
+    } else if (password === initPw) {
+      // 초기 비밀번호 입력 시 - 새 핀번호 설정 화면
+      btn.disabled = false;
+      btn.textContent = '로그인';
+      showSetNewPin(name);
+    } else {
+      loginShowError('비밀번호가 틀렸어요');
+    }
+  } catch(e) {
+    console.error('로그인 오류:', e);
+    loginShowError('오류: ' + e.message);
+  }
+}
+
+function loginShowError(msg) {
+  const msgEl = document.getElementById('loginMsg');
+  msgEl.textContent = '❌ ' + msg;
+  msgEl.style.color = '#FCA5A5';
+  const btn = document.getElementById('loginSubmitBtn');
+  btn.disabled = false;
+  btn.textContent = '로그인';
+  // 비번 필드 클리어
+  document.getElementById('loginPassword').value = '';
+}
+
+// 첫 로그인 - 새 핀번호 4자리 설정 화면
+function showSetNewPin(name) {
+  const m = document.createElement('div');
+  m.id = 'setNewPinModal';
+  m.style.cssText = `
+    position: fixed; inset: 0; background: rgba(0,0,0,0.92);
+    z-index: 100003; display: flex; align-items: center; justify-content: center; padding: 16px;
+    backdrop-filter: blur(10px);
+  `;
+  m.innerHTML = `
+    <div style="background:linear-gradient(180deg, #1C1C1E 0%, #16161A 100%); border:1px solid rgba(252,211,77,0.3); border-radius:20px; padding:28px 24px; max-width:380px; width:100%; color:white; box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+      <div style="text-align:center; margin-bottom:18px;">
+        <div style="font-size:50px; margin-bottom:8px;">🎉</div>
+        <div style="font-size:12px; font-weight:800; color:#FCD34D; letter-spacing:0.2em; margin-bottom:4px;">WELCOME</div>
+        <div style="font-size:20px; font-weight:900; letter-spacing:-0.03em;">${name}님, 환영합니다!</div>
+        <div style="font-size:11.5px; color:rgba(255,255,255,0.65); margin-top:8px; line-height:1.5;">
+          앞으로 사용할 4자리 비밀번호를<br>
+          설정해주세요
+        </div>
+      </div>
+      
+      <div style="margin-bottom:14px;">
+        <div style="font-size:11px; font-weight:800; color:rgba(255,255,255,0.7); margin-bottom:8px;">🔒 새 비밀번호 (숫자 4자리)</div>
+        <div class="pin-input-row">
+          <input type="tel" inputmode="numeric" maxlength="1" class="pin-box" id="newPin1" oninput="onNewPinInput(1)" onkeydown="onNewPinKeydown(1, event)">
+          <input type="tel" inputmode="numeric" maxlength="1" class="pin-box" id="newPin2" oninput="onNewPinInput(2)" onkeydown="onNewPinKeydown(2, event)">
+          <input type="tel" inputmode="numeric" maxlength="1" class="pin-box" id="newPin3" oninput="onNewPinInput(3)" onkeydown="onNewPinKeydown(3, event)">
+          <input type="tel" inputmode="numeric" maxlength="1" class="pin-box" id="newPin4" oninput="onNewPinInput(4)" onkeydown="onNewPinKeydown(4, event)">
+        </div>
+      </div>
+      
+      <div style="margin-bottom:14px;">
+        <div style="font-size:11px; font-weight:800; color:rgba(255,255,255,0.7); margin-bottom:8px;">🔒 비밀번호 확인</div>
+        <div class="pin-input-row">
+          <input type="tel" inputmode="numeric" maxlength="1" class="pin-box" id="newPin1b" oninput="onNewPinInput(5)" onkeydown="onNewPinKeydown(5, event)">
+          <input type="tel" inputmode="numeric" maxlength="1" class="pin-box" id="newPin2b" oninput="onNewPinInput(6)" onkeydown="onNewPinKeydown(6, event)">
+          <input type="tel" inputmode="numeric" maxlength="1" class="pin-box" id="newPin3b" oninput="onNewPinInput(7)" onkeydown="onNewPinKeydown(7, event)">
+          <input type="tel" inputmode="numeric" maxlength="1" class="pin-box" id="newPin4b" oninput="onNewPinInput(8)" onkeydown="onNewPinKeydown(8, event)">
+        </div>
+      </div>
+      
+      <div id="setNewPinMsg" style="font-size:11.5px; color:#FCA5A5; text-align:center; margin-bottom:14px; min-height:18px;"></div>
+      
+      <button onclick="submitNewPin('${name}')" style="width:100%; background:linear-gradient(135deg, #F37321, #C2410C); color:white; border:none; border-radius:12px; padding:14px; font-family:inherit; font-size:14px; font-weight:900; letter-spacing:-0.02em; cursor:pointer; box-shadow:0 4px 16px rgba(243,115,33,0.3);">설정 완료</button>
+    </div>
+  `;
+  document.body.appendChild(m);
+  setTimeout(() => document.getElementById('newPin1').focus(), 100);
+}
+
+function onNewPinInput(n) {
+  const ids = ['newPin1', 'newPin2', 'newPin3', 'newPin4', 'newPin1b', 'newPin2b', 'newPin3b', 'newPin4b'];
+  const el = document.getElementById(ids[n - 1]);
+  el.classList.remove('error');
+  if (el.value.length === 1 && n < 8) {
+    document.getElementById(ids[n]).focus();
+  }
+}
+
+function onNewPinKeydown(n, event) {
+  const ids = ['newPin1', 'newPin2', 'newPin3', 'newPin4', 'newPin1b', 'newPin2b', 'newPin3b', 'newPin4b'];
+  if (event.key === 'Backspace') {
+    const el = document.getElementById(ids[n - 1]);
+    if (el.value === '' && n > 1) {
+      document.getElementById(ids[n - 2]).focus();
+    }
+  } else if (event.key === 'Enter') {
+    // 모든 칸 채워졌으면 제출
+    const allFilled = ids.every(id => document.getElementById(id).value.length === 1);
+    if (allFilled) document.querySelector('#setNewPinModal button').click();
+  }
+}
+
+async function submitNewPin(name) {
+  const pin = ['newPin1', 'newPin2', 'newPin3', 'newPin4'].map(id => document.getElementById(id).value).join('');
+  const pin2 = ['newPin1b', 'newPin2b', 'newPin3b', 'newPin4b'].map(id => document.getElementById(id).value).join('');
+  const msg = document.getElementById('setNewPinMsg');
+  
+  if (!/^\d{4}$/.test(pin)) {
+    msg.textContent = '❌ 새 비밀번호 4자리를 입력해주세요';
+    return;
+  }
+  if (pin !== pin2) {
+    msg.textContent = '❌ 비밀번호가 일치하지 않아요';
+    return;
+  }
+  
+  try {
+    const { db, doc, setDoc } = window._fb;
+    await setDoc(doc(db, 'users', name), {
+      name: name,
+      pinHash: hashPin(pin),
+      createdAt: Date.now(),
+    }, { merge: true });
+    
+    document.getElementById('setNewPinModal').remove();
+    alert('🎉 비밀번호가 설정되었어요!\n이제 4자리 비밀번호로 로그인됩니다.');
+    doLoginSuccess(name);
+  } catch(e) {
+    msg.textContent = '❌ 오류: ' + e.message;
+  }
+}
+
+window.onSabunInput = onSabunInput;
+window.submitLogin = submitLogin;
+window.showSetNewPin = showSetNewPin;
+window.onNewPinInput = onNewPinInput;
+window.onNewPinKeydown = onNewPinKeydown;
+window.submitNewPin = submitNewPin;
+
+function doLoginSuccess(name) {
+  // FP 저장
+  MY_FP = name;
+  window.MY_FP = name;
+  localStorage.setItem('my_fp_name', name);
+  localStorage.setItem('login_session', JSON.stringify({ name, loggedAt: Date.now() }));
+  
+  // 오버레이 숨김
+  document.getElementById('loginOverlay').classList.add('hidden');
+  
+  // 🔄 Firebase에서 사용자 데이터 로드 (다른 폰에서 로그인해도 동기화)
+  (async () => {
+    try {
+      await loadUserStatsFromFirebase();
+      await loadBoxStatsFromFirebase();
+      await loadBoxCooldownFromFirebase();
+      console.log('✅ 모든 데이터 Firebase 동기화 완료');
+    } catch(e) {
+      console.warn('데이터 동기화 일부 실패:', e);
+    }
+    
+    // 화면 갱신 (데이터 로드 후)
+    if (typeof renderMyInfoCard === 'function') renderMyInfoCard();
+    if (typeof renderMissionCard === 'function') renderMissionCard();
+    if (typeof renderCoinTickerCard === 'function') renderCoinTickerCard();
+    if (typeof renderLevelCard === 'function') renderLevelCard();
+    if (typeof renderBoxStatsCard === 'function') renderBoxStatsCard();
+    
+    // 👔 지점장이면 관리 대시보드 카드 표시
+    if (isManager() && typeof renderManagerDashboard === 'function') {
+      renderManagerDashboard();
+    }
+    
+    // Firebase에 레벨 즉시 동기화
+    if (typeof syncLevelToFirebase === 'function') {
+      syncLevelToFirebase(getUserStats());
+    }
+  })();
+}
+
+function logout() {
+  if (!confirm('로그아웃 하시겠어요?')) return;
+  localStorage.removeItem('my_fp_name');
+  localStorage.removeItem('login_session');
+  MY_FP = null;
+  window.MY_FP = null;
+  location.reload();
+}
+
+// 페이지 시작 시 로그인 상태 체크
+function checkLoginOnStart() {
+  const session = localStorage.getItem('login_session');
+  if (session) {
+    try {
+      const data = JSON.parse(session);
+      if (data.name && data.loggedAt) {
+        // 30일 유효
+        const days = (Date.now() - data.loggedAt) / 86400000;
+        if (days < 30) {
+          // 로그인 유지
+          MY_FP = data.name;
+          window.MY_FP = data.name;
+          document.getElementById('loginOverlay').classList.add('hidden');
+          
+          // 🔄 Firebase 준비 후 데이터 동기화
+          const syncWhenReady = () => {
+            if (window._fb) {
+              (async () => {
+                await loadUserStatsFromFirebase();
+                await loadBoxStatsFromFirebase();
+                await loadBoxCooldownFromFirebase();
+                // 화면 갱신
+                if (typeof renderMyInfoCard === 'function') renderMyInfoCard();
+                if (typeof renderLevelCard === 'function') renderLevelCard();
+                if (typeof renderBoxStatsCard === 'function') renderBoxStatsCard();
+                // 👔 지점장이면 관리 대시보드
+                if (isManager() && typeof renderManagerDashboard === 'function') {
+                  renderManagerDashboard();
+                }
+              })();
+            } else {
+              setTimeout(syncWhenReady, 500);
+            }
+          };
+          syncWhenReady();
+          return;
+        }
+      }
+    } catch(e) {}
+  }
+  // 로그인 필요
+  document.getElementById('loginOverlay').classList.remove('hidden');
+}
+
+window.submitLogin = submitLogin;
+window.logout = logout;
+
+// 🔑 핀번호 변경 모달
+function openChangePin() {
+  if (!window.MY_FP) { alert('로그인 후 이용 가능합니다'); return; }
+  
+  const m = document.createElement('div');
+  m.id = 'changePinModal';
+  m.style.cssText = `
+    position: fixed; inset: 0; background: rgba(0,0,0,0.8);
+    z-index: 100002; display: flex; align-items: center; justify-content: center; padding: 16px;
+  `;
+  m.innerHTML = `
+    <div style="background:linear-gradient(180deg, #1C1C1E 0%, #16161A 100%); border:1px solid rgba(255,255,255,0.08); border-radius:18px; padding:24px 20px; max-width:380px; width:100%; color:white;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
+        <div>
+          <div style="font-size:11px; font-weight:800; color:#FCD34D; letter-spacing:0.1em;">CHANGE PIN</div>
+          <div style="font-size:18px; font-weight:900; letter-spacing:-0.03em; margin-top:2px;">🔑 핀번호 변경</div>
+        </div>
+        <button onclick="document.getElementById('changePinModal').remove()" style="background:rgba(255,255,255,0.1); border:none; color:white; width:30px; height:30px; border-radius:50%; font-size:14px; cursor:pointer;">✕</button>
+      </div>
+      
+      <div style="font-size:11.5px; color:rgba(255,255,255,0.65); margin-bottom:14px;">${window.MY_FP}님의 핀번호를 변경합니다</div>
+      
+      <div style="margin-bottom:14px;">
+        <div style="font-size:11px; font-weight:800; color:rgba(255,255,255,0.7); margin-bottom:6px;">현재 핀번호</div>
+        <input type="tel" inputmode="numeric" maxlength="4" id="changePinOld" placeholder="••••" style="width:100%; background:rgba(255,255,255,0.06); border:1.5px solid rgba(255,255,255,0.15); border-radius:10px; padding:12px 14px; color:white; font-size:18px; font-weight:800; font-family:inherit; -webkit-text-security:disc; text-security:disc; letter-spacing:8px; text-align:center; box-sizing:border-box;">
+      </div>
+      
+      <div style="margin-bottom:14px;">
+        <div style="font-size:11px; font-weight:800; color:rgba(255,255,255,0.7); margin-bottom:6px;">새 핀번호 (4자리)</div>
+        <input type="tel" inputmode="numeric" maxlength="4" id="changePinNew" placeholder="••••" style="width:100%; background:rgba(255,255,255,0.06); border:1.5px solid rgba(255,255,255,0.15); border-radius:10px; padding:12px 14px; color:white; font-size:18px; font-weight:800; font-family:inherit; -webkit-text-security:disc; text-security:disc; letter-spacing:8px; text-align:center; box-sizing:border-box;">
+      </div>
+      
+      <div style="margin-bottom:18px;">
+        <div style="font-size:11px; font-weight:800; color:rgba(255,255,255,0.7); margin-bottom:6px;">새 핀번호 확인</div>
+        <input type="tel" inputmode="numeric" maxlength="4" id="changePinNew2" placeholder="••••" style="width:100%; background:rgba(255,255,255,0.06); border:1.5px solid rgba(255,255,255,0.15); border-radius:10px; padding:12px 14px; color:white; font-size:18px; font-weight:800; font-family:inherit; -webkit-text-security:disc; text-security:disc; letter-spacing:8px; text-align:center; box-sizing:border-box;">
+      </div>
+      
+      <div id="changePinMsg" style="font-size:11.5px; text-align:center; margin-bottom:14px; min-height:18px; color:#FCA5A5;"></div>
+      
+      <button onclick="submitChangePin()" style="width:100%; background:linear-gradient(135deg, #F37321, #C2410C); color:white; border:none; border-radius:12px; padding:14px; font-family:inherit; font-size:14px; font-weight:900; letter-spacing:-0.02em; cursor:pointer; box-shadow:0 4px 16px rgba(243,115,33,0.3);">변경하기</button>
+    </div>
+  `;
+  document.body.appendChild(m);
+  setTimeout(() => document.getElementById('changePinOld').focus(), 100);
+}
+
+async function submitChangePin() {
+  const oldPin = document.getElementById('changePinOld').value;
+  const newPin = document.getElementById('changePinNew').value;
+  const newPin2 = document.getElementById('changePinNew2').value;
+  const msg = document.getElementById('changePinMsg');
+  
+  if (oldPin.length !== 4 || !/^\d{4}$/.test(oldPin)) { msg.textContent = '❌ 현재 핀번호 4자리 입력'; return; }
+  if (newPin.length !== 4 || !/^\d{4}$/.test(newPin)) { msg.textContent = '❌ 새 핀번호 4자리 입력'; return; }
+  if (newPin !== newPin2) { msg.textContent = '❌ 새 핀번호가 일치하지 않아요'; return; }
+  if (oldPin === newPin) { msg.textContent = '❌ 현재 핀번호와 같아요'; return; }
+  if (!window._fb) { msg.textContent = '❌ 서버 연결 필요'; return; }
+  
+  try {
+    const { db, doc, getDoc, setDoc } = window._fb;
+    const snap = await getDoc(doc(db, 'users', window.MY_FP));
+    if (!snap.exists() || snap.data().pinHash !== hashPin(oldPin)) {
+      msg.textContent = '❌ 현재 핀번호가 틀려요';
+      return;
+    }
+    await setDoc(doc(db, 'users', window.MY_FP), {
+      pinHash: hashPin(newPin),
+      updatedAt: Date.now(),
+    }, { merge: true });
+    
+    document.getElementById('changePinModal').remove();
+    alert('✅ 핀번호가 변경되었어요!\n다음 로그인부터 새 핀번호를 사용해주세요');
+  } catch(e) {
+    msg.textContent = '❌ ' + e.message;
+  }
+}
+
+window.openChangePin = openChangePin;
+window.submitChangePin = submitChangePin;
+
+// DOM 로드 후 로그인 체크
+setTimeout(checkLoginOnStart, 100);
+
 window.openFpPicker = openFpPicker;
 window.closeFpPicker = closeFpPicker;
 window.selectFp = selectFp;
@@ -6011,7 +6706,157 @@ function saveUserStats(stats) {
   try {
     localStorage.setItem('user_stats', JSON.stringify(stats));
   } catch(e) {}
+  // 🔄 Firebase에도 동기화 (로그인된 경우)
+  syncUserStatsToFirebase(stats);
 }
+
+// Firebase에 user_stats 동기화 (디바운스)
+let _syncTimer = null;
+function syncUserStatsToFirebase(stats) {
+  if (!window.MY_FP || !window._fb) return;
+  // 디바운스 - 500ms 동안 모아서 한 번에
+  if (_syncTimer) clearTimeout(_syncTimer);
+  _syncTimer = setTimeout(async () => {
+    try {
+      const { db, doc, setDoc } = window._fb;
+      await setDoc(doc(db, 'userStats', window.MY_FP), stats, { merge: true });
+    } catch(e) {
+      console.warn('userStats 동기화 실패:', e.message);
+    }
+  }, 500);
+}
+
+// 로그인 시 Firebase에서 user_stats 가져와서 localStorage에 덮어쓰기
+async function loadUserStatsFromFirebase() {
+  if (!window.MY_FP || !window._fb) return;
+  try {
+    const { db, doc, getDoc, setDoc } = window._fb;
+    const snap = await getDoc(doc(db, 'userStats', window.MY_FP));
+    
+    if (snap.exists()) {
+      // Firebase에 있음 → localStorage에 덮어쓰기
+      const remote = snap.data();
+      localStorage.setItem('user_stats', JSON.stringify(remote));
+      console.log('✅ user_stats Firebase에서 동기화 완료');
+    } else {
+      // Firebase에 없음 → localStorage 있으면 마이그레이션
+      const local = localStorage.getItem('user_stats');
+      if (local) {
+        const parsed = JSON.parse(local);
+        await setDoc(doc(db, 'userStats', window.MY_FP), parsed, { merge: true });
+        console.log('✅ user_stats 마이그레이션 완료');
+      }
+    }
+  } catch(e) {
+    console.warn('user_stats 로드 실패:', e.message);
+  }
+}
+
+// 박스 통계도 동일 - Firebase 동기화
+async function syncBoxStatsToFirebase() {
+  if (!window.MY_FP || !window._fb) return;
+  try {
+    const stats = JSON.parse(localStorage.getItem('hahoeBox_stats') || '{}');
+    const { db, doc, setDoc } = window._fb;
+    await setDoc(doc(db, 'boxStats', window.MY_FP), stats, { merge: true });
+  } catch(e) {}
+}
+
+async function loadBoxStatsFromFirebase() {
+  if (!window.MY_FP || !window._fb) return;
+  try {
+    const { db, doc, getDoc, setDoc } = window._fb;
+    const snap = await getDoc(doc(db, 'boxStats', window.MY_FP));
+    if (snap.exists()) {
+      localStorage.setItem('hahoeBox_stats', JSON.stringify(snap.data()));
+    } else {
+      // 마이그레이션
+      const local = localStorage.getItem('hahoeBox_stats');
+      if (local) {
+        await setDoc(doc(db, 'boxStats', window.MY_FP), JSON.parse(local), { merge: true });
+      }
+    }
+  } catch(e) {}
+}
+
+// 박스 쿨다운/결과도 Firebase로
+async function syncBoxCooldownToFirebase() {
+  if (!window.MY_FP || !window._fb) return;
+  try {
+    const data = {};
+    // 모든 hahoeBox_header_, hahoeBox_result_ 키 수집
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && (k.startsWith('hahoeBox_header_') || k.startsWith('hahoeBox_result_'))) {
+        data[k] = localStorage.getItem(k);
+      }
+    }
+    if (Object.keys(data).length === 0) return;
+    const { db, doc, setDoc } = window._fb;
+    await setDoc(doc(db, 'boxCooldown', window.MY_FP), data, { merge: true });
+  } catch(e) {}
+}
+
+async function loadBoxCooldownFromFirebase() {
+  if (!window.MY_FP || !window._fb) return;
+  try {
+    const { db, doc, getDoc } = window._fb;
+    const snap = await getDoc(doc(db, 'boxCooldown', window.MY_FP));
+    if (snap.exists()) {
+      const data = snap.data();
+      Object.entries(data).forEach(([k, v]) => {
+        if (k.startsWith('hahoeBox_')) {
+          localStorage.setItem(k, v);
+        }
+      });
+    } else {
+      // 마이그레이션
+      await syncBoxCooldownToFirebase();
+    }
+  } catch(e) {}
+}
+
+// 박스 결과 저장 시 Firebase에도
+const originalSaveBoxResult = window.saveBoxResult;
+window.saveBoxResult = function(key, item, opts) {
+  // 원래 함수 호출 (localStorage 저장)
+  if (typeof originalSaveBoxResult === 'function') {
+    originalSaveBoxResult(key, item, opts);
+  }
+  // Firebase 동기화 (디바운스)
+  if (_boxCooldownTimer) clearTimeout(_boxCooldownTimer);
+  _boxCooldownTimer = setTimeout(() => syncBoxCooldownToFirebase(), 500);
+};
+let _boxCooldownTimer = null;
+
+// 박스 통계 갱신 시에도 Firebase 동기화
+const originalLoadBoxStats = window.loadBoxStats;
+window.boxStatsSync = function() {
+  if (_boxStatsSyncTimer) clearTimeout(_boxStatsSyncTimer);
+  _boxStatsSyncTimer = setTimeout(syncBoxStatsToFirebase, 500);
+};
+let _boxStatsSyncTimer = null;
+
+// 🔄 박스 통계 변경 시 자동 Firebase 동기화 (storage 이벤트로 감지)
+(function() {
+  const _setItem = Storage.prototype.setItem;
+  Storage.prototype.setItem = function(k, v) {
+    _setItem.call(this, k, v);
+    if (k === 'hahoeBox_stats' && typeof window.boxStatsSync === 'function') {
+      window.boxStatsSync();
+    }
+    if ((k.startsWith('hahoeBox_header_') || k.startsWith('hahoeBox_result_')) && typeof window._boxCooldownSync === 'function') {
+      window._boxCooldownSync();
+    }
+  };
+})();
+window._boxCooldownSync = function() {
+  if (typeof syncBoxCooldownToFirebase === 'function') {
+    if (window._boxCdTimer) clearTimeout(window._boxCdTimer);
+    window._boxCdTimer = setTimeout(syncBoxCooldownToFirebase, 500);
+  }
+};
+
 
 // EXP 추가 + 칭호 체크 + Firebase 동기화
 function addExp(eventKey, points, options) {
@@ -6623,6 +7468,11 @@ async function renderMissionCard() {
 const MISSION_ADMIN_PW = 'didghk1923!';
 
 function openMissionAdmin() {
+  // 👔 지점장으로 로그인했으면 비번 안 묻기
+  if (isManager()) {
+    renderAdminPanel();
+    return;
+  }
   const pw = prompt('🔒 지점장 비밀번호를 입력하세요:');
   if (pw !== MISSION_ADMIN_PW) {
     if (pw !== null) alert('비밀번호가 틀렸어요!');
@@ -6648,10 +7498,11 @@ function renderAdminPanel() {
           </div>
           <button onclick="document.getElementById('missionAdminModal').remove()" style="background:rgba(0,0,0,0.06); border:none; width:32px; height:32px; border-radius:50%; font-size:16px; cursor:pointer;">✕</button>
         </div>
-        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:4px; background:rgba(0,0,0,0.04); padding:4px; border-radius:10px; margin-bottom:14px;">
-          <button onclick="switchAdminTab('assign')" id="adminTabAssign" style="background:white; color:var(--ink); border:none; border-radius:8px; padding:8px; font-size:11.5px; font-weight:800; cursor:pointer; font-family:inherit; box-shadow:0 1px 3px rgba(0,0,0,0.06);">📝 미션 배정</button>
-          <button onclick="switchAdminTab('pending')" id="adminTabPending" style="background:transparent; color:var(--gray); border:none; border-radius:8px; padding:8px; font-size:11.5px; font-weight:700; cursor:pointer; font-family:inherit;">⏰ 승인 대기</button>
-          <button onclick="switchAdminTab('coins')" id="adminTabCoins" style="background:transparent; color:var(--gray); border:none; border-radius:8px; padding:8px; font-size:11.5px; font-weight:700; cursor:pointer; font-family:inherit;">🪙 코인 관리</button>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:3px; background:rgba(0,0,0,0.04); padding:3px; border-radius:10px; margin-bottom:14px;">
+          <button onclick="switchAdminTab('assign')" id="adminTabAssign" style="background:white; color:var(--ink); border:none; border-radius:8px; padding:8px 4px; font-size:10.5px; font-weight:800; cursor:pointer; font-family:inherit; box-shadow:0 1px 3px rgba(0,0,0,0.06); letter-spacing:-0.03em;">📝 미션</button>
+          <button onclick="switchAdminTab('pending')" id="adminTabPending" style="background:transparent; color:var(--gray); border:none; border-radius:8px; padding:8px 4px; font-size:10.5px; font-weight:700; cursor:pointer; font-family:inherit; letter-spacing:-0.03em;">⏰ 대기</button>
+          <button onclick="switchAdminTab('coins')" id="adminTabCoins" style="background:transparent; color:var(--gray); border:none; border-radius:8px; padding:8px 4px; font-size:10.5px; font-weight:700; cursor:pointer; font-family:inherit; letter-spacing:-0.03em;">🪙 코인</button>
+          <button onclick="switchAdminTab('pinreset')" id="adminTabPinreset" style="background:transparent; color:var(--gray); border:none; border-radius:8px; padding:8px 4px; font-size:10.5px; font-weight:700; cursor:pointer; font-family:inherit; letter-spacing:-0.03em;">🔑 비번</button>
         </div>
         <div id="adminContent"></div>
       </div>
@@ -6663,7 +7514,7 @@ function renderAdminPanel() {
 }
 
 function switchAdminTab(tab) {
-  ['Assign', 'Pending', 'Coins'].forEach(t => {
+  ['Assign', 'Pending', 'Coins', 'Pinreset'].forEach(t => {
     const btn = document.getElementById('adminTab' + t);
     if (btn) {
       const isActive = t.toLowerCase() === tab;
@@ -6676,7 +7527,65 @@ function switchAdminTab(tab) {
   if (tab === 'assign') renderAdminAssign();
   else if (tab === 'pending') renderAdminPending();
   else if (tab === 'coins') renderAdminCoins();
+  else if (tab === 'pinreset') renderAdminPinReset();
 }
+
+// 🔑 비번 초기화 탭
+async function renderAdminPinReset() {
+  const wrap = document.getElementById('adminContent');
+  if (!wrap) return;
+  wrap.innerHTML = '<div style="text-align:center; padding:30px; color:var(--gray); font-size:13px;">불러오는 중...</div>';
+  if (!window._fb) { wrap.innerHTML = '<div style="padding:30px; color:#DC2626; font-size:12px;">Firebase 연결 필요</div>'; return; }
+  
+  try {
+    const { db, doc, getDoc } = window._fb;
+    const fps = (DATA.daily.fpList || []);
+    const users = {};
+    await Promise.all(fps.map(async fp => {
+      const snap = await getDoc(doc(db, 'users', fp.n));
+      users[fp.n] = snap.exists();
+    }));
+    
+    const teams = {};
+    fps.forEach(f => { if (!teams[f.team]) teams[f.team] = []; teams[f.team].push(f); });
+    
+    let html = '<div style="margin-bottom:12px; padding:10px 12px; background:#FFFBEB; border:1px solid rgba(252,211,77,0.4); border-radius:8px; font-size:11px; color:#92400E; line-height:1.5;">💡 FP가 핀번호를 잊었다면, 본인 확인 후 초기화해주세요.<br>초기화 시 그 FP는 다음 접속 때 새 핀번호를 설정합니다.</div>';
+    
+    Object.entries(teams).forEach(([team, fpList]) => {
+      html += `<div style="margin-bottom:12px;">
+        <div style="font-size:11px; font-weight:800; color:var(--accent); letter-spacing:0.05em; margin-bottom:6px;">${team}</div>
+        <div style="display:flex; flex-direction:column; gap:4px;">`;
+      fpList.forEach(fp => {
+        const hasAccount = users[fp.n];
+        html += `<div style="background:white; border:1px solid rgba(0,0,0,0.08); border-radius:8px; padding:9px 12px; display:flex; align-items:center; gap:8px;">
+          <span style="font-size:12px; font-weight:800; color:var(--ink); flex:1; letter-spacing:-0.02em;">${fp.n}</span>
+          ${hasAccount 
+            ? `<span style="background:#10B981; color:white; font-size:9px; font-weight:800; padding:2px 6px; border-radius:4px;">가입</span>
+               <button onclick="resetUserPin('${fp.n}')" style="background:rgba(220,38,38,0.1); color:#DC2626; border:1px solid rgba(220,38,38,0.3); border-radius:6px; padding:5px 10px; font-family:inherit; font-size:11px; font-weight:800; cursor:pointer;">🔑 초기화</button>`
+            : `<span style="font-size:10px; color:var(--gray); opacity:0.6;">미가입</span>`}
+        </div>`;
+      });
+      html += `</div></div>`;
+    });
+    
+    wrap.innerHTML = html;
+  } catch(e) {
+    wrap.innerHTML = '<div style="padding:30px; color:#DC2626; font-size:12px;">로드 실패: ' + e.message + '</div>';
+  }
+}
+
+async function resetUserPin(fpName) {
+  if (!confirm(`${fpName}님의 핀번호를 초기화할까요?\n\n초기화 시 ${fpName}님은 다음 접속 때 새 핀번호를 설정해야 합니다.`)) return;
+  try {
+    const { db, doc, deleteDoc } = window._fb;
+    await deleteDoc(doc(db, 'users', fpName));
+    alert(`✅ ${fpName}님 핀번호가 초기화되었어요!\n해당 FP에게 다시 로그인하라고 알려주세요.`);
+    renderAdminPinReset();
+  } catch(e) { alert('초기화 실패: ' + e.message); }
+}
+
+window.renderAdminPinReset = renderAdminPinReset;
+window.resetUserPin = resetUserPin;
 
 async function renderAdminAssign() {
   const wrap = document.getElementById('adminContent');
@@ -6923,6 +7832,261 @@ window.deleteMission = deleteMission;
 window.approveMission = approveMission;
 window.rejectMission = rejectMission;
 window.editCoin = editCoin;
+
+// ============================================
+//          👔 지점장 전용 대시보드
+// ============================================
+
+async function renderManagerDashboard() {
+  const wrap = document.getElementById('managerDashboard');
+  if (!wrap) return;
+  
+  // 지점장 아니면 빈 카드
+  if (!isManager()) {
+    wrap.innerHTML = '';
+    return;
+  }
+  
+  // 로딩 표시
+  wrap.innerHTML = `
+    <div style="background:linear-gradient(135deg, #1A1A1A 0%, #2D2D2D 100%); border-radius:18px; padding:18px; margin-bottom:14px; color:white; position:relative; overflow:hidden;">
+      <div style="font-size:12px; opacity:0.7;">⏳ 지점 현황 불러오는 중...</div>
+    </div>
+  `;
+  
+  if (!window._fb) {
+    setTimeout(renderManagerDashboard, 1000);
+    return;
+  }
+  
+  // 데이터 일괄 수집
+  const fps = (DATA.daily.fpList || []);
+  const today = getTodayKey();
+  let totalCoins = 0;
+  let coinHolders = 0;
+  let missionAssigned = 0;
+  let missionApproved = 0;
+  let missionPending = 0;
+  let activeUsers = 0;  // 가입한 사용자 수
+  let totalExp = 0;
+  
+  try {
+    const { db, doc, getDoc } = window._fb;
+    
+    await Promise.all(fps.map(async fp => {
+      // 코인
+      const coinSnap = await getDoc(doc(db, 'coins', fp.n));
+      if (coinSnap.exists()) {
+        const amt = coinSnap.data().amount || 0;
+        totalCoins += amt;
+        if (amt > 0) coinHolders++;
+      }
+      // 미션
+      const mSnap = await getDoc(doc(db, 'missions', `${fp.n}_${today}`));
+      if (mSnap.exists()) {
+        const d = mSnap.data();
+        if (d.title) missionAssigned++;
+        if (d.status === 'approved') missionApproved++;
+        if (d.status === 'pending') missionPending++;
+      }
+      // 가입자
+      const uSnap = await getDoc(doc(db, 'users', fp.n));
+      if (uSnap.exists()) activeUsers++;
+      // 활동포인트
+      const sSnap = await getDoc(doc(db, 'userStats', fp.n));
+      if (sSnap.exists()) totalExp += (sSnap.data().exp || 0);
+    }));
+  } catch(e) {}
+  
+  // 시세
+  const priceData = await loadCoinPrice();
+  const price = priceData.price || 1000;
+  const totalAsset = totalCoins * price;
+  
+  wrap.innerHTML = `
+    <div style="background:linear-gradient(135deg, #1A1A1A 0%, #2D2D2D 50%, #1A1A1A 100%); border-radius:18px; padding:18px; margin-bottom:14px; color:white; position:relative; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.25);">
+      <!-- 빛 효과 -->
+      <div style="position:absolute; top:-50px; right:-50px; width:200px; height:200px; border-radius:50%; background:radial-gradient(circle, rgba(252,211,77,0.18) 0%, transparent 70%); pointer-events:none;"></div>
+      
+      <!-- 헤더 -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; position:relative;">
+        <div>
+          <div style="font-size:11px; font-weight:800; color:#FCD34D; letter-spacing:0.15em;">👔 MANAGER</div>
+          <div style="font-size:18px; font-weight:900; letter-spacing:-0.03em; margin-top:2px;">지점장 대시보드</div>
+        </div>
+        <div style="background:rgba(252,211,77,0.15); border:1px solid rgba(252,211,77,0.3); padding:4px 10px; border-radius:100px; font-size:10px; font-weight:800; color:#FCD34D;">👑 ADMIN</div>
+      </div>
+      
+      <!-- 📊 핵심 지표 4개 -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px; position:relative;">
+        <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:11px 13px;">
+          <div style="font-size:10px; color:rgba(255,255,255,0.5); font-weight:700;">👥 가입자</div>
+          <div style="font-size:18px; font-weight:900; color:white; letter-spacing:-0.02em; margin-top:2px;">${activeUsers}<span style="font-size:11px; opacity:0.5; margin-left:2px;">/${fps.length}명</span></div>
+        </div>
+        <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:11px 13px;">
+          <div style="font-size:10px; color:rgba(255,255,255,0.5); font-weight:700;">📈 활동포인트</div>
+          <div style="font-size:18px; font-weight:900; color:#10B981; letter-spacing:-0.02em; margin-top:2px;">${totalExp.toLocaleString()}<span style="font-size:11px; opacity:0.5; margin-left:2px;">P</span></div>
+        </div>
+        <div style="background:rgba(252,211,77,0.08); border:1px solid rgba(252,211,77,0.15); border-radius:10px; padding:11px 13px;">
+          <div style="font-size:10px; color:rgba(255,255,255,0.5); font-weight:700;">🪙 발행 코인</div>
+          <div style="font-size:18px; font-weight:900; color:#FCD34D; letter-spacing:-0.02em; margin-top:2px;">${totalCoins}<span style="font-size:11px; opacity:0.5; margin-left:2px;">개</span></div>
+          <div style="font-size:9px; color:rgba(255,255,255,0.4); font-weight:700; margin-top:2px;">${totalAsset.toLocaleString()}원 규모</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:11px 13px;">
+          <div style="font-size:10px; color:rgba(255,255,255,0.5); font-weight:700;">🎯 오늘 미션</div>
+          <div style="font-size:18px; font-weight:900; color:white; letter-spacing:-0.02em; margin-top:2px;">${missionApproved}<span style="font-size:11px; opacity:0.5; margin-left:2px;">/${missionAssigned}건</span></div>
+          ${missionPending > 0 ? `<div style="font-size:9px; color:#F59E0B; font-weight:800; margin-top:2px;">⏰ 대기 ${missionPending}건!</div>` : ''}
+        </div>
+      </div>
+      
+      <!-- 🚀 빠른 액션 버튼 -->
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:6px; margin-bottom:10px; position:relative;">
+        <button onclick="openManagerPanel('assign')" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:10px 4px; color:white; font-family:inherit; cursor:pointer; font-size:10.5px; font-weight:800; letter-spacing:-0.03em; display:flex; flex-direction:column; align-items:center; gap:3px;">
+          <span style="font-size:18px;">📝</span>
+          <span>미션 배정</span>
+        </button>
+        <button onclick="openManagerPanel('pending')" style="background:${missionPending > 0 ? 'linear-gradient(135deg, #F59E0B, #D97706)' : 'rgba(255,255,255,0.08)'}; border:1px solid ${missionPending > 0 ? 'transparent' : 'rgba(255,255,255,0.12)'}; border-radius:10px; padding:10px 4px; color:white; font-family:inherit; cursor:pointer; font-size:10.5px; font-weight:800; letter-spacing:-0.03em; display:flex; flex-direction:column; align-items:center; gap:3px; position:relative;">
+          <span style="font-size:18px;">⏰</span>
+          <span>승인${missionPending > 0 ? ` (${missionPending})` : ''}</span>
+        </button>
+        <button onclick="openManagerPanel('coins')" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:10px 4px; color:white; font-family:inherit; cursor:pointer; font-size:10.5px; font-weight:800; letter-spacing:-0.03em; display:flex; flex-direction:column; align-items:center; gap:3px;">
+          <span style="font-size:18px;">🪙</span>
+          <span>코인 관리</span>
+        </button>
+        <button onclick="openManagerPanel('pinreset')" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:10px 4px; color:white; font-family:inherit; cursor:pointer; font-size:10.5px; font-weight:800; letter-spacing:-0.03em; display:flex; flex-direction:column; align-items:center; gap:3px;">
+          <span style="font-size:18px;">🔑</span>
+          <span>비번 초기화</span>
+        </button>
+      </div>
+      
+      <!-- 시세 + FP 현황 보기 -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; position:relative;">
+        <button onclick="openPriceAdmin()" style="background:linear-gradient(135deg, #F37321, #C2410C); border:none; border-radius:10px; padding:11px 6px; color:white; font-family:inherit; cursor:pointer; font-size:11.5px; font-weight:900; letter-spacing:-0.02em; box-shadow:0 2px 8px rgba(243,115,33,0.3); display:flex; align-items:center; justify-content:center; gap:4px;">
+          <span>💱</span>
+          <span>시세 변경 (${price.toLocaleString()}원)</span>
+        </button>
+        <button onclick="openFpStatus()" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:11px 6px; color:white; font-family:inherit; cursor:pointer; font-size:11.5px; font-weight:800; letter-spacing:-0.02em; display:flex; align-items:center; justify-content:center; gap:4px;">
+          <span>👥</span>
+          <span>FP 현황 보기</span>
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+// 지점장 패널 직접 탭 열기
+function openManagerPanel(tab) {
+  // 비번 안 묻고 바로 (이미 지점장 로그인 상태니까)
+  if (!isManager()) {
+    alert('지점장만 사용할 수 있어요!');
+    return;
+  }
+  // 미션 관리 모달 열고 지정 탭으로
+  if (!document.getElementById('missionAdminModal')) {
+    renderAdminPanel();
+  }
+  setTimeout(() => switchAdminTab(tab), 100);
+}
+
+// 👥 FP 전체 현황 모달
+async function openFpStatus() {
+  if (!isManager()) return;
+  
+  const m = document.createElement('div');
+  m.id = 'fpStatusModal';
+  m.style.cssText = `
+    position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+    z-index: 99998; overflow-y: auto;
+  `;
+  m.innerHTML = `
+    <div style="max-width:600px; margin:0 auto; padding:16px; min-height:100vh;">
+      <div style="background:white; border-radius:18px; padding:18px; box-shadow:0 12px 40px rgba(0,0,0,0.3);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+          <div>
+            <div style="font-size:11px; color:var(--accent); font-weight:800; letter-spacing:0.05em;">FP STATUS</div>
+            <div style="font-size:18px; font-weight:900; letter-spacing:-0.03em;">👥 전체 FP 현황</div>
+          </div>
+          <button onclick="document.getElementById('fpStatusModal').remove()" style="background:rgba(0,0,0,0.06); border:none; width:32px; height:32px; border-radius:50%; font-size:16px; cursor:pointer;">✕</button>
+        </div>
+        <div id="fpStatusContent" style="text-align:center; padding:30px; color:var(--gray); font-size:13px;">불러오는 중...</div>
+      </div>
+    </div>
+  `;
+  m.onclick = (e) => { if (e.target === m) m.remove(); };
+  document.body.appendChild(m);
+  
+  // 데이터 로드
+  try {
+    const { db, doc, getDoc } = window._fb;
+    const fps = (DATA.daily.fpList || []);
+    const today = getTodayKey();
+    const fpData = {};
+    
+    await Promise.all(fps.map(async fp => {
+      const [users, stats, coins, mission] = await Promise.all([
+        getDoc(doc(db, 'users', fp.n)),
+        getDoc(doc(db, 'userStats', fp.n)),
+        getDoc(doc(db, 'coins', fp.n)),
+        getDoc(doc(db, 'missions', `${fp.n}_${today}`)),
+      ]);
+      fpData[fp.n] = {
+        joined: users.exists(),
+        exp: stats.exists() ? (stats.data().exp || 0) : 0,
+        attendStreak: stats.exists() ? (stats.data().attendStreak || 0) : 0,
+        coins: coins.exists() ? (coins.data().amount || 0) : 0,
+        missionStatus: mission.exists() ? mission.data().status : null,
+      };
+    }));
+    
+    const teams = {};
+    fps.forEach(f => { if (!teams[f.team]) teams[f.team] = []; teams[f.team].push(f); });
+    
+    let html = '<div style="font-size:11px; color:var(--gray); margin-bottom:10px; line-height:1.5;">💡 가입 여부, 활동포인트, 코인, 출석, 오늘 미션을 한눈에</div>';
+    
+    Object.entries(teams).forEach(([team, fpList]) => {
+      // 팀별 합계
+      const teamExp = fpList.reduce((s, f) => s + (fpData[f.n]?.exp || 0), 0);
+      const teamCoins = fpList.reduce((s, f) => s + (fpData[f.n]?.coins || 0), 0);
+      const teamJoined = fpList.filter(f => fpData[f.n]?.joined).length;
+      
+      html += `<div style="margin-bottom:14px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; padding:0 4px;">
+          <div style="font-size:12px; font-weight:900; color:var(--accent); letter-spacing:-0.02em;">${team}</div>
+          <div style="font-size:10px; color:var(--gray); font-weight:700;">${teamJoined}/${fpList.length}명 · ${teamExp.toLocaleString()}P · 🪙${teamCoins}</div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:3px;">`;
+      
+      fpList.forEach(fp => {
+        const d = fpData[fp.n] || {};
+        const mStatus = d.missionStatus;
+        let mBadge = '';
+        if (mStatus === 'approved') mBadge = `<span style="background:#10B981; color:white; font-size:9px; font-weight:800; padding:2px 5px; border-radius:3px;">완료</span>`;
+        else if (mStatus === 'pending') mBadge = `<span style="background:#F59E0B; color:white; font-size:9px; font-weight:800; padding:2px 5px; border-radius:3px;">대기</span>`;
+        else if (mStatus === 'open') mBadge = `<span style="background:#3B82F6; color:white; font-size:9px; font-weight:800; padding:2px 5px; border-radius:3px;">진행</span>`;
+        
+        html += `<div style="background:${d.joined ? 'white' : 'rgba(0,0,0,0.02)'}; border:1px solid rgba(0,0,0,0.08); border-radius:8px; padding:8px 10px; display:flex; align-items:center; gap:6px; opacity:${d.joined ? '1' : '0.6'};">
+          <span style="font-size:12px; font-weight:800; color:var(--ink); min-width:50px; letter-spacing:-0.02em;">${fp.n}</span>
+          ${!d.joined ? '<span style="font-size:9px; color:var(--gray); font-weight:700;">미가입</span>' : ''}
+          ${d.joined ? `<span style="font-size:10px; color:#10B981; font-weight:800;">${d.exp}P</span>` : ''}
+          ${d.coins > 0 ? `<span style="font-size:10px; color:#D97706; font-weight:800;">🪙${d.coins}</span>` : ''}
+          ${d.attendStreak >= 3 ? `<span style="font-size:10px; color:#DC2626; font-weight:800;">🔥${d.attendStreak}일</span>` : ''}
+          <span style="flex:1;"></span>
+          ${mBadge}
+        </div>`;
+      });
+      html += `</div></div>`;
+    });
+    
+    document.getElementById('fpStatusContent').innerHTML = '<div style="text-align:left;">' + html + '</div>';
+  } catch(e) {
+    document.getElementById('fpStatusContent').innerHTML = '<div style="color:#DC2626; padding:30px;">로드 실패: ' + e.message + '</div>';
+  }
+}
+
+window.renderManagerDashboard = renderManagerDashboard;
+window.openManagerPanel = openManagerPanel;
+window.openFpStatus = openFpStatus;
+window.isManager = isManager;
 
 // ============================================
 //          💰 하회코인 시세판
