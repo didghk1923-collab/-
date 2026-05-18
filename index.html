@@ -1284,7 +1284,7 @@ input#bojangGeongang::-webkit-inner-spin-button {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: calc(env(safe-area-inset-top, 0) + 20px) 20px calc(env(safe-area-inset-bottom, 0) + 20px);
   overflow-y: auto;
 }
 .login-overlay.hidden {
@@ -6215,7 +6215,7 @@ function showSetNewPin(name) {
   m.id = 'setNewPinModal';
   m.style.cssText = `
     position: fixed; inset: 0; background: rgba(0,0,0,0.92);
-    z-index: 100003; display: flex; align-items: center; justify-content: center; padding: 16px;
+    z-index: 100003; display: flex; align-items: center; justify-content: center; padding: calc(env(safe-area-inset-top, 0) + 16px) 16px calc(env(safe-area-inset-bottom, 0) + 16px); box-sizing: border-box;
     backdrop-filter: blur(10px);
   `;
   m.innerHTML = `
@@ -6344,7 +6344,7 @@ function showWelcomeBonusModal(name, coins) {
   m.id = 'welcomeBonusModal';
   m.style.cssText = `
     position: fixed; inset: 0; background: rgba(0,0,0,0.92);
-    z-index: 100004; display: flex; align-items: center; justify-content: center; padding: 16px;
+    z-index: 100004; display: flex; align-items: center; justify-content: center; padding: calc(env(safe-area-inset-top, 0) + 16px) 16px calc(env(safe-area-inset-bottom, 0) + 16px); box-sizing: border-box;
     backdrop-filter: blur(15px);
   `;
   m.innerHTML = `
@@ -6512,7 +6512,7 @@ function openChangePin() {
   m.id = 'changePinModal';
   m.style.cssText = `
     position: fixed; inset: 0; background: rgba(0,0,0,0.8);
-    z-index: 100002; display: flex; align-items: center; justify-content: center; padding: 16px;
+    z-index: 100002; display: flex; align-items: center; justify-content: center; padding: calc(env(safe-area-inset-top, 0) + 16px) 16px calc(env(safe-area-inset-bottom, 0) + 16px); box-sizing: border-box;
   `;
   m.innerHTML = `
     <div style="background:linear-gradient(180deg, #1C1C1E 0%, #16161A 100%); border:1px solid rgba(255,255,255,0.08); border-radius:18px; padding:24px 20px; max-width:380px; width:100%; color:white;">
@@ -7717,6 +7717,9 @@ function renderAdminPanel() {
   m.style.cssText = `
     position: fixed; inset: 0; background: rgba(0,0,0,0.7);
     z-index: 99998; overflow-y: auto;
+    padding-top: env(safe-area-inset-top, 0);
+    padding-bottom: env(safe-area-inset-bottom, 0);
+    box-sizing: border-box;
   `;
   m.addEventListener('click', (e) => {
     if (e.target === m) m.remove();
@@ -7952,7 +7955,7 @@ function openMissionEdit(fpName, missionType, specialId) {
     
     const m = document.createElement('div');
     m.id = 'missionEditModal';
-    m.style.cssText = `position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 99999; display: flex; align-items: center; justify-content: center; padding: 16px;`;
+    m.style.cssText = `position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 99999; display: flex; align-items: center; justify-content: center; padding: calc(env(safe-area-inset-top, 0) + 16px) 16px calc(env(safe-area-inset-bottom, 0) + 16px); box-sizing: border-box;`;
     
     const hasMission = !!currentMission.title;
     const reward = currentMission.reward || info.defaultReward;
@@ -8361,6 +8364,9 @@ async function openFpStatus() {
   m.style.cssText = `
     position: fixed; inset: 0; background: rgba(0,0,0,0.7);
     z-index: 99998; overflow-y: auto;
+    padding-top: env(safe-area-inset-top, 0);
+    padding-bottom: env(safe-area-inset-bottom, 0);
+    box-sizing: border-box;
   `;
   m.addEventListener('click', (e) => {
     if (e.target === m) m.remove();
@@ -8476,6 +8482,9 @@ async function openSignupStatus() {
   m.style.cssText = `
     position: fixed; inset: 0; background: rgba(0,0,0,0.7);
     z-index: 99998; overflow-y: auto;
+    padding-top: env(safe-area-inset-top, 0);
+    padding-bottom: env(safe-area-inset-bottom, 0);
+    box-sizing: border-box;
   `;
   m.addEventListener('click', (e) => {
     if (e.target === m) m.remove();
