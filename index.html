@@ -1454,6 +1454,10 @@ input#bojangGeongang::-webkit-inner-spin-button {
       <span class="side-ico">📋</span>
       <span>보장분석 상담</span>
     </button>
+    <button class="side-item manager-only" data-page="shop" style="display:none;">
+      <span class="side-ico">🏪</span>
+      <span>하회 상점</span>
+    </button>
     <button class="side-item" onclick="openMissionAdmin(); closeSidePanel(); event.preventDefault(); event.stopPropagation();">
       <span class="side-ico">🔒</span>
       <span>지점장 관리</span>
@@ -3320,6 +3324,13 @@ newGame();
     </div>
   </div>
 
+  <!-- ============ 하회 상점 ============ -->
+  <div class="page" id="page-shop">
+    <div id="shopContent" style="padding:4px 0 20px;">
+      <div style="text-align:center; padding:40px 20px; color:var(--gray); font-size:13px;">상점 로딩 중...</div>
+    </div>
+  </div>
+
   <!-- ============ 보험 합치기 (수박 게임) ============ -->
 
   <!-- ============ 럭키 박스 ============ -->
@@ -4672,8 +4683,12 @@ function loadBoxResult(key) {
 function openBoxBy(key) {
   const st = getBoxState(key);
   
-  // 🔄 이미 오픈한 상태(쿨다운 중)면 → 마지막 결과 다시 보여주기 (인증용)
-  if (!st.ready) {
+  // 🎁 보너스 박스 체크 (상점에서 산 거)
+  const bonusBoxes = parseInt(localStorage.getItem('bonus_boxes') || '0', 10);
+  const useBonus = !st.ready || !isBoxTimeAllowed();  // 정상 박스 못 열 때만 보너스 사용
+  
+  // 🔄 이미 오픈한 상태(쿨다운 중)면 → 보너스 없으면 마지막 결과
+  if (!st.ready && bonusBoxes <= 0) {
     const lastResult = loadBoxResult(key);
     if (lastResult) {
       showPrizeFromResult(lastResult);
@@ -4681,27 +4696,41 @@ function openBoxBy(key) {
     return;
   }
   
-  // 🕐 시간대 체크 (월~금 8~10시)
-  if (!isBoxTimeAllowed()) {
+  // 🕐 시간대 체크 (월~금 8~10시) - 보너스 없으면 막힘
+  if (!isBoxTimeAllowed() && bonusBoxes <= 0) {
     openPrize('시간 외에요', {
       emoji: '🕐',
       title: '',
       suffix: '',
       color: '#1A1A1A',
-      note: `박스는 <b style="color:#F37321;">평일 오전 8시 ~ 10시</b>에만<br>열 수 있어요!<br><br><span style="font-size:11px; opacity:0.7;">다음 오픈: ${getNextBoxTimeMsg()}</span>`,
+      note: `박스는 <b style="color:#F37321;">평일 오전 8시 ~ 10시</b>에만<br>열 수 있어요!<br><br><span style="font-size:11px; opacity:0.7;">상점에서 🎁 박스 추첨권을 사면<br>시간 무관 오픈 가능해요!<br><br>다음 오픈: ${getNextBoxTimeMsg()}</span>`,
     });
-    return;  // 쿨다운 시작 안 함
+    return;
   }
   
-  // ✅ 시간대 OK — 박스 오픈 진행
-  // 쿨다운 시작
-  localStorage.setItem(key, String(Date.now()));
+  // ✅ 박스 오픈 진행
+  if (useBonus && bonusBoxes > 0) {
+    // 보너스 박스 1개 사용
+    localStorage.setItem('bonus_boxes', String(bonusBoxes - 1));
+  } else {
+    // 정상 박스 - 쿨다운 시작
+    localStorage.setItem(key, String(Date.now()));
+  }
   renderAllBoxes();
   
-  // 확률 추첨: 40% 롤팩 / 10% 몽글행주 / 49% 꽝 / 1% 특별한 지점장의 선물
+  // ⭐ 럭키 박스 효과 (잭팟 확률 2배)
+  const luckyBoxes = parseInt(localStorage.getItem('lucky_boxes') || '0', 10);
+  const isLucky = luckyBoxes > 0;
+  if (isLucky) {
+    localStorage.setItem('lucky_boxes', String(luckyBoxes - 1));
+  }
+  const jackpotRate = isLucky ? 0.02 : 0.01;  // 2% or 1%
+  
+  // 확률 추첨: 40% 롤팩 / 10% 몽글행주 / (1~2)% 잭팟 / 나머지 꽝
   const roll = Math.random();
   const stamp = getNowStamp();
-  const stampNote = `<div style="font-size:10px; color:#9CA3AF; font-weight:700; margin-top:10px; font-variant-numeric:tabular-nums;">${stamp}</div>`;
+  const luckyMark = isLucky ? `<div style="font-size:10px; color:#F59E0B; font-weight:800; margin-top:6px;">⭐ 럭키 박스 효과 적용!</div>` : '';
+  const stampNote = `<div style="font-size:10px; color:#9CA3AF; font-weight:700; margin-top:10px; font-variant-numeric:tabular-nums;">${stamp}</div>${luckyMark}`;
   
   let item, opts;
   if (roll < 0.40) {
@@ -4722,7 +4751,7 @@ function openBoxBy(key) {
       color: 'var(--accent)',
       note: '심지점장에게<br>직접 받으러 오세요 ~' + stampNote,
     };
-  } else if (roll < 0.99) {
+  } else if (roll < (1 - jackpotRate)) {
     item = '꽝';
     opts = {
       emoji: '😅',
@@ -4735,7 +4764,7 @@ function openBoxBy(key) {
     item = '특별한 지점장의 선물';
     opts = {
       emoji: '🎁',
-      title: '✨ 1% 잭팟! ✨',
+      title: isLucky ? '✨ 2% 럭키 잭팟! ✨' : '✨ 1% 잭팟! ✨',
       suffix: '당첨!',
       color: '#F37321',
       note: '심지점장에게 직접 받으러 오세요!<br><span style="font-size:11px; opacity:0.7;">선물 내용은 비밀 🤫</span>' + stampNote,
@@ -5050,6 +5079,17 @@ function switchPage(page) {
     renderBoardList();
   }
   
+  // 🏪 상점 페이지 진입 시 렌더 (지점장 전용)
+  if (page === 'shop') {
+    if (typeof isManager === 'function' && !isManager()) {
+      // FP는 접근 차단
+      alert('지점장만 사용할 수 있어요');
+      switchPage('myinfo');
+      return;
+    }
+    if (typeof renderShop === 'function') renderShop();
+  }
+  
   // 내정보 탭 진입 시 카드 렌더링
   if (page === 'myinfo') {
     if (typeof renderMyInfoCard === 'function') renderMyInfoCard();
@@ -5062,7 +5102,19 @@ function switchPage(page) {
       renderManagerDashboard();
     }
   }
+  
+  // 👔 지점장 전용 메뉴 항목 표시/숨김
+  if (typeof toggleManagerOnlyMenus === 'function') toggleManagerOnlyMenus();
 }
+
+// 👔 지점장 전용 메뉴 항목 표시/숨김
+function toggleManagerOnlyMenus() {
+  const show = typeof isManager === 'function' && isManager();
+  document.querySelectorAll('.manager-only').forEach(el => {
+    el.style.display = show ? '' : 'none';
+  });
+}
+window.toggleManagerOnlyMenus = toggleManagerOnlyMenus;
 // 글로벌 노출 (배지 onclick에서 접근 가능하도록)
 window.switchPage = switchPage;
 
@@ -6336,6 +6388,9 @@ function doLoginSuccess(name) {
       renderManagerDashboard();
     }
     
+    // 👔 지점장 전용 메뉴 항목 표시/숨김
+    if (typeof toggleManagerOnlyMenus === 'function') toggleManagerOnlyMenus();
+    
     // 🤖 자동 미션 생성 트리거 (9:30 이후 + FP만)
     if (typeof autoGenerateMissions === 'function') {
       autoGenerateMissions().then(() => {
@@ -6389,6 +6444,8 @@ function checkLoginOnStart() {
                 if (isManager() && typeof renderManagerDashboard === 'function') {
                   renderManagerDashboard();
                 }
+                // 👔 지점장 전용 메뉴 표시
+                if (typeof toggleManagerOnlyMenus === 'function') toggleManagerOnlyMenus();
                 // 🤖 자동 미션 생성
                 if (typeof autoGenerateMissions === 'function') {
                   await autoGenerateMissions();
@@ -8193,6 +8250,641 @@ function showClaimReward(reward, title) {
 
 window.claimAutoMission = claimAutoMission;
 window.showClaimReward = showClaimReward;
+
+// ============================================
+//          🏪 하회 상점 시스템
+// ============================================
+
+// 기본 시드 상품
+window.SHOP_SEED_ITEMS = [
+  { id: 'seed_box1',  emoji: '🎁', name: '박스 추첨권',         desc: '시간 무관 박스 1개 즉시 오픈!',        price: 3,   type: 'digital', stock: -1, action: 'box_ticket' },
+  { id: 'seed_box5',  emoji: '🎰', name: '박스 추첨권 5개',     desc: '박스 5개 한꺼번에! 10% 할인',         price: 13,  type: 'digital', stock: -1, action: 'box_ticket_5' },
+  { id: 'seed_star',  emoji: '⭐', name: '럭키 박스',           desc: '잭팟 확률 2배! (1% → 2%)',          price: 10,  type: 'digital', stock: -1, action: 'lucky_box' },
+  { id: 'seed_cafe',  emoji: '☕', name: '스타벅스 5천원권',     desc: '지점장이 카톡으로 발송해드려요',         price: 50,  type: 'real',    stock: -1 },
+  { id: 'seed_lunch', emoji: '🍱', name: '점심 한 끼 (1만원)',   desc: '근처 식당 점심값 1만원',                price: 100, type: 'real',    stock: -1 },
+  { id: 'seed_gift',  emoji: '🎫', name: '문화상품권 1만원',     desc: '온라인 문화상품권 발송',                price: 100, type: 'real',    stock: -1 },
+  { id: 'seed_chick', emoji: '🍗', name: '치킨 한 마리',          desc: '교촌·BHC 등 (~2만원)',                 price: 180, type: 'real',    stock: -1 },
+];
+
+// 상품 로드 (Firestore + Seed)
+async function loadShopItems() {
+  if (!window._fb) return window.SHOP_SEED_ITEMS;
+  try {
+    const { db, collection, getDocs } = window._fb;
+    const snap = await getDocs(collection(db, 'shop_items'));
+    const items = [];
+    snap.forEach(d => items.push({ ...d.data(), id: d.id }));
+    
+    // 시드와 머지 (Firestore 우선)
+    const seedIds = new Set(items.map(i => i.id));
+    const merged = [...items];
+    window.SHOP_SEED_ITEMS.forEach(s => {
+      if (!seedIds.has(s.id)) merged.push(s);
+    });
+    return merged;
+  } catch(e) {
+    console.warn('상점 로드 실패:', e);
+    return window.SHOP_SEED_ITEMS;
+  }
+}
+
+// 내 구매 내역
+async function loadMyPurchases() {
+  if (!window._fb || !window.MY_FP) return [];
+  try {
+    const { db, collection, query, where, getDocs } = window._fb;
+    const q = query(collection(db, 'shop_purchases'), where('buyerName', '==', window.MY_FP));
+    const snap = await getDocs(q);
+    const list = [];
+    snap.forEach(d => list.push({ ...d.data(), id: d.id }));
+    list.sort((a, b) => (b.purchasedAt || 0) - (a.purchasedAt || 0));
+    return list;
+  } catch(e) { return []; }
+}
+
+// 발송 대기 (지점장용)
+async function loadPendingPurchases() {
+  if (!window._fb) return [];
+  try {
+    const { db, collection, query, where, getDocs } = window._fb;
+    const q = query(collection(db, 'shop_purchases'), where('status', '==', 'pending'));
+    const snap = await getDocs(q);
+    const list = [];
+    snap.forEach(d => list.push({ ...d.data(), id: d.id }));
+    list.sort((a, b) => (a.purchasedAt || 0) - (b.purchasedAt || 0));
+    return list;
+  } catch(e) { return []; }
+}
+
+// 🛒 구매
+async function buyShopItem(itemId) {
+  if (!window.MY_FP || !window._fb) { alert('로그인 필요'); return; }
+  if (isManager()) { alert('지점장은 구매할 수 없어요'); return; }
+  
+  const items = await loadShopItems();
+  const item = items.find(i => i.id === itemId);
+  if (!item) { alert('상품을 찾을 수 없어요'); return; }
+  
+  const coins = await loadMyCoins();
+  if (coins < item.price) {
+    alert(`🪙 코인 부족!\n\n현재: ${coins}코인\n필요: ${item.price}코인\n부족: ${item.price - coins}코인`);
+    return;
+  }
+  
+  // 💰 현실 상품 월간 예산 체크
+  if (item.type === 'real') {
+    const { total: spent } = await getMonthlyRealSpent();
+    const remain = window.SHOP_MONTHLY_BUDGET - spent;
+    if (remain < item.price) {
+      alert(`📦 이번 달 예산 마감!\n\n월 한도: 🪙 ${window.SHOP_MONTHLY_BUDGET}코인 (100만원)\n현재 사용: 🪙 ${spent}코인\n남은 예산: 🪙 ${remain}코인\n\n다음 달에 다시 시도해주세요!\n(디지털 상품은 계속 구매 가능)`);
+      return;
+    }
+  }
+  
+  if (!confirm(`${item.emoji} ${item.name}\n\n💰 ${item.price}코인 사용\n현재 ${coins} → 구매 후 ${coins - item.price}\n\n구매하시겠습니까?`)) return;
+  
+  try {
+    const { db, doc, setDoc, getDoc, collection, addDoc } = window._fb;
+    
+    // 1. 코인 차감
+    await setDoc(doc(db, 'coins', window.MY_FP), {
+      amount: coins - item.price,
+      updatedAt: Date.now(),
+    }, { merge: true });
+    
+    // 2. 구매 기록
+    const isDigital = item.type === 'digital';
+    const purchaseData = {
+      buyerName: window.MY_FP,
+      itemId: item.id,
+      itemName: item.name,
+      itemEmoji: item.emoji,
+      price: item.price,
+      type: item.type,
+      action: item.action || null,
+      status: isDigital ? 'completed' : 'pending',
+      purchasedAt: Date.now(),
+    };
+    await addDoc(collection(db, 'shop_purchases'), purchaseData);
+    
+    // 3. 디지털이면 즉시 보상 처리
+    if (isDigital) {
+      if (item.action === 'box_ticket') {
+        // 박스 1개 추가 (3시간 박스에 보너스 1개)
+        addBonusBox(1);
+        alert(`✅ ${item.emoji} ${item.name} 구매 완료!\n\n🎁 박스가 1개 추가됐어요!\n메인 화면의 박스를 확인하세요!`);
+      } else if (item.action === 'box_ticket_5') {
+        addBonusBox(5);
+        alert(`✅ ${item.emoji} ${item.name} 구매 완료!\n\n🎰 박스가 5개 추가됐어요!`);
+      } else if (item.action === 'lucky_box') {
+        addLuckyBox(1);
+        alert(`✅ ${item.emoji} ${item.name} 구매 완료!\n\n⭐ 럭키 박스 1개 적립!\n다음 박스 오픈 시 잭팟 확률 2배!`);
+      } else {
+        alert(`✅ ${item.emoji} ${item.name} 구매 완료!`);
+      }
+    } else {
+      alert(`✅ ${item.emoji} ${item.name} 구매 완료!\n\n📦 지점장이 곧 발송해드릴 거예요!\n구매 내역에서 발송 상태를 확인할 수 있어요.`);
+    }
+    
+    // 상점 새로고침
+    renderShop();
+  } catch(e) {
+    alert('구매 실패: ' + e.message);
+  }
+}
+
+// 보너스 박스 1개 추가 (즉시 오픈 가능)
+function addBonusBox(n) {
+  const cur = parseInt(localStorage.getItem('bonus_boxes') || '0', 10);
+  localStorage.setItem('bonus_boxes', String(cur + n));
+}
+
+// 럭키 박스 적립
+function addLuckyBox(n) {
+  const cur = parseInt(localStorage.getItem('lucky_boxes') || '0', 10);
+  localStorage.setItem('lucky_boxes', String(cur + n));
+}
+
+// 🏪 상점 메인 렌더링
+async function renderShop() {
+  const wrap = document.getElementById('shopContent');
+  if (!wrap) return;
+  
+  if (!window.MY_FP) {
+    wrap.innerHTML = `<div style="text-align:center; padding:40px 20px; color:var(--gray); font-size:13px;">로그인 후 이용 가능해요</div>`;
+    return;
+  }
+  
+  wrap.innerHTML = `<div style="text-align:center; padding:40px; color:var(--gray);">로딩 중...</div>`;
+  
+  const [items, coins, myPurchases, budgetInfo] = await Promise.all([
+    loadShopItems(),
+    loadMyCoins(),
+    loadMyPurchases(),
+    getMonthlyRealSpent(),
+  ]);
+  
+  const isAdmin = isManager();
+  const budgetSpent = budgetInfo.total || 0;
+  const budgetRemain = window.SHOP_MONTHLY_BUDGET - budgetSpent;
+  const budgetPct = Math.min(100, Math.round(budgetSpent / window.SHOP_MONTHLY_BUDGET * 100));
+  const budgetSoldOut = budgetRemain < 50;  // 최저가(스벅 50) 못 살 정도면 매진
+  
+  // 진척 색
+  let barColor = '#10B981';  // 초록
+  if (budgetPct >= 95) barColor = '#DC2626';
+  else if (budgetPct >= 80) barColor = '#F59E0B';
+  else if (budgetPct >= 50) barColor = '#3B82F6';
+  
+  // 카테고리 분리
+  const digital = items.filter(i => i.type === 'digital');
+  const real = items.filter(i => i.type === 'real');
+  
+  // 이번 달 표시
+  const monthDisplay = new Date().getMonth() + 1;
+  
+  let html = `
+    <!-- 헤더 -->
+    <div style="background:linear-gradient(135deg, #1A1A1A 0%, #2D2D2D 100%); border-radius:16px; padding:16px; margin-bottom:12px; color:white; position:relative; overflow:hidden;">
+      <div style="position:absolute; top:-30px; right:-30px; width:120px; height:120px; border-radius:50%; background:radial-gradient(circle, rgba(252,211,77,0.2) 0%, transparent 70%); pointer-events:none;"></div>
+      <div style="display:flex; justify-content:space-between; align-items:center; position:relative;">
+        <div>
+          <div style="font-size:10px; font-weight:800; color:#FCD34D; letter-spacing:0.15em;">HAHOE SHOP</div>
+          <div style="font-size:18px; font-weight:900; letter-spacing:-0.02em; margin-top:2px;">🏪 하회 상점</div>
+        </div>
+        <div style="background:rgba(252,211,77,0.15); border:1px solid rgba(252,211,77,0.4); border-radius:10px; padding:6px 12px; text-align:center;">
+          <div style="font-size:9px; color:#FCD34D; font-weight:800;">보유 코인</div>
+          <div style="font-size:18px; font-weight:900; color:#FCD34D;">🪙 ${coins}</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 💰 월간 예산 카드 -->
+    <div style="background:white; border:1px solid rgba(0,0,0,0.08); border-radius:14px; padding:13px 14px; margin-bottom:12px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:7px;">
+        <div style="display:flex; align-items:center; gap:5px;">
+          <span style="font-size:13px;">💰</span>
+          <span style="font-size:11.5px; font-weight:900; color:var(--ink);">${monthDisplay}월 현실 상품 예산</span>
+        </div>
+        <span style="font-size:10px; font-weight:800; color:${barColor};">남은 🪙 ${budgetRemain}</span>
+      </div>
+      <div style="background:rgba(0,0,0,0.06); border-radius:8px; height:10px; overflow:hidden; margin-bottom:6px;">
+        <div style="width:${budgetPct}%; height:100%; background:linear-gradient(90deg, ${barColor}, ${barColor}cc); border-radius:8px; transition:width 0.4s ease;"></div>
+      </div>
+      <div style="display:flex; justify-content:space-between; font-size:10px; color:var(--gray); font-weight:700;">
+        <span>🪙 ${budgetSpent} 사용 (${budgetPct}%)</span>
+        <span>월 한도 🪙 ${window.SHOP_MONTHLY_BUDGET} (100만원)</span>
+      </div>
+      ${budgetSoldOut ? `<div style="margin-top:8px; padding:7px 10px; background:rgba(220,38,38,0.1); border:1px solid rgba(220,38,38,0.3); border-radius:8px; font-size:10.5px; color:#DC2626; font-weight:800; text-align:center;">📦 이번 달 현실 상품 매진! 다음 달을 기다려주세요</div>` : 
+        budgetPct >= 80 ? `<div style="margin-top:8px; padding:7px 10px; background:rgba(245,158,11,0.1); border:1px solid rgba(245,158,11,0.3); border-radius:8px; font-size:10.5px; color:#92400E; font-weight:800; text-align:center;">⚠️ 예산 ${100-budgetPct}%만 남았어요!</div>` : ''}
+    </div>
+    
+    ${isAdmin ? `
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:12px;">
+        <button onclick="openShopAdmin()" style="background:linear-gradient(135deg, #F37321, #C2410C); border:none; border-radius:10px; padding:10px; color:white; font-family:inherit; cursor:pointer; font-size:11px; font-weight:900;">⚙️ 상품 관리</button>
+        <button onclick="openShopOrders()" style="background:linear-gradient(135deg, #DC2626, #991B1B); border:none; border-radius:10px; padding:10px; color:white; font-family:inherit; cursor:pointer; font-size:11px; font-weight:900;">📦 발송 대기</button>
+      </div>
+    ` : ''}
+    
+    <!-- 디지털 상품 -->
+    <div style="margin-bottom:14px;">
+      <div style="font-size:11px; font-weight:900; color:var(--accent); letter-spacing:0.1em; margin-bottom:8px; padding-left:4px;">💎 DIGITAL · 즉시 지급</div>
+      <div style="display:flex; flex-direction:column; gap:7px;">`;
+  
+  digital.forEach(item => {
+    const canBuy = coins >= item.price;
+    html += `
+      <div style="background:white; border:1px solid rgba(243,115,33,0.2); border-radius:12px; padding:12px 14px; display:flex; gap:12px; align-items:center;">
+        <div style="font-size:32px; flex-shrink:0;">${item.emoji}</div>
+        <div style="flex:1; min-width:0;">
+          <div style="font-size:13.5px; font-weight:900; color:var(--ink); letter-spacing:-0.02em;">${item.name}</div>
+          <div style="font-size:11px; color:var(--gray); margin-top:2px; line-height:1.4;">${item.desc || ''}</div>
+        </div>
+        <button onclick="buyShopItem('${item.id}')" ${canBuy ? '' : 'disabled'} style="background:${canBuy ? 'linear-gradient(135deg, #FCD34D, #F59E0B)' : 'rgba(0,0,0,0.06)'}; color:${canBuy ? '#92400E' : 'var(--gray)'}; border:none; border-radius:8px; padding:8px 14px; font-family:inherit; font-size:12px; font-weight:900; cursor:${canBuy ? 'pointer' : 'not-allowed'}; flex-shrink:0; white-space:nowrap;">🪙 ${item.price}</button>
+      </div>`;
+  });
+  
+  html += `
+      </div>
+    </div>
+    
+    <!-- 현실 상품 -->
+    <div style="margin-bottom:14px;">
+      <div style="font-size:11px; font-weight:900; color:#059669; letter-spacing:0.1em; margin-bottom:8px; padding-left:4px;">🎁 REAL · 지점장 발송</div>
+      <div style="display:flex; flex-direction:column; gap:7px;">`;
+  
+  real.forEach(item => {
+    const enoughCoins = coins >= item.price;
+    const enoughBudget = budgetRemain >= item.price;
+    const canBuy = enoughCoins && enoughBudget;
+    let btnLabel = `🪙 ${item.price}`;
+    let btnBg = canBuy ? 'linear-gradient(135deg, #10B981, #059669)' : 'rgba(0,0,0,0.06)';
+    let btnColor = canBuy ? 'white' : 'var(--gray)';
+    if (!enoughBudget && enoughCoins) {
+      btnLabel = `🔒 ${item.price}`;
+      btnBg = 'rgba(220,38,38,0.1)';
+      btnColor = '#DC2626';
+    }
+    html += `
+      <div style="background:white; border:1px solid rgba(16,185,129,0.2); border-radius:12px; padding:12px 14px; display:flex; gap:12px; align-items:center; ${!enoughBudget ? 'opacity:0.6;' : ''}">
+        <div style="font-size:32px; flex-shrink:0;">${item.emoji}</div>
+        <div style="flex:1; min-width:0;">
+          <div style="font-size:13.5px; font-weight:900; color:var(--ink); letter-spacing:-0.02em;">${item.name}</div>
+          <div style="font-size:11px; color:var(--gray); margin-top:2px; line-height:1.4;">${item.desc || ''}${!enoughBudget ? ` <span style="color:#DC2626; font-weight:800;">· 이번 달 예산 부족</span>` : ''}</div>
+        </div>
+        <button onclick="buyShopItem('${item.id}')" ${canBuy ? '' : 'disabled'} style="background:${btnBg}; color:${btnColor}; border:none; border-radius:8px; padding:8px 14px; font-family:inherit; font-size:12px; font-weight:900; cursor:${canBuy ? 'pointer' : 'not-allowed'}; flex-shrink:0; white-space:nowrap;">${btnLabel}</button>
+      </div>`;
+  });
+  
+  html += `
+      </div>
+    </div>
+    
+    <!-- 내 구매 내역 -->
+    <div>
+      <div style="font-size:11px; font-weight:900; color:var(--ink); letter-spacing:0.1em; margin-bottom:8px; padding-left:4px;">📋 내 구매 내역</div>`;
+  
+  if (myPurchases.length === 0) {
+    html += `<div style="background:rgba(0,0,0,0.03); border-radius:10px; padding:16px; text-align:center; font-size:12px; color:var(--gray);">아직 구매 내역이 없어요</div>`;
+  } else {
+    html += `<div style="display:flex; flex-direction:column; gap:5px;">`;
+    myPurchases.slice(0, 10).forEach(p => {
+      let badge = '';
+      if (p.status === 'completed') badge = `<span style="font-size:9px; font-weight:800; color:#10B981; background:rgba(16,185,129,0.12); padding:2px 7px; border-radius:5px;">✅ 완료</span>`;
+      else if (p.status === 'pending') badge = `<span style="font-size:9px; font-weight:800; color:#F59E0B; background:rgba(245,158,11,0.12); padding:2px 7px; border-radius:5px;">📦 발송 대기</span>`;
+      else if (p.status === 'delivered') badge = `<span style="font-size:9px; font-weight:800; color:#3B82F6; background:rgba(59,130,246,0.12); padding:2px 7px; border-radius:5px;">🎁 발송 완료</span>`;
+      
+      const d = new Date(p.purchasedAt);
+      const dateStr = `${d.getMonth()+1}/${d.getDate()}`;
+      
+      html += `<div style="background:white; border:1px solid rgba(0,0,0,0.06); border-radius:8px; padding:8px 12px; display:flex; align-items:center; gap:8px;">
+        <span style="font-size:16px;">${p.itemEmoji || '🎁'}</span>
+        <span style="font-size:12px; font-weight:700; color:var(--ink); flex:1;">${p.itemName}</span>
+        <span style="font-size:10px; color:#D97706; font-weight:800;">🪙 ${p.price}</span>
+        ${badge}
+        <span style="font-size:10px; color:var(--gray);">${dateStr}</span>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+  
+  html += `</div>`;
+  
+  wrap.innerHTML = html;
+}
+
+// ⚙️ 지점장: 상품 관리 모달
+async function openShopAdmin() {
+  if (!isManager()) return;
+  
+  const items = await loadShopItems();
+  
+  const m = document.createElement('div');
+  m.id = 'shopAdminModal';
+  m.style.cssText = `
+    position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+    z-index: 99998; overflow-y: auto;
+  `;
+  m.addEventListener('click', (e) => { if (e.target === m) m.remove(); });
+  
+  let listHtml = items.map(item => `
+    <div style="background:rgba(0,0,0,0.03); border:1px solid rgba(0,0,0,0.08); border-radius:10px; padding:10px 12px; margin-bottom:6px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+        <div style="display:flex; align-items:center; gap:6px;">
+          <span style="font-size:18px;">${item.emoji}</span>
+          <span style="font-size:13px; font-weight:800; color:var(--ink);">${item.name}</span>
+          <span style="font-size:9px; color:white; background:${item.type === 'digital' ? '#F37321' : '#10B981'}; padding:2px 6px; border-radius:4px; font-weight:800;">${item.type === 'digital' ? '디지털' : '현실'}</span>
+        </div>
+        <div style="display:flex; gap:4px; align-items:center;">
+          <span style="font-size:11px; font-weight:900; color:#D97706;">🪙 ${item.price}</span>
+          <button onclick="editShopItem('${item.id}')" style="background:rgba(0,0,0,0.06); border:none; border-radius:5px; padding:4px 8px; font-size:10px; font-weight:800; cursor:pointer;">수정</button>
+          ${item.id.startsWith('seed_') ? '' : `<button onclick="deleteShopItem('${item.id}')" style="background:rgba(220,38,38,0.1); color:#DC2626; border:none; border-radius:5px; padding:4px 8px; font-size:10px; font-weight:800; cursor:pointer;">삭제</button>`}
+        </div>
+      </div>
+      <div style="font-size:10.5px; color:var(--gray); padding-left:24px;">${item.desc || ''}</div>
+    </div>
+  `).join('');
+  
+  m.innerHTML = `
+    <div style="max-width:600px; margin:0 auto; padding: calc(env(safe-area-inset-top, 0) + 16px) 16px calc(env(safe-area-inset-bottom, 0) + 16px); min-height:100vh; box-sizing:border-box;">
+      <div style="background:white; border-radius:18px; padding:18px; box-shadow:0 12px 40px rgba(0,0,0,0.3);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+          <div>
+            <div style="font-size:11px; color:var(--accent); font-weight:800; letter-spacing:0.05em;">ADMIN</div>
+            <div style="font-size:18px; font-weight:900; letter-spacing:-0.03em;">⚙️ 상품 관리</div>
+          </div>
+          <button onclick="document.getElementById('shopAdminModal').remove()" style="background:rgba(0,0,0,0.12); border:2px solid rgba(0,0,0,0.15); width:48px; height:48px; border-radius:50%; font-size:22px; cursor:pointer; touch-action:manipulation; flex-shrink:0; font-weight:800; color:#1A1A1A;">✕</button>
+        </div>
+        <button onclick="addShopItem()" style="width:100%; background:linear-gradient(135deg, #F37321, #C2410C); border:none; border-radius:10px; padding:11px; color:white; font-family:inherit; font-size:13px; font-weight:900; cursor:pointer; margin-bottom:12px;">➕ 새 상품 추가</button>
+        <div>${listHtml}</div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(m);
+}
+
+// 상품 추가/수정
+async function editShopItem(itemId) {
+  const items = await loadShopItems();
+  const item = items.find(i => i.id === itemId);
+  if (!item) return;
+  showShopItemForm(item);
+}
+
+async function addShopItem() {
+  showShopItemForm(null);
+}
+
+function showShopItemForm(item) {
+  const isEdit = !!item;
+  const m = document.createElement('div');
+  m.id = 'shopItemForm';
+  m.style.cssText = `
+    position: fixed; inset: 0; background: rgba(0,0,0,0.8);
+    z-index: 99999; display: flex; align-items: center; justify-content: center;
+    padding: calc(env(safe-area-inset-top, 0) + 16px) 16px calc(env(safe-area-inset-bottom, 0) + 16px);
+    box-sizing: border-box;
+  `;
+  m.innerHTML = `
+    <div style="background:white; border-radius:18px; padding:20px; max-width:400px; width:100%; max-height:90vh; overflow-y:auto;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+        <div style="font-size:16px; font-weight:900;">${isEdit ? '✏️ 상품 수정' : '➕ 새 상품'}</div>
+        <button onclick="document.getElementById('shopItemForm').remove()" style="background:rgba(0,0,0,0.08); border:none; width:36px; height:36px; border-radius:50%; font-size:16px; cursor:pointer;">✕</button>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <div>
+          <div style="font-size:11px; font-weight:800; margin-bottom:4px;">이모지</div>
+          <input id="siEmoji" type="text" value="${item?.emoji || '🎁'}" placeholder="🎁" style="width:100%; padding:10px; border:1px solid #E5E7EB; border-radius:8px; font-size:18px; text-align:center;">
+        </div>
+        <div>
+          <div style="font-size:11px; font-weight:800; margin-bottom:4px;">상품명 *</div>
+          <input id="siName" type="text" value="${item?.name || ''}" placeholder="예: 스타벅스 5천원권" style="width:100%; padding:10px; border:1px solid #E5E7EB; border-radius:8px; font-size:13px;">
+        </div>
+        <div>
+          <div style="font-size:11px; font-weight:800; margin-bottom:4px;">설명</div>
+          <input id="siDesc" type="text" value="${item?.desc || ''}" placeholder="간단 설명" style="width:100%; padding:10px; border:1px solid #E5E7EB; border-radius:8px; font-size:13px;">
+        </div>
+        <div>
+          <div style="font-size:11px; font-weight:800; margin-bottom:4px;">가격 (코인) *</div>
+          <input id="siPrice" type="number" value="${item?.price || 10}" min="1" style="width:100%; padding:10px; border:1px solid #E5E7EB; border-radius:8px; font-size:13px;">
+        </div>
+        <div>
+          <div style="font-size:11px; font-weight:800; margin-bottom:4px;">종류</div>
+          <select id="siType" style="width:100%; padding:10px; border:1px solid #E5E7EB; border-radius:8px; font-size:13px;">
+            <option value="digital" ${item?.type === 'digital' ? 'selected' : ''}>디지털 (즉시 처리)</option>
+            <option value="real" ${item?.type === 'real' ? 'selected' : ''}>현실 (지점장 발송)</option>
+          </select>
+        </div>
+        <button onclick="saveShopItem('${item?.id || ''}')" style="background:linear-gradient(135deg, #F37321, #C2410C); border:none; border-radius:10px; padding:13px; color:white; font-family:inherit; font-size:14px; font-weight:900; cursor:pointer; margin-top:6px;">💾 저장</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(m);
+}
+
+async function saveShopItem(existingId) {
+  const emoji = document.getElementById('siEmoji').value.trim() || '🎁';
+  const name = document.getElementById('siName').value.trim();
+  const desc = document.getElementById('siDesc').value.trim();
+  const price = parseInt(document.getElementById('siPrice').value, 10);
+  const type = document.getElementById('siType').value;
+  
+  if (!name || !price || price < 1) { alert('상품명과 가격을 확인해주세요'); return; }
+  
+  try {
+    const { db, doc, setDoc, collection, addDoc } = window._fb;
+    const data = { emoji, name, desc, price, type, updatedAt: Date.now() };
+    
+    if (existingId) {
+      // 시드 상품도 수정하면 Firestore에 저장
+      await setDoc(doc(db, 'shop_items', existingId), data, { merge: true });
+    } else {
+      data.createdAt = Date.now();
+      await addDoc(collection(db, 'shop_items'), data);
+    }
+    
+    document.getElementById('shopItemForm').remove();
+    document.getElementById('shopAdminModal').remove();
+    openShopAdmin();  // 다시 열기
+  } catch(e) { alert('저장 실패: ' + e.message); }
+}
+
+async function deleteShopItem(itemId) {
+  if (!confirm('이 상품을 삭제하시겠어요?')) return;
+  try {
+    const { db, doc, deleteDoc } = window._fb;
+    await deleteDoc(doc(db, 'shop_items', itemId));
+    document.getElementById('shopAdminModal').remove();
+    openShopAdmin();
+  } catch(e) { alert('삭제 실패: ' + e.message); }
+}
+
+// 📦 지점장: 발송 대기 목록
+async function openShopOrders() {
+  if (!isManager()) return;
+  
+  const [pending, budgetInfo] = await Promise.all([
+    loadPendingPurchases(),
+    getMonthlyRealSpent(),
+  ]);
+  const spent = budgetInfo.total || 0;
+  const remain = window.SHOP_MONTHLY_BUDGET - spent;
+  const pct = Math.min(100, Math.round(spent / window.SHOP_MONTHLY_BUDGET * 100));
+  const monthDisplay = new Date().getMonth() + 1;
+  
+  // 색
+  let barColor = '#10B981';
+  if (pct >= 95) barColor = '#DC2626';
+  else if (pct >= 80) barColor = '#F59E0B';
+  else if (pct >= 50) barColor = '#3B82F6';
+  
+  // 항목별 카운트
+  let byItemHtml = '';
+  const byItem = budgetInfo.byItem || {};
+  if (Object.keys(byItem).length > 0) {
+    byItemHtml = `<div style="font-size:10px; color:var(--gray); margin-top:5px;">${Object.entries(byItem).map(([n, c]) => `${n} ${c}건`).join(' · ')}</div>`;
+  }
+  
+  const m = document.createElement('div');
+  m.id = 'shopOrdersModal';
+  m.style.cssText = `
+    position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+    z-index: 99998; overflow-y: auto;
+  `;
+  m.addEventListener('click', (e) => { if (e.target === m) m.remove(); });
+  
+  let listHtml = '';
+  if (pending.length === 0) {
+    listHtml = `<div style="text-align:center; padding:30px; color:var(--gray); font-size:13px;">📭 발송 대기 중인 주문이 없어요</div>`;
+  } else {
+    listHtml = pending.map(p => {
+      const d = new Date(p.purchasedAt);
+      const dateStr = `${d.getMonth()+1}/${d.getDate()} ${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')}`;
+      return `
+        <div style="background:rgba(0,0,0,0.03); border:1px solid rgba(0,0,0,0.08); border-radius:10px; padding:12px; margin-bottom:7px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+            <div style="display:flex; align-items:center; gap:6px;">
+              <span style="font-size:20px;">${p.itemEmoji || '🎁'}</span>
+              <span style="font-size:13.5px; font-weight:800;">${p.itemName}</span>
+            </div>
+            <span style="font-size:10px; color:#D97706; font-weight:800;">🪙 ${p.price}</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="font-size:11px; color:var(--gray);">👤 ${p.buyerName} · ${dateStr}</div>
+            <button onclick="markDelivered('${p.id}')" style="background:linear-gradient(135deg, #10B981, #059669); color:white; border:none; border-radius:6px; padding:6px 12px; font-family:inherit; font-size:11px; font-weight:900; cursor:pointer;">✅ 발송 완료</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+  
+  m.innerHTML = `
+    <div style="max-width:600px; margin:0 auto; padding: calc(env(safe-area-inset-top, 0) + 16px) 16px calc(env(safe-area-inset-bottom, 0) + 16px); min-height:100vh; box-sizing:border-box;">
+      <div style="background:white; border-radius:18px; padding:18px; box-shadow:0 12px 40px rgba(0,0,0,0.3);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+          <div>
+            <div style="font-size:11px; color:#DC2626; font-weight:800; letter-spacing:0.05em;">ORDERS</div>
+            <div style="font-size:18px; font-weight:900; letter-spacing:-0.03em;">📦 발송 대기 (${pending.length})</div>
+          </div>
+          <button onclick="document.getElementById('shopOrdersModal').remove()" style="background:rgba(0,0,0,0.12); border:2px solid rgba(0,0,0,0.15); width:48px; height:48px; border-radius:50%; font-size:22px; cursor:pointer; flex-shrink:0; font-weight:800; color:#1A1A1A;">✕</button>
+        </div>
+        
+        <!-- 💰 월간 예산 카드 -->
+        <div style="background:linear-gradient(135deg, #FFFBEB, rgba(252,211,77,0.15)); border:1px solid rgba(252,211,77,0.4); border-radius:12px; padding:12px 14px; margin-bottom:14px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <div style="font-size:11px; font-weight:900; color:#92400E;">💰 ${monthDisplay}월 예산 (현실 상품)</div>
+            <div style="font-size:11px; font-weight:900; color:${barColor};">남은 🪙 ${remain} (${(remain * 1000).toLocaleString()}원)</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.06); border-radius:8px; height:10px; overflow:hidden; margin-bottom:6px;">
+            <div style="width:${pct}%; height:100%; background:linear-gradient(90deg, ${barColor}, ${barColor}cc); border-radius:8px;"></div>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:10px; color:#78350F; font-weight:700;">
+            <span>🪙 ${spent} 사용 (${pct}%)</span>
+            <span>한도 🪙 ${window.SHOP_MONTHLY_BUDGET} (100만원)</span>
+          </div>
+          ${byItemHtml}
+        </div>
+        
+        ${listHtml}
+      </div>
+    </div>
+  `;
+  document.body.appendChild(m);
+}
+
+// 발송 완료 처리
+async function markDelivered(purchaseId) {
+  try {
+    const { db, doc, setDoc } = window._fb;
+    await setDoc(doc(db, 'shop_purchases', purchaseId), {
+      status: 'delivered',
+      deliveredAt: Date.now(),
+    }, { merge: true });
+    
+    document.getElementById('shopOrdersModal').remove();
+    openShopOrders();
+  } catch(e) { alert('처리 실패: ' + e.message); }
+}
+
+window.loadShopItems = loadShopItems;
+window.buyShopItem = buyShopItem;
+window.renderShop = renderShop;
+window.openShopAdmin = openShopAdmin;
+window.openShopOrders = openShopOrders;
+window.addShopItem = addShopItem;
+window.editShopItem = editShopItem;
+window.saveShopItem = saveShopItem;
+window.deleteShopItem = deleteShopItem;
+window.markDelivered = markDelivered;
+window.addBonusBox = addBonusBox;
+window.addLuckyBox = addLuckyBox;
+
+// ============================================
+//          💰 월간 예산 시스템 (현실 상품 한도)
+// ============================================
+
+window.SHOP_MONTHLY_BUDGET = 1000;  // 월 1000코인 (100만원)
+
+// 이번 달 키 (예: 2026-05)
+function getShopMonthKey() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+}
+
+// 이번 달 현실 상품 사용 코인 합계
+async function getMonthlyRealSpent() {
+  if (!window._fb) return 0;
+  try {
+    const { db, collection, getDocs, query, where } = window._fb;
+    const monthKey = getShopMonthKey();
+    const startOfMonth = new Date();
+    startOfMonth.setDate(1);
+    startOfMonth.setHours(0, 0, 0, 0);
+    
+    const q = query(
+      collection(db, 'shop_purchases'),
+      where('type', '==', 'real'),
+      where('purchasedAt', '>=', startOfMonth.getTime())
+    );
+    const snap = await getDocs(q);
+    
+    let total = 0;
+    const byItem = {};
+    snap.forEach(d => {
+      const data = d.data();
+      total += (data.price || 0);
+      const key = data.itemName || '기타';
+      byItem[key] = (byItem[key] || 0) + 1;
+    });
+    return { total, byItem };
+  } catch(e) {
+    console.warn('예산 조회 실패:', e);
+    return { total: 0, byItem: {} };
+  }
+}
+
+window.getMonthlyRealSpent = getMonthlyRealSpent;
+window.getShopMonthKey = getShopMonthKey;
 window.renderMissionCard = renderMissionCard;
 window.openMissionAdmin = openMissionAdmin;
 window.switchAdminTab = switchAdminTab;
