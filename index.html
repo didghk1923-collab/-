@@ -1145,6 +1145,92 @@ input#bojangGeongang::-webkit-inner-spin-button {
   50% { box-shadow: 0 4px 24px rgba(245,158,11,0.7), 0 0 16px rgba(252,211,77,0.5); }
 }
 
+/* === 🎁 메인 중앙 박스 팝업 === */
+.center-box-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.75);
+  z-index: 9999;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  animation: fadeInOverlay 0.3s ease-out;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+@keyframes fadeInOverlay {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.center-box-card {
+  background: linear-gradient(160deg, #FFF8E7 0%, #FCE4D0 100%);
+  border-radius: 24px;
+  padding: 30px 24px 24px;
+  text-align: center;
+  max-width: 340px; width: 100%;
+  box-shadow: 0 20px 60px rgba(243,115,33,0.4), 0 0 0 4px rgba(252,211,77,0.5);
+  animation: slideUpBounce 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+}
+@keyframes slideUpBounce {
+  0% { transform: translateY(80px) scale(0.7); opacity: 0; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+.center-box-close {
+  position: absolute; top: 12px; right: 12px;
+  background: rgba(0,0,0,0.08); border: none;
+  width: 32px; height: 32px; border-radius: 50%;
+  font-size: 16px; font-weight: 900; color: #6B7280;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.center-box-close:active { transform: scale(0.9); }
+.center-box-tag {
+  display: inline-block;
+  background: linear-gradient(135deg, #F37321, #C2410C);
+  color: white; font-size: 10px; font-weight: 900;
+  padding: 4px 12px; border-radius: 100px;
+  letter-spacing: 0.1em; margin-bottom: 12px;
+}
+.center-box-icon {
+  font-size: 96px; line-height: 1;
+  display: inline-block;
+  animation: boxShake 1.4s ease-in-out infinite;
+  filter: drop-shadow(0 8px 24px rgba(243,115,33,0.4));
+}
+@keyframes boxShake {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  20% { transform: rotate(-8deg) scale(1.05); }
+  40% { transform: rotate(8deg) scale(1.05); }
+  60% { transform: rotate(-6deg) scale(1.03); }
+  80% { transform: rotate(6deg) scale(1.03); }
+}
+.center-box-title {
+  font-size: 24px; font-weight: 900; color: #1A1A1A;
+  letter-spacing: -0.03em; margin-top: 16px;
+  background: linear-gradient(135deg, #F37321, #C2410C);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.center-box-sub {
+  font-size: 13px; font-weight: 700; color: #6B7280;
+  margin-top: 6px; letter-spacing: -0.02em;
+}
+.center-box-btn {
+  width: 100%; margin-top: 22px;
+  background: linear-gradient(135deg, #F37321 0%, #C2410C 100%);
+  color: white; border: none;
+  border-radius: 14px; padding: 16px;
+  font-family: inherit; font-size: 16px; font-weight: 900;
+  letter-spacing: -0.02em; cursor: pointer;
+  box-shadow: 0 6px 20px rgba(243,115,33,0.5);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.center-box-btn:active { transform: scale(0.97); }
+.center-box-skip {
+  background: transparent; border: none; color: #9CA3AF;
+  font-family: inherit; font-size: 12px; font-weight: 700;
+  margin-top: 10px; cursor: pointer; padding: 6px;
+}
+
 /* === 3시간 박스 === */
 .hourly-box {
   display: inline-flex; align-items: center; gap: 6px;
@@ -4657,9 +4743,11 @@ function saveBoxResult(key, item, opts) {
     const stats = loadBoxStats();
     stats.total = (stats.total || 0) + 1;
     if (item === '롤팩 1개') stats.roll = (stats.roll || 0) + 1;
+    else if (item === '손가방 1개') stats.bag = (stats.bag || 0) + 1;
     else if (item === '몽글행주 1개') stats.mongle = (stats.mongle || 0) + 1;
+    else if (item === '고급와인 1병') stats.wine = (stats.wine || 0) + 1;
     else if (item === '꽝') stats.miss = (stats.miss || 0) + 1;
-    else if (item === '특별한 지점장의 선물') stats.special = (stats.special || 0) + 1;
+    else if (item === '고급블랜더' || item === '특별한 지점장의 선물') stats.special = (stats.special || 0) + 1;
     stats.lastAt = Date.now();
     if (!stats.firstAt) stats.firstAt = Date.now();
     localStorage.setItem('hahoeBox_stats', JSON.stringify(stats));
@@ -4726,14 +4814,17 @@ function openBoxBy(key) {
   if (isLucky) {
     localStorage.setItem('lucky_boxes', String(luckyBoxes - 1));
   }
-  const jackpotRate = isLucky ? 0.02 : 0.01;  // 2% or 1%
+  // 기본 확률: 롤팩40 / 손가방30 / 몽글20 / 와인5 / 꽝4 / 블랜더1
+  // 럭키: 블랜더 2배 (1→2), 꽝에서 1 차감
+  const jackpotRate = isLucky ? 0.02 : 0.01;
+  const blankRate = isLucky ? 0.03 : 0.04;
   
-  // 확률 추첨: 40% 롤팩 / 10% 몽글행주 / (1~2)% 잭팟 / 나머지 꽝
   const roll = Math.random();
   const stamp = getNowStamp();
   const luckyMark = isLucky ? `<div style="font-size:10px; color:#F59E0B; font-weight:800; margin-top:6px;">⭐ 럭키 박스 효과 적용!</div>` : '';
   const stampNote = `<div style="font-size:10px; color:#9CA3AF; font-weight:700; margin-top:10px; font-variant-numeric:tabular-nums;">${stamp}</div>${luckyMark}`;
   
+  // 누적 임계값: 롤팩 0.40, 손가방 0.70, 몽글 0.90, 와인 0.95, 꽝 0.95+blank(0.99/0.98), 나머지 잭팟
   let item, opts;
   if (roll < 0.40) {
     item = '롤팩 1개';
@@ -4744,7 +4835,16 @@ function openBoxBy(key) {
       color: 'var(--accent)',
       note: '심지점장에게<br>직접 받으러 오세요 ~' + stampNote,
     };
-  } else if (roll < 0.50) {
+  } else if (roll < 0.70) {
+    item = '손가방 1개';
+    opts = {
+      emoji: '👜',
+      title: '🎉 당첨! 🎉',
+      suffix: '당첨!',
+      color: 'var(--accent)',
+      note: '심지점장에게<br>직접 받으러 오세요 ~' + stampNote,
+    };
+  } else if (roll < 0.90) {
     item = '몽글행주 1개';
     opts = {
       emoji: '🧽',
@@ -4753,23 +4853,32 @@ function openBoxBy(key) {
       color: 'var(--accent)',
       note: '심지점장에게<br>직접 받으러 오세요 ~' + stampNote,
     };
-  } else if (roll < (1 - jackpotRate)) {
+  } else if (roll < 0.95) {
+    item = '고급와인 1병';
+    opts = {
+      emoji: '🍷',
+      title: '🍷 고급와인 당첨! 🍷',
+      suffix: '당첨!',
+      color: '#7C2D12',
+      note: '5% 확률! 심지점장에게<br>직접 받으러 오세요 ~' + stampNote,
+    };
+  } else if (roll < (0.95 + blankRate)) {
     item = '꽝';
     opts = {
       emoji: '😅',
       title: '아쉽네요',
       suffix: '',
       color: '#9CA3AF',
-      note: '24시간 뒤<br>다시 도전하세요!',
+      note: '3시간 뒤<br>다시 도전하세요!',
     };
   } else {
-    item = '특별한 지점장의 선물';
+    item = '고급블랜더';
     opts = {
-      emoji: '🎁',
+      emoji: '✨',
       title: isLucky ? '✨ 2% 럭키 잭팟! ✨' : '✨ 1% 잭팟! ✨',
       suffix: '당첨!',
       color: '#F37321',
-      note: '심지점장에게 직접 받으러 오세요!<br><span style="font-size:11px; opacity:0.7;">선물 내용은 비밀 🤫</span>' + stampNote,
+      note: '🎉 고급블랜더 당첨!<br>심지점장에게 직접 받으러 오세요!' + stampNote,
     };
   }
   
@@ -4779,7 +4888,7 @@ function openBoxBy(key) {
   if (typeof renderBoxStatsCard === 'function') renderBoxStatsCard();
   
   // 🎮 EXP 적립
-  if (item === '특별한 지점장의 선물') {
+  if (item === '고급블랜더') {
     addExp('box_jackpot', 500);  // 잭팟 +500
   } else if (item === '꽝') {
     addExp('box_open', 10);  // 꽝도 +10 (도전상)
@@ -4788,7 +4897,7 @@ function openBoxBy(key) {
   }
   
   // 🎲 당첨 시 더블 도전 기회 (꽝/잭팟은 제외)
-  if (item === '롤팩 1개' || item === '몽글행주 1개') {
+  if (item === '롤팩 1개' || item === '손가방 1개' || item === '몽글행주 1개' || item === '고급와인 1병') {
     showDoubleChance(key, item, opts);
   } else {
     // 꽝/잭팟은 바로 결과 표시
@@ -4978,7 +5087,9 @@ function tryDouble(data) {
           const stats = loadBoxStats();
           // 8배는 원래 1배 카운트 + 추가 7개
           if (data.originalItem.includes('롤팩')) stats.roll = (stats.roll || 0) + 7;
+          else if (data.originalItem.includes('손가방')) stats.bag = (stats.bag || 0) + 7;
           else if (data.originalItem.includes('몽글')) stats.mongle = (stats.mongle || 0) + 7;
+          else if (data.originalItem.includes('와인')) stats.wine = (stats.wine || 0) + 7;
           localStorage.setItem('hahoeBox_stats', JSON.stringify(stats));
         } catch(e) {}
         addExp('box_jackpot', 200);  // 8배는 특별 보너스
@@ -4992,7 +5103,9 @@ function tryDouble(data) {
           const stats = loadBoxStats();
           const addQty = newQty - data.currentQty; // 추가된 만큼
           if (data.originalItem.includes('롤팩')) stats.roll = (stats.roll || 0) + addQty;
+          else if (data.originalItem.includes('손가방')) stats.bag = (stats.bag || 0) + addQty;
           else if (data.originalItem.includes('몽글')) stats.mongle = (stats.mongle || 0) + addQty;
+          else if (data.originalItem.includes('와인')) stats.wine = (stats.wine || 0) + addQty;
           localStorage.setItem('hahoeBox_stats', JSON.stringify(stats));
         } catch(e) {}
         addExp('box_win', 30);  // 보너스 EXP
@@ -5016,7 +5129,9 @@ function tryDouble(data) {
       try {
         const stats = loadBoxStats();
         if (data.originalItem.includes('롤팩')) stats.roll = Math.max(0, (stats.roll || 0) - data.currentQty);
+        else if (data.originalItem.includes('손가방')) stats.bag = Math.max(0, (stats.bag || 0) - data.currentQty);
         else if (data.originalItem.includes('몽글')) stats.mongle = Math.max(0, (stats.mongle || 0) - data.currentQty);
+        else if (data.originalItem.includes('와인')) stats.wine = Math.max(0, (stats.wine || 0) - data.currentQty);
         stats.miss = (stats.miss || 0) + 1;
         localStorage.setItem('hahoeBox_stats', JSON.stringify(stats));
       } catch(e) {}
@@ -5033,6 +5148,67 @@ window.tryDouble = tryDouble;
 
 // 호환용: 헤더 버튼이 onclick="openHourlyBox()"로 부르고 있으니 별칭 제공
 function openHourlyBox() { openBoxBy('hahoeBox_header'); }
+
+// 🎁 메인 진입 시 중앙 큰 박스 팝업 (박스 가능할 때만)
+function showCenterBoxPopup() {
+  // 이미 열려있으면 중복 방지
+  if (document.getElementById('centerBoxOverlay')) return;
+  
+  // 박스 상태 확인 - 쿨다운 끝났고 시간대 맞을 때만
+  const st = getBoxState('hahoeBox_header');
+  if (!st.ready) return;
+  if (!isBoxTimeAllowed()) return;
+  
+  // 오늘 이미 봤으면 스킵 (날짜 기준)
+  const today = new Date().toISOString().slice(0,10);
+  const lastShown = localStorage.getItem('centerBoxPopup_lastShown');
+  if (lastShown === today) return;
+  
+  const overlay = document.createElement('div');
+  overlay.id = 'centerBoxOverlay';
+  overlay.className = 'center-box-overlay';
+  overlay.innerHTML = `
+    <div class="center-box-card">
+      <button class="center-box-close" onclick="closeCenterBoxPopup()" aria-label="닫기">✕</button>
+      <div class="center-box-tag">🎁 박스 도착!</div>
+      <div style="margin-top:8px;">
+        <span class="center-box-icon">🎁</span>
+      </div>
+      <div class="center-box-title">선물박스가 왔어요!</div>
+      <div class="center-box-sub">3시간마다 도전 가능 · 95% 당첨률</div>
+      <button class="center-box-btn" onclick="openBoxFromCenterPopup()">
+        <span>🎲</span><span>박스 열기</span>
+      </button>
+      <button class="center-box-skip" onclick="closeCenterBoxPopup()">오늘은 그만 보기</button>
+    </div>
+  `;
+  // 배경 탭으로 닫기
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) closeCenterBoxPopup();
+  });
+  document.body.appendChild(overlay);
+}
+
+function closeCenterBoxPopup() {
+  const overlay = document.getElementById('centerBoxOverlay');
+  if (overlay) {
+    overlay.style.animation = 'fadeInOverlay 0.2s ease-out reverse';
+    setTimeout(() => overlay.remove(), 180);
+  }
+  // 오늘 본 거 기록
+  const today = new Date().toISOString().slice(0,10);
+  localStorage.setItem('centerBoxPopup_lastShown', today);
+}
+
+function openBoxFromCenterPopup() {
+  closeCenterBoxPopup();
+  setTimeout(() => openHourlyBox(), 250);
+}
+
+window.showCenterBoxPopup = showCenterBoxPopup;
+window.closeCenterBoxPopup = closeCenterBoxPopup;
+window.openBoxFromCenterPopup = openBoxFromCenterPopup;
+
 
 // 1초마다 모든 박스 카운트다운 갱신
 setInterval(renderAllBoxes, 1000);
@@ -6405,6 +6581,11 @@ function doLoginSuccess(name) {
     if (typeof syncLevelToFirebase === 'function') {
       syncLevelToFirebase(getUserStats());
     }
+    
+    // 🎁 메인 진입 시 중앙 박스 팝업 (박스 가능할 때만, 0.6초 후)
+    setTimeout(() => {
+      if (typeof showCenterBoxPopup === 'function') showCenterBoxPopup();
+    }, 600);
   })();
 }
 
@@ -6454,6 +6635,11 @@ function checkLoginOnStart() {
                   await autoGenerateMissions();
                   if (typeof renderMissionCard === 'function') renderMissionCard();
                 }
+                
+                // 🎁 메인 진입 시 중앙 박스 팝업
+                setTimeout(() => {
+                  if (typeof showCenterBoxPopup === 'function') showCenterBoxPopup();
+                }, 600);
               })();
             } else {
               setTimeout(syncWhenReady, 500);
@@ -6584,10 +6770,12 @@ function renderBoxStatsCard() {
   
   const total = stats.total;
   const roll = stats.roll || 0;
+  const bag = stats.bag || 0;
   const mongle = stats.mongle || 0;
+  const wine = stats.wine || 0;
   const miss = stats.miss || 0;
   const special = stats.special || 0;
-  const winTotal = roll + mongle + special;
+  const winTotal = roll + bag + mongle + wine + special;
   const winRate = total > 0 ? Math.round((winTotal / total) * 100) : 0;
   
   // 행운 지수 (당첨률 기준 멘트)
@@ -6648,31 +6836,41 @@ function renderBoxStatsCard() {
       </div>
       
       <!-- 상품별 -->
-      <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:5px;">
-        <div style="background:${roll > 0 ? 'rgba(243,115,33,0.1)' : 'rgba(0,0,0,0.03)'}; border:1px solid ${roll > 0 ? 'rgba(243,115,33,0.2)' : 'rgba(0,0,0,0.06)'}; border-radius:8px; padding:7px 4px; text-align:center;">
-          <div style="font-size:16px; line-height:1;">🎉</div>
-          <div style="font-size:14px; font-weight:900; color:${roll > 0 ? 'var(--accent)' : '#9CA3AF'}; letter-spacing:-0.03em; margin-top:3px; line-height:1;">${roll}</div>
-          <div style="font-size:8.5px; font-weight:700; color:var(--gray); margin-top:2px; line-height:1;">롤팩</div>
+      <div style="display:grid; grid-template-columns:repeat(6, 1fr); gap:4px;">
+        <div style="background:${roll > 0 ? 'rgba(243,115,33,0.1)' : 'rgba(0,0,0,0.03)'}; border:1px solid ${roll > 0 ? 'rgba(243,115,33,0.2)' : 'rgba(0,0,0,0.06)'}; border-radius:8px; padding:7px 2px; text-align:center;">
+          <div style="font-size:15px; line-height:1;">🎉</div>
+          <div style="font-size:13px; font-weight:900; color:${roll > 0 ? 'var(--accent)' : '#9CA3AF'}; letter-spacing:-0.03em; margin-top:3px; line-height:1;">${roll}</div>
+          <div style="font-size:8px; font-weight:700; color:var(--gray); margin-top:2px; line-height:1;">롤팩</div>
         </div>
-        <div style="background:${mongle > 0 ? 'rgba(16,185,129,0.1)' : 'rgba(0,0,0,0.03)'}; border:1px solid ${mongle > 0 ? 'rgba(16,185,129,0.2)' : 'rgba(0,0,0,0.06)'}; border-radius:8px; padding:7px 4px; text-align:center;">
-          <div style="font-size:16px; line-height:1;">🧽</div>
-          <div style="font-size:14px; font-weight:900; color:${mongle > 0 ? '#059669' : '#9CA3AF'}; letter-spacing:-0.03em; margin-top:3px; line-height:1;">${mongle}</div>
-          <div style="font-size:8.5px; font-weight:700; color:var(--gray); margin-top:2px; line-height:1;">몽글</div>
+        <div style="background:${bag > 0 ? 'rgba(139,92,246,0.1)' : 'rgba(0,0,0,0.03)'}; border:1px solid ${bag > 0 ? 'rgba(139,92,246,0.2)' : 'rgba(0,0,0,0.06)'}; border-radius:8px; padding:7px 2px; text-align:center;">
+          <div style="font-size:15px; line-height:1;">👜</div>
+          <div style="font-size:13px; font-weight:900; color:${bag > 0 ? '#7C3AED' : '#9CA3AF'}; letter-spacing:-0.03em; margin-top:3px; line-height:1;">${bag}</div>
+          <div style="font-size:8px; font-weight:700; color:var(--gray); margin-top:2px; line-height:1;">손가방</div>
         </div>
-        <div style="background:${special > 0 ? 'linear-gradient(135deg, rgba(252,211,77,0.2), rgba(243,115,33,0.2))' : 'rgba(0,0,0,0.03)'}; border:1px solid ${special > 0 ? 'rgba(243,115,33,0.3)' : 'rgba(0,0,0,0.06)'}; border-radius:8px; padding:7px 4px; text-align:center;">
-          <div style="font-size:16px; line-height:1;">🎁</div>
-          <div style="font-size:14px; font-weight:900; color:${special > 0 ? 'var(--accent)' : '#9CA3AF'}; letter-spacing:-0.03em; margin-top:3px; line-height:1;">${special}</div>
-          <div style="font-size:8.5px; font-weight:700; color:var(--gray); margin-top:2px; line-height:1;">잭팟</div>
+        <div style="background:${mongle > 0 ? 'rgba(16,185,129,0.1)' : 'rgba(0,0,0,0.03)'}; border:1px solid ${mongle > 0 ? 'rgba(16,185,129,0.2)' : 'rgba(0,0,0,0.06)'}; border-radius:8px; padding:7px 2px; text-align:center;">
+          <div style="font-size:15px; line-height:1;">🧽</div>
+          <div style="font-size:13px; font-weight:900; color:${mongle > 0 ? '#059669' : '#9CA3AF'}; letter-spacing:-0.03em; margin-top:3px; line-height:1;">${mongle}</div>
+          <div style="font-size:8px; font-weight:700; color:var(--gray); margin-top:2px; line-height:1;">몽글</div>
         </div>
-        <div style="background:rgba(0,0,0,0.03); border:1px solid rgba(0,0,0,0.06); border-radius:8px; padding:7px 4px; text-align:center;">
-          <div style="font-size:16px; line-height:1;">😅</div>
-          <div style="font-size:14px; font-weight:900; color:#9CA3AF; letter-spacing:-0.03em; margin-top:3px; line-height:1;">${miss}</div>
-          <div style="font-size:8.5px; font-weight:700; color:var(--gray); margin-top:2px; line-height:1;">꽝</div>
+        <div style="background:${wine > 0 ? 'rgba(124,45,18,0.12)' : 'rgba(0,0,0,0.03)'}; border:1px solid ${wine > 0 ? 'rgba(124,45,18,0.25)' : 'rgba(0,0,0,0.06)'}; border-radius:8px; padding:7px 2px; text-align:center;">
+          <div style="font-size:15px; line-height:1;">🍷</div>
+          <div style="font-size:13px; font-weight:900; color:${wine > 0 ? '#7C2D12' : '#9CA3AF'}; letter-spacing:-0.03em; margin-top:3px; line-height:1;">${wine}</div>
+          <div style="font-size:8px; font-weight:700; color:var(--gray); margin-top:2px; line-height:1;">와인</div>
+        </div>
+        <div style="background:${special > 0 ? 'linear-gradient(135deg, rgba(252,211,77,0.2), rgba(243,115,33,0.2))' : 'rgba(0,0,0,0.03)'}; border:1px solid ${special > 0 ? 'rgba(243,115,33,0.3)' : 'rgba(0,0,0,0.06)'}; border-radius:8px; padding:7px 2px; text-align:center;">
+          <div style="font-size:15px; line-height:1;">✨</div>
+          <div style="font-size:13px; font-weight:900; color:${special > 0 ? 'var(--accent)' : '#9CA3AF'}; letter-spacing:-0.03em; margin-top:3px; line-height:1;">${special}</div>
+          <div style="font-size:8px; font-weight:700; color:var(--gray); margin-top:2px; line-height:1;">블랜더</div>
+        </div>
+        <div style="background:rgba(0,0,0,0.03); border:1px solid rgba(0,0,0,0.06); border-radius:8px; padding:7px 2px; text-align:center;">
+          <div style="font-size:15px; line-height:1;">😅</div>
+          <div style="font-size:13px; font-weight:900; color:#9CA3AF; letter-spacing:-0.03em; margin-top:3px; line-height:1;">${miss}</div>
+          <div style="font-size:8px; font-weight:700; color:var(--gray); margin-top:2px; line-height:1;">꽝</div>
         </div>
       </div>
       
       ${special > 0 ? `<div style="margin-top:10px; padding:8px 12px; background:linear-gradient(135deg, rgba(252,211,77,0.15), rgba(243,115,33,0.15)); border:1px solid rgba(243,115,33,0.25); border-radius:8px; text-align:center;">
-        <span style="font-size:11px; font-weight:800; color:#D97706; letter-spacing:-0.02em;">✨ 1% 잭팟 ${special}회 당첨! ✨</span>
+        <span style="font-size:11px; font-weight:800; color:#D97706; letter-spacing:-0.02em;">✨ 고급블랜더 ${special}회 당첨! ✨</span>
       </div>` : ''}
     </div>
   `;
