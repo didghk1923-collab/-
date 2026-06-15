@@ -1008,7 +1008,7 @@ function sabunToName(sabun) {
 
 async function checkAutoLogin() {
   // 세션 자동 로그인
-  const saved = sessionStorage.getItem('hahoe_user');
+  const saved = localStorage.getItem('hahoe_user');
   if (saved) {
     try {
       const u = JSON.parse(saved);
@@ -1135,7 +1135,7 @@ function doLoginSuccess(name, sabun) {
     name, sabun,
     isManager: sabun === window.MANAGER_SABUN,
   };
-  sessionStorage.setItem('hahoe_user', JSON.stringify(CURRENT_USER));
+  localStorage.setItem('hahoe_user', JSON.stringify(CURRENT_USER));
   afterLogin();
 }
 
@@ -1159,7 +1159,7 @@ function afterLogin() {
 
 function doLogout() {
   if (!confirm('로그아웃 할까요?')) return;
-  sessionStorage.removeItem('hahoe_user');
+  localStorage.removeItem('hahoe_user');
   location.reload();
 }
 
@@ -1257,27 +1257,66 @@ function renderBoxCard(type) {
 // ============================================
 //          박스 열기 → 룰렛 → 결과
 // ============================================
+let _boxOpening = { morning: false, evening: false };  // 진행 중 락
+
 async function tryOpenBox(type) {
   if (!CURRENT_USER) return;
-  const timeSt = getBoxTimeStatus(type);
-  if (!timeSt.canOpen) { alert('지금은 박스를 열 수 없어요'); refreshBoxState(); return; }
-  await checkTodayOpened();
-  if (TODAY_OPENED[type]) {
-    alert('오늘 이미 ' + (type === 'morning' ? '출근' : '귀점') + ' 박스를 받으셨어요');
-    refreshBoxState();
+  
+  // 🔒 락 1: 같은 박스 동시 클릭 차단 (가장 먼저!)
+  if (_boxOpening[type]) {
+    console.log('[박스] 이미 진행 중 - 무시');
     return;
   }
-  const result = drawPrize();
-  // 룰렛 → 더블찬스(롤팩/손가방만) → 결과
-  showRoulette(result.rouletteTarget || result.item, () => {
-    if (result.item === '롤팩 1개' || result.item === '고급 손가방 1개') {
-      // 더블찬스 도전!
-      showDoubleChance(type, result, 0, 1);
-    } else {
-      // 와인은 바로 결과
-      finishBox(type, result, 1);
+  _boxOpening[type] = true;
+  
+  try {
+    const timeSt = getBoxTimeStatus(type);
+    if (!timeSt.canOpen) { 
+      alert('지금은 박스를 열 수 없어요'); 
+      refreshBoxState();
+      _boxOpening[type] = false;
+      return; 
     }
-  });
+    
+    // 🔒 락 2: Firestore 재확인 (멀티 기기/탭 대응)
+    await checkTodayOpened();
+    if (TODAY_OPENED[type]) {
+      alert('오늘 이미 ' + (type === 'morning' ? '출근' : '귀점') + ' 박스를 받으셨어요');
+      refreshBoxState();
+      _boxOpening[type] = false;
+      return;
+    }
+    
+    // 🔒 락 3: 추첨 직후 즉시 Firestore에 잠금 마커 저장 (룰렛 도는 동안 보호)
+    const result = drawPrize();
+    TODAY_OPENED[type] = { openedAt: Date.now(), item: result.item, emoji: result.emoji, _pending: true };  // 메모리 캐시 먼저
+    refreshBoxState();  // UI도 즉시 "받음" 상태로
+    
+    // Firestore에 임시 락 + 실제 결과는 finishBox에서 최종 저장
+    try {
+      await saveAttendance(type, result, 1);
+    } catch(e) { 
+      console.warn('[박스] 초기 저장 실패:', e);
+      // 저장 실패 시 락 해제
+      TODAY_OPENED[type] = null;
+      _boxOpening[type] = false;
+      refreshBoxState();
+      alert('저장 오류: ' + e.message + '\n다시 시도해주세요');
+      return;
+    }
+    
+    // 룰렛 → 더블찬스 → 결과
+    showRoulette(result.rouletteTarget || result.item, () => {
+      if (result.item === '롤팩 1개' || result.item === '고급 손가방 1개') {
+        showDoubleChance(type, result, 0, 1);
+      } else {
+        finishBox(type, result, 1);
+      }
+    });
+  } catch(e) {
+    console.error('[박스] 오류:', e);
+    _boxOpening[type] = false;
+  }
 }
 
 function drawPrize() {
@@ -1403,6 +1442,7 @@ async function finishBox(type, finalResult, finalQty) {
   try {
     await saveAttendance(type, finalResult, finalQty);
   } catch(e) { console.warn('저장 실패:', e); }
+  _boxOpening[type] = false;  // 🔓 락 해제
   showPrizeModal(finalResult, type);
 }
 
