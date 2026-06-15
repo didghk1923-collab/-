@@ -245,6 +245,212 @@
     font-family: inherit; font-size: 11px; font-weight: 800; cursor: pointer;
   }
 
+  /* 📋 슬라이더 래퍼 */
+  .board-slider-wrap {
+    position: relative;
+    overflow: hidden;
+  }
+  .board-slider {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .board-slider::-webkit-scrollbar { display: none; }
+  .board-slider > .board-card {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+  
+  /* 슬라이더 dots */
+  .slider-dots {
+    display: flex; justify-content: center; gap: 8px;
+    margin-top: 10px;
+  }
+  .slider-dots .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: rgba(0,0,0,0.2); border: none;
+    cursor: pointer; padding: 0;
+    transition: all 0.2s;
+  }
+  .slider-dots .dot.active {
+    background: var(--accent);
+    width: 24px; border-radius: 4px;
+  }
+
+  /* 📋 이번주 시상 칠판 */
+  .board-card {
+    margin: 0 12px;
+    background: linear-gradient(135deg, #1A1A1A 0%, #2D2D2D 100%);
+    border-radius: 18px;
+    padding: 18px 16px 6px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(252,211,77,0.2);
+  }
+  .board-card.issue {
+    border-color: rgba(252,165,165,0.25);
+    background: linear-gradient(135deg, #1A1A1A 0%, #2D1B1B 100%);
+  }
+  .board-card::before {
+    content: ''; position: absolute; top: -60px; right: -60px;
+    width: 180px; height: 180px;
+    background: radial-gradient(circle, rgba(252,211,77,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .board-card.issue::before {
+    background: radial-gradient(circle, rgba(220,38,38,0.15) 0%, transparent 70%);
+  }
+  .board-head {
+    text-align: center;
+    padding-bottom: 14px;
+    margin-bottom: 14px;
+    border-bottom: 1px dashed rgba(252,211,77,0.3);
+    position: relative;
+  }
+  .board-card.issue .board-head {
+    border-bottom-color: rgba(252,165,165,0.3);
+  }
+  .board-tag {
+    font-size: 9.5px; font-weight: 900; color: #FCD34D;
+    letter-spacing: 0.3em; margin-bottom: 4px;
+  }
+  .board-title {
+    font-size: 22px; font-weight: 900; letter-spacing: -0.03em;
+    line-height: 1.2;
+  }
+  .board-sub {
+    font-size: 12px; color: rgba(255,255,255,0.6);
+    font-weight: 700; margin-top: 3px; letter-spacing: -0.02em;
+  }
+  .board-section {
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed rgba(255,255,255,0.1);
+  }
+  .board-section.last { border-bottom: none; margin-bottom: 6px; }
+  .board-section-title {
+    font-size: 11.5px; font-weight: 900; color: #FCD34D;
+    letter-spacing: -0.01em; margin-bottom: 10px;
+  }
+  .board-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 7px 0;
+    font-size: 13px;
+  }
+  .board-row.big { 
+    flex-direction: column; align-items: stretch;
+    padding: 10px 12px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 10px;
+    margin-bottom: 6px;
+    gap: 6px;
+  }
+  .board-row.highlight {
+    flex-direction: column; align-items: stretch;
+    padding: 14px 12px;
+    background: linear-gradient(135deg, rgba(252,211,77,0.15), rgba(243,115,33,0.1));
+    border: 1px solid rgba(252,211,77,0.3);
+    border-radius: 10px;
+    gap: 8px;
+    text-align: center;
+  }
+  .board-label {
+    font-size: 12.5px; font-weight: 700;
+    color: rgba(255,255,255,0.75);
+    letter-spacing: -0.02em;
+  }
+  .board-row.big .board-label,
+  .board-row.highlight .board-label {
+    font-size: 11.5px; color: rgba(255,255,255,0.6);
+    font-weight: 800;
+  }
+  .board-value {
+    font-size: 12.5px; font-weight: 900;
+    color: #FCD34D;
+    letter-spacing: -0.02em;
+  }
+  .board-value-big {
+    display: flex; flex-wrap: wrap; align-items: center;
+    gap: 5px;
+    font-weight: 900;
+  }
+  .board-row.highlight .board-value-big {
+    justify-content: center;
+  }
+  .board-value-big .rate {
+    font-size: 13.5px; color: rgba(255,255,255,0.85);
+    font-variant-numeric: tabular-nums;
+  }
+  .board-value-big .plus,
+  .board-value-big .equals {
+    font-size: 11px; color: rgba(255,255,255,0.4);
+    font-weight: 700;
+  }
+  .board-value-big .total {
+    font-size: 18px; color: #FCD34D;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.03em;
+    margin-left: 2px;
+  }
+  .board-value-big .total.max {
+    font-size: 28px;
+    background: linear-gradient(135deg, #FCD34D, #F37321);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 8px rgba(252,211,77,0.3));
+  }
+  
+  /* 🚨 이달의 이슈 */
+  .issue-list {
+    display: flex; flex-direction: column; gap: 10px;
+    padding-bottom: 10px;
+  }
+  .issue-item {
+    display: flex; gap: 12px; align-items: flex-start;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(252,165,165,0.15);
+    border-radius: 12px;
+    padding: 12px 14px;
+  }
+  .issue-num {
+    flex-shrink: 0;
+    font-size: 18px; font-weight: 900;
+    color: #FCA5A5;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    width: 26px;
+    text-align: center;
+    padding-top: 1px;
+  }
+  .issue-body {
+    flex: 1; min-width: 0;
+  }
+  .issue-title {
+    font-size: 14px; font-weight: 900;
+    color: white;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+  }
+  .issue-desc {
+    font-size: 11.5px;
+    color: rgba(255,255,255,0.7);
+    font-weight: 700;
+    line-height: 1.5;
+    margin-top: 4px;
+    letter-spacing: -0.02em;
+  }
+  .issue-desc b {
+    color: #FCD34D;
+    font-weight: 900;
+  }
+
   /* 푸터 */
   .footer {
     text-align: center; padding: 20px;
@@ -545,20 +751,115 @@
     </div>
   </div>
   
-  <!-- 🔮 오늘의 운세 -->
-  <div class="fortune-card" id="fortuneCard">
-    <div class="fortune-head">
-      <div>
-        <div class="fortune-tag">🔮 TODAY'S FORTUNE</div>
-        <div class="fortune-title">오늘의 운세</div>
+  <!-- 📋 슬라이더 (이번주 시상 + 이달의 이슈) -->
+  <div class="board-slider-wrap">
+    <div class="board-slider" id="boardSlider">
+      <!-- Slide 1: 이번주 시상 -->
+      <div class="board-card">
+        <div class="board-head">
+          <div class="board-tag">📢 THIS WEEK</div>
+          <div class="board-title">이번주 시상</div>
+          <div class="board-sub">6월 3주차</div>
+        </div>
+        
+        <div class="board-section">
+          <div class="board-section-title">🎯 활동 시상</div>
+          <div class="board-row">
+            <div class="board-label">가동시</div>
+            <div class="board-value">프리미엄 블랜더 1개</div>
+          </div>
+          <div class="board-row">
+            <div class="board-label">2~3주 연속 가동시</div>
+            <div class="board-value">프리미엄 블랜더 1개</div>
+          </div>
+          <div class="board-row">
+            <div class="board-label">등급업시</div>
+            <div class="board-value">프리미엄 블랜더 1개</div>
+          </div>
+        </div>
+        
+        <div class="board-section">
+          <div class="board-section-title">💰 하나로H종신 (합산월초)</div>
+          <div class="board-row big">
+            <div class="board-label">30만 이상</div>
+            <div class="board-value-big">
+              <span class="rate">300%</span>
+              <span class="plus">+</span>
+              <span class="rate">13회 400%</span>
+              <span class="equals">=</span>
+              <span class="total">700%</span>
+            </div>
+          </div>
+          <div class="board-row big">
+            <div class="board-label">30만 미만</div>
+            <div class="board-value-big">
+              <span class="rate">300%</span>
+              <span class="plus">+</span>
+              <span class="rate">13회 200%</span>
+              <span class="equals">=</span>
+              <span class="total">500%</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="board-section last">
+          <div class="board-section-title">🏥 건강보장월초</div>
+          <div class="board-row highlight">
+            <div class="board-label">합산 최대</div>
+            <div class="board-value-big">
+              <span class="total max">1,350%</span>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="fortune-date" id="fortuneDate"></div>
+
+      <!-- Slide 2: 이달의 이슈 -->
+      <div class="board-card issue">
+        <div class="board-head">
+          <div class="board-tag" style="color:#FCA5A5;">🚨 THIS MONTH</div>
+          <div class="board-title">이달의 이슈</div>
+          <div class="board-sub">2026년 6월</div>
+        </div>
+        
+        <div class="issue-list">
+          <div class="issue-item">
+            <div class="issue-num">01</div>
+            <div class="issue-body">
+              <div class="issue-title">경미질환 인수완화!</div>
+              <div class="issue-desc">경미질환이면 이제 <b>무조건 5년형</b>으로!</div>
+            </div>
+          </div>
+          
+          <div class="issue-item">
+            <div class="issue-num">02</div>
+            <div class="issue-body">
+              <div class="issue-title">계리선진화로 보험료 인상</div>
+              <div class="issue-desc">7월달부터 보험료 <b>5~10% 인상</b></div>
+            </div>
+          </div>
+          
+          <div class="issue-item">
+            <div class="issue-num">03</div>
+            <div class="issue-body">
+              <div class="issue-title">유의특약 70% 가이드라인 신설</div>
+              <div class="issue-desc">특정 컨셉의 보험만 <b>가입 불가</b></div>
+            </div>
+          </div>
+          
+          <div class="issue-item">
+            <div class="issue-num">04</div>
+            <div class="issue-body">
+              <div class="issue-title">금감원 보장자산 가이드라인</div>
+              <div class="issue-desc">치료비 담보 <b>한도 축소</b></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="fortune-body" id="fortuneBody">
-      <button class="fortune-btn" id="fortuneDrawBtn">
-        <span style="font-size:32px; line-height:1;">🔮</span>
-        <span>오늘의 운세 뽑기</span>
-      </button>
+    
+    <div class="slider-dots">
+      <button class="dot active" data-slide="0" onclick="goSlide(0)" aria-label="이번주 시상"></button>
+      <button class="dot" data-slide="1" onclick="goSlide(1)" aria-label="이달의 이슈"></button>
     </div>
   </div>
   
@@ -854,7 +1155,6 @@ function afterLogin() {
   
   refreshBoxState();
   setInterval(refreshBoxState, 30000);  // 30초마다 갱신
-  initFortune();  // 🔮 오늘의 운세
 }
 
 function doLogout() {
@@ -1656,110 +1956,36 @@ window.setManagerDate = setManagerDate;
 window.setHistoryFilter = setHistoryFilter;
 
 // ============================================
-//          🔮 오늘의 운세
+//          📋 보드 슬라이더 (시상 ↔ 이슈)
 // ============================================
-const FORTUNES = [
-  { emoji: '💰', msg: '오늘 만난 한 분이 운명의 계약입니다', tip: '첫 고객을 특별히 챙겨보세요' },
-  { emoji: '📞', msg: '전화기에 행운이 깃들었어요', tip: '망설이던 그 한 통, 오늘이 적기입니다' },
-  { emoji: '🌟', msg: '소개가 소개를 부르는 날', tip: '기존 고객 안부 한 통이 새 인연으로' },
-  { emoji: '🎯', msg: '오늘의 클로징은 백발백중', tip: '자신감 있게 펜을 내밀어 보세요' },
-  { emoji: '🍀', msg: '보이지 않던 가망이 나타나는 날', tip: '무심코 지나친 이름을 다시 봐보세요' },
-  { emoji: '💎', msg: '고액 계약의 기운이 가득', tip: '종신·CI 화법에 귀가 열리는 하루' },
-  { emoji: '🌈', msg: '거절도 디딤돌이 되는 날', tip: '오늘의 NO는 내일의 YES로 돌아옵니다' },
-  { emoji: '🔥', msg: '에너지가 폭발하는 하루', tip: '오늘만큼은 5명, 10명도 거뜬!' },
-  { emoji: '👑', msg: '오늘의 주인공은 바로 나', tip: '지점 분위기를 끌어올리는 한 사람이 되세요' },
-  { emoji: '💌', msg: '무심한 안부가 큰 선물로 돌아와요', tip: '연락 못한 고객에게 한 줄 문자를' },
-];
-
-function getFortuneKey() {
-  if (!CURRENT_USER) return null;
-  return `fortune_${CURRENT_USER.sabun}_${todayKey()}`;
+function goSlide(idx) {
+  const slider = document.getElementById('boardSlider');
+  if (!slider) return;
+  const card = slider.querySelector('.board-card');
+  if (!card) return;
+  const width = card.getBoundingClientRect().width;
+  // 카드 마진 12px 양쪽 + slider는 100% 너비, scroll로 이동
+  slider.scrollTo({ left: idx * slider.clientWidth, behavior: 'smooth' });
 }
 
-function loadTodayFortune() {
-  const key = getFortuneKey();
-  if (!key) return null;
-  const saved = localStorage.getItem(key);
-  if (!saved) return null;
-  try {
-    const idx = parseInt(saved, 10);
-    return FORTUNES[idx] || null;
-  } catch(e) { return null; }
+function updateSlideDots() {
+  const slider = document.getElementById('boardSlider');
+  if (!slider) return;
+  const idx = Math.round(slider.scrollLeft / slider.clientWidth);
+  document.querySelectorAll('.slider-dots .dot').forEach((d, i) => {
+    d.classList.toggle('active', i === idx);
+  });
 }
 
-function drawFortune() {
-  console.log('[운세] drawFortune 호출');
-  try {
-    const idx = Math.floor(Math.random() * FORTUNES.length);
-    const key = getFortuneKey();
-    console.log('[운세] key:', key, 'idx:', idx);
-    if (key) {
-      localStorage.setItem(key, String(idx));
-    }
-    renderFortune(FORTUNES[idx], true);
-  } catch(e) {
-    console.error('[운세] 오류:', e);
-    alert('운세 오류: ' + e.message);
+// 슬라이드 스크롤 감지
+document.addEventListener('DOMContentLoaded', () => {
+  const slider = document.getElementById('boardSlider');
+  if (slider) {
+    slider.addEventListener('scroll', updateSlideDots, { passive: true });
   }
-}
+});
 
-function renderFortune(fortune, animate) {
-  const body = document.getElementById('fortuneBody');
-  if (!body) {
-    console.error('[운세] fortuneBody 요소를 찾을 수 없음');
-    return;
-  }
-  if (!fortune) {
-    body.innerHTML = `
-      <button class="fortune-btn" onclick="drawFortune()">
-        <span style="font-size:32px; line-height:1;">🔮</span>
-        <span>오늘의 운세 뽑기</span>
-      </button>
-    `;
-    return;
-  }
-  body.innerHTML = `
-    <div class="fortune-result" style="${animate ? 'animation:prizePop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);' : ''}">
-      <div class="fortune-emoji">${fortune.emoji}</div>
-      <div class="fortune-msg">${escapeHtml(fortune.msg)}</div>
-      <div class="fortune-tip">${escapeHtml(fortune.tip)}</div>
-      <button class="fortune-redraw" onclick="drawFortune()">🔄 다시 뽑기</button>
-    </div>
-  `;
-}
-
-function initFortune() {
-  console.log('[운세] initFortune 호출');
-  // 오늘 날짜 표시
-  const d = new Date();
-  const dow = ['일','월','화','수','목','금','토'][d.getDay()];
-  const dateEl = document.getElementById('fortuneDate');
-  if (dateEl) dateEl.textContent = `${d.getMonth()+1}.${d.getDate()} (${dow})`;
-  
-  // fortuneBody에 이벤트 위임 (어떤 버튼이든 잡힘)
-  const body = document.getElementById('fortuneBody');
-  if (body && !body._fortuneBound) {
-    body.addEventListener('click', (e) => {
-      const btn = e.target.closest('.fortune-btn, .fortune-redraw');
-      if (btn) {
-        console.log('[운세] 버튼 클릭 감지');
-        drawFortune();
-      }
-    });
-    body._fortuneBound = true;
-  }
-  
-  // 오늘 이미 뽑은 거 있으면 표시
-  const today = loadTodayFortune();
-  if (today) {
-    console.log('[운세] 오늘 뽑은 운세 표시:', today.msg);
-    renderFortune(today, false);
-  } else {
-    console.log('[운세] 아직 안 뽑음, 버튼 대기');
-  }
-}
-
-window.drawFortune = drawFortune;
+window.goSlide = goSlide;
 
 </script>
 
