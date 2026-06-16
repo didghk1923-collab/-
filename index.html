@@ -1278,8 +1278,12 @@ async function tryOpenBox(type) {
       return; 
     }
     
-    // 🔒 락 2: Firestore 재확인 (멀티 기기/탭 대응)
-    await checkTodayOpened();
+    // 🔒 락 2: Firestore 재확인 (안 되면 메모리 캐시만 믿고 계속)
+    try {
+      await checkTodayOpened();
+    } catch(e) {
+      console.warn('[박스] checkTodayOpened 실패, 무시하고 진행:', e);
+    }
     if (TODAY_OPENED[type]) {
       alert('오늘 이미 ' + (type === 'morning' ? '출근' : '귀점') + ' 박스를 받으셨어요');
       refreshBoxState();
@@ -1287,25 +1291,12 @@ async function tryOpenBox(type) {
       return;
     }
     
-    // 🔒 락 3: 추첨 직후 즉시 Firestore에 잠금 마커 저장 (룰렛 도는 동안 보호)
+    // 🔒 락 3: 추첨 + 메모리 캐시 즉시 락 (UI도 잠금)
     const result = drawPrize();
-    TODAY_OPENED[type] = { openedAt: Date.now(), item: result.item, emoji: result.emoji, _pending: true };  // 메모리 캐시 먼저
-    refreshBoxState();  // UI도 즉시 "받음" 상태로
+    TODAY_OPENED[type] = { openedAt: Date.now(), item: result.item, emoji: result.emoji, _pending: true };
+    refreshBoxState();
     
-    // Firestore에 임시 락 + 실제 결과는 finishBox에서 최종 저장
-    try {
-      await saveAttendance(type, result, 1);
-    } catch(e) { 
-      console.warn('[박스] 초기 저장 실패:', e);
-      // 저장 실패 시 락 해제
-      TODAY_OPENED[type] = null;
-      _boxOpening[type] = false;
-      refreshBoxState();
-      alert('저장 오류: ' + e.message + '\n다시 시도해주세요');
-      return;
-    }
-    
-    // 룰렛 → 더블찬스 → 결과
+    // 룰렛 → 더블찬스 → 결과 (저장은 finishBox에서 마지막에 한 번만)
     showRoulette(result.rouletteTarget || result.item, () => {
       if (result.item === '롤팩 1개' || result.item === '고급 손가방 1개') {
         showDoubleChance(type, result, 0, 1);
@@ -1316,6 +1307,9 @@ async function tryOpenBox(type) {
   } catch(e) {
     console.error('[박스] 오류:', e);
     _boxOpening[type] = false;
+    TODAY_OPENED[type] = null;
+    refreshBoxState();
+    alert('박스 오류: ' + e.message);
   }
 }
 
@@ -1441,7 +1435,19 @@ function showDoubleResult(success, result, qty, onContinue) {
 async function finishBox(type, finalResult, finalQty) {
   try {
     await saveAttendance(type, finalResult, finalQty);
-  } catch(e) { console.warn('저장 실패:', e); }
+    console.log('[박스] 저장 완료');
+  } catch(e) { 
+    console.warn('[박스] 최종 저장 실패 (결과는 표시):', e); 
+    // 저장 실패해도 메모리에는 결과 반영
+    TODAY_OPENED[type] = {
+      openedAt: Date.now(),
+      item: finalResult.item,
+      emoji: finalResult.emoji,
+      isPrize: finalResult.isPrize,
+      isRare: !!finalResult.isRare,
+      qty: finalQty,
+    };
+  }
   _boxOpening[type] = false;  // 🔓 락 해제
   showPrizeModal(finalResult, type);
 }
