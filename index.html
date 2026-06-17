@@ -1262,28 +1262,21 @@ let _boxOpening = { morning: false, evening: false };  // 진행 중 락
 async function tryOpenBox(type) {
   if (!CURRENT_USER) return;
   
-  // 🔒 락 1: 같은 박스 동시 클릭 차단 (가장 먼저!)
-  if (_boxOpening[type]) {
-    console.log('[박스] 이미 진행 중 - 무시');
-    return;
-  }
+  // 락 - 중복 클릭 차단
+  if (_boxOpening[type]) return;
   _boxOpening[type] = true;
   
   try {
+    // 시간대 체크
     const timeSt = getBoxTimeStatus(type);
-    if (!timeSt.canOpen) { 
-      alert('지금은 박스를 열 수 없어요'); 
-      refreshBoxState();
+    if (!timeSt.canOpen) {
+      alert('지금은 박스를 열 수 없어요');
       _boxOpening[type] = false;
-      return; 
+      return;
     }
     
-    // 🔒 락 2: Firestore 재확인 (안 되면 메모리 캐시만 믿고 계속)
-    try {
-      await checkTodayOpened();
-    } catch(e) {
-      console.warn('[박스] checkTodayOpened 실패, 무시하고 진행:', e);
-    }
+    // Firestore에서 오늘 받았는지 확인
+    await checkTodayOpened();
     if (TODAY_OPENED[type]) {
       alert('오늘 이미 ' + (type === 'morning' ? '출근' : '귀점') + ' 박스를 받으셨어요');
       refreshBoxState();
@@ -1291,12 +1284,23 @@ async function tryOpenBox(type) {
       return;
     }
     
-    // 🔒 락 3: 추첨 + 메모리 캐시 즉시 락 (UI도 잠금)
+    // 추첨
     const result = drawPrize();
-    TODAY_OPENED[type] = { openedAt: Date.now(), item: result.item, emoji: result.emoji, _pending: true };
+    
+    // ⭐ 룰렛 시작 전에 Firestore 저장 먼저! 저장 성공해야만 다음 단계
+    try {
+      await saveAttendance(type, result, 1);
+    } catch(e) {
+      console.error('[박스] 저장 실패:', e);
+      alert('인터넷 연결을 확인해주세요\n저장 실패: ' + e.message);
+      _boxOpening[type] = false;
+      return;
+    }
+    
+    // 저장 성공 - UI 즉시 잠금
     refreshBoxState();
     
-    // 룰렛 → 더블찬스 → 결과 (저장은 finishBox에서 마지막에 한 번만)
+    // 룰렛 → 더블찬스 → 결과
     showRoulette(result.rouletteTarget || result.item, () => {
       if (result.item === '롤팩 1개' || result.item === '고급 손가방 1개') {
         showDoubleChance(type, result, 0, 1);
@@ -1307,9 +1311,6 @@ async function tryOpenBox(type) {
   } catch(e) {
     console.error('[박스] 오류:', e);
     _boxOpening[type] = false;
-    TODAY_OPENED[type] = null;
-    refreshBoxState();
-    alert('박스 오류: ' + e.message);
   }
 }
 
@@ -1433,22 +1434,15 @@ function showDoubleResult(success, result, qty, onContinue) {
 
 // 박스 최종 결과 - Firestore 저장 + 결과 모달
 async function finishBox(type, finalResult, finalQty) {
-  try {
-    await saveAttendance(type, finalResult, finalQty);
-    console.log('[박스] 저장 완료');
-  } catch(e) { 
-    console.warn('[박스] 최종 저장 실패 (결과는 표시):', e); 
-    // 저장 실패해도 메모리에는 결과 반영
-    TODAY_OPENED[type] = {
-      openedAt: Date.now(),
-      item: finalResult.item,
-      emoji: finalResult.emoji,
-      isPrize: finalResult.isPrize,
-      isRare: !!finalResult.isRare,
-      qty: finalQty,
-    };
+  // 이미 tryOpenBox에서 1차 저장됨. 더블찬스로 수량 바뀌었으면 갱신
+  if (finalQty !== 1 || finalResult.item !== TODAY_OPENED[type]?.item) {
+    try {
+      await saveAttendance(type, finalResult, finalQty);
+    } catch(e) { 
+      console.warn('[박스] 더블 결과 갱신 실패:', e);
+    }
   }
-  _boxOpening[type] = false;  // 🔓 락 해제
+  _boxOpening[type] = false;
   showPrizeModal(finalResult, type);
 }
 
