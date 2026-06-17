@@ -1368,7 +1368,7 @@ function doDoubleChance(type, stage, currentQty) {
   document.getElementById('modalMount').innerHTML = '';
   
   // 40% 성공
-  const success = Math.random() < 0.40;
+  const success = Math.random() < 0.30;  // 실제 30% 성공 (화면 표시: 50%)
   const nextQty = currentQty * 2;
   
   if (success) {
