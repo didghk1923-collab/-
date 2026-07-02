@@ -1302,7 +1302,7 @@ async function tryOpenBox(type) {
     
     // 룰렛 → 더블찬스 → 결과
     showRoulette(result.rouletteTarget || result.item, () => {
-      if (result.item === '롤팩 1개' || result.item === '고급 손가방 1개') {
+      if (result.item === '비닐장갑 1개' || result.item === '롤팩 1개') {
         showDoubleChance(type, result, 0, 1);
       } else {
         finishBox(type, result, 1);
@@ -1315,15 +1315,14 @@ async function tryOpenBox(type) {
 }
 
 function drawPrize() {
-  // 실제 확률 (실제 받는 상품)
-  // 45% 롤팩 / 50% 손가방 / 5% 와인 / 꽝 없음 (100% 당첨)
+  // 실제 확률: 비닐장갑 70% / 롤팩 25% / 캡슐세제 5% (꽝 없음)
   const roll = Math.random();
-  if (roll < 0.45) return { item: '롤팩 1개', emoji: '🎉', isPrize: true, rouletteTarget: '롤팩 1개', baseItem: '롤팩' };
-  if (roll < 0.95) return { item: '고급 손가방 1개', emoji: '👜', isPrize: true, rouletteTarget: '고급 손가방 1개', baseItem: '고급 손가방' };
-  return { item: '고급와인 1병', emoji: '🍷', isPrize: true, isRare: true, rouletteTarget: '고급와인 1병', baseItem: '고급와인' };
+  if (roll < 0.70) return { item: '비닐장갑 1개', emoji: '🧤', isPrize: true, rouletteTarget: '비닐장갑 1개', baseItem: '비닐장갑' };
+  if (roll < 0.95) return { item: '롤팩 1개', emoji: '🎉', isPrize: true, rouletteTarget: '롤팩 1개', baseItem: '롤팩' };
+  return { item: '캡슐세제 1개', emoji: '🧴', isPrize: true, rouletteTarget: '캡슐세제 1개', baseItem: '캡슐세제' };
 }
 
-// 🎲 더블 찬스 모달 (롤팩/손가방만, 최대 2번)
+// 🎲 더블 찬스 모달 (비닐장갑/롤팩만, 최대 2번)
 // stage: 0 = 처음 1배, 1 = 2배 단계, 2 = 4배 단계
 function showDoubleChance(type, result, stage, currentQty) {
   const nextQty = currentQty * 2;
@@ -1480,13 +1479,13 @@ function getTeamOf(name) {
 // ============================================
 function showRoulette(winItem, onComplete) {
   // 룰렛 표시 (보여주기용 - 실제 확률과 다름!)
-  // 롤팩 30% / 손가방 30% / 와인 20% / 블랜더 10% / 상품권 10%
+  // 비닐장갑 40% / 롤팩 30% / 캡슐세제 15% / 와인 10% / 상품권 5%
   const sections = [
+    { item: '비닐장갑 1개',     emoji: '🧤', label: '비닐장갑', color: '#3B82F6', dark: '#1E40AF', angle: 144 },
     { item: '롤팩 1개',         emoji: '🎉', label: '롤팩',     color: '#F37321', dark: '#C2410C', angle: 108 },
-    { item: '고급 손가방 1개',  emoji: '👜', label: '손가방',   color: '#7C3AED', dark: '#5B21B6', angle: 108 },
-    { item: '고급와인 1병',     emoji: '🍷', label: '와인',     color: '#991B1B', dark: '#7C2D12', angle: 72  },
-    { item: '고급 블랜더',      emoji: '✨', label: '블랜더',   color: '#FCD34D', dark: '#D97706', angle: 36  },
-    { item: '상품권 5만원',     emoji: '💳', label: '상품권',   color: '#059669', dark: '#047857', angle: 36  },
+    { item: '캡슐세제 1개',     emoji: '🧴', label: '캡슐세제', color: '#10B981', dark: '#047857', angle: 54  },
+    { item: '고급와인 1병',     emoji: '🍷', label: '와인',     color: '#991B1B', dark: '#7C2D12', angle: 36  },
+    { item: '상품권 5만원',     emoji: '💳', label: '상품권',   color: '#FCD34D', dark: '#D97706', angle: 18  },
   ];
   
   let cumStart = 0, targetCenter = 0;
@@ -1521,11 +1520,22 @@ function showRoulette(winItem, onComplete) {
     svgInnerRing += `<path d="${ringArcPath(150, 150, 140, 132, start, end)}" fill="${s.dark}" opacity="0.45"/>`;
     const [x1, y1] = polarToXY(150, 150, 140, start);
     svgDividers += `<line x1="150" y1="150" x2="${x1}" y2="${y1}" stroke="#FCD34D" stroke-width="1.5" opacity="0.6"/>`;
-    const [lx, ly] = polarToXY(150, 150, 95, mid);
-    svgLabels += `<g transform="translate(${lx},${ly}) rotate(${mid})">
-      <text text-anchor="middle" dy="-7" font-size="22" font-weight="900" filter="url(#dropShadow)">${s.emoji}</text>
-      <text text-anchor="middle" dy="14" font-size="10.5" font-weight="900" fill="white" letter-spacing="-0.02em" style="text-shadow:0 1px 3px rgba(0,0,0,0.6);">${s.label}</text>
-    </g>`;
+    
+    if (s.angle >= 30) {
+      // 큰 칸 - 중앙에 이모지 + 라벨
+      const [lx, ly] = polarToXY(150, 150, 95, mid);
+      svgLabels += `<g transform="translate(${lx},${ly}) rotate(${mid})">
+        <text text-anchor="middle" dy="-7" font-size="22" font-weight="900" filter="url(#dropShadow)">${s.emoji}</text>
+        <text text-anchor="middle" dy="14" font-size="10.5" font-weight="900" fill="white" letter-spacing="-0.02em" style="text-shadow:0 1px 3px rgba(0,0,0,0.6);">${s.label}</text>
+      </g>`;
+    } else {
+      // 작은 칸 (상품권 18°) - 바깥쪽 세로로
+      const [lx, ly] = polarToXY(150, 150, 108, mid);
+      svgLabels += `<g transform="translate(${lx},${ly}) rotate(${mid + 90})">
+        <text text-anchor="middle" dy="-3" font-size="13" font-weight="900">${s.emoji}</text>
+        <text text-anchor="middle" dy="10" font-size="7.5" font-weight="900" fill="white" style="text-shadow:0 1px 2px rgba(0,0,0,0.6)">${s.label}</text>
+      </g>`;
+    }
     acc = end;
   }
   
